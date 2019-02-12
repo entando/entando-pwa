@@ -4,8 +4,8 @@ import { setSelectedContentType } from 'state/actions';
 import TopBar from 'ui/TopBar';
 
 export const mapStateToProps = state => ({
-  contentTypeList: state.types.list,
-  selectedContentType: state.types.selected,
+  contentTypeList: state.contentType.list,
+  selectedContentType: state.contentType.selected,
 });
 
 export const mapDispatchToProps = dispatch => ({

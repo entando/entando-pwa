@@ -3,9 +3,9 @@ import { fetchContentList } from 'state/thunks';
 import ContentList from 'ui/ContentList';
 
 export const mapStateToProps = state => {
-  const contentType = state.types.selected;
+  const contentType = state.contentType.selected;
   return {    
-    contentList: state.list[contentType],
+    contentList: state.content.list[contentType],
     contentType,
   };
 };

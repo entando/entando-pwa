@@ -1,33 +1,39 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 class ContentDetail extends PureComponent {
   componentDidMount() {
     this.props.onFetchContentDetail();
   }
 
-  renderDescription(data) {
-    if (data && Object.hasOwnProperty.call(data, 'title')) {
-      return (
+  render() {
+    const { contentDetail } = this.props;
+    return contentDetail ? (
+      <div className="content">
         <div className="story-top">
           <div className="story-title">
-            {data.title}
+            {contentDetail.title}
           </div>
           <ol className="story-ol">
-            <li>id: {data.id}</li>
+            <li>id: {contentDetail.id}</li>
           </ol>
         </div>
-      );
-    }
-  }
-
-  render() {
-    const { state } = this.props;
-    return (
-      <div className="content">
-        {this.renderDescription(state)}
       </div>
-    );
+    ) : '';
   }
 }
 
+/*
+ContentDetail.propTypes = {
+  notification: PropTypes.string,
+  onFetchContentDetail: PropTypes.func.isRequired,
+};
+
+
+ContentDetail.defaultProps = {
+  notifications: [],
+  onClickUsername: () => {},
+  onClickLike: () => {},
+};
+*/
 export default ContentDetail;

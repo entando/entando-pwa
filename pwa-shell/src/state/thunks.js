@@ -1,6 +1,6 @@
 import {
   setContentList,
-  setContentDetail,
+  setSelectedContent,
   setContentTypeList,
   setSelectedContentType
 } from 'state/actions';
@@ -12,7 +12,7 @@ export const fetchContentList = (contentType) => dispatch => {
     .then(data => {
       dispatch(setContentList(data, { contentType }));
       dispatch(setSelectedContentType(contentType));
-      dispatch(setContentDetail(null));
+      dispatch(setSelectedContent(null));
     })
 };
 
@@ -20,7 +20,7 @@ export const fetchContentDetail = (contentType, id) => dispatch => {
   getContentDetail(contentType, id)
     .then(res => res.json())
     .then(data => {
-      dispatch(setContentDetail(data));
+      dispatch(setSelectedContent(data));
     })
 };
 
