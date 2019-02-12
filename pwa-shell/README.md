@@ -83,7 +83,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 - add gestures (e.g. swipe)
 
 
-###Not Functional###
+### Not Functional
 
 - refactor global CSS to separate SASS files (as in app-builder)
 - setup environments (es. dev.local)
