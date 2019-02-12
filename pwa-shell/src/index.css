@@ -1,0 +1,163 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+a {
+  text-decoration: none;
+  max-width: 100%;
+  word-break: break-all;
+}
+
+a:link {
+  color: #333333;
+}
+a:active {
+  color: #333333;
+}
+a:visited {
+  color: #333333;
+}
+a:hover {
+  color: #333333;
+}
+
+ul {
+  list-style: none;
+}
+
+ol {
+  display: block;
+  list-style-type: decimal;
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 40px;
+}
+
+.logo {
+  width: 20px;
+  height: 20px;
+}
+
+.topbar {
+  position: fixed;
+  border-bottom: 1px solid rgb(235, 235, 235);
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+}
+
+.topbar > ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  max-width: 1200px;
+  overflow: hidden;
+  margin-left: -20px;
+}
+
+.topbar > ul > li {
+  margin-right: .6rem;
+  color: #4A4A4A;
+}
+
+.topbar > ul > li  > a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.content {
+  margin-top: 48px;
+}
+
+.content li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-items: center;
+  margin-left: -1.2rem;
+  width: 100%;
+  overflow: hidden;
+  height: 4rem;
+  border-bottom: 1px solid #ebebeb;
+  padding: 0.3rem 0;
+}
+
+.content li div {
+  width: 100%;
+}
+
+.content li > div:last-child {
+  color: #999999;
+  font-size: 0.8rem;
+}
+
+.item-footer {
+  text-decoration: underline;
+}
+
+.story-top {
+  border-bottom: 1px solid #ebebeb;
+}
+
+.story-title {
+  font-size: 1.2rem;
+  margin-left: 1.2rem;
+  padding-top: 1rem;
+  font-weight: bold;
+}
+
+.story-ol > li {
+  height: 1.2rem;
+  border-bottom: 0px;
+  padding: 0px;
+  color: #999999;
+}
+
+.footer-page {
+  width: 100%;
+  height: 32px;
+  text-align: center;
+  line-height: 16px;
+}
+
+.loading {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading > img {
+  width: 200px;
+  height: 200px;
+}
+
+.one-line-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contentType--selected a {
+  border-bottom: 4px solid #3ba4d6;
+}
