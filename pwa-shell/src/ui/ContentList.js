@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import ContentListItem from 'ui/ContentListItem';
-import { loadingPic } from 'public/loading';
+import { loadingPic } from 'ui/loading';
 
 class ContentList extends PureComponent {
 
@@ -30,23 +30,11 @@ class ContentList extends PureComponent {
   }
 
   renderLoading() {
-    const { match } = this.props;
-    const page = Number(match.params.page);
-    let element;
-    if (page > 1) {
-      element = (
-        <div className="footer-page">
-          content is null, please read prev page!
-        </div>
-      );
-    } else {
-      element = (
-        <div className="loading">
-          <img src={loadingPic} alt="loading" />
-        </div>
-      );
-    }
-    return element;
+    return (
+      <div className="loading">
+        <img src={loadingPic} alt="loading" />
+      </div>
+    );
   }
 
   renderList(contentList, contentType) {

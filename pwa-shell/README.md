@@ -89,6 +89,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 - setup environments (es. dev.local)
 - setup git hooks
 - improve linting
-- add proptypes
 - add tests
+- add selectors
+- add proptypes
 - boost lighthouse score
