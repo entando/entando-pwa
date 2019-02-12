@@ -1,4 +1,4 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import { Redirect } from 'react-router-dom';
 
 class DefaultRedirect extends PureComponent {
@@ -8,7 +8,7 @@ class DefaultRedirect extends PureComponent {
 
   render() {
     const { defaultContentType } = this.props;
-    return <Redirect to={defaultContentType} />
+    return <Redirect to={defaultContentType || ''} />
   }
 }
 

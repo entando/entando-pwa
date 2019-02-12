@@ -1,4 +1,4 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 class TopBar extends PureComponent {

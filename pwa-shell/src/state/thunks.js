@@ -6,23 +6,31 @@ import {
 } from 'state/actions';
 import { getContentList, getContentDetail } from 'api/content';
 
-export const fetchContentList = (contentType) => dispatch => {
-  getContentList(contentType)
-    .then(res => res.json())
-    .then(data => {
-      dispatch(setContentList(data, { contentType }));
-      dispatch(setSelectedContentType(contentType));
-      dispatch(setSelectedContent(null));
-    })
-};
+export const fetchContentList = contentType => dispatch => (
+  new Promise(resolve => {
+    getContentList(contentType)
+      .then(res => res.json())
+      .then(data => {
+        dispatch(setContentList(data, { contentType }));
+        dispatch(setSelectedContentType(contentType));
+        dispatch(setSelectedContent(null));
+        resolve();
+      })
+      .catch(() => {});
+  })
+);
 
-export const fetchContentDetail = (contentType, id) => dispatch => {
-  getContentDetail(contentType, id)
-    .then(res => res.json())
-    .then(data => {
-      dispatch(setSelectedContent(data));
-    })
-};
+export const fetchContentDetail = (contentType, id) => dispatch => (
+  new Promise(resolve => {
+    getContentDetail(contentType, id)
+      .then(res => res.json())
+      .then(data => {
+        dispatch(setSelectedContent(data));
+        resolve();
+      })
+      .catch(() => {});
+  })
+);  
 
 const mockContentTypes = ['posts', 'todos'];
 

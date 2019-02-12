@@ -10,14 +10,12 @@ export const mapStateToProps = state => {
   };
 };
 
-export const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    onFetchContentList: () => {
-      const { contentType } = ownProps.match.params;
-      dispatch(fetchContentList(contentType));
-    }
+export const mapDispatchToProps = (dispatch, ownProps) => ({
+  onFetchContentList: () => {
+    const { contentType } = ownProps.match.params;
+    dispatch(fetchContentList(contentType));
   }
-};
+});
 
 export default connect(
   mapStateToProps,

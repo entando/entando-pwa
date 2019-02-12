@@ -1,4 +1,4 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import ContentListItem from 'ui/ContentListItem';
 import { loadingPic } from 'ui/loading';
 

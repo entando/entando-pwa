@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 class ContentDetail extends PureComponent {
   componentDidMount() {
@@ -23,17 +22,4 @@ class ContentDetail extends PureComponent {
   }
 }
 
-/*
-ContentDetail.propTypes = {
-  notification: PropTypes.string,
-  onFetchContentDetail: PropTypes.func.isRequired,
-};
-
-
-ContentDetail.defaultProps = {
-  notifications: [],
-  onClickUsername: () => {},
-  onClickLike: () => {},
-};
-*/
 export default ContentDetail;
