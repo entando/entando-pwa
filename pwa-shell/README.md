@@ -75,6 +75,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 	- use entando api manager
 - implement pagination
 - implement search
+- add authentication
 - add i18n
 - improve PWA features
     - activate serviceWorker
