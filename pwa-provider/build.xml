@@ -1,0 +1,7 @@
+<project name="pwa-provider" default="WAR-build" basedir=".">
+	<description>pwa-provider - Build file</description>
+
+	<import file="buildProperties.xml"/>
+	<import file="buildTasks.xml"/>
+
+</project>
