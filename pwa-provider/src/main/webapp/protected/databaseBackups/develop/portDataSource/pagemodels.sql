@@ -282,6 +282,8 @@ INSERT INTO pagemodels (code,descr,frames,plugincode,templategui) VALUES ('pwa',
 <html>
 <head>
 	<title><@wp.currentPage param="title" /></title>
+	<link href="<@wp.resourceURL />static/css/pwa/chunk.css" rel="stylesheet">
+	<link rel="manifest" href="<@wp.resourceURL />static/json/pwa/manifest.json"/>
 </head>
 <body>
 <@wp.show frame=0 />

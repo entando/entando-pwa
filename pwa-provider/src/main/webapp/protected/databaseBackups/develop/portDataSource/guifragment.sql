@@ -1992,11 +1992,12 @@ INSERT INTO guifragment (code,widgettypecode,plugincode,gui,defaultgui,locked) V
 <input type="text" name="search" class="search-query span2" placeholder="<@wp.i18n key="ESSF_SEARCH" />" x-webkit-speech="x-webkit-speech" />
 </form>',1);
 INSERT INTO guifragment (code,widgettypecode,plugincode,gui,defaultgui,locked) VALUES ('pwa','pwa',NULL,'<#assign wp=JspTaglibs["/aps-core"]>
+<link src="<@wp.resourceURL />static/js/pwa/service-worker.js" />
 <link src="<@wp.resourceURL />static/js/pwa/chunk_1.js" />
 <link src="<@wp.resourceURL />static/js/pwa/chunk_2.js" />
 <script type="text/javascript">
-   const id-application.configuration = {
-    content-type: ''NWS'',
-   };
+	window[''pwa-sme''] = {
+		configuration: { ''content-type'': ''NWS'' }
+	};
 </script>
 <div id="id-application"></div>',NULL,0);
