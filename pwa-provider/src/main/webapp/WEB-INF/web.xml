@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          metadata-complete="false" version="3.0">
-    <display-name>Entando - powered by Entando</display-name>
-    <description>Entando - powered by Entando</description>
+    <display-name>pwa-provider - powered by Entando</display-name>
+    <description>pwa-provider - powered by Entando</description>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -23,7 +22,7 @@
         </param-value>
     </context-param>
     <context-param>
-        <param-name>org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG</param-name>
+        <param-name>org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG</param-name>
         <param-value>/WEB-INF/apsadmin/tiles.xml,/WEB-INF/plugins/**/apsadmin/**tiles.xml</param-value>
     </context-param>
     <context-param>
@@ -34,6 +33,22 @@
         <filter-name>struts2</filter-name>
         <filter-class>com.agiletec.apsadmin.system.dispatcher.StrutsPrepareAndExecuteFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>XSSFilter</filter-name>
+        <filter-class>org.entando.entando.aps.servlet.XSSFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
     <filter-mapping>
         <filter-name>struts2</filter-name>
         <url-pattern>/do/*</url-pattern>
@@ -41,6 +56,22 @@
     <filter-mapping>
         <filter-name>struts2</filter-name>
         <url-pattern>/struts/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>XSSFilter</filter-name>
+        <url-pattern>*.wp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>XSSFilter</filter-name>
+        <url-pattern>*.page</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>XSSFilter</filter-name>
+        <url-pattern>/pages/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>*</url-pattern>
     </filter-mapping>
     <listener>
         <listener-class>org.entando.entando.apsadmin.system.tiles.EntandoStrutsTilesListener</listener-class>
@@ -78,6 +109,15 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
+    <servlet>
+        <servlet-name>springDispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/web/servlet-context.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>*.wp</url-pattern>
@@ -103,8 +143,12 @@
         <url-pattern>/protected/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>APIServlet</servlet-name>
+        <servlet-name>springDispatcher</servlet-name>
         <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>APIServlet</servlet-name>
+        <url-pattern>/legacyapi/*</url-pattern>
     </servlet-mapping>
     
     <session-config>
