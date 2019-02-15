@@ -1,6 +1,6 @@
 console.log('Starting compression...\n');
 
-var path = __dirname + '/pwa.zip';
+var path = __dirname + '/../pwa.zip';
 
 var fs = require('fs');
 var archiver = require('archiver');

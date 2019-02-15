@@ -1,5 +1,5 @@
 {
-  "name": "pwa-poc",
+  "name": "pwa-shell",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,7 +18,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "package": "react-scripts build && npm run zip",
-    "zip": "node zip.js"
+    "zip": "node scripts/zip.js"
   },
   "eslintConfig": {
     "extends": "react-app"

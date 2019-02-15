@@ -5,6 +5,7 @@ import {
   setSelectedContentType
 } from 'state/actions';
 import { getContentList, getContentDetail } from 'api/content';
+import contentTypes from 'state/contentTypes';
 
 export const fetchContentList = contentType => dispatch => (
   new Promise(resolve => {
@@ -32,8 +33,6 @@ export const fetchContentDetail = (contentType, id) => dispatch => (
   })
 );  
 
-const mockContentTypes = ['posts', 'todos'];
-
 export const fetchContentTypes = () => dispatch => {
-  dispatch(setContentTypeList(mockContentTypes));
+  dispatch(setContentTypeList(contentTypes));
 }

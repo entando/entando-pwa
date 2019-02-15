@@ -8,6 +8,8 @@ import {
   Route,
 } from 'react-router-dom';
 
+import appId from 'appId';
+
 import store from 'state/store';
 
 import TopBarContainer from 'ui/TopBarContainer';
@@ -30,7 +32,7 @@ ReactDOM.render(
       </div>
       </Router>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById(appId)
 );
 
 
