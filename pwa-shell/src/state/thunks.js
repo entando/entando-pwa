@@ -12,8 +12,8 @@ export const fetchContentList = contentType => dispatch => (
     getContentList(contentType)
       .then(res => res.json())
       .then(data => {
-        dispatch(setContentList(data, { contentType }));
         dispatch(setSelectedContentType(contentType));
+        dispatch(setContentList(data.payload));        
         dispatch(setSelectedContent(null));
         resolve();
       })
@@ -23,7 +23,7 @@ export const fetchContentList = contentType => dispatch => (
 
 export const fetchContentDetail = (contentType, id) => dispatch => (
   new Promise(resolve => {
-    getContentDetail(contentType, id)
+    getContentDetail(id)
       .then(res => res.json())
       .then(data => {
         dispatch(setSelectedContent(data));

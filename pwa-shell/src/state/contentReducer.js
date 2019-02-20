@@ -10,15 +10,12 @@ export default (state = initialState, action) => {
     case SET_CONTENT_LIST:
       return {
         ...state,
-        list: {
-          ...state.list,
-          [action.meta.contentType]: action.payload,
-        },        
+        list:  action.payload,    
       };
     case SET_SELECTED_CONTENT:
       return {
         ...state,
-        selected: action.payload
+        selected: action.payload,
       };
     default:
       return state;

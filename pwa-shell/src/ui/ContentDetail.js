@@ -8,15 +8,7 @@ class ContentDetail extends PureComponent {
   render() {
     const { contentDetail } = this.props;
     return contentDetail ? (
-      <div className="content">
-        <div className="story-top">
-          <div className="story-title">
-            {contentDetail.title}
-          </div>
-          <ol className="story-ol">
-            <li>id: {contentDetail.id}</li>
-          </ol>
-        </div>
+      <div className="content" dangerouslySetInnerHTML={{__html: contentDetail.html}}>
       </div>
     ) : '';
   }

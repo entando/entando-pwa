@@ -1,12 +1,17 @@
-const standaloneGetContentList = type => fetch(`https://jsonplaceholder.typicode.com/${type}`);
-const standaloneGetContentDetail = (type, id) => fetch(`https://jsonplaceholder.typicode.com/${type}/${id}`);
+import { makeRequest, METHODS } from '@entando/apimanager';
 
-const baseEndpoint = 'http://tests.serv.run/entando-sample/api/plugins/cms/contents';
+export const getContentList = type => makeRequest({
+  uri: '/api/plugins/cms/contents?filters[0].attribute=typeCode&filters[0].operator=eq&filters[0].value=' + type + '&status=published&modelId=list',
+  method: METHODS.GET,
+  mockResponse: [{ name: 'Paolino', surname: 'Paperino'}],
+  contentType: 'application/json',
+  errors: () => [],
+});
 
-const params = '?filters[0].attribute=typeCode&filters[0].operator=eq&filters[0].value=';
-
-const realGetContentList = type => fetch(`${baseEndpoint}${params}${type}`);
-const realGetContentDetail = (type, id) => fetch(`${baseEndpoint}/${id}`);
-
-export const getContentList = process.env.REACT_APP_STANDALONE === 'true' ? standaloneGetContentList : realGetContentList;
-export const getContentDetail = process.env.REACT_APP_STANDALONE === 'true' ? standaloneGetContentDetail : realGetContentDetail;
+export const getContentDetail = id => makeRequest({
+  uri: '/api/plugins/cms/contents/' + id,
+  method: METHODS.GET,
+  mockResponse: [{ name: 'Paolino', surname: 'Paperino'}],
+  contentType: 'application/json',
+  errors: () => [],
+});
