@@ -3,12 +3,20 @@ import {
   SET_SELECTED_CONTENT,
   SET_CONTENT_TYPE_LIST,
   SET_SELECTED_CONTENT_TYPE,
+  SET_CONTENT_FILTER,
 } from './types';
 
-export const setContentList = (payload, meta = null) => ({
+export const setContentFilter = (filter, contentType) => ({
+  type: SET_CONTENT_FILTER,
+  payload: {
+    filter,
+    contentType,
+  },
+});
+
+export const setContentList = payload => ({
   type: SET_CONTENT_LIST,
   payload,
-  meta,
 });
 
 export const setSelectedContent = payload => ({

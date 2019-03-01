@@ -8,8 +8,8 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
   onFetchContentDetail: () => {
-    const { contentType, id } = ownProps.match.params;
-    dispatch(fetchContentDetail(contentType, id));
+    const { id } = ownProps.match.params;
+    dispatch(fetchContentDetail(id));
   }
 });
 

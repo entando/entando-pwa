@@ -6,4 +6,4 @@ const contentType = get(window, `entando.${appId}.configuration["content-type"]`
 const defaultContentTypes = ['NWS', 'ANN'];
 const contentTypes = contentType ? [contentType] : defaultContentTypes;
 
-export default contentTypes
+export default contentTypes;

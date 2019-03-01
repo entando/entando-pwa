@@ -1,7 +1,18 @@
-import { SET_CONTENT_LIST, SET_SELECTED_CONTENT } from 'state/types';
+import { FILTER_OPERATORS } from '@entando/utils';
+import { SET_CONTENT_FILTER, SET_CONTENT_LIST, SET_SELECTED_CONTENT } from 'state/types';
+import contentTypes from 'state/contentTypes';
+
+const filters = contentTypes.reduce((acc, curr) => {
+  acc[curr] = {
+    formValues: { typeCode: [curr] },
+    operators: { typeCode: FILTER_OPERATORS.EQUAL },
+  }
+  return acc;
+}, {});
 
 const initialState = {
   list: [],
+  filters,
   selected: null,
 };
 
@@ -16,6 +27,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selected: action.payload,
+      };
+    case SET_CONTENT_FILTER:
+      return {
+        ...state,
+        filters:  {
+         ...state.filters,
+         [action.payload.contentType]: action.payload.filter,
+        },
       };
     default:
       return state;

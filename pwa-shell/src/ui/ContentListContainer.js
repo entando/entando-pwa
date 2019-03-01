@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchContentList } from 'state/thunks';
+import { navigateContentType } from 'state/thunks';
 import ContentList from 'ui/ContentList';
 
 export const mapStateToProps = state => {
@@ -12,7 +12,7 @@ export const mapStateToProps = state => {
 export const mapDispatchToProps = (dispatch, ownProps) => ({
   onFetchContentList: () => {
     const { contentType } = ownProps.match.params;
-    dispatch(fetchContentList(contentType));
+    dispatch(navigateContentType(contentType));
   }
 });
 
