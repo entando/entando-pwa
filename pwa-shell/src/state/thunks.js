@@ -31,11 +31,12 @@ export const fetchContentList = (params, pagination) => async(dispatch) => {
   try {
     const response = await getContentList(params, pagination);
     const json = await response.json();
-    if (!response.ok) {
+    if (response.ok) {
+      dispatch(setContentList(json.payload));
+      dispatch(setSelectedContent(null));  
+    } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(setContentList(json.payload));
-    dispatch(setSelectedContent(null));
     return json;
   } catch (err) {
     dispatch(addErrors(err));
@@ -47,10 +48,10 @@ export const fetchContentDetail = id => async(dispatch) => {
   try {
     const response = await getContentDetail(id);
     const json = await response.json();
-    if (!response.ok) {
-      dispatch(addErrors(json.errors.map(e => e.message)));
-    } else {
+    if (response.ok) {
       dispatch(setSelectedContent(json));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }  
     return json;  
   } catch (err) {
@@ -67,11 +68,15 @@ export const fetchContentTypeMap = () => async(dispatch) => {
   try {
     const responseList = await Promise.all(contentTypeCodes.map(getContentType));
     const contentTypeList = await Promise.all(responseList).map(response => response.json());
-    const contentTypeMap = contentTypeList.reduce((acc, curr) => ({
-      ...acc,
-      [curr.code]: curr,
-    }), {});
-    dispatch(setContentTypeMap(contentTypeMap));
+    if (!responseList.map(res => res.ok).includes(false)) {
+      const contentTypeMap = contentTypeList.reduce((acc, curr) => ({
+        ...acc,
+        [curr.code]: curr,
+      }), {});
+      dispatch(setContentTypeMap(contentTypeMap));  
+    } else {
+      dispatch(addErrors(contentTypeList.reduce((acc, curr) => acc.concat(curr.errors), []).map(e => e.message)));
+    }
   } catch (err) {
     dispatch(addErrors(err));
     return {};
