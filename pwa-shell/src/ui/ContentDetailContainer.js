@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
+import { getSelectedContent } from 'state/selectors';
 import { fetchContentDetail } from 'state/thunks';
 import ContentDetail from 'ui/ContentDetail';
 
 export const mapStateToProps = state => ({
-  contentDetail: state.content.selected,
+  contentDetail: getSelectedContent(state)
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({

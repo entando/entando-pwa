@@ -15,8 +15,8 @@ export const getContentList = (params = '', page = defaultPageObject) => (
   )
 );
 
-export const getContentDetail = id => makeRequest({
-  uri: `/api/plugins/cms/contents/${id}`,
+export const getContentDetail = code => makeRequest({
+  uri: `/api/plugins/cms/contents/${code}/model/default?status=published`,
   method: METHODS.GET,
   mockResponse: { __html: '<div>Sample Article</div>'},
   contentType: 'application/json',
