@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React, { PureComponent } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -7,7 +8,7 @@ class TopBar extends PureComponent {
   }
 
   render() {
-    const { contentTypeList, selectedContentType, onSelectContentType } = this.props;
+    const { contentTypeList, selectedContentType, contentTypeMap, onSelectContentType } = this.props;
     return (
       <div className="topbar">
         <Link to={`/${contentTypeList[0]}`} onClick={() => onSelectContentType(contentTypeList[0])}>
@@ -24,7 +25,9 @@ class TopBar extends PureComponent {
                 key={contentType}
                 className={`channel ${contentType === selectedContentType ? 'contentType--selected' : ''}`}
               >
-                  <Link className="" to={`/${contentType}`} onClick={() => onSelectContentType(contentType)}>{contentType}</Link>
+                  <Link className="" to={`/${contentType}`} onClick={() => onSelectContentType(contentType)}>
+                    { get(contentTypeMap, '[contentType].name', contentType) }
+                  </Link>
               </li>
             ))
           }

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchContentTypes } from 'state/thunks';
+import { fetchContentTypeCodes } from 'state/thunks';
 import DefaultRedirect from 'ui/DefaultRedirect';
 
 export const mapStateToProps = state => ({    
@@ -8,7 +8,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onFetchContentTypeList: () => {
-    dispatch(fetchContentTypes());
+    dispatch(fetchContentTypeCodes());
   }
 });
 

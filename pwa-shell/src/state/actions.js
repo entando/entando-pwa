@@ -2,6 +2,7 @@ import {
   SET_CONTENT_LIST,
   SET_SELECTED_CONTENT,
   SET_CONTENT_TYPE_LIST,
+  SET_CONTENT_TYPE_MAP,
   SET_SELECTED_CONTENT_TYPE,
   SET_CONTENT_FILTER,
 } from './types';
@@ -26,6 +27,11 @@ export const setSelectedContent = payload => ({
 
 export const setContentTypeList = payload => ({
   type: SET_CONTENT_TYPE_LIST,
+  payload,
+});
+
+export const setContentTypeMap = payload => ({
+  type: SET_CONTENT_TYPE_MAP,
   payload,
 });
 

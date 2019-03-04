@@ -1,14 +1,17 @@
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
+import { addErrors } from '@entando/messages';
 import {
   setContentList,
   setContentFilter,
   setSelectedContent,
-  setContentTypeList,
-  setSelectedContentType
+  setContentTypeList as setContentTypeCodes,
+  setSelectedContentType,
+  setContentTypeMap
 } from 'state/actions';
 import { getContentFiltersByContentType } from 'state/selectors';
 import { getContentList, getContentDetail } from 'api/content';
-import contentTypes from 'state/contentTypes';
+import contentTypeCodes from 'state/contentTypeCodes';
+import { getContentType } from 'api/contentType';
 
 export const navigateContentType = (contentType, pagination) => (dispatch, getState) => {
   dispatch(setSelectedContentType(contentType));
@@ -24,31 +27,53 @@ export const navigateContentType = (contentType, pagination) => (dispatch, getSt
   return dispatch(fetchContentList(params, pagination));
 };
 
-export const fetchContentList = (params, pagination) => dispatch => (
-  new Promise(resolve => {
-    getContentList(params, pagination)
-      .then(res => res.json())
-      .then(data => {
-        dispatch(setContentList(data.payload));        
-        dispatch(setSelectedContent(null));
-        resolve();
-      })
-      .catch(() => {});
-  })
+export const fetchContentList = (params, pagination) => async(dispatch) => {
+  try {
+    const response = await getContentList(params, pagination);
+    const json = await response.json();
+    if (!response.ok) {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+    dispatch(setContentList(json.payload));
+    dispatch(setSelectedContent(null));
+    return json;
+  } catch (err) {
+    dispatch(addErrors(err));
+    return [];
+  }
+}
+
+export const fetchContentDetail = id => async(dispatch) => {
+  try {
+    const response = await getContentDetail(id);
+    const json = await response.json();
+    if (!response.ok) {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    } else {
+      dispatch(setSelectedContent(json));
+    }  
+    return json;  
+  } catch (err) {
+    dispatch(addErrors(err));
+    return {};
+  }
+}
+
+export const fetchContentTypeCodes = () => dispatch => (
+  dispatch(setContentTypeCodes(contentTypeCodes))
 );
 
-export const fetchContentDetail = id => dispatch => (
-  new Promise(resolve => {
-    getContentDetail(id)
-      .then(res => res.json())
-      .then(data => {
-        dispatch(setSelectedContent(data));
-        resolve();
-      })
-      .catch(() => {});
-  })
-);  
-
-export const fetchContentTypes = () => dispatch => {
-  dispatch(setContentTypeList(contentTypes));
+export const fetchContentTypeMap = () => async(dispatch) => {
+  try {
+    const responseList = await Promise.all(contentTypeCodes.map(getContentType));
+    const contentTypeList = await Promise.all(responseList).map(response => response.json());
+    const contentTypeMap = contentTypeList.reduce((acc, curr) => ({
+      ...acc,
+      [curr.code]: curr,
+    }), {});
+    dispatch(setContentTypeMap(contentTypeMap));
+  } catch (err) {
+    dispatch(addErrors(err));
+    return {};
+  }  
 }

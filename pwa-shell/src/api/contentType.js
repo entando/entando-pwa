@@ -1,7 +1,7 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const getContentType = code => makeRequest({
-  uri: `/api/plugins/cms/contentTypes/${code}`,
+  uri: `/api/plugins/cms/contentTypes/${code}?status=published`,
   method: METHODS.GET,
   mockResponse: {
     "code": "MCT",

@@ -1,14 +1,14 @@
 import { FILTER_OPERATORS } from '@entando/utils';
 import { SET_CONTENT_FILTER, SET_CONTENT_LIST, SET_SELECTED_CONTENT } from 'state/types';
-import contentTypes from 'state/contentTypes';
+import contentTypeCodes from 'state/contentTypeCodes';
 
-const filters = contentTypes.reduce((acc, curr) => {
-  acc[curr] = {
+const filters = contentTypeCodes.reduce((acc, curr) => ({
+  ...acc,
+  [curr]: {
     formValues: { typeCode: [curr] },
     operators: { typeCode: FILTER_OPERATORS.EQUAL },
   }
-  return acc;
-}, {});
+}), {});
 
 const initialState = {
   list: [],
