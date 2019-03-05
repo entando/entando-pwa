@@ -22,7 +22,7 @@ export const navigateContentType = (contentType, pagination) => (dispatch, getSt
   };
   dispatch(setContentFilter(filter, contentType));
   const filters = getContentFiltersByContentType(getState());
-  const contentSpecificParams = 'status=published&modelId=list';
+  const contentSpecificParams = 'status=published&model=list';
   const params = filters ? `${convertToQueryString(filters)}&${contentSpecificParams}` : `?${contentSpecificParams}`;
   return dispatch(fetchContentList(params, pagination));
 };
@@ -67,13 +67,14 @@ export const fetchContentTypeCodes = () => dispatch => (
 export const fetchContentTypeMap = () => async(dispatch) => {
   try {
     const responseList = await Promise.all(contentTypeCodes.map(getContentType));
-    const contentTypeList = await Promise.all(responseList).map(response => response.json());
+    const jsonList = await Promise.all(responseList.map(response => response.json()));
+    const contentTypeList = jsonList.map(json => json.payload);    
     if (!responseList.map(res => res.ok).includes(false)) {
       const contentTypeMap = contentTypeList.reduce((acc, curr) => ({
         ...acc,
         [curr.code]: curr,
       }), {});
-      dispatch(setContentTypeMap(contentTypeMap));  
+      dispatch(setContentTypeMap(contentTypeMap));
     } else {
       dispatch(addErrors(contentTypeList.reduce((acc, curr) => acc.concat(curr.errors), []).map(e => e.message)));
     }
