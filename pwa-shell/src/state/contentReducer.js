@@ -1,8 +1,8 @@
 import { FILTER_OPERATORS } from '@entando/utils';
 import { SET_CONTENT_FILTER, SET_CONTENT_LIST, SET_SELECTED_CONTENT } from 'state/types';
-import contentTypeCodes from 'state/contentTypeCodes';
+import { contentTypeCodeList } from 'state/appConfig';
 
-const filters = contentTypeCodes.reduce((acc, curr) => ({
+const filters = contentTypeCodeList.reduce((acc, curr) => ({
   ...acc,
   [curr]: {
     formValues: { typeCode: [curr] },

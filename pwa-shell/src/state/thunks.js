@@ -4,13 +4,12 @@ import {
   setContentList,
   setContentFilter,
   setSelectedContent,
-  setContentTypeList as setContentTypeCodes,
   setSelectedContentType,
   setContentTypeMap
 } from 'state/actions';
 import { getContentFiltersByContentType } from 'state/selectors';
 import { getContentList, getContentDetail } from 'api/content';
-import contentTypeCodes from 'state/contentTypeCodes';
+import { contentTypeCodeList } from 'state/appConfig';
 import { getContentType } from 'api/contentType';
 
 export const navigateContentType = (contentType, pagination) => (dispatch, getState) => {
@@ -49,7 +48,7 @@ export const fetchContentDetail = id => async(dispatch) => {
     const response = await getContentDetail(id);
     const json = await response.json();
     if (response.ok) {
-      dispatch(setSelectedContent(json));
+      dispatch(setSelectedContent(json.payload));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }  
@@ -60,13 +59,9 @@ export const fetchContentDetail = id => async(dispatch) => {
   }
 }
 
-export const fetchContentTypeCodes = () => dispatch => (
-  dispatch(setContentTypeCodes(contentTypeCodes))
-);
-
 export const fetchContentTypeMap = () => async(dispatch) => {
   try {
-    const responseList = await Promise.all(contentTypeCodes.map(getContentType));
+    const responseList = await Promise.all(contentTypeCodeList.map(getContentType));
     const jsonList = await Promise.all(responseList.map(response => response.json()));
     const contentTypeList = jsonList.map(json => json.payload);    
     if (!responseList.map(res => res.ok).includes(false)) {

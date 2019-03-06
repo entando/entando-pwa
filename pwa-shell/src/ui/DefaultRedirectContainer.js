@@ -1,16 +1,12 @@
 import { connect } from 'react-redux';
-import { fetchContentTypeCodes } from 'state/thunks';
 import DefaultRedirect from 'ui/DefaultRedirect';
+import { getDefaultContentTypeCode } from 'state/selectors';
 
 export const mapStateToProps = state => ({    
-  defaultContentType: state.contentType.list[0],
+  defaultContentTypeCode: getDefaultContentTypeCode(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
-  onFetchContentTypeList: () => {
-    dispatch(fetchContentTypeCodes());
-  }
-});
+export const mapDispatchToProps = null;
 
 export default connect(
   mapStateToProps,
