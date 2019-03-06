@@ -4,7 +4,7 @@ import {
   SET_CONTENT_TYPE_MAP,
   SET_SELECTED_CONTENT_TYPE,
   SET_CONTENT_FILTER,
-} from './types';
+} from 'state/types';
 
 export const setContentFilter = (filter, contentType) => ({
   type: SET_CONTENT_FILTER,

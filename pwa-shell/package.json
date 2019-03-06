@@ -31,6 +31,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "archiver": "^3.0.0"
+    "archiver": "^3.0.0",
+    "redux-mock-store": "^1.5.3"
   }
 }
