@@ -1,6 +1,6 @@
 import { FILTER_OPERATORS } from '@entando/utils';
 import { SET_CONTENT_FILTER, SET_CONTENT_LIST, SET_SELECTED_CONTENT } from 'state/types';
-import { contentTypeCodeList } from 'state/appConfig';
+import { contentTypeCodeList, sortingFilters } from 'state/appConfig';
 
 const filters = contentTypeCodeList.reduce((acc, curr) => ({
   ...acc,
@@ -13,6 +13,7 @@ const filters = contentTypeCodeList.reduce((acc, curr) => ({
 const initialState = {
   list: [],
   filters,
+  sortingFilters,
   selected: null,
 };
 
