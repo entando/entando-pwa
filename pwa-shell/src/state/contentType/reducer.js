@@ -1,7 +1,7 @@
 import {
   SET_CONTENT_TYPE_MAP,
   SET_SELECTED_CONTENT_TYPE,
-} from 'state/types';
+} from 'state/contentType/types';
 import { contentTypeCodeList } from 'state/appConfig';
 
 const initialState = {

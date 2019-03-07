@@ -1,13 +1,6 @@
 import { get } from 'lodash';
 import { createSelector } from 'reselect';
-
-export const getSelectedContentType = state => state.contentType.selected;
-
-export const getContentTypeCodeList = state => get(state, 'contentType.codeList', []);
-
-export const getDefaultContentTypeCode = state => get(state, 'contentType.codeList[0]');
-
-export const getContentTypeMap = state => get(state, 'contentType.map', {});
+import { getSelectedContentType } from 'state/contentType/selectors';
 
 export const getContentFilters = state => state.content.filters;
 

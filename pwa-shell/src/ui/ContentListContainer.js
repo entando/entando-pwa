@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { navigateContentType } from 'state/thunks';
 import ContentList from 'ui/ContentList';
-import { getContentList, getSelectedContentType } from 'state/selectors';
+import { getContentList } from 'state/content/selectors';
+import { getSelectedContentType } from 'state/contentType/selectors';
 
 export const mapStateToProps = state => {
   return {    

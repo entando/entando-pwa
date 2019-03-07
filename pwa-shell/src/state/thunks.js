@@ -1,16 +1,18 @@
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { addErrors } from '@entando/messages';
+import { getContentList, getContentDetail } from 'api/content';
+import { getContentType } from 'api/contentType';
+import {
+  setSelectedContentType,
+  setContentTypeMap
+} from 'state/contentType/actions';
 import {
   setContentList,
   setContentFilter,
   setSelectedContent,
-  setSelectedContentType,
-  setContentTypeMap
-} from 'state/actions';
-import { getContentFiltersByContentType } from 'state/selectors';
-import { getContentList, getContentDetail } from 'api/content';
+} from 'state/content/actions';
+import { getContentFiltersByContentType } from 'state/content/selectors';
 import { contentTypeCodeList } from 'state/appConfig';
-import { getContentType } from 'api/contentType';
 
 export const navigateContentType = (contentType, pagination) => (dispatch, getState) => {
   dispatch(setSelectedContentType(contentType));

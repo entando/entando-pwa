@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchContentTypeMap } from 'state/thunks';
-import { setSelectedContentType } from 'state/actions';
-import { getContentTypeCodeList, getSelectedContentType, getContentTypeMap } from 'state/selectors';
+import { setSelectedContentType } from 'state/contentType/actions';
+import { getContentTypeCodeList, getSelectedContentType, getContentTypeMap } from 'state/contentType/selectors';
 import TopBar from 'ui/TopBar';
 
 export const mapStateToProps = state => ({

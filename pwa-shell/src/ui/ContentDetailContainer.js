@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getSelectedContent } from 'state/selectors';
+import { getSelectedContent } from 'state/content/selectors';
 import { fetchContentDetail } from 'state/thunks';
 import ContentDetail from 'ui/ContentDetail';
 
