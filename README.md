@@ -1,2 +1,5 @@
 # entando-pwa
-The Entando PWA shell (under pwa-shell) and a pre-configured instance to deliver content to the PWA.
+The Entando PWA shell is made of:
+
+* a PWA shell based on Create React App, under pwa-shell directory
+* pre-configured Entando instance to deliver content to the PWA, under pwa-provider directory

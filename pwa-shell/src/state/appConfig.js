@@ -7,14 +7,14 @@ const defaultAppConfig = {
       {
         type: 'date',
         entityAttr: 'Date',
-        order: 'ASC',
+        order: 'DESC',
       },
     ],
     ANN: [
       {
         type: 'date',
         entityAttr: 'StartDate',
-        order: 'ASC',
+        order: 'DESC',
       },
     ],  
   },

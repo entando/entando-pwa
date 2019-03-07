@@ -71,10 +71,9 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### Functional
 
-- integrate Entando content API
-	- use entando api manager
-- implement pagination
-- implement search
+- make pwa provider pass a more complex configuration to the pwa shell
+- add pagination
+- add search
 - add authentication
 - add i18n
 - improve PWA features
@@ -87,10 +86,9 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 ### Not Functional
 
 - refactor global CSS to separate SASS files (as in app-builder)
-- setup environments (es. dev.local)
+- handle error using entando utils
 - setup git hooks
 - improve linting
 - add tests
-- add selectors
 - add proptypes
 - boost lighthouse score
