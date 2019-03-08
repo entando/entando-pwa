@@ -2,7 +2,7 @@ import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { addErrors } from '@entando/messages';
 import { contentTypeCodeList } from 'state/appConfig';
 import { getCategory } from 'api/category';
-import { getContentList, getContentDetail } from 'api/content';
+import { getContents, getContent } from 'api/content';
 import { getContentType } from 'api/contentType';
 import { setCategoryList } from 'state/category/actions';
 import {
@@ -14,7 +14,7 @@ import {
   setContentFilter,
   setSelectedContent,
 } from 'state/content/actions';
-import { getContentFiltersByContentType, getSelectedCategoryFilters } from 'state/content/selectors'; //TODO rename getSelectedContentFilters?
+import { getSelectedStandardFilters, getSelectedCategoryFilters } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 
 export const navigateContentType = (contentType, pagination) => (dispatch, getState) => {
@@ -23,22 +23,22 @@ export const navigateContentType = (contentType, pagination) => (dispatch, getSt
     formValues: { typeCode: [contentType] },
     operators: { typeCode: FILTER_OPERATORS.EQUAL },
   };
-  dispatch(setContentFilter(filter, contentType)); // TODO "set" forse non rende l'idea
+  dispatch(setContentFilter(filter, contentType));
   const state = getState();
-  const contentTypeFilters = getContentFiltersByContentType(state);
+  const filters = getSelectedStandardFilters(state);
   const categoryFilters = getSelectedCategoryFilters(state);
-  //TODO vanno gestiti filtri su più categorie
+  
   const categoryParams = categoryFilters ? `&categories[0]=${categoryFilters}` : '';
   const contentSpecificParams = 'status=published&model=list';
-  const params = contentTypeFilters 
-    ? `${convertToQueryString(contentTypeFilters)}&${contentSpecificParams}${categoryParams}`
+  const params = filters 
+    ? `${convertToQueryString(filters)}&${contentSpecificParams}${categoryParams}`
     : `?${contentSpecificParams}${categoryParams}`;
   dispatch(fetchContentList(params, pagination));
 };
 
 export const fetchContentList = (params, pagination) => async(dispatch) => {
   try {
-    const response = await getContentList(params, pagination); // TODO oppure getContents? avvicinarsi all'API
+    const response = await getContents(params, pagination);
     const json = await response.json();
     if (response.ok) {
       dispatch(setContentList(json.payload));
@@ -53,7 +53,7 @@ export const fetchContentList = (params, pagination) => async(dispatch) => {
 
 export const fetchContentDetail = id => async(dispatch) => {
   try {
-    const response = await getContentDetail(id);
+    const response = await getContent(id);
     const json = await response.json();
     if (response.ok) {
       dispatch(setSelectedContent(json.payload));

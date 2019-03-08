@@ -13,7 +13,7 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
   onFetchContentList: () => {
-    const { contentType } = ownProps.match.params; //TODO si può mettere parametro alla fetchContentList di ContentList
+    const { contentType } = ownProps.match.params;
     dispatch(navigateContentType(contentType));
   }
 });

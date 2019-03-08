@@ -2,7 +2,7 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 
 const defaultPageObject = { page: 1, pageSize: 10 };
 
-export const getContentList = (params = '', page = defaultPageObject) => (
+export const getContents = (params = '', page = defaultPageObject) => (
   makeRequest(
     {  
       uri: `/api/plugins/cms/contents${params}`,
@@ -15,7 +15,7 @@ export const getContentList = (params = '', page = defaultPageObject) => (
   )
 );
 
-export const getContentDetail = code => makeRequest({
+export const getContent = code => makeRequest({
   uri: `/api/plugins/cms/contents/${code}/model/default?status=published`,
   method: METHODS.GET,
   mockResponse: { __html: '<div>Sample Article</div>'},
