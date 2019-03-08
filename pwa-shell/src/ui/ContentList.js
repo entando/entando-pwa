@@ -1,6 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import ContentListItem from 'ui/ContentListItem';
 import { loadingPic } from 'ui/loading';
+import CategoryFilterContainer from 'ui/CategoryFilterContainer';
 
 class ContentList extends PureComponent {
 
@@ -16,36 +17,24 @@ class ContentList extends PureComponent {
 
   render() {
     const { contentList, contentType } = this.props;
-    return (
-      <div>
-        {this.renderList(contentList, contentType)}
-      </div>
-    );
-  }
 
-  renderContentListItems(contentList, contentType) {
-    return contentList.map((item, index) => (
+    const contentListItems = contentList.map((item, index) => (
       <ContentListItem index={index} data={{...item, contentType}} key={index} />
     ));
-  }
 
-  renderLoading() {
     return (
-      <div className="loading">
-        <img src={loadingPic} alt="loading" />
-      </div>
-    );
-  }
-
-  renderList(contentList, contentType) {
-    return (
-      <div className="content">
+      <div className="content">      
         {
           contentType && contentList && contentList.length ?
-            <ol>
-              {this.renderContentListItems(contentList, contentType)}
-            </ol> :
-            this.renderLoading()
+            <Fragment>
+              <CategoryFilterContainer contentType={contentType} />
+              <ol>
+                { contentListItems }
+              </ol> 
+            </Fragment> :
+            <div className="loading">
+              <img src={loadingPic} alt="loading" />
+            </div>
         }
       </div>
     );

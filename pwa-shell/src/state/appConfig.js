@@ -2,6 +2,11 @@ import { get } from 'lodash';
 import appId from 'appId';
 
 const defaultAppConfig = {
+  contentTypes: ['NWS', 'ANN'],
+  categoryRoots: {
+    NWS: 'sme_root',
+    ANN: 'sme_root',
+  },
   sortingFilters: {
     NWS: [
       {
@@ -16,7 +21,7 @@ const defaultAppConfig = {
         entityAttr: 'StartDate',
         order: 'DESC',
       },
-    ],  
+    ],
   },
 };
 
@@ -24,6 +29,8 @@ const appConfig = get(window, `entando.${appId}.configuration`, defaultAppConfig
 
 export const sortingFilters = appConfig.sortingFilters;
 
-export const contentTypeCodeList = sortingFilters ? Object.keys(sortingFilters) : [];
+export const categoryRootCodes = appConfig.categoryRoots;
+
+export const contentTypeCodeList = appConfig.contentTypes;
 
 export default appConfig;

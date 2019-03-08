@@ -1,7 +1,10 @@
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { addErrors } from '@entando/messages';
+import { contentTypeCodeList } from 'state/appConfig';
+import { getCategory } from 'api/category';
 import { getContentList, getContentDetail } from 'api/content';
 import { getContentType } from 'api/contentType';
+import { setCategoryMap, setCategoryList } from 'state/category/actions';
 import {
   setSelectedContentType,
   setContentTypeMap
@@ -11,26 +14,31 @@ import {
   setContentFilter,
   setSelectedContent,
 } from 'state/content/actions';
-import { getContentFiltersByContentType } from 'state/content/selectors';
-import { contentTypeCodeList } from 'state/appConfig';
+import { getContentFiltersByContentType, getSelectedCategoryFilters } from 'state/content/selectors'; //TODO rename getSelectedContentFilters?
+import { getCategoryRootCode } from 'state/category/selectors';
 
 export const navigateContentType = (contentType, pagination) => (dispatch, getState) => {
   dispatch(setSelectedContentType(contentType));
   const filter = {
-    sorting: null,
     formValues: { typeCode: [contentType] },
     operators: { typeCode: FILTER_OPERATORS.EQUAL },
   };
-  dispatch(setContentFilter(filter, contentType));
-  const filters = getContentFiltersByContentType(getState());
+  dispatch(setContentFilter(filter, contentType)); // TODO "set" forse non rende l'idea
+  const state = getState();
+  const contentTypeFilters = getContentFiltersByContentType(state);
+  const categoryFilters = getSelectedCategoryFilters(state);
+  //TODO vanno gestiti filtri su più categorie
+  const categoryParams = categoryFilters ? `&categories[0]=${categoryFilters}` : '';
   const contentSpecificParams = 'status=published&model=list';
-  const params = filters ? `${convertToQueryString(filters)}&${contentSpecificParams}` : `?${contentSpecificParams}`;
-  return dispatch(fetchContentList(params, pagination));
+  const params = contentTypeFilters 
+    ? `${convertToQueryString(contentTypeFilters)}&${contentSpecificParams}${categoryParams}`
+    : `?${contentSpecificParams}${categoryParams}`;
+  dispatch(fetchContentList(params, pagination));
 };
 
 export const fetchContentList = (params, pagination) => async(dispatch) => {
   try {
-    const response = await getContentList(params, pagination);
+    const response = await getContentList(params, pagination); // TODO oppure getContents? avvicinarsi all'API
     const json = await response.json();
     if (response.ok) {
       dispatch(setContentList(json.payload));
@@ -38,10 +46,8 @@ export const fetchContentList = (params, pagination) => async(dispatch) => {
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    return json;
   } catch (err) {
     dispatch(addErrors(err));
-    return [];
   }
 }
 
@@ -54,10 +60,8 @@ export const fetchContentDetail = id => async(dispatch) => {
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }  
-    return json;  
   } catch (err) {
     dispatch(addErrors(err));
-    return {};
   }
 }
 
@@ -77,6 +81,51 @@ export const fetchContentTypeMap = () => async(dispatch) => {
     }
   } catch (err) {
     dispatch(addErrors(err));
-    return {};
   }  
 }
+
+export const fetchCategoryList = () => async(dispatch, getState) => {
+  try {
+    const categoryRootCode = getCategoryRootCode(getState());
+    const response = await getCategory(categoryRootCode);
+    const json = await response.json();
+    const categoryCodeList = json.payload.children;
+    const responseList = await Promise.all(categoryCodeList.map(getCategory));
+    const jsonList = await Promise.all(responseList.map(response => response.json()));
+    const categoryList = jsonList.map(json => json.payload);    
+    if (!responseList.map(res => res.ok).includes(false)) {
+      dispatch(setCategoryList(categoryList));
+    } else {
+      dispatch(addErrors(categoryList.reduce((acc, curr) => acc.concat(curr.errors), []).map(e => e.message)));
+    }
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+}
+/*
+export const fetchCategoryMap = rootCategoryCode => async(dispatch) => {
+  try {
+    const response = await getCategory(rootCategoryCode);
+    const json = await response.json();
+    const categoryCodeList = json.payload.children;
+    console.log(categoryCodeList);
+
+    const responseList = await Promise.all(categoryCodeList.map(getCategory));
+    const jsonList = await Promise.all(responseList.map(response => response.json()));
+    const categoryList = jsonList.map(json => json.payload);    
+    if (!responseList.map(res => res.ok).includes(false)) {
+      const categoryMap = categoryList.reduce((acc, curr) => ({
+        ...acc,
+        [curr.code]: curr,
+      }), {});
+      dispatch(setCategoryMap(categoryMap));
+      console.log('categoryMap');
+      console.log(categoryMap);
+    } else {
+      dispatch(addErrors(categoryList.reduce((acc, curr) => acc.concat(curr.errors), []).map(e => e.message)));
+    }
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+}
+*/

@@ -1,5 +1,5 @@
 import { FILTER_OPERATORS } from '@entando/utils';
-import { SET_CONTENT_FILTER, SET_CONTENT_LIST, SET_SELECTED_CONTENT } from 'state/content/types';
+import { SET_CONTENT_FILTER, SET_CONTENT_LIST, SET_SELECTED_CONTENT, SET_CATEGORY_FILTER, SET_SORTING_FILTER } from 'state/content/types';
 import { contentTypeCodeList, sortingFilters } from 'state/appConfig';
 
 const filters = contentTypeCodeList.reduce((acc, curr) => ({
@@ -13,6 +13,7 @@ const filters = contentTypeCodeList.reduce((acc, curr) => ({
 const initialState = {
   list: [],
   filters,
+  categoryFilters: {},
   sortingFilters,
   selected: null,
 };
@@ -37,6 +38,22 @@ export default (state = initialState, action) => {
          [action.payload.contentType]: action.payload.filter,
         },
       };
+    case SET_CATEGORY_FILTER:
+      return {
+        ...state,
+        categoryFilters:  {
+         ...state.categoryFilters,
+         [action.payload.contentType]: action.payload.filter,
+        },
+      };
+    case SET_SORTING_FILTER:
+      return {
+        ...state,
+        sortingFilters:  {
+         ...state.sortingFilters,
+         [action.payload.contentType]: action.payload.filter,
+        },
+      };       
     default:
       return state;
   }
