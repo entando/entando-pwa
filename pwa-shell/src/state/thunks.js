@@ -4,7 +4,7 @@ import { contentTypeCodeList } from 'state/appConfig';
 import { getCategory } from 'api/category';
 import { getContentList, getContentDetail } from 'api/content';
 import { getContentType } from 'api/contentType';
-import { setCategoryMap, setCategoryList } from 'state/category/actions';
+import { setCategoryList } from 'state/category/actions';
 import {
   setSelectedContentType,
   setContentTypeMap
@@ -102,30 +102,3 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
     dispatch(addErrors(err));
   }
 }
-/*
-export const fetchCategoryMap = rootCategoryCode => async(dispatch) => {
-  try {
-    const response = await getCategory(rootCategoryCode);
-    const json = await response.json();
-    const categoryCodeList = json.payload.children;
-    console.log(categoryCodeList);
-
-    const responseList = await Promise.all(categoryCodeList.map(getCategory));
-    const jsonList = await Promise.all(responseList.map(response => response.json()));
-    const categoryList = jsonList.map(json => json.payload);    
-    if (!responseList.map(res => res.ok).includes(false)) {
-      const categoryMap = categoryList.reduce((acc, curr) => ({
-        ...acc,
-        [curr.code]: curr,
-      }), {});
-      dispatch(setCategoryMap(categoryMap));
-      console.log('categoryMap');
-      console.log(categoryMap);
-    } else {
-      dispatch(addErrors(categoryList.reduce((acc, curr) => acc.concat(curr.errors), []).map(e => e.message)));
-    }
-  } catch (err) {
-    dispatch(addErrors(err));
-  }
-}
-*/
