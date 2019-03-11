@@ -18,20 +18,24 @@ class TopBar extends PureComponent {
             alt="logo"
           />
         </Link>
-        <ul>
-          {
-            contentTypeList.map(contentType => (
-              <li 
-                key={contentType}
-                className={`channel ${contentType === selectedContentType ? 'contentType--selected' : ''}`}
-              >
-                  <Link className="" to={`/${contentType}`} onClick={() => onSelectContentType(contentType)}>
-                    { get(contentTypeMap, `${contentType}.name`, contentType) }
-                  </Link>
-              </li>
-            ))
-          }
-        </ul>
+        {
+          contentTypeList.length > 1 ? 
+            <ul>
+            {
+              contentTypeList.map(contentType => (
+                <li 
+                  key={contentType}
+                  className={`channel ${contentType === selectedContentType ? 'contentType--selected' : ''}`}
+                >
+                    <Link className="" to={`/${contentType}`} onClick={() => onSelectContentType(contentType)}>
+                      { get(contentTypeMap, `${contentType}.name`, contentType) }
+                    </Link>
+                </li>
+              ))
+            }
+            </ul>
+          : ''
+        }
       </div>      
     );
   }  
