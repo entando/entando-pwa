@@ -21,7 +21,7 @@ const toCategoryQueryString = categories => {
   return categories && categories.length
    ? categories.reduce((acc, curr, i) => {
     return `${acc}&categories[${i}]=${curr}`;
-   }, '')
+   }, '&orClauseCategoryFilter=true')
    : '';
 }
 
