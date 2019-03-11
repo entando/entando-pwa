@@ -1,17 +1,22 @@
-import { SET_CONTENT_TYPE_LIST, SET_SELECTED_CONTENT_TYPE } from 'state/types';
+import {
+  SET_CONTENT_TYPE_MAP,
+  SET_SELECTED_CONTENT_TYPE,
+} from 'state/contentType/types';
+import { contentTypeCodeList } from 'state/appConfig';
 
 const initialState = {
-  list: [],
+  codeList: contentTypeCodeList,
   selected: null,
+  map: {},
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_CONTENT_TYPE_LIST:
+    case SET_CONTENT_TYPE_MAP:
       return {
         ...state,
-        list: action.payload
-      };
+        map: action.payload
+      };      
     case SET_SELECTED_CONTENT_TYPE:
       return {
         ...state,

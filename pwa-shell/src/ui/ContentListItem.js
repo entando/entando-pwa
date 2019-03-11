@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 const ContentListItem = ({ data }) => (
   <li>
     <Link to={`/${data.contentType}/${data.id}`}>
-      <div>
-        {data.title}
+      <div dangerouslySetInnerHTML={{__html: data.html}}>
       </div>
       <div>            
         <span className="item-footer">

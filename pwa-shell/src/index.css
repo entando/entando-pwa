@@ -95,8 +95,7 @@ ol {
   align-items: center;
   margin-left: -1.2rem;
   width: 100%;
-  overflow: hidden;
-  height: 4rem;
+  overflow: hidden;  
   border-bottom: 1px solid #ebebeb;
   padding: 0.3rem 0;
 }
@@ -112,24 +111,6 @@ ol {
 
 .item-footer {
   text-decoration: underline;
-}
-
-.story-top {
-  border-bottom: 1px solid #ebebeb;
-}
-
-.story-title {
-  font-size: 1.2rem;
-  margin-left: 1.2rem;
-  padding-top: 1rem;
-  font-weight: bold;
-}
-
-.story-ol > li {
-  height: 1.2rem;
-  border-bottom: 0px;
-  padding: 0px;
-  color: #999999;
 }
 
 .footer-page {

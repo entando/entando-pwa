@@ -8,7 +8,11 @@ import {
   Route,
 } from 'react-router-dom';
 
+import appId from 'appId';
+
 import store from 'state/store';
+
+import ApiManager from 'ApiManager';
 
 import TopBarContainer from 'ui/TopBarContainer';
 import ContentListContainer from 'ui/ContentListContainer';
@@ -22,15 +26,17 @@ import 'index.css';
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <div>
-        <TopBarContainer />
-        <Route exact path="/" component={DefaultRedirectContainer} />
-        <Route exact path="/:contentType/" component={ContentListContainer} />
-        <Route exact path="/:contentType/:id" component={ContentDetailContainer} />
-      </div>
+      <ApiManager store={store}>
+        <div>
+          <TopBarContainer />
+          <Route exact path="/" component={DefaultRedirectContainer} />
+          <Route exact path="/:contentType/" component={ContentListContainer} />
+          <Route exact path="/:contentType/:id" component={ContentDetailContainer} />
+        </div>
+      </ApiManager>
       </Router>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById(appId)
 );
 
 

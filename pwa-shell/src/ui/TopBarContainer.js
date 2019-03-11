@@ -1,16 +1,18 @@
 import { connect } from 'react-redux';
-import { fetchContentTypes } from 'state/thunks';
-import { setSelectedContentType } from 'state/actions';
+import { fetchContentTypeMap } from 'state/thunks';
+import { setSelectedContentType } from 'state/contentType/actions';
+import { getContentTypeCodeList, getSelectedContentType, getContentTypeMap } from 'state/contentType/selectors';
 import TopBar from 'ui/TopBar';
 
 export const mapStateToProps = state => ({
-  contentTypeList: state.contentType.list,
-  selectedContentType: state.contentType.selected,
+  contentTypeList: getContentTypeCodeList(state),
+  contentTypeMap: getContentTypeMap(state),
+  selectedContentType: getSelectedContentType(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onFetchContentTypes: () => {
-    dispatch(fetchContentTypes());
+    dispatch(fetchContentTypeMap());
   },
   onSelectContentType: (contentType) => {
     dispatch(setSelectedContentType(contentType));
