@@ -25,7 +25,7 @@ class TopBar extends PureComponent {
               contentTypeList.map(contentType => (
                 <li 
                   key={contentType}
-                  className={`channel ${contentType === selectedContentType ? 'contentType--selected' : ''}`}
+                  className={`${contentType === selectedContentType ? 'contentType--selected' : ''}`}
                 >
                     <Link className="" to={`/${contentType}`} onClick={() => onSelectContentType(contentType)}>
                       { get(contentTypeMap, `${contentType}.name`, contentType) }
