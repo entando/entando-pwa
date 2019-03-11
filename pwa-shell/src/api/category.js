@@ -1,7 +1,7 @@
-import { makeMockRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
-export const getCategory = code => makeMockRequest({
-  uri: `/api/categories/${code}`,
+export const getCategory = code => makeRequest({
+  uri: `/api/categories?parentCode=${code}`,
   method: METHODS.GET,
   mockResponse: { 
     code: 'sample',
@@ -13,7 +13,8 @@ export const getCategory = code => makeMockRequest({
     children: [
         'sample_child_1',
         'sample_child_2',
-    ]
+    ],
+    references: {},
   },
   contentType: 'application/json',
   errors: () => [],

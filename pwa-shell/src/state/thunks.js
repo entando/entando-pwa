@@ -1,4 +1,5 @@
-import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
+import { get } from 'lodash';
+import { convertToQueryString } from '@entando/utils';
 import { addErrors } from '@entando/messages';
 import { contentTypeCodeList } from 'state/appConfig';
 import { getCategory } from 'api/category';
@@ -11,28 +12,43 @@ import {
 } from 'state/contentType/actions';
 import {
   setContentList,
-  setContentFilter,
   setSelectedContent,
 } from 'state/content/actions';
-import { getSelectedStandardFilters, getSelectedCategoryFilters } from 'state/content/selectors';
+import { getSelectedStandardFilters, getSelectedCategoryFilters, getSelectedSortingFilters } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 
-export const navigateContentType = (contentType, pagination) => (dispatch, getState) => {
+const toCategoryQueryString = categories => {
+  return categories && categories.length
+   ? categories.reduce((acc, curr, i) => {
+    return `${acc}&categories[${i}]=${curr}`;
+   }, '')
+   : '';
+}
+
+const toSortingQueryString = (sortingFilters, standardFilters) => {
+  // WORKAROUND to get the filter index: we need to refactor Entando utils query string manager
+  // in order to handle all queryString generation scenarios  
+  const sortingfFilterStartingIndex = Object.keys(get(standardFilters, 'formValues', {})).length;
+
+  return sortingFilters && sortingFilters.length
+   ? sortingFilters.reduce((acc, curr, i) => {
+    return `${acc}&filters[${sortingfFilterStartingIndex + i}].type=${curr.type}`
+      + `${acc}&filters[${sortingfFilterStartingIndex + i}].entityAttr=${curr.entityAttr}`
+      + `${acc}&filters[${sortingfFilterStartingIndex + i}].order=${curr.order}`
+   }, '')
+   : '';  
+}
+
+export const fetchContentListByContentType = (contentType, pagination) => (dispatch, getState) => {
   dispatch(setSelectedContentType(contentType));
-  const filter = {
-    formValues: { typeCode: [contentType] },
-    operators: { typeCode: FILTER_OPERATORS.EQUAL },
-  };
-  dispatch(setContentFilter(filter, contentType));
   const state = getState();
-  const filters = getSelectedStandardFilters(state);
-  const categoryFilters = getSelectedCategoryFilters(state);
-  
-  const categoryParams = categoryFilters ? `&categories[0]=${categoryFilters}` : '';
-  const contentSpecificParams = 'status=published&model=list';
-  const params = filters 
-    ? `${convertToQueryString(filters)}&${contentSpecificParams}${categoryParams}`
-    : `?${contentSpecificParams}${categoryParams}`;
+  const filters = getSelectedStandardFilters(state);  
+  const categoryFilters = getSelectedCategoryFilters(state);  
+  const sortingFilters = getSelectedSortingFilters(state);
+  const categoryParams = toCategoryQueryString(categoryFilters);
+  const sortingParams = toSortingQueryString(sortingFilters, filters);
+  const contentSpecificParams = '&status=published&model=list';
+  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}`;
   dispatch(fetchContentList(params, pagination));
 };
 
@@ -87,16 +103,16 @@ export const fetchContentTypeMap = () => async(dispatch) => {
 export const fetchCategoryList = () => async(dispatch, getState) => {
   try {
     const categoryRootCode = getCategoryRootCode(getState());
+    if (!categoryRootCode) {
+      dispatch(setCategoryList([]));
+      return;
+    }
     const response = await getCategory(categoryRootCode);
     const json = await response.json();
-    const categoryCodeList = json.payload.children;
-    const responseList = await Promise.all(categoryCodeList.map(getCategory));
-    const jsonList = await Promise.all(responseList.map(response => response.json()));
-    const categoryList = jsonList.map(json => json.payload);    
-    if (!responseList.map(res => res.ok).includes(false)) {
-      dispatch(setCategoryList(categoryList));
+    if (response.ok) {
+      dispatch(setCategoryList(json.payload));
     } else {
-      dispatch(addErrors(categoryList.reduce((acc, curr) => acc.concat(curr.errors), []).map(e => e.message)));
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (err) {
     dispatch(addErrors(err));

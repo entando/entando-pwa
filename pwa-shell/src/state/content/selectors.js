@@ -4,6 +4,7 @@ import { getSelectedContentType } from 'state/contentType/selectors';
 
 export const getStandardFilters = state => state.content.filters;
 export const getCategoryFilters = state => state.content.categoryFilters;
+export const getSortingFilters = state => state.content.sortingFilters;
 
 export const getSelectedStandardFilters = createSelector(
   [getSelectedContentType, getStandardFilters],
@@ -12,7 +13,12 @@ export const getSelectedStandardFilters = createSelector(
 
 export const getSelectedCategoryFilters = createSelector(
   [getSelectedContentType, getCategoryFilters],
-  (selectedContentType, categoryFilters) => categoryFilters[selectedContentType]
+  (selectedContentType, categoryFilters) => categoryFilters[selectedContentType] || []
+);
+
+export const getSelectedSortingFilters = createSelector(
+  [getSelectedContentType, getSortingFilters],
+  (selectedContentType, sortingFilters) => sortingFilters[selectedContentType] || []
 );
 
 export const getContentList = state => get(state, 'content.list', []);

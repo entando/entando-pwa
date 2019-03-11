@@ -2,6 +2,7 @@
   "name": "pwa-shell",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@entando/apimanager": "^3.0.1",
     "react": "^16.8.0",

@@ -1,6 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import ContentListItem from 'ui/ContentListItem';
-import { loadingPic } from 'ui/loading';
 import CategoryFilterContainer from 'ui/CategoryFilterContainer';
 
 class ContentList extends PureComponent {
@@ -23,18 +22,14 @@ class ContentList extends PureComponent {
     ));
 
     return (
-      <div className="content">      
+      <div className="content">
+        { contentType ? <CategoryFilterContainer contentType={contentType} /> : '' }
         {
-          contentType && contentList && contentList.length ?
-            <Fragment>
-              <CategoryFilterContainer contentType={contentType} />
-              <ol>
-                { contentListItems }
-              </ol> 
-            </Fragment> :
-            <div className="loading">
-              <img src={loadingPic} alt="loading" />
-            </div>
+          contentList && contentList.length ?
+          <ol>
+            { contentListItems }
+          </ol> 
+          : 'Sorry, no content matched your criteria'
         }
       </div>
     );
