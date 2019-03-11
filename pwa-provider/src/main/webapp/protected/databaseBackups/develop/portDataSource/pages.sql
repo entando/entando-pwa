@@ -1,6 +1,5 @@
-INSERT INTO pages (code,parentcode,pos,groupcode) VALUES ('service','homepage',1,'free');
-INSERT INTO pages (code,parentcode,pos,groupcode) VALUES ('login','service',3,'free');
-INSERT INTO pages (code,parentcode,pos,groupcode) VALUES ('notfound','service',1,'free');
-INSERT INTO pages (code,parentcode,pos,groupcode) VALUES ('errorpage','service',2,'free');
-INSERT INTO pages (code,parentcode,pos,groupcode) VALUES ('homepage','homepage',-1,'free');
-INSERT INTO pages (code,parentcode,pos,groupcode) VALUES ('pwa','homepage',2,'free');
+INSERT INTO pages (code,parentcode,pos) VALUES ('service','homepage',1);
+INSERT INTO pages (code,parentcode,pos) VALUES ('login','service',3);
+INSERT INTO pages (code,parentcode,pos) VALUES ('notfound','service',1);
+INSERT INTO pages (code,parentcode,pos) VALUES ('errorpage','service',2);
+INSERT INTO pages (code,parentcode,pos) VALUES ('homepage','homepage',-1);

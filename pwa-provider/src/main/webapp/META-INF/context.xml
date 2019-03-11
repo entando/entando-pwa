@@ -10,7 +10,7 @@
 
     <Environment name="configVersion" value="production" type="java.lang.String" override="false" />
 
-    <Environment name="applicationBaseURL" value="http://localhost:8080/pwa-provider/" type="java.lang.String" override="false" />
+    <Environment name="applicationBaseURL" value="https://localhost:8080/pwa-provider/" type="java.lang.String" override="false" />
     <Environment name="resourceRootURL" value="/pwa-provider/resources/" type="java.lang.String" override="false" />
     <Environment name="protectedResourceRootURL" value="/pwa-provider/protected/" type="java.lang.String" override="false" />
 
