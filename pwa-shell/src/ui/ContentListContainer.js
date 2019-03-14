@@ -5,7 +5,7 @@ import { getContentList } from 'state/content/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 
 export const mapStateToProps = state => {
-  return {    
+  return {
     contentList: getContentList(state),
     contentType: getSelectedContentType(state),
   };
