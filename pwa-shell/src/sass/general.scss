@@ -47,41 +47,8 @@ ol {
 }
 
 .logo {
-  width: 20px;
-  height: 20px;
-}
-
-.topbar {
-  position: fixed;
-  border-bottom: 1px solid rgb(235, 235, 235);
-  width: 100%;
-  top: 0;
-  z-index: 100;
-  height: 48px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-}
-
-.topbar > ul {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  max-width: 1200px;
-  overflow: hidden;
-  margin-left: -20px;
-}
-
-.topbar > ul > li {
-  margin-right: .6rem;
-  color: #4A4A4A;
-}
-
-.topbar > ul > li  > a {
-  color: inherit;
-  text-decoration: none;
+  min-width: 20px;
+  min-height: 20px;
 }
 
 .content {
@@ -95,7 +62,7 @@ ol {
   align-items: center;
   margin-left: -1.2rem;
   width: 100%;
-  overflow: hidden;  
+  overflow: hidden;
   border-bottom: 1px solid #ebebeb;
   padding: 0.3rem 0;
 }
@@ -124,8 +91,4 @@ ol {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.contentType--selected a {
-  border-bottom: 4px solid #3ba4d6;
 }
