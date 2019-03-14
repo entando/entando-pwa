@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         list: action.payload
-      };      
+      };
     default:
       return state;
   }

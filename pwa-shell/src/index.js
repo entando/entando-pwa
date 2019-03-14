@@ -22,13 +22,14 @@ import DefaultRedirectContainer from 'ui/DefaultRedirectContainer';
 
 import * as serviceWorker from 'serviceWorker';
 
-import 'index.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'sass/index.scss';
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
       <ApiManager store={store}>
-        <div>          
+        <div>
           <Route exact path="/" component={DefaultRedirectContainer} />
           <Route exact path="/:contentType/" render={props => (
             <div><TopBarContainer /><ContentListContainer {...props} /></div>

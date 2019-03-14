@@ -1,0 +1,23 @@
+.topbar {
+  background-color: $color-primary-light;
+
+  .logo {
+    max-height: 30px;
+  }
+
+  .nav-item {
+    max-width: 100px;
+  }
+
+  .contentType--selected a {
+    border-bottom: 2px solid $color-primary;
+  }
+
+  .navbar-toggler {
+    border-color: transparent;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

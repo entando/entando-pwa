@@ -27,7 +27,7 @@ const toCategoryQueryString = categories => {
 
 const toSortingQueryString = (sortingFilters, standardFilters) => {
   // WORKAROUND to get the filter index: we need to refactor Entando utils query string manager
-  // in order to handle all queryString generation scenarios  
+  // in order to handle all queryString generation scenarios
   const sortingfFilterStartingIndex = Object.keys(get(standardFilters, 'formValues', {})).length;
 
   return sortingFilters && sortingFilters.length
@@ -36,14 +36,14 @@ const toSortingQueryString = (sortingFilters, standardFilters) => {
       + `${acc}&filters[${sortingfFilterStartingIndex + i}].entityAttr=${curr.entityAttr}`
       + `${acc}&filters[${sortingfFilterStartingIndex + i}].order=${curr.order}`
    }, '')
-   : '';  
+   : '';
 }
 
 export const fetchContentListByContentType = (contentType, pagination) => (dispatch, getState) => {
   dispatch(setSelectedContentType(contentType));
   const state = getState();
-  const filters = getSelectedStandardFilters(state);  
-  const categoryFilters = getSelectedCategoryFilters(state);  
+  const filters = getSelectedStandardFilters(state);
+  const categoryFilters = getSelectedCategoryFilters(state);
   const sortingFilters = getSelectedSortingFilters(state);
   const categoryParams = toCategoryQueryString(categoryFilters);
   const sortingParams = toSortingQueryString(sortingFilters, filters);
@@ -58,7 +58,7 @@ export const fetchContentList = (params, pagination) => async(dispatch) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(setContentList(json.payload));
-      dispatch(setSelectedContent(null));  
+      dispatch(setSelectedContent(null));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
@@ -75,7 +75,7 @@ export const fetchContentDetail = id => async(dispatch) => {
       dispatch(setSelectedContent(json.payload));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
-    }  
+    }
   } catch (err) {
     dispatch(addErrors(err));
   }
@@ -85,7 +85,7 @@ export const fetchContentTypeMap = () => async(dispatch) => {
   try {
     const responseList = await Promise.all(contentTypeCodeList.map(getContentType));
     const jsonList = await Promise.all(responseList.map(response => response.json()));
-    const contentTypeList = jsonList.map(json => json.payload);    
+    const contentTypeList = jsonList.map(json => json.payload);
     if (!responseList.map(res => res.ok).includes(false)) {
       const contentTypeMap = contentTypeList.reduce((acc, curr) => ({
         ...acc,
@@ -97,7 +97,7 @@ export const fetchContentTypeMap = () => async(dispatch) => {
     }
   } catch (err) {
     dispatch(addErrors(err));
-  }  
+  }
 }
 
 export const fetchCategoryList = () => async(dispatch, getState) => {
@@ -109,6 +109,7 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
     }
     const response = await getCategory(categoryRootCode);
     const json = await response.json();
+    console.log('json', json);
     if (response.ok) {
       dispatch(setCategoryList(json.payload));
     } else {

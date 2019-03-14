@@ -1,5 +1,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Environmental Variables
+The system uses the given vars inside `.env` files to setup `@entando/apimanager`
+
+### REACT_APP_USE_MOCKS
+defaults to `true`, to set it to false it is necessary to also set a valid REACT_APP_DOMAIN
+
+### REACT_APP_DOMAIN
+the domain used for api calls.
+
 ## Available Scripts
 
 In the project directory, you can run:
