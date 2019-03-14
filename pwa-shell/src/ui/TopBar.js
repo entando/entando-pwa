@@ -48,7 +48,7 @@ class TopBar extends PureComponent {
     ));
 
     return (
-      <div className="topbar">
+      <div className="topbar shadow-sm fixed-top">
         <Navbar expand="lg" light>
           <NavbarToggler onClick={this.toggle} />
           <NavbarBrand

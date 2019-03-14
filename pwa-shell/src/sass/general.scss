@@ -6,6 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: $color-primary-lightest;
 }
 
 code {
@@ -30,50 +31,6 @@ a:visited {
 }
 a:hover {
   color: #333333;
-}
-
-ul {
-  list-style: none;
-}
-
-ol {
-  display: block;
-  list-style-type: decimal;
-  -webkit-margin-before: 1em;
-  -webkit-margin-after: 1em;
-  -webkit-margin-start: 0px;
-  -webkit-margin-end: 0px;
-  -webkit-padding-start: 40px;
-}
-
-.logo {
-  min-width: 20px;
-  min-height: 20px;
-}
-
-.content {
-  margin-top: 48px;
-}
-
-.content li {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  align-items: center;
-  margin-left: -1.2rem;
-  width: 100%;
-  overflow: hidden;
-  border-bottom: 1px solid #ebebeb;
-  padding: 0.3rem 0;
-}
-
-.content li div {
-  width: 100%;
-}
-
-.content li > div:last-child {
-  color: #999999;
-  font-size: 0.8rem;
 }
 
 .item-footer {

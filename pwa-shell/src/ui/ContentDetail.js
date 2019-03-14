@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Container, Card, CardBody } from 'reactstrap';
 
 class ContentDetail extends PureComponent {
   componentDidMount() {
@@ -8,8 +9,13 @@ class ContentDetail extends PureComponent {
   render() {
     const { contentDetail } = this.props;
     return contentDetail ? (
-      <div className="content" dangerouslySetInnerHTML={{__html: contentDetail.html}}>
-      </div>
+      <Container fluid className="content">
+        <Card className="shadow">
+          <CardBody>
+            <div dangerouslySetInnerHTML={{__html: contentDetail.html}}></div>
+          </CardBody>
+        </Card>
+      </Container>
     ) : '';
   }
 }
