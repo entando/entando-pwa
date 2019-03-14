@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class ContentDetailTopBar extends PureComponent {
   render() {
-    const { selectedContentType } = this.props;
+    const { contentType } = this.props;
     return (
       <div className="topbar">
-        <Link to={`/${selectedContentType}`}>
+        <Link to={`/${contentType}`}>
           Back
         </Link>
       </div>      
@@ -14,4 +14,4 @@ class ContentDetailTopBar extends PureComponent {
   }  
 }
 
-export default withRouter(props => <ContentDetailTopBar {...props} />);
+export default ContentDetailTopBar;
