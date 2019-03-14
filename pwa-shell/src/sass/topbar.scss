@@ -1,16 +1,16 @@
 .topbar {
-  background-color: $color-primary-light;
+  background-color: $color-primary-lightest;
 
   .logo {
-    max-height: 30px;
+    max-height: 2rem;
   }
 
   .nav-item {
-    max-width: 100px;
+    max-width: 5rem;
   }
 
   .contentType--selected a {
-    border-bottom: 2px solid $color-primary;
+    border-bottom: .15rem solid $color-primary;
   }
 
   .navbar-toggler {

@@ -10,28 +10,28 @@ class ApiManager extends Component {
   }
 
   initApiManager(props) {
-    const { history, store } = props;    
+    const { history, store } = props;
     config(store, () => history.push('/'), () => history.push('/dashboard'));
     store.dispatch(setApi({
       domain: process.env.REACT_APP_DOMAIN,
       useMocks: process.env.REACT_APP_USE_MOCKS === 'true',
     }));
-    
+
     if (useMocks(store.getState())) {
       store.dispatch(addToast(
         'This application is using mocks',
         TOAST_WARNING,
       ));
-    } 
+    }
   }
 
   render() {
     return (
       <React.Fragment>
         { this.props.children }
-      </React.Fragment>      
+      </React.Fragment>
     );
-  }  
+  }
 }
 
 export default withRouter(props => <ApiManager {...props} />);
