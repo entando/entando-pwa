@@ -7,6 +7,7 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import logo from 'images/Logo_horizontal@2x.png';
 
@@ -19,7 +20,7 @@ class ContentDetailTopBar extends PureComponent {
           <Nav>
             <NavItem>
               <NavLink tag={Link} to={`/${selectedContentType}`}>
-                Back
+                <FontAwesomeIcon icon="arrow-left" />
               </NavLink>
             </NavItem>
           </Nav>

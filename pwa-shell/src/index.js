@@ -21,6 +21,7 @@ import ContentDetailContainer from 'ui/ContentDetailContainer';
 import DefaultRedirectContainer from 'ui/DefaultRedirectContainer';
 
 import * as serviceWorker from 'serviceWorker';
+import 'fontawesome';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'sass/index.scss';
