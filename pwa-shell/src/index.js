@@ -33,10 +33,10 @@ ReactDOM.render(
         <div>
           <Route exact path="/" component={DefaultRedirectContainer} />
           <Route exact path="/:contentType/" render={props => (
-            <div><TopBarContainer /><ContentListContainer {...props} /></div>
+            <div><TopBarContainer {...props} /><ContentListContainer {...props} /></div>
           )} />
           <Route exact path="/:contentType/:id" render={props => (
-            <div><ContentDetailTopBarContainer /><ContentDetailContainer {...props} /></div>
+            <div><ContentDetailTopBarContainer {...props} /><ContentDetailContainer {...props} /></div>
           )} />
         </div>
       </ApiManager>

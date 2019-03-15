@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Navbar,
   NavbarBrand,
@@ -13,13 +13,13 @@ import logo from 'images/Logo_horizontal@2x.png';
 
 class ContentDetailTopBar extends PureComponent {
   render() {
-    const { selectedContentType } = this.props;
+    const { contentType } = this.props;
     return (
       <div className="topbar shadow-sm fixed-top">
         <Navbar expand="lg" light>
           <Nav>
             <NavItem>
-              <NavLink tag={Link} to={`/${selectedContentType}`}>
+              <NavLink tag={Link} to={`/${contentType}`}>
                 <FontAwesomeIcon icon="arrow-left" />
               </NavLink>
             </NavItem>
@@ -39,4 +39,4 @@ class ContentDetailTopBar extends PureComponent {
   }
 }
 
-export default withRouter(props => <ContentDetailTopBar {...props} />);
+export default ContentDetailTopBar;
