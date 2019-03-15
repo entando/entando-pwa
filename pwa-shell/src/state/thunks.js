@@ -109,7 +109,6 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
     }
     const response = await getCategory(categoryRootCode);
     const json = await response.json();
-    console.log('json', json);
     if (response.ok) {
       dispatch(setCategoryList(json.payload));
     } else {
