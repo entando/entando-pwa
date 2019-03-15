@@ -43,7 +43,7 @@ class TopBar extends PureComponent {
       <div>
         <div className="topbar shadow-sm fixed-top">
           <Navbar expand="lg" light>
-            <FontAwesomeIcon onClick={openDrawer} icon="bars" />
+            <FontAwesomeIcon className="cursor-pointer" title="open menu" onClick={openDrawer} icon="bars" />
             <NavbarBrand
               tag={Link}
               to={`/${contentTypeList[0]}`}

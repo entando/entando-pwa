@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { ReactComponent as Close } from 'images/icons/ic_close.svg';
+
 class Drawer extends Component
 {
   constructor(props) {
@@ -45,6 +47,9 @@ class Drawer extends Component
 
     return (
       <div ref={this.setWrapperRef} className={`drawer vh-100 shadow ${state}`}>
+        <div className="p-2">
+          <Close onClick={this.props.closeDrawer} className="cursor-pointer color-primary-lightest float-right" />
+        </div>
         {this.props.children}
       </div>
     );

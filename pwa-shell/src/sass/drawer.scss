@@ -1,13 +1,14 @@
 .drawer {
   left: 0;
   top: 0;
-  position: absolute;
+  position: fixed;
   z-index: 10000;
   width: 20rem;
-  background-color: $color-primary-lightest;
+  background-color: $color-bordered-light;
+  transition: left ease-in .5s;
 
   &.closed {
-    visibility: hidden;
+    left: -20rem;
   }
 
   &.open {
