@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.1 (72631) - https://sketchapp.com -->
+    <title>ic_arrow_forward</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="20 11 7.82666667 11 13.4133333 5.41333333 12 4 4 12 12 20 13.4133333 18.5866667 7.82666667 13 20 13"></polygon>
+    </defs>
+    <g id="ic_arrow_forward" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="BG" x="0" y="0" width="24" height="24"></rect>
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Shape" fill="#535141" transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " xlink:href="#path-1"></use>
+    </g>
+</svg>

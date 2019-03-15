@@ -14,7 +14,7 @@ import store from 'state/store';
 
 import ApiManager from 'ApiManager';
 
-import TopBarContainer from 'ui/TopBarContainer';
+import TopBarContainer from 'ui/menu/TopBarContainer';
 import ContentListContainer from 'ui/ContentListContainer';
 import ContentDetailTopBarContainer from 'ui/ContentDetailTopBarContainer';
 import ContentDetailContainer from 'ui/ContentDetailContainer';
