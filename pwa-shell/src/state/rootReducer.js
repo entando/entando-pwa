@@ -3,13 +3,15 @@ import { api, currentUser } from '@entando/apimanager';
 import content from 'state/content/reducer';
 import contentType from 'state/contentType/reducer';
 import category from 'state/category/reducer';
+import drawer from 'state/drawer/reducer';
 
 const rootReducer = combineReducers({
   api,
-  currentUser,  
+  currentUser,
   content,
   contentType,
   category,
+  drawer,
 });
 
 export default rootReducer;

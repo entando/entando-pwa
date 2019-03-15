@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import { fetchContentTypeMap } from 'state/thunks';
 import { setSelectedContentType } from 'state/contentType/actions';
+import { openDrawer } from 'state/drawer/actions';
 import { getContentTypeCodeList, getSelectedContentType, getContentTypeMap } from 'state/contentType/selectors';
-import TopBar from 'ui/TopBar';
+import TopBar from 'ui/menu/TopBar';
 
 export const mapStateToProps = state => ({
   contentTypeList: getContentTypeCodeList(state),
@@ -17,6 +18,7 @@ export const mapDispatchToProps = dispatch => ({
   onSelectContentType: (contentType) => {
     dispatch(setSelectedContentType(contentType));
   },
+  openDrawer: () => dispatch(openDrawer()),
 });
 
 export default connect(

@@ -1,0 +1,16 @@
+.drawer {
+  left: 0;
+  top: 0;
+  position: absolute;
+  z-index: 10000;
+  width: 20rem;
+  background-color: $color-primary-lightest;
+
+  &.closed {
+    visibility: hidden;
+  }
+
+  &.open {
+    visibility: visible;
+  }
+}
