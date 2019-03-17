@@ -22,7 +22,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npm run sw-addendum",
+    "sw-addendum": "cat src/sw-addendum.js >> build/service-worker.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "package": "react-scripts build && npm run zip",
