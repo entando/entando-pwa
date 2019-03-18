@@ -8,6 +8,6 @@ INSERT INTO workcontentrelations (contentid,refcategory) VALUES ('NWS19','person
 INSERT INTO workcontentrelations (contentid,refcategory) VALUES ('NWS27','personale');
 INSERT INTO workcontentrelations (contentid,refcategory) VALUES ('NWS33','varie');
 INSERT INTO workcontentrelations (contentid,refcategory) VALUES ('NWS36','varie');
+INSERT INTO workcontentrelations (contentid,refcategory) VALUES ('NWS16','amministrazione');
 INSERT INTO workcontentrelations (contentid,refcategory) VALUES ('NWS42','benessere');
 INSERT INTO workcontentrelations (contentid,refcategory) VALUES ('NWS10','amministrazione');
-INSERT INTO workcontentrelations (contentid,refcategory) VALUES ('NWS16','amministrazione');

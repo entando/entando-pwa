@@ -20,9 +20,6 @@ INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,l
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS9','Date',NULL,'2012-06-13 00:00:00',NULL,NULL);
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS9','Title','Here come the news 6',NULL,NULL,'en');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS9','Title','Here come the news 6',NULL,NULL,'it');
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Title','Servizio assistenza fiscale',NULL,NULL,'en');
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Title','Servizio assistenza fiscale',NULL,NULL,'it');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS19','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS19','Title','Ricerca di personale per il ripianamento di P.O. nell''ambito degli Organismi Internazionali in Italia',NULL,NULL,'en');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS19','Title','Ricerca di personale per il ripianamento di P.O. nell''ambito degli Organismi Internazionali in Italia',NULL,NULL,'it');
@@ -53,9 +50,12 @@ INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,l
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS36','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS36','Title','Concorso fotografico "Uno scatto in avanti: Le donne nella Difesa" Fotografia un''idea.',NULL,NULL,'en');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS36','Title','Concorso fotografico "Uno scatto in avanti: Le donne nella Difesa" Fotografia un''idea.',NULL,NULL,'it');
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'en');
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'it');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS16','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS16','Title','Fondo per l''Efficienza per i Servizi Istituzionali (FESI)',NULL,NULL,'en');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS16','Title','Fondo per l''Efficienza per i Servizi Istituzionali (FESI)',NULL,NULL,'it');
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'en');
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'it');
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Title','Servizio assistenza fiscale',NULL,NULL,'en');
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Title','Servizio assistenza fiscale',NULL,NULL,'it');
