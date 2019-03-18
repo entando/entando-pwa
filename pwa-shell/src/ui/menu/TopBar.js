@@ -12,6 +12,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import DrawerContainer from 'ui/menu/DrawerContainer';
+import SearchBarContainer from 'ui/menu/SearchBarContainer';
 import logo from 'images/Logo_horizontal@2x.png';
 
 class TopBar extends PureComponent {
@@ -26,6 +27,8 @@ class TopBar extends PureComponent {
       contentTypeMap,
       onSelectContentType,
       openDrawer,
+      openSearch,
+      isSearchOpen,
     } = this.props;
 
     const links = contentTypeList.map(contentType => (
@@ -39,11 +42,15 @@ class TopBar extends PureComponent {
       </NavItem>
     ));
 
+    if (isSearchOpen) {
+      return <SearchBarContainer />;
+    }
+
     return (
       <div>
         <div className="topbar shadow-sm fixed-top">
           <Navbar expand="lg" light>
-            <FontAwesomeIcon className="cursor-pointer" title="open menu" onClick={openDrawer} icon="bars" />
+            <FontAwesomeIcon className="cursor-pointer ml-2" title="open menu" onClick={openDrawer} icon="bars" />
             <NavbarBrand
               tag={Link}
               to={`/${contentTypeList[0]}`}
@@ -56,7 +63,10 @@ class TopBar extends PureComponent {
                 alt="logo"
                 />
             </NavbarBrand>
-
+            <div>
+              <FontAwesomeIcon className="cursor-pointer mr-3" title="notifications" icon="bell" />
+              <FontAwesomeIcon className="cursor-pointer" title="search" onClick={openSearch} icon="search" />
+            </div>
           </Navbar>
         </div>
         <DrawerContainer>
@@ -73,6 +83,8 @@ class TopBar extends PureComponent {
 
 TopBar.propTypes = {
   openDrawer: PropTypes.func.isRequired,
+  openSearch: PropTypes.func.isRequired,
+  isSearchOpen: PropTypes.bool.isRequired,
 };
 
 export default withRouter(props => <TopBar {...props} />);
