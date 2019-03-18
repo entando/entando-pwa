@@ -22,6 +22,13 @@
   }
 
   &.searchbar {
+    .cancel {
+      text-align: left;
+      display: inline-block;
+      height: 100%;
+      padding-top: .4rem;
+    }
+
     .input-group:focus-within {
       .input-group-text {
         border-color: #80bdff;
