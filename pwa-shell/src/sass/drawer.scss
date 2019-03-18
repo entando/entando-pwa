@@ -5,7 +5,7 @@
   z-index: 10000;
   width: 20rem;
   background-color: $color-bordered-light;
-  transition: left ease-in .5s;
+  transition: left ease-in .3s;
 
   &.closed {
     left: -20rem;

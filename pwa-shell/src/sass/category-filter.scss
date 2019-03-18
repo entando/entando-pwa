@@ -1,0 +1,29 @@
+.CategoryFilter {
+  &__header {
+    padding-left: 1rem;
+  }
+
+  &__title {
+    font-size: .8rem;
+    color: $color-dark;
+    padding-left: .5rem;
+  }
+
+  &__group {
+    list-style-type: none;
+    padding: .5rem 0;
+  }
+
+  &__group-item {
+    padding: .8rem 1rem;
+    border-bottom: .1rem solid $color-primary-lightest;
+
+    label {
+      margin-bottom: 0;
+    }
+
+    input {
+      float: right;
+    }
+  }
+}

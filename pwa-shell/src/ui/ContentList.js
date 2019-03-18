@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import ContentListItem from 'ui/ContentListItem';
-import CategoryFilterContainer from 'ui/CategoryFilterContainer';
+import CategoryListContainer from 'ui/CategoryListContainer';
 import { Container } from 'reactstrap';
 
 class ContentList extends PureComponent {
@@ -18,7 +18,7 @@ class ContentList extends PureComponent {
   render() {
     const { contentList, contentType } = this.props;
 
-    const categoryFilter = contentType ? <CategoryFilterContainer contentType={contentType} /> : '';
+    const categoryFilter = contentType ? <CategoryListContainer contentType={contentType} /> : '';
 
     const contentListItems = contentList.map((item, index) => (
       <ContentListItem index={index} data={{...item, contentType}} key={index} />
@@ -32,7 +32,7 @@ class ContentList extends PureComponent {
           <div>
             { contentListItems }
           </div>
-          : 'Sorry, no content matched your criteria'
+          : 'Caricamento...'
         }
       </Container>
     );
