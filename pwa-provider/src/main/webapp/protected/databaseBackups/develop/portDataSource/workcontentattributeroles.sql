@@ -10,7 +10,6 @@ INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS13','Title','jacms:title');
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS16','Title','jacms:title');
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS19','Title','jacms:title');
-INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS52','Title','jacms:title');
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS30','Title','jacms:title');
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS44','Title','jacms:title');
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS33','Title','jacms:title');
@@ -19,3 +18,4 @@ INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS27','Title','jacms:title');
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS47','Title','jacms:title');
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS36','Title','jacms:title');
+INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS52','Title','jacms:title');
