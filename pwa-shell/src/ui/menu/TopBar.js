@@ -43,7 +43,7 @@ class TopBar extends PureComponent {
       <div>
         <div className="topbar shadow-sm fixed-top">
           <Navbar expand="lg" light>
-            <FontAwesomeIcon className="cursor-pointer" title="open menu" onClick={openDrawer} icon="bars" />
+            <FontAwesomeIcon className="cursor-pointer ml-2" title="open menu" onClick={openDrawer} icon="bars" />
             <NavbarBrand
               tag={Link}
               to={`/${contentTypeList[0]}`}
@@ -56,7 +56,10 @@ class TopBar extends PureComponent {
                 alt="logo"
                 />
             </NavbarBrand>
-
+            <div>
+              <FontAwesomeIcon className="cursor-pointer mr-3" title="notifications" icon="bell" />
+              <FontAwesomeIcon className="cursor-pointer" title="search" icon="search" />
+            </div>
           </Navbar>
         </div>
         <DrawerContainer>
