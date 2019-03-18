@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DrawerContainer from 'ui/menu/DrawerContainer';
 import SearchBarContainer from 'ui/menu/SearchBarContainer';
 import logo from 'images/Logo_horizontal@2x.png';
+import CategoryFilterContainer from 'ui/CategoryFilterContainer';
 
 class TopBar extends PureComponent {
   componentDidMount() {
@@ -31,7 +32,7 @@ class TopBar extends PureComponent {
       isSearchOpen,
     } = this.props;
 
-    const links = contentTypeList.map(contentType => (
+    const links = contentTypeList.length > 1 ? contentTypeList.map(contentType => (
       <NavItem
         key={contentType}
         className={`${contentType === selectedContentType ? 'contentType--selected' : ''}`}
@@ -40,7 +41,10 @@ class TopBar extends PureComponent {
             { get(contentTypeMap, `${contentType}.name`, contentType) }
           </NavLink>
       </NavItem>
-    ));
+    ))       
+    : '';
+
+    
 
     if (isSearchOpen) {
       return <SearchBarContainer />;
@@ -74,7 +78,8 @@ class TopBar extends PureComponent {
             <Nav className="ml-auto" navbar>
               {links}
             </Nav>
-          </Navbar>
+          </Navbar>          
+          <CategoryFilterContainer contentType={selectedContentType} />
         </DrawerContainer>
       </div>
     );
@@ -82,6 +87,10 @@ class TopBar extends PureComponent {
 }
 
 TopBar.propTypes = {
+  contentTypeList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedContentType: PropTypes.string,
+  contentTypeMap: PropTypes.object.isRequired,
+  onSelectContentType: PropTypes.func.isRequired,
   openDrawer: PropTypes.func.isRequired,
   openSearch: PropTypes.func.isRequired,
   isSearchOpen: PropTypes.bool.isRequired,

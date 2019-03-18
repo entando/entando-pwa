@@ -37,7 +37,7 @@ export default (state = initialState, action) => {
     case SET_CONTENT_FILTER:
       return {
         ...state,
-        filters:  {
+        filters: {
          ...state.filters,
          [action.payload.contentType]: action.payload.filter,
         },
@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
     case SET_CATEGORY_FILTER:
       return {
         ...state,
-        categoryFilters:  {
+        categoryFilters: {
          ...state.categoryFilters,
          [action.payload.contentType]: action.payload.filter,
         },
@@ -53,7 +53,7 @@ export default (state = initialState, action) => {
     case SET_SORTING_FILTER:
       return {
         ...state,
-        sortingFilters:  {
+        sortingFilters: {
          ...state.sortingFilters,
          [action.payload.contentType]: action.payload.filter,
         },

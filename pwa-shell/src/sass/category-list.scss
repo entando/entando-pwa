@@ -1,0 +1,16 @@
+.CategoryList {
+  &__header {
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    font-size: .8rem;
+    color: $color-dark;
+    padding-left: .5rem;
+  }
+
+  &__item {
+    margin-right: .6em;
+  }
+}
