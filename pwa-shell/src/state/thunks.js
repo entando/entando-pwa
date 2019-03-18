@@ -13,9 +13,11 @@ import {
 import {
   setContentList,
   setSelectedContent,
+  setCategoryFilter,
 } from 'state/content/actions';
 import { getSelectedStandardFilters, getSelectedCategoryFilters, getSelectedSortingFilters } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
+import { getSelectedContentType } from 'state/contentType/selectors';
 
 const toCategoryQueryString = categories => {
   return categories && categories.length
@@ -102,7 +104,8 @@ export const fetchContentTypeMap = () => async(dispatch) => {
 
 export const fetchCategoryList = () => async(dispatch, getState) => {
   try {
-    const categoryRootCode = getCategoryRootCode(getState());
+    const state = getState();
+    const categoryRootCode = getCategoryRootCode(state);
     if (!categoryRootCode) {
       dispatch(setCategoryList([]));
       return;
@@ -111,6 +114,8 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(setCategoryList(json.payload));
+      const selectedContentType = getSelectedContentType(state);
+      dispatch(setCategoryFilter(json.payload.map(category => category.code), selectedContentType));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }

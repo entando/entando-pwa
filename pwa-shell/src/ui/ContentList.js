@@ -16,23 +16,27 @@ class ContentList extends PureComponent {
   }
 
   render() {
-    const { contentList, contentType } = this.props;
+    const { contentList, contentType, selectedCategoryCodes } = this.props;
 
-    const categoryFilter = contentType ? <CategoryListContainer contentType={contentType} /> : '';
+    const categoryList = contentType ? <CategoryListContainer contentType={contentType} /> : '';
 
     const contentListItems = contentList.map((item, index) => (
       <ContentListItem index={index} data={{...item, contentType}} key={index} />
     ));
 
     return (
-      <Container fluid className="content">
-        { categoryFilter }
+      <Container fluid className="content">        
+        { categoryList }
         {
-          contentList && contentList.length ?
-          <div>
-            { contentListItems }
-          </div>
-          : 'Caricamento...'
+          selectedCategoryCodes && selectedCategoryCodes.length 
+            ? (
+              contentList && contentList.length ?
+              <div>
+                { contentListItems }
+              </div>
+              : 'Caricamento...'
+            )
+            : 'Nessun argomento selezionato. Seleziona almeno un argomento dal menu in alto a sinistra.'
         }
       </Container>
     );

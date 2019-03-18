@@ -9,7 +9,7 @@ export const mapStateToProps = state => ({
   selectedCategoryCodes: getSelectedCategoryFilters(state),
 });
 
-export const mapDispatchToProps = (dispatch, ownProps) => ({
+export const mapDispatchToProps = dispatch => ({
   fetchCategoryList: () => dispatch(fetchCategoryList()),
 });
 
