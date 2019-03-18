@@ -1,6 +1,7 @@
 import { FILTER_OPERATORS } from '@entando/utils';
 import { SET_CONTENT_FILTER, SET_CONTENT_LIST, SET_SELECTED_CONTENT, SET_CATEGORY_FILTER, SET_SORTING_FILTER } from 'state/content/types';
 import { contentTypeCodeList, sortingFilters } from 'state/appConfig';
+import { htmlSanitizer } from 'helpers';
 
 const filters = contentTypeCodeList.reduce((acc, curr) => ({
   ...acc,
@@ -23,12 +24,15 @@ export default (state = initialState, action) => {
     case SET_CONTENT_LIST:
       return {
         ...state,
-        list:  action.payload,    
+        list:  action.payload,
       };
     case SET_SELECTED_CONTENT:
       return {
         ...state,
-        selected: action.payload,
+        selected: {
+          ...action.payload,
+          html: htmlSanitizer(action.payload.html),
+        },
       };
     case SET_CONTENT_FILTER:
       return {
@@ -53,7 +57,7 @@ export default (state = initialState, action) => {
          ...state.sortingFilters,
          [action.payload.contentType]: action.payload.filter,
         },
-      };       
+      };
     default:
       return state;
   }
