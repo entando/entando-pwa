@@ -2,23 +2,15 @@ import { get } from 'lodash';
 import appId from 'appId';
 
 const defaultAppConfig = {
-  contentTypes: ['NWS', 'ANN'],
+  contentTypes: ['NWS'],
   categoryRoots: {
-    NWS: 'sme_root',
-    ANN: 'sme_root',
+    NWS: 'home',
   },
   sortingFilters: {
     NWS: [
       {
         type: 'date',
         entityAttr: 'Date',
-        order: 'DESC',
-      },
-    ],
-    ANN: [
-      {
-        type: 'date',
-        entityAttr: 'StartDate',
         order: 'DESC',
       },
     ],
