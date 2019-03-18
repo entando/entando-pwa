@@ -1,1 +1,7 @@
 INSERT INTO categories (catcode,parentcode,titles) VALUES ('home','home','<?xml version="1.0" encoding="UTF-8"?><properties><property key="it">Generale</property><property key="en">Root</property></properties>');
+INSERT INTO categories (catcode,parentcode,titles) VALUES ('news','home','<?xml version="1.0" encoding="UTF-8"?><properties><property key="en">News</property><property key="it">News</property></properties>');
+INSERT INTO categories (catcode,parentcode,titles) VALUES ('personale','home','<?xml version="1.0" encoding="UTF-8"?><properties><property key="en">Personale</property><property key="it">Personale</property></properties>');
+INSERT INTO categories (catcode,parentcode,titles) VALUES ('benessere','home','<?xml version="1.0" encoding="UTF-8"?><properties><property key="en">Benessere</property><property key="it">Benessere</property></properties>');
+INSERT INTO categories (catcode,parentcode,titles) VALUES ('amministrazione','home','<?xml version="1.0" encoding="UTF-8"?><properties><property key="en">Amministrazione</property><property key="it">Amministrazione</property></properties>');
+INSERT INTO categories (catcode,parentcode,titles) VALUES ('varie','home','<?xml version="1.0" encoding="UTF-8"?><properties><property key="en">Varie</property><property key="it">Varie</property></properties>');
+INSERT INTO categories (catcode,parentcode,titles) VALUES ('in_evidenza','home','<?xml version="1.0" encoding="UTF-8"?><properties><property key="en">In Evidenza</property><property key="it">In Evidenza</property></properties>');
