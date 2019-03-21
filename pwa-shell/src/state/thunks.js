@@ -1,10 +1,14 @@
 import { get } from 'lodash';
 import { convertToQueryString } from '@entando/utils';
 import { addErrors } from '@entando/messages';
-import { contentTypeCodeList } from 'state/appConfig';
+import { loginUser } from '@entando/apimanager';
+
 import { getCategory } from 'api/category';
 import { getContents, getContent } from 'api/content';
 import { getContentType } from 'api/contentType';
+import { login as performLogin } from 'api/login';
+
+import { contentTypeCodeList } from 'state/appConfig';
 import { setCategoryList } from 'state/category/actions';
 import {
   setSelectedContentType,
@@ -123,3 +127,13 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
     dispatch(addErrors(err));
   }
 }
+
+export const login = (data) => async dispatch => {
+  try {
+    const response = await performLogin(data.username, data.pin);
+    const json = await response.json();
+    dispatch(loginUser(data.username, json.access_token));
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+};

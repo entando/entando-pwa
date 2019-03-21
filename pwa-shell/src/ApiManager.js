@@ -10,8 +10,8 @@ class ApiManager extends Component {
   }
 
   initApiManager(props) {
-    const { history, store } = props;
-    config(store, () => history.push('/'), () => history.push('/dashboard'));
+    const { store } = props;
+    config(store, () => {}, () => {});
     store.dispatch(setApi({
       domain: process.env.REACT_APP_DOMAIN,
       useMocks: process.env.REACT_APP_USE_MOCKS === 'true',

@@ -12,7 +12,7 @@
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     box-shadow: 0 -0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-    height: calc(100vh - 16rem);
+    min-height: calc(100vh - 16rem);
 
     legend {
       font-weight: 700;

@@ -4,10 +4,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 The system uses the given vars inside `.env` files to setup `@entando/apimanager`
 
 ### REACT_APP_USE_MOCKS
-defaults to `true`, to set it to false it is necessary to also set a valid REACT_APP_DOMAIN
+defaults to `true`, to set it to false it is necessary to also set a valid REACT_APP_DOMAIN.
 
 ### REACT_APP_DOMAIN
 the domain used for api calls.
+
+### REACT_APP_CLIENT_ID
+the client id used for oauth2 authentication.
+
+### REACT_APP_CLIENT_SECRET
+the client secret used for oauth2 authentication.
 
 ## Available Scripts
 
