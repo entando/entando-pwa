@@ -14,7 +14,7 @@ class CategoryList extends PureComponent {
     return (
       <div className="CategoryList">
       {
-        selectedCategoryCodes && selectedCategoryCodes.length 
+        selectedCategoryCodes && selectedCategoryCodes.length
           ? (
             <div className="CategoryList__header">
               <FilterIcon />
@@ -28,12 +28,12 @@ class CategoryList extends PureComponent {
         <span className="CategoryList__item"
           key={category.code}
         >
-          <Badge color="secondary">{ category.titles['it'] }</Badge>          
+          <Badge color="secondary">{ category.titles['it'] }</Badge>
         </span>
-      ))  
+      ))
     }
     </div>
-    );    
+    );
   }
 }
 
