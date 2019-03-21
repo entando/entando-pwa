@@ -6,9 +6,7 @@ export const mapStateToProps = state => ({
   username: getUsername(state),
 });
 
-export const mapDispatchToProps = null;
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null,
 )(Login);

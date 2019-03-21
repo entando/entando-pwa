@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Container, Col } from 'reactstrap';
+import { Container } from 'reactstrap';
+
+import LoginFormContainer from 'ui/login/LoginFormContainer';
 
 class Login extends Component
 {
   render() {
     const { username, children } = this.props;
-
-    console.log(username);
 
     if (username !== null) {
       return (
@@ -19,9 +19,7 @@ class Login extends Component
 
     return (
       <Container fluid className="login min-vh-100">
-        <Col xs={12}>
-          ciao
-        </Col>
+        <LoginFormContainer />
       </Container>
     );
   }
