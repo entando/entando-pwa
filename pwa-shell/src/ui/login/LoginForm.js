@@ -11,7 +11,7 @@ class LoginForm extends Component
     const { handleSubmit } = this.props;
 
     return (
-      <Form className="loginForm p-3 vh-100" onSubmit={handleSubmit}>
+      <Form className="loginForm p-4" onSubmit={handleSubmit}>
         <legend className="text-center mt-4">Accedi al tuo account</legend>
         <FormGroup>
           <Label for="username" className="ml-2">Username</Label>
@@ -21,7 +21,7 @@ class LoginForm extends Component
           <Label for="pin" className="ml-2">PIN</Label>
           <Field component={Input} type="password" name="pin" id="pin" placeholder="Inserisci il tuo pin di 4 cifre" />
         </FormGroup>
-        <Button className="invisible">Submit</Button>
+        <Button className="w-100 mt-4 mb-4">Accedi</Button>
       </Form>
     );
   }
