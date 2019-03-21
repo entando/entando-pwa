@@ -14,6 +14,7 @@ import store from 'state/store';
 
 import ApiManager from 'ApiManager';
 
+import LoginContainer from 'ui/login/LoginContainer';
 import TopBarContainer from 'ui/menu/TopBarContainer';
 import ContentListContainer from 'ui/ContentListContainer';
 import ContentDetailTopBarContainer from 'ui/ContentDetailTopBarContainer';
@@ -30,7 +31,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <ApiManager store={store}>
-        <div>
+        <LoginContainer>
           <Route exact path="/" component={DefaultRedirectContainer} />
           <Route exact path="/:contentType/" render={props => (
             <div><TopBarContainer {...props} /><ContentListContainer {...props} /></div>
@@ -38,7 +39,7 @@ ReactDOM.render(
           <Route exact path="/:contentType/:id" render={props => (
             <div><ContentDetailTopBarContainer {...props} /><ContentDetailContainer {...props} /></div>
           )} />
-        </div>
+        </LoginContainer>
       </ApiManager>
       </Router>
   </Provider>,
