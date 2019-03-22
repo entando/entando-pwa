@@ -17,5 +17,5 @@ INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS27','Title','jacms:title');
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS33','Title','jacms:title');
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS36','Title','jacms:title');
-INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS42','Title','jacms:title');
 INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS10','Title','jacms:title');
+INSERT INTO workcontentattributeroles (contentid,attrname,rolename) VALUES ('NWS42','Title','jacms:title');
