@@ -130,6 +130,7 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
 
 export const login = (data) => async dispatch => {
   try {
+    console.log(process.env);
     const response = await performLogin(data.username, data.pin);
     const json = await response.json();
     dispatch(loginUser(data.username, json.access_token));

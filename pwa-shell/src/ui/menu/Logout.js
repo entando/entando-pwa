@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { ReactComponent as LogoutIcon } from 'images/icons/ic_exit.svg';
@@ -9,8 +8,6 @@ class Logout extends Component
 {
   render() {
     const { logoutUser } = this.props;
-
-    console.log(logoutUser);
 
     return (
       <div className="logout-box">
