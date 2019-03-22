@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import Drawer from 'ui/menu/Drawer';
 import { closeDrawer } from 'state/drawer/actions';
 import { isOpen } from 'state/drawer/selectors';
+import Drawer from 'ui/menu/Drawer';
 
 export const mapStateToProps = state => ({
   isOpen: isOpen(state),

@@ -14,6 +14,18 @@
   &.open {
     visibility: visible;
   }
+
+  .logout-box {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: .8rem solid $color-primary-lightest;
+
+    .fa-user-circle {
+      font-size: 2.5rem;
+      margin-top: .2rem;
+    }
+  }
 }
 
 .grey-overlay {

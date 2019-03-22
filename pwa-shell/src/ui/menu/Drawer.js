@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { ReactComponent as Close } from 'images/icons/ic_close.svg';
+import LogoutContainer from 'ui/menu/LogoutContainer';
 
 class Drawer extends Component
 {
@@ -52,6 +53,7 @@ class Drawer extends Component
           <div className="p-2">
             <Close onClick={this.props.closeDrawer} className="cursor-pointer color-primary-lightest float-right" />
           </div>
+          <LogoutContainer />
           {this.props.children}
         </div>
       </Fragment>
