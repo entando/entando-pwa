@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { ReactComponent as Close } from 'images/icons/ic_close.svg';
@@ -46,12 +46,15 @@ class Drawer extends Component
     const state = this.props.isOpen ? 'open' : 'closed';
 
     return (
-      <div ref={this.setWrapperRef} className={`drawer vh-100 shadow ${state}`}>
-        <div className="p-2">
-          <Close onClick={this.props.closeDrawer} className="cursor-pointer color-primary-lightest float-right" />
+      <Fragment>
+        <div className={`grey-overlay ${state}`}></div>
+        <div ref={this.setWrapperRef} className={`drawer vh-100 shadow ${state}`}>
+          <div className="p-2">
+            <Close onClick={this.props.closeDrawer} className="cursor-pointer color-primary-lightest float-right" />
+          </div>
+          {this.props.children}
         </div>
-        {this.props.children}
-      </div>
+      </Fragment>
     );
   }
 }
