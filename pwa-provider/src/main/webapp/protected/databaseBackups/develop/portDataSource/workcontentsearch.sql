@@ -53,9 +53,9 @@ INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,l
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS16','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS16','Title','Fondo per l''Efficienza per i Servizi Istituzionali (FESI)',NULL,NULL,'en');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS16','Title','Fondo per l''Efficienza per i Servizi Istituzionali (FESI)',NULL,NULL,'it');
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'en');
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'it');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Title','Servizio assistenza fiscale',NULL,NULL,'en');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Title','Servizio assistenza fiscale',NULL,NULL,'it');
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'en');
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'it');

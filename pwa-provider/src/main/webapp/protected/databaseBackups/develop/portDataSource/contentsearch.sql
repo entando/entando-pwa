@@ -35,9 +35,9 @@ INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langc
 INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS44','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
 INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS44','Title','Punto di situazione sui provvedimenti disposti dal Capo di Stato Maggiore dell''Esercito',NULL,NULL,'en');
 INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS44','Title','Punto di situazione sui provvedimenti disposti dal Capo di Stato Maggiore dell''Esercito',NULL,NULL,'it');
-INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
-INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'en');
-INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'it');
 INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
 INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Title','Servizio assistenza fiscale',NULL,NULL,'en');
 INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS10','Title','Servizio assistenza fiscale',NULL,NULL,'it');
+INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
+INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'en');
+INSERT INTO contentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'it');
