@@ -14,4 +14,37 @@
   &.open {
     visibility: visible;
   }
+
+  .logout-box {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: .8rem solid $color-primary-lightest;
+
+    .fa-user-circle {
+      font-size: 2.5rem;
+      margin-top: .2rem;
+    }
+  }
+}
+
+.grey-overlay {
+  width: 100%;
+  height: 100%;
+  background-color: $color-darkest;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  opacity: .8;
+  transition: opacity .3s;
+
+  &.closed {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &.open {
+    visibility: visible;
+  }
 }
