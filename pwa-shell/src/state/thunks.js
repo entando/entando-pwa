@@ -19,7 +19,7 @@ import {
   setSelectedContent,
   setCategoryFilter,
 } from 'state/content/actions';
-import { getSelectedStandardFilters, getSelectedCategoryFilters, getSelectedSortingFilters } from 'state/content/selectors';
+import { getSelectedStandardFilters, getSelectedCategoryFilters, getSelectedSortingFilters, getCategoryFilters } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 
@@ -29,7 +29,7 @@ const toCategoryQueryString = categories => {
     return `${acc}&categories[${i}]=${curr}`;
    }, '&orClauseCategoryFilter=true')
    : '';
-}
+};
 
 const toSortingQueryString = (sortingFilters, standardFilters) => {
   // WORKAROUND to get the filter index: we need to refactor Entando utils query string manager
@@ -43,7 +43,7 @@ const toSortingQueryString = (sortingFilters, standardFilters) => {
       + `${acc}&filters[${sortingfFilterStartingIndex + i}].order=${curr.order}`
    }, '')
    : '';
-}
+};
 
 export const fetchContentListByContentType = (contentType, pagination) => (dispatch, getState) => {
   dispatch(setSelectedContentType(contentType));
@@ -71,7 +71,7 @@ export const fetchContentList = (params, pagination) => async(dispatch) => {
   } catch (err) {
     dispatch(addErrors(err));
   }
-}
+};
 
 export const fetchContentDetail = id => async(dispatch) => {
   try {
@@ -85,7 +85,7 @@ export const fetchContentDetail = id => async(dispatch) => {
   } catch (err) {
     dispatch(addErrors(err));
   }
-}
+};
 
 export const fetchContentTypeMap = () => async(dispatch) => {
   try {
@@ -104,9 +104,9 @@ export const fetchContentTypeMap = () => async(dispatch) => {
   } catch (err) {
     dispatch(addErrors(err));
   }
-}
+};
 
-export const fetchCategoryList = () => async(dispatch, getState) => {
+export const fetchCategoryListAndFilters = () => async(dispatch, getState) => {
   try {
     const state = getState();
     const categoryRootCode = getCategoryRootCode(state);
@@ -116,17 +116,23 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
     }
     const response = await getCategory(categoryRootCode);
     const json = await response.json();
+    let categoryList;
     if (response.ok) {
-      dispatch(setCategoryList(json.payload));
+      categoryList = json.payload;
       const selectedContentType = getSelectedContentType(state);
-      dispatch(setCategoryFilter(json.payload.map(category => category.code), selectedContentType));
+      const categoryFilters = getCategoryFilters(state);
+      if (!categoryFilters || !Object.keys(categoryFilters).length) {
+        dispatch(setCategoryFilter(json.payload.map(category => category.code), selectedContentType));
+      }
     } else {
+      categoryList = [];
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
+    dispatch(setCategoryList(categoryList));
   } catch (err) {
     dispatch(addErrors(err));
   }
-}
+};
 
 export const login = (data) => async dispatch => {
   try {

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchCategoryList, fetchContentListByContentType } from 'state/thunks';
+import { fetchContentListByContentType, fetchCategoryListAndFilters } from 'state/thunks';
 import CategoryFilter from 'ui/CategoryFilter';
 import { getCategoryList } from 'state/category/selectors';
 import { getSelectedCategoryFilters } from 'state/content/selectors';
@@ -11,7 +11,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchCategoryList: () => dispatch(fetchCategoryList()),
+  fetchCategoryListAndFilters: () => dispatch(fetchCategoryListAndFilters()),
   onChange: selectedCategoryCodes => {
     dispatch(setCategoryFilter(selectedCategoryCodes, ownProps.contentType));
     dispatch(fetchContentListByContentType(ownProps.contentType));

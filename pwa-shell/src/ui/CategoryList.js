@@ -5,7 +5,7 @@ import Badge from 'ui/Badge';
 
 class CategoryList extends PureComponent {
   componentDidMount() {
-    this.props.fetchCategoryList();
+    this.props.fetchCategoryListAndFilters();
   }
 
   render() {

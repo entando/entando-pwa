@@ -3,7 +3,7 @@ import { ReactComponent as FilterIcon } from 'images/icons/ic_filter.svg';
 
 class CategoryFilter extends PureComponent {
   componentDidMount() {
-    this.props.fetchCategoryList();
+    this.props.fetchCategoryListAndFilters();
   }
 
   handleToggleCategory(categoryCode) {
