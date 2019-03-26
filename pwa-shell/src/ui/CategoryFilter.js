@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { ReactComponent as FilterIcon } from 'images/icons/ic_filter.svg';
 
 class CategoryFilter extends PureComponent {
@@ -48,5 +49,20 @@ class CategoryFilter extends PureComponent {
     );    
   }
 }
+
+CategoryFilter.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    titles: PropTypes.shape({}),
+  })),
+  selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
+  fetchCategoryListAndFilters: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+
+CategoryFilter.defaultProps = {
+  categories: [],
+  selectedCategoryCodes: [],
+};
 
 export default CategoryFilter;

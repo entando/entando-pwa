@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-
+import PropTypes from 'prop-types';
 import { ReactComponent as FilterIcon } from 'images/icons/ic_filter.svg';
-import Badge from 'ui/Badge';
+import Badge from 'ui/common/Badge';
 
 class CategoryList extends PureComponent {
   componentDidMount() {
@@ -14,7 +14,7 @@ class CategoryList extends PureComponent {
     return (
       <div className="CategoryList">
       {
-        selectedCategoryCodes && selectedCategoryCodes.length
+        selectedCategoryCodes.length
           ? (
             <div className="CategoryList__header">
               <FilterIcon />
@@ -28,7 +28,7 @@ class CategoryList extends PureComponent {
         <span className="CategoryList__item"
           key={category.code}
         >
-          <Badge color="secondary">{ category.titles['it'] }</Badge>
+          <Badge>{ category.titles['it'] }</Badge>
         </span>
       ))
     }
@@ -36,5 +36,19 @@ class CategoryList extends PureComponent {
     );
   }
 }
+
+CategoryList.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    titles: PropTypes.shape({}),
+  })),
+  selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
+  fetchCategoryListAndFilters: PropTypes.func.isRequired,
+};
+
+CategoryList.defaultProps = {
+  categories: [],
+  selectedCategoryCodes: [],
+};
 
 export default CategoryList;
