@@ -81,29 +81,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-## Roadmap
-
-### Functional
-
-- make pwa provider pass a more complex configuration to the pwa shell
-- add pagination
-- add search
-- add authentication
-- add i18n
-- improve PWA features
-    - activate serviceWorker
-    - manifest
-- fix refresh (top bar, content list) on popstate
-- add gestures (e.g. swipe)
-
-
-### Not Functional
-
-- refactor global CSS to separate SASS files (as in app-builder)
-- handle error using entando utils
-- setup git hooks
-- improve linting
-- add tests
-- add proptypes
-- boost lighthouse score
