@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import logo from 'images/Logo_horizontal@2x.png';
 
-class ContentDetailTopBar extends PureComponent {
+class NotificationsTopBar extends PureComponent {
   render() {
     const { contentType } = this.props;
     return (
@@ -39,4 +39,4 @@ class ContentDetailTopBar extends PureComponent {
   }
 }
 
-export default ContentDetailTopBar;
+export default NotificationsTopBar;

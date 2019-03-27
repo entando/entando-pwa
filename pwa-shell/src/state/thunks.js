@@ -7,6 +7,7 @@ import { getCategory } from 'api/category';
 import { getContents, getContent } from 'api/content';
 import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
+import { getNotifications } from 'api/notification';
 
 import { contentTypeCodeList } from 'state/appConfig';
 import { setCategoryList } from 'state/category/actions';
@@ -22,6 +23,7 @@ import {
 import { getSelectedStandardFilters, getSelectedCategoryFilters, getSelectedSortingFilters } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
+import { setNotificationList } from 'state/notification/actions';
 
 const toCategoryQueryString = categories => {
   return categories && categories.length
@@ -120,6 +122,20 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
       dispatch(setCategoryList(json.payload));
       const selectedContentType = getSelectedContentType(state);
       dispatch(setCategoryFilter(json.payload.map(category => category.code), selectedContentType));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+}
+
+export const fetchNotifications = () => async(dispatch) => {
+  try {
+    const response = await getNotifications('', { page: 1, pageSize: 2 });
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(setNotificationList(json.payload));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }

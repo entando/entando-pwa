@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { api, currentUser } from '@entando/apimanager';
-import { reducer as form } from 'redux-form'
+import { reducer as form } from 'redux-form';
+import notification from 'state/notification/reducer';
 import content from 'state/content/reducer';
 import contentType from 'state/contentType/reducer';
 import category from 'state/category/reducer';
@@ -10,6 +11,7 @@ import search from 'state/search/reducer';
 const rootReducer = combineReducers({
   api,
   currentUser,
+  notification,
   content,
   contentType,
   category,
