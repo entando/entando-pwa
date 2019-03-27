@@ -9,12 +9,12 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import DrawerContainer from 'ui/menu/DrawerContainer';
 import SearchBarContainer from 'ui/menu/SearchBarContainer';
 import logo from 'images/Logo_horizontal@2x.png';
 import CategoryFilterContainer from 'ui/CategoryFilterContainer';
+import NavButton from 'ui/common/NavButton';
 
 class TopBar extends PureComponent {
   componentDidMount() {
@@ -54,7 +54,7 @@ class TopBar extends PureComponent {
       <div>
         <div className="topbar shadow-sm fixed-top">
           <Navbar expand="lg" light>
-            <FontAwesomeIcon className="cursor-pointer ml-2" title="open menu" onClick={openDrawer} icon="bars" />
+            <NavButton icon="bars" className="mr-3" onClick={openDrawer} />
             <NavbarBrand
               tag={Link}
               to={`/${contentTypeList[0]}`}
@@ -68,8 +68,8 @@ class TopBar extends PureComponent {
                 />
             </NavbarBrand>
             <div>
-              <FontAwesomeIcon className="cursor-pointer mr-3" title="notifications" icon="bell" />
-              <FontAwesomeIcon className="cursor-pointer" title="search" onClick={openSearch} icon="search" />
+              <NavButton icon="bell" className="mr-4" badgeText="5" />
+              <NavButton icon="search" onClick={openSearch} />
             </div>
           </Navbar>
         </div>
