@@ -16,6 +16,8 @@ import logo from 'images/Logo_horizontal@2x.png';
 import CategoryFilterContainer from 'ui/CategoryFilterContainer';
 import NavButton from 'ui/common/NavButton';
 
+const notificationsRoute = '/notifications';
+const mockNotificationBadgeText = '2';
 class TopBar extends PureComponent {
   componentDidMount() {
     this.props.onFetchContentTypes();
@@ -44,8 +46,6 @@ class TopBar extends PureComponent {
     ))       
     : '';
 
-    
-
     if (isSearchOpen) {
       return <SearchBarContainer />;
     }
@@ -68,7 +68,9 @@ class TopBar extends PureComponent {
                 />
             </NavbarBrand>
             <div>
-              <NavButton icon="bell" className="mr-4" badgeText="5" />
+              <Link to={notificationsRoute}>
+                <NavButton icon="bell" className="mr-4" badgeText={mockNotificationBadgeText} />
+              </Link>
               <NavButton icon="search" onClick={openSearch} />
             </div>
           </Navbar>

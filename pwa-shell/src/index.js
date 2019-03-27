@@ -20,6 +20,7 @@ import ContentListContainer from 'ui/ContentListContainer';
 import ContentDetailTopBarContainer from 'ui/ContentDetailTopBarContainer';
 import ContentDetailContainer from 'ui/ContentDetailContainer';
 import DefaultRedirectContainer from 'ui/DefaultRedirectContainer';
+import NotificationsContainer from 'ui/notifications/NotificationsContainer';
 
 import * as serviceWorker from 'serviceWorker';
 import 'fontawesome';
@@ -33,10 +34,11 @@ ReactDOM.render(
       <ApiManager store={store}>
         <LoginContainer>
           <Route exact path="/" component={DefaultRedirectContainer} />
-          <Route exact path="/:contentType/" render={props => (
+          <Route exact path="/notifications" component={NotificationsContainer} />
+          <Route exact path="/content/:contentType" render={props => (
             <div><TopBarContainer {...props} /><ContentListContainer {...props} /></div>
           )} />
-          <Route exact path="/:contentType/:id" render={props => (
+          <Route exact path="/content/:contentType/:id" render={props => (
             <div><ContentDetailTopBarContainer {...props} /><ContentDetailContainer {...props} /></div>
           )} />
         </LoginContainer>
