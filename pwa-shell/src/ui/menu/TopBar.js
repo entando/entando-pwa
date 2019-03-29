@@ -57,7 +57,7 @@ class TopBar extends PureComponent {
             <NavButton icon="bars" className="mr-3" onClick={openDrawer} />
             <NavbarBrand
               tag={Link}
-              to={`/${contentTypeList[0]}`}
+              to={`/content/${contentTypeList[0]}`}
               onClick={() => onSelectContentType(contentTypeList[0])}
               className="mx-auto"
               >

@@ -1,5 +1,4 @@
 import { SET_NOTIFICATION_LIST } from "state/notification/types";
-import { notificationContentType, sortingFilters } from 'state/appConfig';
 
 const initialState = {
   list: [],

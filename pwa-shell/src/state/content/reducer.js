@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
     case SET_CONTENT_LIST:
       return {
         ...state,
-        list:  action.payload,
+        list: action.payload,
       };
     case SET_SELECTED_CONTENT:
       return {

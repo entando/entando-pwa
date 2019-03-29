@@ -2,12 +2,11 @@ import { get } from 'lodash';
 import appId from 'appId';
 
 const defaultAppConfig = {
-  notificationContentType: 'NWS',
   contentTypes: ['NWS'],
   categoryRoots: {
     NWS: 'home',
   },
-  categoryOrder: { //temporary, category order will be handled backend-side
+  categoryOrder: { // temporary, category order will be handled backend-side
     NWS: [
       'ìn_evidenza',
       'personale',
@@ -28,8 +27,6 @@ const defaultAppConfig = {
 };
 
 const appConfig = get(window, `entando.${appId}.configuration`, defaultAppConfig);
-
-export const notificationContentType = appConfig.notificationContentType;
 
 export const categoryOrder = appConfig.categoryOrder;
 

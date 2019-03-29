@@ -8,7 +8,7 @@ import {
 const ContentListItem = ({ data }) => (
   <Card className="shadow">
     <CardBody>
-      <Link to={`/content/${data.contentType}/${data.id}`}>
+      <Link to={`/content/${data.typeCode}/${data.id}`}>
         <div dangerouslySetInnerHTML={{__html: data.html}}>
         </div>
         <div>

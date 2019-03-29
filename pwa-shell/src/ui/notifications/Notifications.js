@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import ContentListItem from 'ui/ContentListItem';
 import { Container } from 'reactstrap';
+import NotificationsHeader from 'ui/notifications/NotificationsHeader';
 
 class NotificationList extends PureComponent {
 
@@ -18,14 +19,13 @@ class NotificationList extends PureComponent {
     const { notificationList } = this.props;
     const notificationAmount = notificationList.length;
 
-    // TODO remove that hardcoded 'NWS'
     const items = notificationList.map((item, index) => (
-      <ContentListItem index={index} data={{...item, contentType: 'NWS'}} key={index} />
+      <ContentListItem data={item} key={index} />
     ));
 
     return (
-      <Container fluid className="content">        
-        { notificationAmount } notifiche
+      <Container fluid className="content Notifications">
+        <NotificationsHeader notificationAmount={notificationAmount} />
         <div>
           { items }
         </div>

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchNotifications } from 'state/thunks';
 import { getNotificationList } from 'state/notification/selectors';
-import NotificationList from 'ui/notifications/NotificationsList';
+import Notifications from 'ui/notifications/Notifications';
 
 export const mapStateToProps = state => {
   return {
@@ -18,4 +18,4 @@ export const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NotificationList);
+)(Notifications);

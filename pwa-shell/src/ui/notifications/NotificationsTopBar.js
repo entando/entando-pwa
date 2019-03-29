@@ -13,13 +13,12 @@ import logo from 'images/Logo_horizontal@2x.png';
 
 class NotificationsTopBar extends PureComponent {
   render() {
-    const { contentType } = this.props;
     return (
       <div className="topbar shadow-sm fixed-top">
         <Navbar expand="lg" light>
           <Nav>
             <NavItem>
-              <NavLink tag={Link} to={`/content/${contentType}`}>
+              <NavLink tag={Link} to={`/`}>
                 <FontAwesomeIcon icon="arrow-left" />
               </NavLink>
             </NavItem>

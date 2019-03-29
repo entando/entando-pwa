@@ -24,6 +24,7 @@ import { getSelectedStandardFilters, getSelectedCategoryFilters, getSelectedSort
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 import { setNotificationList } from 'state/notification/actions';
+import { htmlSanitizer } from 'helpers';
 
 const toCategoryQueryString = categories => {
   return categories && categories.length
@@ -60,7 +61,7 @@ export const fetchContentListByContentType = (contentType, pagination) => (dispa
   dispatch(fetchContentList(params, pagination));
 };
 
-export const fetchContentList = (params, pagination) => async(dispatch) => {
+const fetchContentList = (params, pagination) => async(dispatch) => {
   try {
     const response = await getContents(params, pagination);
     const json = await response.json();
@@ -140,10 +141,11 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
 
 export const fetchNotifications = () => async(dispatch) => {
   try {
-    const response = await getNotifications('', { page: 1, pageSize: 2 });
+    const response = await getNotifications();
     const json = await response.json();
     if (response.ok) {
-      dispatch(setNotificationList(json.payload));
+      const notifications = json.payload.map(notification => ({...notification, html: htmlSanitizer(notification.html)}));
+      dispatch(setNotificationList(notifications));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }

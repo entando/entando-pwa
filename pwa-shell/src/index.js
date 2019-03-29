@@ -21,6 +21,7 @@ import ContentDetailTopBarContainer from 'ui/ContentDetailTopBarContainer';
 import ContentDetailContainer from 'ui/ContentDetailContainer';
 import DefaultRedirectContainer from 'ui/DefaultRedirectContainer';
 import NotificationsContainer from 'ui/notifications/NotificationsContainer';
+import NotificationsTopBar from 'ui/notifications/NotificationsTopBar';
 
 import * as serviceWorker from 'serviceWorker';
 import 'fontawesome';
@@ -34,12 +35,14 @@ ReactDOM.render(
       <ApiManager store={store}>
         <LoginContainer>
           <Route exact path="/" component={DefaultRedirectContainer} />
-          <Route exact path="/notifications" component={NotificationsContainer} />
+          <Route exact path="/notifications" render={props => (
+            <React.Fragment><NotificationsTopBar {...props} /><NotificationsContainer /></React.Fragment>
+          )} />
           <Route exact path="/content/:contentType" render={props => (
-            <div><TopBarContainer {...props} /><ContentListContainer {...props} /></div>
+            <React.Fragment><TopBarContainer {...props} /><ContentListContainer {...props} /></React.Fragment>
           )} />
           <Route exact path="/content/:contentType/:id" render={props => (
-            <div><ContentDetailTopBarContainer {...props} /><ContentDetailContainer {...props} /></div>
+            <React.Fragment><ContentDetailTopBarContainer {...props} /><ContentDetailContainer {...props} /></React.Fragment>
           )} />
         </LoginContainer>
       </ApiManager>
