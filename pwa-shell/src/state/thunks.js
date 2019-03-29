@@ -9,7 +9,7 @@ import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
 import { getNotifications } from 'api/notification';
 
-import { contentTypeCodeList } from 'state/appConfig';
+import { categoryOrder, contentTypeCodeList } from 'state/appConfig';
 import { setCategoryList } from 'state/category/actions';
 import {
   setSelectedContentType,
@@ -108,6 +108,13 @@ export const fetchContentTypeMap = () => async(dispatch) => {
   }
 }
 
+const orderCategoryList = (categoryList, contentType) => {
+  const order = categoryOrder[contentType];
+  return categoryList.sort((a, b) => {
+    return order.indexOf(a.code) - order.indexOf(b.code);
+  })
+};
+
 export const fetchCategoryList = () => async(dispatch, getState) => {
   try {
     const state = getState();
@@ -119,9 +126,10 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
     const response = await getCategory(categoryRootCode);
     const json = await response.json();
     if (response.ok) {
-      dispatch(setCategoryList(json.payload));
       const selectedContentType = getSelectedContentType(state);
-      dispatch(setCategoryFilter(json.payload.map(category => category.code), selectedContentType));
+      const categoryList = orderCategoryList(json.payload, selectedContentType);
+      dispatch(setCategoryList(categoryList));
+      dispatch(setCategoryFilter(categoryList.map(category => category.code), selectedContentType));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
