@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import { ReactComponent as FilterIcon } from 'images/icons/ic_filter.svg';
-import Badge from 'ui/Badge';
+import Badge from 'ui/common/Badge';
 
 class CategoryList extends PureComponent {
   componentDidMount() {
@@ -28,7 +28,7 @@ class CategoryList extends PureComponent {
         <span className="CategoryList__item"
           key={category.code}
         >
-          <Badge color="secondary">{ category.titles['it'] }</Badge>
+          <Badge>{ category.titles['it'] }</Badge>
         </span>
       ))
     }

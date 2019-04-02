@@ -8,4 +8,9 @@
     text-transform: uppercase;
     color: $color-darkest;
   }
+
+  &__amount {
+    font-weight: 600;
+    color: $color-red;
+  }
 }

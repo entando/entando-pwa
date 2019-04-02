@@ -3,8 +3,16 @@ import React from 'react';
 const text = amount => {
   switch(amount) {
     case 0: return 'Non ci sono nuove notifiche';
-    case 1: return 'Hai 1 nuova notifica';
-    default: return `Hai ${amount} nuove notifiche`;
+    case 1: return (
+      <React.Fragment>
+        Hai <span className="NotificationsHeader__amount">1</span> nuova notifica
+      </React.Fragment>
+    );
+    default: return (
+      <React.Fragment>
+        Hai <span className="NotificationsHeader__amount">{amount}</span> nuove notifiche
+      </React.Fragment>
+    );
   }
 };
 
