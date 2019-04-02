@@ -21,14 +21,14 @@ class NotificationList extends PureComponent {
     ));
 
     const emptyNotificationList = (
-      <div className="Notifications__list--empty">
+      <React.Fragment>
         <div className="body text-center">
           <img src={logo1x} alt="logo" className="d-sm-none"/>
           <img src={logo2x} alt="logo" className="d-none d-sm-inline"/>
           <p className="mt-1">Buona giornata</p>          
         </div>
         <div className="footer-background"></div>
-      </div>
+      </React.Fragment>
     );
 
     return (

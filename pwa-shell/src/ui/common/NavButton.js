@@ -17,7 +17,10 @@ const NavButton = ({ icon, badgeText, className, onClick }) => (
 
 NavButton.propTypes = {
   icon: PropTypes.string.isRequired,
-  badgeText: PropTypes.string,
+  badgeText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   className: PropTypes.string,
   onClick: PropTypes.func,
 };
