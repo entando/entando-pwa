@@ -7,7 +7,7 @@ import { getCategory } from 'api/category';
 import { getContents, getContent } from 'api/content';
 import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
-import { getNotifications } from 'api/notification';
+import { getNotifications, postClearNotifications } from 'api/notification';
 
 import { categoryOrder, contentTypeCodeList } from 'state/appConfig';
 import { setCategoryList } from 'state/category/actions';
@@ -146,6 +146,20 @@ export const fetchNotifications = () => async(dispatch) => {
     if (response.ok) {
       const notifications = json.payload.map(notification => ({...notification, html: htmlSanitizer(notification.html)}));
       dispatch(setNotificationList(notifications));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+}
+
+export const clearNotifications = () => async(dispatch) => {
+  try {
+    const response = await postClearNotifications();
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(setNotificationList([]));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }

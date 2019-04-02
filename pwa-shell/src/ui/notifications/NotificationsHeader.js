@@ -9,9 +9,9 @@ const text = amount => {
 };
 
 const NotificationHeader = ({ notificationAmount }) => (
-  <div className="NotificationsHeader">
+  <div className="NotificationsHeader px-3 pb-3">
     <div className="NotificationsHeader__title">Notifiche</div>
-    { text(notificationAmount) }
+    <div className="pt-1">{ text(notificationAmount) }</div>    
   </div>
 );
 

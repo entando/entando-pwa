@@ -15,3 +15,13 @@ export const getNotifications = (params = '?status=published&model=list&lang=it'
     page,
   )
 );
+
+export const postClearNotifications = () => (
+  makeMockRequest({
+    uri: `/api/TODO`,
+    body: {},
+    method: METHODS.POST,
+    mockResponse: {},
+    useAuthentication: true,
+  })
+);

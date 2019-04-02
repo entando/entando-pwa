@@ -1,7 +1,11 @@
-.NotificationsHeader {
-  background-color: #FFFFFF;
+.NotificationsHeader {  
+  padding-top: 1rem;
+  background-color: #FFF;
+  border-bottom: 1px solid $color-primary-light;
 
   &__title {
+    font-weight: 600;
     text-transform: uppercase;
+    color: $color-darkest;
   }
 }

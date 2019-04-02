@@ -17,10 +17,11 @@ import CategoryFilterContainer from 'ui/CategoryFilterContainer';
 import NavButton from 'ui/common/NavButton';
 
 const notificationsRoute = '/notifications';
-const mockNotificationBadgeText = '2';
+
 class TopBar extends PureComponent {
   componentDidMount() {
     this.props.onFetchContentTypes();
+    this.props.onFetchNotifications();
   }
 
   render() {
@@ -28,6 +29,7 @@ class TopBar extends PureComponent {
       contentTypeList,
       selectedContentType,
       contentTypeMap,
+      notificationAmount,
       onSelectContentType,
       openDrawer,
       openSearch,
@@ -69,7 +71,7 @@ class TopBar extends PureComponent {
             </NavbarBrand>
             <div>
               <Link to={notificationsRoute}>
-                <NavButton icon="bell" className="mr-4" badgeText={mockNotificationBadgeText} />
+                <NavButton icon="bell" className="mr-4" badgeText={notificationAmount} />
               </Link>
               <NavButton icon="search" onClick={openSearch} />
             </div>

@@ -3,16 +3,13 @@ import ContentListItem from 'ui/ContentListItem';
 import { Container } from 'reactstrap';
 import NotificationsHeader from 'ui/notifications/NotificationsHeader';
 
+import logo1x from 'images/Logo_vertical@1x.png';
+import logo2x from 'images/Logo_vertical@2x.png';
+
 class NotificationList extends PureComponent {
 
   componentDidMount() {
     this.props.onFetchNotifications();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.contentType !== prevProps.contentType) {
-      this.props.onFetchNotifications();
-    }
   }
 
   render() {
@@ -23,12 +20,27 @@ class NotificationList extends PureComponent {
       <ContentListItem data={item} key={index} />
     ));
 
-    return (
-      <Container fluid className="content Notifications">
-        <NotificationsHeader notificationAmount={notificationAmount} />
-        <div>
-          { items }
+    const emptyNotificationList = (
+      <div className="Notifications__list--empty">
+        <div className="body text-center">
+          <img src={logo1x} alt="logo" className="d-sm-none"/>
+          <img src={logo2x} alt="logo" className="d-none d-sm-inline"/>
+          <p className="mt-1">Buona giornata</p>          
         </div>
+        <div className="footer-background"></div>
+      </div>
+    );
+
+    return (
+      <Container fluid className={`Notifications${notificationAmount ? '' : ' Notifications--empty'}`}>
+        <NotificationsHeader notificationAmount={notificationAmount} />
+        {
+          notificationAmount ? (              
+            <div className="Notifications__list">
+              { items }
+            </div>  
+          ) : emptyNotificationList
+        }                
       </Container>
     );
   }

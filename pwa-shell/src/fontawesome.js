@@ -3,8 +3,9 @@ import {
   faArrowLeft,
   faBars,
   faBell,
+  faCheckDouble,
   faSearch,
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faArrowLeft, faBars, faBell, faSearch, faUserCircle);
+library.add(faArrowLeft, faBars, faBell, faCheckDouble, faSearch, faUserCircle);
