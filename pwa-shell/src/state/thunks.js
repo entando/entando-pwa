@@ -154,9 +154,8 @@ export const fetchCategoryListAndFilters = () => async(dispatch, getState) => {
         dispatch(setCategoryFilter(json.payload.map(category => category.code), selectedContentType));
       }
     } else {
-      dispatch(setCategoryList([]));
       dispatch(addErrors(json.errors.map(e => e.message)));
-    }    
+    }
   } catch (err) {
     dispatch(addErrors(err));
   }
