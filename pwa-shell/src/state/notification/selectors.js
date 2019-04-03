@@ -1,5 +1,19 @@
 import { get } from 'lodash';
+import { createSelector } from 'reselect';
 
-export const getNotificationList = state => get(state, 'notification.list', []);
+export const getNotification = state => state.notification;
 
-export const getNotificationAmount = state => get(state, 'notification.list.length', 0);
+export const getNotificationList = createSelector(
+  getNotification,
+  notification => get(notification, 'list', [])
+);
+
+export const getNotificationIdList = createSelector(
+  getNotificationList,
+  notificationList => notificationList.map(item => item.id)
+);
+
+export const getNotificationAmount = createSelector(
+  getNotificationList,
+  notificationList => notificationList.length
+);

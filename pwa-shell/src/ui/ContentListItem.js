@@ -7,7 +7,7 @@ import {
 } from 'reactstrap';
 import Badge from 'ui/common/Badge';
 
-const ContentListItem = ({ data, categoryLabel }) => (
+const ContentListItem = ({ data }) => (
   <Card className="shadow ContentListItem">
     <CardHeader>
       {

@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import { convertToQueryString } from '@entando/utils';
 import { addErrors } from '@entando/messages';
-import { loginUser } from '@entando/apimanager';
+import { loginUser, getToken } from '@entando/apimanager';
 
 import { getCategory } from 'api/category';
 import { getContents, getContent } from 'api/content';
@@ -23,8 +23,9 @@ import {
 import { getSelectedStandardFilters, getSelectedCategoryFilters, getSelectedSortingFilters } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
-import { setNotificationList } from 'state/notification/actions';
+import { setNotificationList, removeNotification } from 'state/notification/actions';
 import { htmlSanitizer } from 'helpers';
+import { getNotificationIdList } from './notification/selectors';
 
 const toCategoryQueryString = categories => {
   return categories && categories.length
@@ -139,9 +140,10 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
   }
 }
 
-export const fetchNotifications = () => async(dispatch) => {
+export const fetchNotifications = () => async(dispatch, getState) => {
   try {
-    const response = await getNotifications();
+    const userToken = getToken(getState());
+    const response = await getNotifications(userToken);
     const json = await response.json();
     if (response.ok) {
       const notifications = json.payload.map(notification => ({...notification, html: htmlSanitizer(notification.html)}));
@@ -154,12 +156,30 @@ export const fetchNotifications = () => async(dispatch) => {
   }
 }
 
-export const clearNotifications = () => async(dispatch) => {
+export const clearAllNotifications = () => async(dispatch, getState) => {
   try {
-    const response = await postClearNotifications();
+    const state = getState();
+    const userToken = getToken(state);
+    const notificationIdList = getNotificationIdList(state);
+    const response = await postClearNotifications(userToken, notificationIdList);
     const json = await response.json();
     if (response.ok) {
       dispatch(setNotificationList([]));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+}
+
+export const clearNotification = id => async(dispatch, getState) => {
+  try {
+    const userToken = getToken(getState());
+    const response = await postClearNotifications(userToken, [id]);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(removeNotification(id));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }

@@ -13,7 +13,7 @@ import logo from 'images/Logo_horizontal@2x.png';
 
 class NotificationsTopBar extends PureComponent {
   render() {
-    const { clearNotifications } = this.props;
+    const { clearAllNotifications } = this.props;
     return (
       <div className="topbar shadow-sm fixed-top">
         <Navbar expand="lg" light>
@@ -33,7 +33,7 @@ class NotificationsTopBar extends PureComponent {
               alt="logo"
             />
           </NavbarBrand>
-          <NavButton icon="check-double" onClick={clearNotifications} />
+          <NavButton icon="check-double" onClick={clearAllNotifications} />
         </Navbar>
       </div>
     );

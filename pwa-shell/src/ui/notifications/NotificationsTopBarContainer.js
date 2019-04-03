@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { clearNotifications } from 'state/thunks';
+import { clearAllNotifications } from 'state/thunks';
 import NotificationsTopBar from 'ui/notifications//NotificationsTopBar';
 
 export const mapStateToProps = null;
 
 export const mapDispatchToProps = dispatch => ({
-  clearNotifications: () => dispatch(clearNotifications()),
+  clearAllNotifications: () => dispatch(clearAllNotifications()),
 });
 
 export default connect(
