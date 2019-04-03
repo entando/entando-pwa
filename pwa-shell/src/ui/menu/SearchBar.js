@@ -14,13 +14,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class SearchBar extends Component
 {
+  constructor() {
+    super();
+
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    this.props.search(this.props.contentType, e.target.search.value);
+  }
+
   render() {
-    const { closeSearch } = this.props;
+    const { closeSearch, contentType } = this.props;
 
     return (
       <div className="topbar searchbar shadow-sm fixed-top">
         <Navbar expand="lg" light>
-          <Form className="w-100">
+          <Form onSubmit={this.onSubmit} className="w-100">
             <Row>
               <Col xs={9} md={11}>
                 <InputGroup>
@@ -33,7 +44,7 @@ class SearchBar extends Component
                 </InputGroup>
               </Col>
               <Col xs={3} md={1}>
-                <span className="cancel cursor-pointer" onClick={closeSearch}>Annulla</span>
+                <span className="cancel cursor-pointer" onClick={() => closeSearch(contentType)}>Annulla</span>
               </Col>
             </Row>
           </Form>
@@ -45,6 +56,8 @@ class SearchBar extends Component
 
 SearchBar.propTypes = {
   closeSearch: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
+  contentType: PropTypes.string.isRequired,
 };
 
 export default SearchBar;

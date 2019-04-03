@@ -6,3 +6,8 @@ export const isOpen = createSelector(
   getSearch,
   search => search.isOpen,
 );
+
+export const getSearchTerms = createSelector(
+  getSearch,
+  search => search.searching,
+);

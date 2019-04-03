@@ -18,7 +18,14 @@ import {
   setContentList,
   setSelectedContent,
   setCategoryFilter,
+  setIsSearchResult,
+  unsetIsSearchResult,
+  setIsLoading,
+  unsetIsLoading,
 } from 'state/content/actions';
+import {
+  setSearch,
+} from 'state/search/actions';
 import { getSelectedStandardFilters, getSelectedCategoryFilters, getSelectedSortingFilters } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
@@ -45,7 +52,7 @@ const toSortingQueryString = (sortingFilters, standardFilters) => {
    : '';
 }
 
-export const fetchContentListByContentType = (contentType, pagination) => (dispatch, getState) => {
+export const fetchContentListByContentType = (contentType, pagination, search = null) => (dispatch, getState) => {
   dispatch(setSelectedContentType(contentType));
   const state = getState();
   const filters = getSelectedStandardFilters(state);
@@ -54,12 +61,20 @@ export const fetchContentListByContentType = (contentType, pagination) => (dispa
   const categoryParams = toCategoryQueryString(categoryFilters);
   const sortingParams = toSortingQueryString(sortingFilters, filters);
   const contentSpecificParams = '&status=published&model=list';
-  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}`;
+  const searchParams = search ? `&text=${search}` : '';
+  if (search) {
+    dispatch(setIsSearchResult());
+    dispatch(setSearch(search));
+  } else {
+    dispatch(unsetIsSearchResult());
+  }
+  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}${searchParams}`;
   dispatch(fetchContentList(params, pagination));
 };
 
 export const fetchContentList = (params, pagination) => async(dispatch) => {
   try {
+    dispatch(setIsLoading());
     const response = await getContents(params, pagination);
     const json = await response.json();
     if (response.ok) {
@@ -70,6 +85,8 @@ export const fetchContentList = (params, pagination) => async(dispatch) => {
     }
   } catch (err) {
     dispatch(addErrors(err));
+  } finally {
+    dispatch(unsetIsLoading());
   }
 }
 
