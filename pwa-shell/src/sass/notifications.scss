@@ -4,11 +4,11 @@
   
   color: $color-dark;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: column;  
   
   &--empty {
     background-color: #FFFFFF;
+    justify-content: space-between;
 
     .footer-background {
       min-height: 30vh;
