@@ -28,8 +28,6 @@ class SearchBar extends Component
   render() {
     const { closeSearch, contentType } = this.props;
 
-    console.log(contentType);
-
     return (
       <div className="topbar searchbar shadow-sm fixed-top">
         <Navbar expand="lg" light>
