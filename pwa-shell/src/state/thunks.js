@@ -8,7 +8,7 @@ import { getContents, getContent } from 'api/content';
 import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
 
-import { contentTypeCodeList } from 'state/appConfig';
+import { categoryOrder, contentTypeCodeList } from 'state/appConfig';
 import { setCategoryList } from 'state/category/actions';
 import {
   setSelectedContentType,
@@ -18,8 +18,20 @@ import {
   setContentList,
   setSelectedContent,
   setCategoryFilter,
+  setIsSearchResult,
+  unsetIsSearchResult,
+  setIsLoading,
+  unsetIsLoading,
 } from 'state/content/actions';
-import { getSelectedStandardFilters, getSelectedCategoryFilters, getSelectedSortingFilters, getCategoryFilters } from 'state/content/selectors';
+import {
+  setSearch,
+} from 'state/search/actions';
+import {
+  getSelectedStandardFilters,
+  getSelectedCategoryFilters,
+  getSelectedSortingFilters,
+  getCategoryFilters,
+} from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 
@@ -45,7 +57,7 @@ const toSortingQueryString = (sortingFilters, standardFilters) => {
    : '';
 };
 
-export const fetchContentListByContentType = (contentType, pagination) => (dispatch, getState) => {
+export const fetchContentListByContentType = (contentType, pagination, search = null) => (dispatch, getState) => {
   dispatch(setSelectedContentType(contentType));
   const state = getState();
   const filters = getSelectedStandardFilters(state);
@@ -54,12 +66,20 @@ export const fetchContentListByContentType = (contentType, pagination) => (dispa
   const categoryParams = toCategoryQueryString(categoryFilters);
   const sortingParams = toSortingQueryString(sortingFilters, filters);
   const contentSpecificParams = '&status=published&model=list';
-  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}`;
+  const searchParams = search ? `&text=${search}` : '';
+  if (search) {
+    dispatch(setIsSearchResult());
+    dispatch(setSearch(search));
+  } else {
+    dispatch(unsetIsSearchResult());
+  }
+  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}${searchParams}`;
   dispatch(fetchContentList(params, pagination));
 };
 
 export const fetchContentList = (params, pagination) => async(dispatch) => {
   try {
+    dispatch(setIsLoading());
     const response = await getContents(params, pagination);
     const json = await response.json();
     if (response.ok) {
@@ -70,6 +90,8 @@ export const fetchContentList = (params, pagination) => async(dispatch) => {
     }
   } catch (err) {
     dispatch(addErrors(err));
+  } finally {
+    dispatch(unsetIsLoading());
   }
 };
 
@@ -106,6 +128,13 @@ export const fetchContentTypeMap = () => async(dispatch) => {
   }
 };
 
+const orderCategoryList = (categoryList, contentType) => {
+  const order = categoryOrder[contentType];
+  return categoryList.sort((a, b) => {
+    return order.indexOf(a.code) - order.indexOf(b.code);
+  })
+};
+
 export const fetchCategoryListAndFilters = () => async(dispatch, getState) => {
   try {
     const state = getState();
@@ -116,19 +145,18 @@ export const fetchCategoryListAndFilters = () => async(dispatch, getState) => {
     }
     const response = await getCategory(categoryRootCode);
     const json = await response.json();
-    let categoryList;
     if (response.ok) {
-      categoryList = json.payload;
       const selectedContentType = getSelectedContentType(state);
+      const categoryList = orderCategoryList(json.payload, selectedContentType);
       const categoryFilters = getCategoryFilters(state);
+      dispatch(setCategoryList(categoryList));
       if (!categoryFilters || !Object.keys(categoryFilters).length) {
         dispatch(setCategoryFilter(json.payload.map(category => category.code), selectedContentType));
       }
     } else {
-      categoryList = [];
+      dispatch(setCategoryList([]));
       dispatch(addErrors(json.errors.map(e => e.message)));
-    }
-    dispatch(setCategoryList(categoryList));
+    }    
   } catch (err) {
     dispatch(addErrors(err));
   }

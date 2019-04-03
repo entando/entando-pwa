@@ -2,9 +2,32 @@ import { get } from 'lodash';
 import { createSelector } from 'reselect';
 import { getSelectedContentType } from 'state/contentType/selectors';
 
-export const getStandardFilters = state => state.content.filters;
-export const getCategoryFilters = state => state.content.categoryFilters;
-export const getSortingFilters = state => state.content.sortingFilters;
+export const getContent = state => state.content;
+
+export const getStandardFilters = createSelector(
+  getContent,
+  content => content.filters,
+);
+
+export const getCategoryFilters = createSelector(
+  getContent,
+  content => content.categoryFilters,
+);
+
+export const getSortingFilters = createSelector(
+  getContent,
+  content => content.sortingFilters,
+);
+
+export const isSearchResult = createSelector(
+  getContent,
+  content => content.isSearchResult,
+);
+
+export const isLoading = createSelector(
+  getContent,
+  content => content.isLoading,
+);
 
 export const getSelectedStandardFilters = createSelector(
   [getSelectedContentType, getStandardFilters],
