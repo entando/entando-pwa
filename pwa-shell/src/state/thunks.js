@@ -19,8 +19,20 @@ import {
   setContentList,
   setSelectedContent,
   setCategoryFilter,
+  setIsSearchResult,
+  unsetIsSearchResult,
+  setIsLoading,
+  unsetIsLoading,
 } from 'state/content/actions';
-import { getSelectedStandardFilters, getSelectedCategoryFilters, getSelectedSortingFilters } from 'state/content/selectors';
+import {
+  setSearch,
+} from 'state/search/actions';
+import {
+  getSelectedStandardFilters,
+  getSelectedCategoryFilters,
+  getSelectedSortingFilters,
+  getCategoryFilters,
+} from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 import { setNotificationList, removeNotification } from 'state/notification/actions';
@@ -33,7 +45,7 @@ const toCategoryQueryString = categories => {
     return `${acc}&categories[${i}]=${curr}`;
    }, '&orClauseCategoryFilter=true')
    : '';
-}
+};
 
 const toSortingQueryString = (sortingFilters, standardFilters) => {
   // WORKAROUND to get the filter index: we need to refactor Entando utils query string manager
@@ -47,9 +59,9 @@ const toSortingQueryString = (sortingFilters, standardFilters) => {
       + `${acc}&filters[${sortingfFilterStartingIndex + i}].order=${curr.order}`
    }, '')
    : '';
-}
+};
 
-export const fetchContentListByContentType = (contentType, pagination) => (dispatch, getState) => {
+export const fetchContentListByContentType = (contentType, pagination, search = null) => (dispatch, getState) => {
   dispatch(setSelectedContentType(contentType));
   const state = getState();
   const filters = getSelectedStandardFilters(state);
@@ -58,12 +70,20 @@ export const fetchContentListByContentType = (contentType, pagination) => (dispa
   const categoryParams = toCategoryQueryString(categoryFilters);
   const sortingParams = toSortingQueryString(sortingFilters, filters);
   const contentSpecificParams = '&status=published&model=list';
-  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}`;
+  const searchParams = search ? `&text=${search}` : '';
+  if (search) {
+    dispatch(setIsSearchResult());
+    dispatch(setSearch(search));
+  } else {
+    dispatch(unsetIsSearchResult());
+  }
+  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}${searchParams}`;
   dispatch(fetchContentList(params, pagination));
 };
 
 const fetchContentList = (params, pagination) => async(dispatch) => {
   try {
+    dispatch(setIsLoading());
     const response = await getContents(params, pagination);
     const json = await response.json();
     if (response.ok) {
@@ -74,8 +94,10 @@ const fetchContentList = (params, pagination) => async(dispatch) => {
     }
   } catch (err) {
     dispatch(addErrors(err));
+  } finally {
+    dispatch(unsetIsLoading());
   }
-}
+};
 
 export const fetchContentDetail = id => async(dispatch) => {
   try {
@@ -89,7 +111,7 @@ export const fetchContentDetail = id => async(dispatch) => {
   } catch (err) {
     dispatch(addErrors(err));
   }
-}
+};
 
 export const fetchContentTypeMap = () => async(dispatch) => {
   try {
@@ -108,7 +130,7 @@ export const fetchContentTypeMap = () => async(dispatch) => {
   } catch (err) {
     dispatch(addErrors(err));
   }
-}
+};
 
 const orderCategoryList = (categoryList, contentType) => {
   const order = categoryOrder[contentType];
@@ -117,7 +139,7 @@ const orderCategoryList = (categoryList, contentType) => {
   })
 };
 
-export const fetchCategoryList = () => async(dispatch, getState) => {
+export const fetchCategoryListAndFilters = () => async(dispatch, getState) => {
   try {
     const state = getState();
     const categoryRootCode = getCategoryRootCode(state);
@@ -130,15 +152,18 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
     if (response.ok) {
       const selectedContentType = getSelectedContentType(state);
       const categoryList = orderCategoryList(json.payload, selectedContentType);
+      const categoryFilters = getCategoryFilters(state);
       dispatch(setCategoryList(categoryList));
-      dispatch(setCategoryFilter(categoryList.map(category => category.code), selectedContentType));
+      if (!categoryFilters || !Object.keys(categoryFilters).length) {
+        dispatch(setCategoryFilter(json.payload.map(category => category.code), selectedContentType));
+      }
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (err) {
     dispatch(addErrors(err));
   }
-}
+};
 
 export const fetchNotifications = () => async(dispatch, getState) => {
   try {

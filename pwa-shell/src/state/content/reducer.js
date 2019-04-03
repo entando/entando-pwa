@@ -1,5 +1,15 @@
 import { FILTER_OPERATORS } from '@entando/utils';
-import { SET_CONTENT_FILTER, SET_CONTENT_LIST, SET_SELECTED_CONTENT, SET_CATEGORY_FILTER, SET_SORTING_FILTER } from 'state/content/types';
+import {
+  SET_CONTENT_FILTER,
+  SET_CONTENT_LIST,
+  SET_SELECTED_CONTENT,
+  SET_CATEGORY_FILTER,
+  SET_SORTING_FILTER,
+  SET_IS_SEARCH_RESULT,
+  UNSET_IS_SEARCH_RESULT,
+  SET_IS_LOADING,
+  UNSET_IS_LOADING,
+} from 'state/content/types';
 import { contentTypeCodeList, sortingFilters } from 'state/appConfig';
 import { htmlSanitizer } from 'helpers';
 
@@ -17,10 +27,32 @@ const initialState = {
   categoryFilters: {},
   sortingFilters,
   selected: null,
+  isSearchResult: false,
+  isLoading: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case UNSET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case SET_IS_SEARCH_RESULT:
+      return {
+        ...state,
+        isSearchResult: true,
+      };
+    case UNSET_IS_SEARCH_RESULT:
+      return {
+        ...state,
+        isSearchResult: false,
+      };
     case SET_CONTENT_LIST:
       return {
         ...state,

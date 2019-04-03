@@ -1,7 +1,15 @@
 import { connect } from 'react-redux';
 import { fetchContentListByContentType } from 'state/thunks';
 import ContentList from 'ui/ContentList';
-import { getContentList, getSelectedCategoryFilters } from 'state/content/selectors';
+import {
+  getContentList,
+  getSelectedCategoryFilters,
+  isSearchResult,
+  isLoading,
+} from 'state/content/selectors';
+import {
+  getSearchTerms,
+} from 'state/search/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 
 export const mapStateToProps = state => {
@@ -9,6 +17,9 @@ export const mapStateToProps = state => {
     contentList: getContentList(state),
     contentType: getSelectedContentType(state),
     selectedCategoryCodes: getSelectedCategoryFilters(state),
+    isSearchResult: isSearchResult(state),
+    isLoading: isLoading(state),
+    searchTerms: getSearchTerms(state),
   };
 };
 

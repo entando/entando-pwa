@@ -16,25 +16,52 @@ class ContentList extends PureComponent {
   }
 
   render() {
-    const { contentList, contentType, selectedCategoryCodes } = this.props;
+    const {
+      contentList,
+      contentType,
+      selectedCategoryCodes,
+      isSearchResult,
+      isLoading,
+      searchTerms,
+    } = this.props;
 
-    const categoryList = contentType ? <CategoryListContainer contentType={contentType} /> : '';
+    const categoryList = contentType && !isSearchResult ? <CategoryListContainer contentType={contentType} /> : '';
 
     const contentListItems = contentList.map((item, index) => (
       <ContentListItem data={item} key={index} />
     ));
 
+    const loadingMessage = !isLoading ?
+      null :
+      isSearchResult ?
+        'Ricerca in corso...' :
+        'Caricamento...';
+
+    const notFound = isLoading ?
+      null :
+      isSearchResult ?
+        (
+          <span>
+            <strong>{contentList.length} risultat{contentList.length === 1 ? 'o' : 'i'}</strong> per: "{searchTerms}"
+          </span>
+        ) :
+        null;
+
     return (
-      <Container fluid className="content">        
+      <Container fluid className="content">
         { categoryList }
+        <div className="mt-4">
+          { loadingMessage }
+          { notFound }
+        </div>
         {
-          selectedCategoryCodes && selectedCategoryCodes.length 
+          selectedCategoryCodes && selectedCategoryCodes.length
             ? (
               contentList && contentList.length ?
               <div>
                 { contentListItems }
               </div>
-              : 'Caricamento...'
+              : <div>Nessun articolo trovato...</div>
             )
             : 'Nessun argomento selezionato. Seleziona almeno un argomento dal menu in alto a sinistra.'
         }
