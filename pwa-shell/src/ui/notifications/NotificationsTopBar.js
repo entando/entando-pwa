@@ -11,15 +11,15 @@ import NavButton from 'ui/common/NavButton';
 
 import logo from 'images/Logo_horizontal@2x.png';
 
-class ContentDetailTopBar extends PureComponent {
+class NotificationsTopBar extends PureComponent {
   render() {
-    const { contentType } = this.props;
+    const { clearAllNotifications } = this.props;
     return (
       <div className="topbar shadow-sm fixed-top">
         <Navbar expand="lg" light>
           <Nav>
             <NavItem>
-              <NavLink tag={Link} to={`/content/${contentType}`}>
+              <NavLink tag={Link} to={`/`}>
                 <NavButton icon="arrow-left" />
               </NavLink>
             </NavItem>
@@ -33,10 +33,11 @@ class ContentDetailTopBar extends PureComponent {
               alt="logo"
             />
           </NavbarBrand>
+          <NavButton icon="check-double" onClick={clearAllNotifications} />
         </Navbar>
       </div>
     );
   }
 }
 
-export default ContentDetailTopBar;
+export default NotificationsTopBar;

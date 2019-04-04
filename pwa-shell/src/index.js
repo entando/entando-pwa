@@ -20,6 +20,8 @@ import ContentListContainer from 'ui/ContentListContainer';
 import ContentDetailTopBarContainer from 'ui/ContentDetailTopBarContainer';
 import ContentDetailContainer from 'ui/ContentDetailContainer';
 import DefaultRedirectContainer from 'ui/DefaultRedirectContainer';
+import NotificationsContainer from 'ui/notifications/NotificationsContainer';
+import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarContainer';
 
 import * as serviceWorker from 'serviceWorker';
 import 'fontawesome';
@@ -27,17 +29,21 @@ import 'fontawesome';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'sass/index.scss';
 
+
 ReactDOM.render(
   <Provider store={store}>
     <Router>
       <ApiManager store={store}>
         <LoginContainer>
           <Route exact path="/" component={DefaultRedirectContainer} />
-          <Route exact path="/:contentType/" render={props => (
-            <div><TopBarContainer {...props} /><ContentListContainer {...props} /></div>
+          <Route exact path="/notifications" render={props => (
+            <React.Fragment><NotificationsTopBarContainer {...props} /><NotificationsContainer /></React.Fragment>
           )} />
-          <Route exact path="/:contentType/:id" render={props => (
-            <div><ContentDetailTopBarContainer {...props} /><ContentDetailContainer {...props} /></div>
+          <Route exact path="/content/:contentType" render={props => (
+            <React.Fragment><TopBarContainer {...props} /><ContentListContainer {...props} /></React.Fragment>
+          )} />
+          <Route exact path="/content/:contentType/:id" render={props => (
+            <React.Fragment><ContentDetailTopBarContainer {...props} /><ContentDetailContainer {...props} /></React.Fragment>
           )} />
         </LoginContainer>
       </ApiManager>

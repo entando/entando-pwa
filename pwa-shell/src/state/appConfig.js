@@ -6,7 +6,7 @@ const defaultAppConfig = {
   categoryRoots: {
     NWS: 'home',
   },
-  categoryOrder: { //temporary, category order will be handled backend-side
+  categoryOrder: { // temporary, category order will be handled backend-side
     NWS: [
       'ìn_evidenza',
       'personale',

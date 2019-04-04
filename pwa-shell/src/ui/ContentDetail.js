@@ -3,7 +3,7 @@ import { Container, Card, CardBody } from 'reactstrap';
 
 class ContentDetail extends PureComponent {
   componentDidMount() {
-    this.props.onFetchContentDetail();
+    this.props.fetchContentDetailAndMarkAsRead();
   }
 
   render() {

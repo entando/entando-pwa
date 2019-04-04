@@ -1,12 +1,13 @@
 import { get } from 'lodash';
 import { convertToQueryString } from '@entando/utils';
 import { addErrors } from '@entando/messages';
-import { loginUser } from '@entando/apimanager';
+import { loginUser, getToken } from '@entando/apimanager';
 
 import { getCategory } from 'api/category';
 import { getContents, getContent } from 'api/content';
 import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
+import { getNotifications, postClearNotifications } from 'api/notification';
 
 import { categoryOrder, contentTypeCodeList } from 'state/appConfig';
 import { setCategoryList } from 'state/category/actions';
@@ -34,6 +35,9 @@ import {
 } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
+import { setNotificationList, removeNotification } from 'state/notification/actions';
+import { htmlSanitizer } from 'helpers';
+import { getNotificationIdList } from './notification/selectors';
 
 const toCategoryQueryString = categories => {
   return categories && categories.length
@@ -77,7 +81,7 @@ export const fetchContentListByContentType = (contentType, pagination, search = 
   dispatch(fetchContentList(params, pagination));
 };
 
-export const fetchContentList = (params, pagination) => async(dispatch) => {
+const fetchContentList = (params, pagination) => async(dispatch) => {
   try {
     dispatch(setIsLoading());
     const response = await getContents(params, pagination);
@@ -160,6 +164,54 @@ export const fetchCategoryListAndFilters = () => async(dispatch, getState) => {
     dispatch(addErrors(err));
   }
 };
+
+export const fetchNotifications = () => async(dispatch, getState) => {
+  try {
+    const userToken = getToken(getState());
+    const response = await getNotifications(userToken);
+    const json = await response.json();
+    if (response.ok) {
+      const notifications = json.payload.map(notification => ({...notification, html: htmlSanitizer(notification.html)}));
+      dispatch(setNotificationList(notifications));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+}
+
+export const clearAllNotifications = () => async(dispatch, getState) => {
+  try {
+    const state = getState();
+    const userToken = getToken(state);
+    const notificationIdList = getNotificationIdList(state);
+    const response = await postClearNotifications(userToken, notificationIdList);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(setNotificationList([]));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+}
+
+export const clearNotification = id => async(dispatch, getState) => {
+  try {
+    const userToken = getToken(getState());
+    const response = await postClearNotifications(userToken, [id]);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(removeNotification(id));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+}
 
 export const login = (data) => async dispatch => {
   try {

@@ -28,7 +28,7 @@ class ContentList extends PureComponent {
     const categoryList = contentType && !isSearchResult ? <CategoryListContainer contentType={contentType} /> : '';
 
     const contentListItems = contentList.map((item, index) => (
-      <ContentListItem index={index} data={{...item, contentType}} key={index} />
+      <ContentListItem data={item} key={index} />
     ));
 
     const loadingMessage = !isLoading ?
