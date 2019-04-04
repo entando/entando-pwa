@@ -28,10 +28,12 @@ import 'fontawesome';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'sass/index.scss';
+import HomePageHead from 'HomePageHead';
 
 
 ReactDOM.render(
   <Provider store={store}>
+    <HomePageHead />
     <Router>
       <ApiManager store={store}>
         <LoginContainer>
