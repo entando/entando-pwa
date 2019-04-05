@@ -1,24 +1,46 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-import icon192 from 'images/apple-touch/icon-192.png';
+import icon152 from 'images/apple/icon-152.png';
+import icon167 from 'images/apple/icon-167.png';
+import icon180 from 'images/apple/icon-180.png';
+import icon512 from 'images/apple/icon-512.png';
 
-import launch1125x2436 from 'images/apple-touch/launch-1125x2436.png';
-import launch1242x2208 from 'images/apple-touch/launch-1242x2208.png';
-import launch750x1334 from 'images/apple-touch/launch-750x1334.png';
-import launch2048x2732 from 'images/apple-touch/launch-2048x2732.png';
-import launch1668x2388 from 'images/apple-touch/launch-1668x2388.png';
-import launch1668x2224 from 'images/apple-touch/launch-1668x2224.png';
-import launch1536x2048 from 'images/apple-touch/launch-1536x2048.png';
+import launch1125x2436 from 'images/apple/launch-1125x2436.png';
+import launch1242x2208 from 'images/apple/launch-1242x2208.png';
+import launch750x1334 from 'images/apple/launch-750x1334.png';
+import launch2048x2732 from 'images/apple/launch-2048x2732.png';
+import launch1668x2388 from 'images/apple/launch-1668x2388.png';
+import launch1668x2224 from 'images/apple/launch-1668x2224.png';
+import launch1536x2048 from 'images/apple/launch-1536x2048.png';
 
 const name = 'Info Esercito Italiano';
 const shortName = 'Info EI';
-const startupImageRel = 'apple-touch-startup-image';
-const links = [
-  {
+
+const icons = [
+  { // iPad
     rel: 'apple-touch-icon',
-    href: icon192,
+    sizes: '152x152',
+    href: icon152,
   },
+  { // iPad retina
+    rel: 'apple-touch-icon',
+    sizes: '167x167',
+    href: icon167,
+  },
+  { // iPhone retina
+    rel: 'apple-touch-icon',
+    sizes: '180x180',
+    href: icon180,
+  },
+  { // fallback
+    rel: 'apple-touch-icon',
+    href: icon512,
+  },
+];
+
+const startupImageRel = 'apple-touch-startup-image';
+const splashScreens = [
   { // iPhone X, Xs (1125px x 2436px)
     rel: startupImageRel,
     media: '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)',
@@ -70,7 +92,7 @@ const metas = [
 const HomePageHead = () => (
   <Helmet>
     <title>{name}</title>
-    {links.map((link, i) => <link key={`link-${i}`} {...link} />)}
+    {[...icons, ...splashScreens].map((link, i) => <link key={`link-${i}`} {...link} />)}
     {metas.map((meta, i) => <meta key={`meta-${i}`} {...meta} />)}
   </Helmet>
 );
