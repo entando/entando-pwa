@@ -1,5 +1,8 @@
+import { get } from 'lodash';
 import React, { PureComponent } from 'react';
 import { Container, Card, CardBody } from 'reactstrap';
+
+import LoginContainer from 'ui/login/LoginContainer';
 
 class ContentDetail extends PureComponent {
   componentDidMount() {
@@ -8,15 +11,27 @@ class ContentDetail extends PureComponent {
 
   render() {
     const { contentDetail } = this.props;
-    return contentDetail ? (
+
+    const html = get(contentDetail, 'html', '');
+    const detailCmp = (
       <Container fluid className="content">
         <Card className="shadow">
           <CardBody>
-            <div dangerouslySetInnerHTML={{__html: contentDetail.html}}></div>
+            <div dangerouslySetInnerHTML={{__html: html}}></div>
           </CardBody>
         </Card>
       </Container>
-    ) : '';
+    );
+
+    return contentDetail ? 
+      contentDetail.requiresAuth !== false ?
+        (
+          <LoginContainer>
+            { detailCmp }
+          </LoginContainer>
+        ) :
+        detailCmp :
+      ''
   }
 }
 
