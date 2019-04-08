@@ -2,10 +2,10 @@
 <Context path="/pwa-provider" docBase="./pwa-provider" debug="1" reloadable="false">
 
     <Environment name="logActiveFileOutput" value="true" type="java.lang.String" override="false" />
-    <Environment name="logName" value="pwa-provider" type="java.lang.String" override="false" />
-    <Environment name="logFilePrefix" value="/projects/entando/entando-pwa/pwa-provider/target/log_pwa-provider" type="java.lang.String" override="false" />
+    <Environment name="logName" value="C:\\projects\\github\\entando-pwa\\pwa-provider\\target\\pwa-provider.log" type="java.lang.String" override="false" />
+    <Environment name="logFileRotatePattern" value="C:\\projects\\github\\entando-pwa\\pwa-provider\\target\\pwa-provider_logs\\pwa-provider_logs\\pwa-provider-%i.log.gz" type="java.lang.String" override="false" />
     <Environment name="logLevel" value="INFO" type="java.lang.String" override="false" />
-    <Environment name="logFileSize" value="200000" type="java.lang.String" override="false" />
+    <Environment name="logFileSize" value="10485760" type="java.lang.String" override="false" />
     <Environment name="logFilesCount" value="10" type="java.lang.String" override="false" />
 
     <Environment name="configVersion" value="production" type="java.lang.String" override="false" />
@@ -14,10 +14,10 @@
     <Environment name="resourceRootURL" value="/pwa-provider/resources/" type="java.lang.String" override="false" />
     <Environment name="protectedResourceRootURL" value="/pwa-provider/protected/" type="java.lang.String" override="false" />
 
-    <Environment name="resourceDiskRootFolder" value="/projects/entando/entando-pwa/pwa-provider/src/main/webapp/resources" type="java.lang.String" override="false" />
-    <Environment name="protectedResourceDiskRootFolder" value="/projects/entando/entando-pwa/pwa-provider/src/main/webapp/protected" type="java.lang.String" override="false" />
+    <Environment name="resourceDiskRootFolder" value="C:\\projects\\github\\entando-pwa\\pwa-provider\\src\\main\\webapp\\resources" type="java.lang.String" override="false" />
+    <Environment name="protectedResourceDiskRootFolder" value="C:\\projects\\github\\entando-pwa\\pwa-provider\\src\\main\\webapp\\protected" type="java.lang.String" override="false" />
 
-    <Environment name="indexDiskRootFolder" value="/projects/entando/entando-pwa/pwa-provider/target/temp/indexdir" type="java.lang.String" override="false" />
+    <Environment name="indexDiskRootFolder" value="C:\\projects\\github\\entando-pwa\\pwa-provider\\target\\temp\\indexdir" type="java.lang.String" override="false" />
     
     <Environment name="portDataSourceClassName" value="org.apache.derby.jdbc.EmbeddedDriver" type="java.lang.String" override="false" />
     <Environment name="servDataSourceClassName" value="org.apache.derby.jdbc.EmbeddedDriver" type="java.lang.String" override="false" />
@@ -26,12 +26,11 @@
               type="javax.sql.DataSource" driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
               maxActive="8" maxIdle="4"
               username="agile" password="agile"
-              url="jdbc:derby:/projects/entando/entando-pwa/pwa-provider/target/derby/production/pwa-providerPort;create=true" />
+              url="jdbc:derby:C:\\projects\\github\\entando-pwa\\pwa-provider\\target/derby/production/pwa-providerPort;create=true" />
 
     <Resource name="jdbc/servDataSource" auth="Container"
               type="javax.sql.DataSource" driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
               maxActive="8" maxIdle="4"
               username="agile" password="agile"
-              url="jdbc:derby:/projects/entando/entando-pwa/pwa-provider/target/derby/production/pwa-providerServ;create=true" />
-
+              url="jdbc:derby:C:\\projects\\github\\entando-pwa\\pwa-provider\\target/derby/production/pwa-providerServ;create=true" />
 </Context>
