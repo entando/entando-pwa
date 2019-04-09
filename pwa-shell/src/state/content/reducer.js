@@ -9,6 +9,7 @@ import {
   UNSET_IS_SEARCH_RESULT,
   SET_IS_LOADING,
   UNSET_IS_LOADING,
+  SET_REQUIRES_AUTH,
 } from 'state/content/types';
 import { contentTypeCodeList, sortingFilters } from 'state/appConfig';
 import { htmlSanitizer } from 'helpers';
@@ -24,6 +25,7 @@ const filters = contentTypeCodeList.reduce((acc, curr) => ({
 const initialState = {
   list: [],
   filters,
+  requiresAuthMap: {},
   categoryFilters: {},
   sortingFilters,
   selected: null,
@@ -88,6 +90,14 @@ export default (state = initialState, action) => {
         sortingFilters: {
          ...state.sortingFilters,
          [action.payload.contentType]: action.payload.filter,
+        },
+      };
+    case SET_REQUIRES_AUTH:
+      return {
+        ...state,
+        requiresAuthMap: {
+          ...state.requiresAuthMap,
+          [action.payload.id]: action.payload.requiresAuth,
         },
       };
     default:

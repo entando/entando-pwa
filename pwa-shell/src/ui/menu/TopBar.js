@@ -13,7 +13,7 @@ import {
 import DrawerContainer from 'ui/menu/DrawerContainer';
 import SearchBarContainer from 'ui/menu/SearchBarContainer';
 import logo from 'images/Logo_horizontal@2x.png';
-import CategoryFilterContainer from 'ui/CategoryFilterContainer';
+import CategoryFilterContainer from 'ui/menu/CategoryFilterContainer';
 import NavButton from 'ui/common/NavButton';
 
 const notificationsRoute = '/notifications';

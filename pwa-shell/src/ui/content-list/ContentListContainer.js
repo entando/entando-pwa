@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchContentListByContentType } from 'state/thunks';
-import ContentList from 'ui/ContentList';
+import ContentList from 'ui/content-list/ContentList';
 import {
   getContentList,
   getSelectedCategoryFilters,

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import ContentListItem from 'ui/ContentListItem';
+import ContentListItem from 'ui/content-list/ContentListItem';
 import { Container } from 'reactstrap';
 import NotificationsHeader from 'ui/notifications/NotificationsHeader';
 

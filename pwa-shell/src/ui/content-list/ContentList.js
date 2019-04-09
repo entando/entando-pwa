@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import ContentListItem from 'ui/ContentListItem';
-import CategoryListContainer from 'ui/CategoryListContainer';
+import ContentListItem from 'ui/content-list/ContentListItem';
+import CategoryListContainer from 'ui/content-list/CategoryListContainer';
 import { Container } from 'reactstrap';
 
 class ContentList extends PureComponent {
