@@ -1,10 +1,15 @@
 import { get } from 'lodash';
 import { convertToQueryString } from '@entando/utils';
 import { addErrors } from '@entando/messages';
-import { contentTypeCodeList } from 'state/appConfig';
+import { loginUser, getToken } from '@entando/apimanager';
+
 import { getCategory } from 'api/category';
 import { getContents, getContent } from 'api/content';
 import { getContentType } from 'api/contentType';
+import { login as performLogin } from 'api/login';
+import { getNotifications, postClearNotifications } from 'api/notification';
+
+import { categoryOrder, contentTypeCodeList } from 'state/appConfig';
 import { setCategoryList } from 'state/category/actions';
 import {
   setSelectedContentType,
@@ -13,9 +18,26 @@ import {
 import {
   setContentList,
   setSelectedContent,
+  setCategoryFilter,
+  setIsSearchResult,
+  unsetIsSearchResult,
+  setIsLoading,
+  unsetIsLoading,
 } from 'state/content/actions';
-import { getSelectedStandardFilters, getSelectedCategoryFilters, getSelectedSortingFilters } from 'state/content/selectors';
+import {
+  setSearch,
+} from 'state/search/actions';
+import {
+  getSelectedStandardFilters,
+  getSelectedCategoryFilters,
+  getSelectedSortingFilters,
+  getCategoryFilters,
+} from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
+import { getSelectedContentType } from 'state/contentType/selectors';
+import { setNotificationList, removeNotification } from 'state/notification/actions';
+import { htmlSanitizer } from 'helpers';
+import { getNotificationIdList } from './notification/selectors';
 
 const toCategoryQueryString = categories => {
   return categories && categories.length
@@ -23,7 +45,7 @@ const toCategoryQueryString = categories => {
     return `${acc}&categories[${i}]=${curr}`;
    }, '&orClauseCategoryFilter=true')
    : '';
-}
+};
 
 const toSortingQueryString = (sortingFilters, standardFilters) => {
   // WORKAROUND to get the filter index: we need to refactor Entando utils query string manager
@@ -37,9 +59,9 @@ const toSortingQueryString = (sortingFilters, standardFilters) => {
       + `${acc}&filters[${sortingfFilterStartingIndex + i}].order=${curr.order}`
    }, '')
    : '';
-}
+};
 
-export const fetchContentListByContentType = (contentType, pagination) => (dispatch, getState) => {
+export const fetchContentListByContentType = (contentType, pagination, search = null) => (dispatch, getState) => {
   dispatch(setSelectedContentType(contentType));
   const state = getState();
   const filters = getSelectedStandardFilters(state);
@@ -48,12 +70,20 @@ export const fetchContentListByContentType = (contentType, pagination) => (dispa
   const categoryParams = toCategoryQueryString(categoryFilters);
   const sortingParams = toSortingQueryString(sortingFilters, filters);
   const contentSpecificParams = '&status=published&model=list';
-  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}`;
+  const searchParams = search ? `&text=${search}` : '';
+  if (search) {
+    dispatch(setIsSearchResult());
+    dispatch(setSearch(search));
+  } else {
+    dispatch(unsetIsSearchResult());
+  }
+  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}${searchParams}`;
   dispatch(fetchContentList(params, pagination));
 };
 
-export const fetchContentList = (params, pagination) => async(dispatch) => {
+const fetchContentList = (params, pagination) => async(dispatch) => {
   try {
+    dispatch(setIsLoading());
     const response = await getContents(params, pagination);
     const json = await response.json();
     if (response.ok) {
@@ -64,8 +94,10 @@ export const fetchContentList = (params, pagination) => async(dispatch) => {
     }
   } catch (err) {
     dispatch(addErrors(err));
+  } finally {
+    dispatch(unsetIsLoading());
   }
-}
+};
 
 export const fetchContentDetail = id => async(dispatch) => {
   try {
@@ -79,7 +111,7 @@ export const fetchContentDetail = id => async(dispatch) => {
   } catch (err) {
     dispatch(addErrors(err));
   }
-}
+};
 
 export const fetchContentTypeMap = () => async(dispatch) => {
   try {
@@ -98,11 +130,19 @@ export const fetchContentTypeMap = () => async(dispatch) => {
   } catch (err) {
     dispatch(addErrors(err));
   }
-}
+};
 
-export const fetchCategoryList = () => async(dispatch, getState) => {
+const orderCategoryList = (categoryList, contentType) => {
+  const order = categoryOrder[contentType];
+  return categoryList.sort((a, b) => {
+    return order.indexOf(a.code) - order.indexOf(b.code);
+  })
+};
+
+export const fetchCategoryListAndFilters = () => async(dispatch, getState) => {
   try {
-    const categoryRootCode = getCategoryRootCode(getState());
+    const state = getState();
+    const categoryRootCode = getCategoryRootCode(state);
     if (!categoryRootCode) {
       dispatch(setCategoryList([]));
       return;
@@ -110,7 +150,29 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
     const response = await getCategory(categoryRootCode);
     const json = await response.json();
     if (response.ok) {
-      dispatch(setCategoryList(json.payload));
+      const selectedContentType = getSelectedContentType(state);
+      const categoryList = orderCategoryList(json.payload, selectedContentType);
+      const categoryFilters = getCategoryFilters(state);
+      dispatch(setCategoryList(categoryList));
+      if (!categoryFilters || !Object.keys(categoryFilters).length) {
+        dispatch(setCategoryFilter(json.payload.map(category => category.code), selectedContentType));
+      }
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+};
+
+export const fetchNotifications = () => async(dispatch, getState) => {
+  try {
+    const userToken = getToken(getState());
+    const response = await getNotifications(userToken);
+    const json = await response.json();
+    if (response.ok) {
+      const notifications = json.payload.map(notification => ({...notification, html: htmlSanitizer(notification.html)}));
+      dispatch(setNotificationList(notifications));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
@@ -118,3 +180,46 @@ export const fetchCategoryList = () => async(dispatch, getState) => {
     dispatch(addErrors(err));
   }
 }
+
+export const clearAllNotifications = () => async(dispatch, getState) => {
+  try {
+    const state = getState();
+    const userToken = getToken(state);
+    const notificationIdList = getNotificationIdList(state);
+    const response = await postClearNotifications(userToken, notificationIdList);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(setNotificationList([]));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+}
+
+export const clearNotification = id => async(dispatch, getState) => {
+  try {
+    const userToken = getToken(getState());
+    const response = await postClearNotifications(userToken, [id]);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(removeNotification(id));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+}
+
+export const login = (data) => async dispatch => {
+  try {
+    console.log(process.env);
+    const response = await performLogin(data.username, data.pin);
+    const json = await response.json();
+    dispatch(loginUser(data.username, json.access_token));
+  } catch (err) {
+    dispatch(addErrors(err));
+  }
+};

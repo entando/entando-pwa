@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import ContentListItem from 'ui/ContentListItem';
-import CategoryFilterContainer from 'ui/CategoryFilterContainer';
+import CategoryListContainer from 'ui/CategoryListContainer';
 import { Container } from 'reactstrap';
 
 class ContentList extends PureComponent {
@@ -16,23 +16,54 @@ class ContentList extends PureComponent {
   }
 
   render() {
-    const { contentList, contentType } = this.props;
+    const {
+      contentList,
+      contentType,
+      selectedCategoryCodes,
+      isSearchResult,
+      isLoading,
+      searchTerms,
+    } = this.props;
 
-    const categoryFilter = contentType ? <CategoryFilterContainer contentType={contentType} /> : '';
+    const categoryList = contentType && !isSearchResult ? <CategoryListContainer contentType={contentType} /> : '';
 
     const contentListItems = contentList.map((item, index) => (
-      <ContentListItem index={index} data={{...item, contentType}} key={index} />
+      <ContentListItem data={item} key={index} />
     ));
+
+    const loadingMessage = !isLoading ?
+      null :
+      isSearchResult ?
+        'Ricerca in corso...' :
+        'Caricamento...';
+
+    const notFound = isLoading ?
+      null :
+      isSearchResult ?
+        (
+          <span>
+            <strong>{contentList.length} risultat{contentList.length === 1 ? 'o' : 'i'}</strong> per: "{searchTerms}"
+          </span>
+        ) :
+        null;
 
     return (
       <Container fluid className="content">
-        { categoryFilter }
+        { categoryList }
+        <div className="mt-4">
+          { loadingMessage }
+          { notFound }
+        </div>
         {
-          contentList && contentList.length ?
-          <div>
-            { contentListItems }
-          </div>
-          : 'Sorry, no content matched your criteria'
+          selectedCategoryCodes && selectedCategoryCodes.length
+            ? (
+              contentList && contentList.length ?
+              <div>
+                { contentListItems }
+              </div>
+              : <div>Nessun articolo trovato...</div>
+            )
+            : 'Nessun argomento selezionato. Seleziona almeno un argomento dal menu in alto a sinistra.'
         }
       </Container>
     );

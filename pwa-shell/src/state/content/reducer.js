@@ -1,6 +1,17 @@
 import { FILTER_OPERATORS } from '@entando/utils';
-import { SET_CONTENT_FILTER, SET_CONTENT_LIST, SET_SELECTED_CONTENT, SET_CATEGORY_FILTER, SET_SORTING_FILTER } from 'state/content/types';
+import {
+  SET_CONTENT_FILTER,
+  SET_CONTENT_LIST,
+  SET_SELECTED_CONTENT,
+  SET_CATEGORY_FILTER,
+  SET_SORTING_FILTER,
+  SET_IS_SEARCH_RESULT,
+  UNSET_IS_SEARCH_RESULT,
+  SET_IS_LOADING,
+  UNSET_IS_LOADING,
+} from 'state/content/types';
 import { contentTypeCodeList, sortingFilters } from 'state/appConfig';
+import { htmlSanitizer } from 'helpers';
 
 const filters = contentTypeCodeList.reduce((acc, curr) => ({
   ...acc,
@@ -16,24 +27,49 @@ const initialState = {
   categoryFilters: {},
   sortingFilters,
   selected: null,
+  isSearchResult: false,
+  isLoading: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case UNSET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case SET_IS_SEARCH_RESULT:
+      return {
+        ...state,
+        isSearchResult: true,
+      };
+    case UNSET_IS_SEARCH_RESULT:
+      return {
+        ...state,
+        isSearchResult: false,
+      };
     case SET_CONTENT_LIST:
       return {
         ...state,
-        list:  action.payload,    
+        list: action.payload,
       };
     case SET_SELECTED_CONTENT:
       return {
         ...state,
-        selected: action.payload,
+        selected: {
+          ...action.payload,
+          html: htmlSanitizer(action.payload.html),
+        },
       };
     case SET_CONTENT_FILTER:
       return {
         ...state,
-        filters:  {
+        filters: {
          ...state.filters,
          [action.payload.contentType]: action.payload.filter,
         },
@@ -41,7 +77,7 @@ export default (state = initialState, action) => {
     case SET_CATEGORY_FILTER:
       return {
         ...state,
-        categoryFilters:  {
+        categoryFilters: {
          ...state.categoryFilters,
          [action.payload.contentType]: action.payload.filter,
         },
@@ -49,11 +85,11 @@ export default (state = initialState, action) => {
     case SET_SORTING_FILTER:
       return {
         ...state,
-        sortingFilters:  {
+        sortingFilters: {
          ...state.sortingFilters,
          [action.payload.contentType]: action.payload.filter,
         },
-      };       
+      };
     default:
       return state;
   }

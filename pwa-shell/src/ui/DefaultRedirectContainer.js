@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import DefaultRedirect from 'ui/DefaultRedirect';
 import { getDefaultContentTypeCode } from 'state/contentType/selectors';
 
-export const mapStateToProps = state => ({    
+export const mapStateToProps = state => ({
   defaultContentTypeCode: getDefaultContentTypeCode(state),
 });
 

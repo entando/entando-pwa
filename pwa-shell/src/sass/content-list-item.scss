@@ -1,0 +1,17 @@
+.ContentListItem {
+  .card-header {
+    background-color: inherit;
+    border-bottom: 0;
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__status--unread {
+    color: #FFF;
+    background-color: $color-red;
+    text-transform: uppercase;
+    font-weight: bolder;
+  }
+
+}

@@ -20,4 +20,37 @@
       outline: none;
     }
   }
+
+  &.searchbar {
+    .cancel {
+      text-align: left;
+      display: inline-block;
+      height: 100%;
+      padding-top: .4rem;
+    }
+
+    .input-group:focus-within {
+      .input-group-text {
+        border-color: #80bdff;
+      }
+
+      .form-control {
+        box-shadow: none;
+      }
+
+    }
+
+    .input-group-text {
+      background-color: $color-bordered-light;
+      border-right: none;
+      border-top-left-radius: 1.5rem;
+      border-bottom-left-radius: 1.5rem;
+    }
+
+    .form-control {
+      border-left: none;
+      border-top-right-radius: 1.5rem;
+      border-bottom-right-radius: 1.5rem;
+    }
+  }
 }

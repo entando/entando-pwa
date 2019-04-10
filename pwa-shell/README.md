@@ -4,10 +4,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 The system uses the given vars inside `.env` files to setup `@entando/apimanager`
 
 ### REACT_APP_USE_MOCKS
-defaults to `true`, to set it to false it is necessary to also set a valid REACT_APP_DOMAIN
+defaults to `true`, to set it to false it is necessary to also set a valid REACT_APP_DOMAIN.
 
 ### REACT_APP_DOMAIN
 the domain used for api calls.
+
+### REACT_APP_CLIENT_ID
+the client id used for oauth2 authentication.
+
+### REACT_APP_CLIENT_SECRET
+the client secret used for oauth2 authentication.
 
 ## Available Scripts
 
@@ -75,29 +81,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-## Roadmap
-
-### Functional
-
-- make pwa provider pass a more complex configuration to the pwa shell
-- add pagination
-- add search
-- add authentication
-- add i18n
-- improve PWA features
-    - activate serviceWorker
-    - manifest
-- fix refresh (top bar, content list) on popstate
-- add gestures (e.g. swipe)
-
-
-### Not Functional
-
-- refactor global CSS to separate SASS files (as in app-builder)
-- handle error using entando utils
-- setup git hooks
-- improve linting
-- add tests
-- add proptypes
-- boost lighthouse score

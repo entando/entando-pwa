@@ -8,6 +8,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>pwa-provider</name>
     <url>http://maven.apache.org/</url>
+    <!--
     <repositories>
         <repository>
             <id>snapshot-repository</id>
@@ -18,6 +19,7 @@
             </snapshots>
         </repository>
     </repositories>
+    -->
     <profiles>
         <profile>
             <id>production</id>
@@ -140,7 +142,7 @@
 
         <skipDerby>true</skipDerby>
         <skipStandalone>true</skipStandalone>
-        <entando.version>5.1.0-SNAPSHOT</entando.version>
+        <entando.version>5.1.0</entando.version>
         <spring.version>5.0.8.RELEASE</spring.version>
         <struts2.version>2.5.17</struts2.version>
     </properties>
@@ -447,7 +449,6 @@
                                     <directory>src/main/config</directory>
                                     <includes>
                                         <include>jetty-env.xml</include>
-                                        <!--<include>jetty.xml</include>-->
                                     </includes>
                                     <filtering>true</filtering>
                                 </resource>
@@ -526,7 +527,7 @@
                             <exportAntProperties>true</exportAntProperties>
                             <target>
                                 <taskdef resource="net/sf/antcontrib/antcontrib.properties"
-                                         classpathref="maven.plugin.classpath" />
+                                                                         classpathref="maven.plugin.classpath" />
                                 <if>
                                     <available file="src/main/webapp/WEB-INF/aps/jsp/internalservlet/api" type="dir" />
                                     <then>
@@ -587,8 +588,6 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.4.8.v20180619</version>
                 <configuration>
-                    <!--<jettyXml>${project.build.directory}/jetty/jetty.xml</jettyXml>-->
-                    <scanIntervalSeconds>5</scanIntervalSeconds>
                     <webAppSourceDirectory>${basedir}/src/main/webapp</webAppSourceDirectory>
                     <webApp>
                         <defaultsDescriptor>${basedir}/src/main/config/webdefault.xml</defaultsDescriptor>
@@ -598,9 +597,9 @@
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>postgresql</groupId>
+                        <groupId>org.postgresql</groupId>
                         <artifactId>postgresql</artifactId>
-                        <version>9.1-901.jdbc4</version>
+                        <version>9.4.1212</version>
                     </dependency>
                     <!-- uncomment if you need -->
                     <!--
@@ -828,7 +827,7 @@
             <version>${entando.version}</version>
             <type>war</type>
         </dependency>
-        
+
         <dependency>
             <groupId>org.entando.entando.bundles.contents</groupId>
             <artifactId>entando-content-news</artifactId>
@@ -912,9 +911,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.1-901.jdbc4</version>
+            <version>9.4.1212</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -942,10 +941,34 @@
             <type>war</type>
         </dependency>
         <!-- enable if you need to test Oracle DB connection with jetty -->
-        <!--<dependency>
+        <!--
+        <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc7</artifactId>
             <version>12.1.0.2</version>
-        </dependency> -->
+        </dependency> 
+        -->
+        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.entando.entando.plugins</groupId>
+            <artifactId>entando-plugin-jacms</artifactId>
+            <version>${entando.version}</version>
+            <type>jar</type>
+            <classifier>classes</classifier>
+            <scope>provided</scope>
+        </dependency>
+        
     </dependencies>
 </project>
