@@ -1,12 +1,13 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
-class DefaultRedirect extends PureComponent {
-  render() {
-    const { defaultContentTypeCode } = this.props;
-    const path = defaultContentTypeCode ? `/content/${defaultContentTypeCode}` : '';
-    return <Redirect to={path} />
-  }
-}
+const DefaultRedirect = ({ defaultContentTypeCode }) => (
+  <Redirect to={defaultContentTypeCode ? `/content/${defaultContentTypeCode}` : ''} />
+);
+
+DefaultRedirect.propTypes = {
+  defaultContentTypeCode: PropTypes.string.isRequired,
+};
 
 export default DefaultRedirect;

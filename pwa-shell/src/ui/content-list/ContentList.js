@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import ContentListItem from 'ui/content-list/ContentListItem';
 import CategoryListContainer from 'ui/content-list/CategoryListContainer';
 import { Container } from 'reactstrap';
@@ -6,12 +7,12 @@ import { Container } from 'reactstrap';
 class ContentList extends PureComponent {
 
   componentDidMount() {
-    this.props.onFetchContentList();
+    this.props.fetchContentList();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.contentType !== prevProps.contentType) {
-      this.props.onFetchContentList();
+      this.props.fetchContentList();
     }
   }
 
@@ -69,5 +70,22 @@ class ContentList extends PureComponent {
     );
   }
 }
+
+ContentList.propTypes = {
+  contentList: PropTypes.arrayOf(PropTypes.object),
+  contentType: PropTypes.string,
+  selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
+  isSearchResult: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  searchTerms: PropTypes.string,
+  fetchContentList: PropTypes.func.isRequired,
+};
+
+ContentList.defaultProps = {  
+  contentList: [],
+  contentType: null,
+  selectedCategoryCodes: [],
+  searchTerms: '',
+};
 
 export default ContentList;

@@ -21,10 +21,11 @@ class Login extends Component
 }
 
 Login.propTypes = {
-  children: PropTypes.arrayOf(
-    PropTypes.element.isRequired
-  ).isRequired,
-  hasAccess: PropTypes.bool,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired,
+  hasAccess: PropTypes.bool.isRequired,
 };
 
 export default Login;

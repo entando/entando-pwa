@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
   Card,
@@ -28,5 +29,21 @@ const ContentListItem = ({ data }) => (
     </CardBody>
   </Card>
 );
+
+
+ContentListItem.propTypes = {
+  data: PropTypes.shape({
+    isUnread: PropTypes.bool,
+    typeCode: PropTypes.string.isRequired,
+    requiresAuth: PropTypes.bool.isRequired,
+    html: PropTypes.string.isRequired,
+  }),
+};
+
+ContentListItem.defaultProps = {
+  data: {
+    isUnread: false,
+  }
+}
 
 export default ContentListItem;

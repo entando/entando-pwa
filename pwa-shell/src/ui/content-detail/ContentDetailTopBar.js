@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
   Navbar,
@@ -33,5 +34,9 @@ const ContentDetailTopBar = ({ contentType }) => (
     </Navbar>
   </div>  
 );
+
+ContentDetailTopBar.propTypes = {
+  contentType: PropTypes.string.isRequired,
+};
 
 export default ContentDetailTopBar;

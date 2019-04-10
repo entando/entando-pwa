@@ -23,12 +23,14 @@ export const GET_NOTIFICATIONS_RESPONSE_OK = [
     id: 'NWS36',
     typeCode: 'NWS',
     isUnread: true,
+    requiresAuth: false,
     html: NOTIFICATION_HTML_36,
   },
   {
     id: 'NWS33',
     typeCode: 'NWS',
     isUnread: true,
+    requiresAuth: false,
     html: NOTIFICATION_HTML_33,
   },
 ];

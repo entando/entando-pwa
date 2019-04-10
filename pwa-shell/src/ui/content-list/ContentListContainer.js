@@ -24,7 +24,7 @@ export const mapStateToProps = state => {
 };
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  onFetchContentList: () => {
+  fetchContentList: () => {
     const { contentType } = ownProps.match.params;
     dispatch(fetchContentListByContentType(contentType));
   }

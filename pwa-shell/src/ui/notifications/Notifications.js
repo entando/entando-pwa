@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react';
-import ContentListItem from 'ui/content-list/ContentListItem';
+import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
+import ContentListItem from 'ui/content-list/ContentListItem';
 import NotificationsHeader from 'ui/notifications/NotificationsHeader';
 
 import logo1x from 'images/Logo_vertical@1x.png';
 import logo2x from 'images/Logo_vertical@2x.png';
 
-class NotificationList extends PureComponent {
+class Notifications extends PureComponent {
 
   componentDidMount() {
-    this.props.onFetchNotifications();
+    this.props.fetchNotifications();
   }
 
   render() {
@@ -46,4 +47,13 @@ class NotificationList extends PureComponent {
   }
 }
 
-export default NotificationList;
+Notifications.propTypes = {
+  notificationList: PropTypes.arrayOf(PropTypes.shape({})),
+  fetchNotifications: PropTypes.func.isRequired,
+};
+
+Notifications.defaultProps = {  
+  notificationList: [],
+};
+
+export default Notifications;
