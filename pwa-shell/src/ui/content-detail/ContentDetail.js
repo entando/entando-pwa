@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import React, { PureComponent } from 'react';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
 import ContentDetailBody from 'ui/content-detail/ContentDetailBody';
@@ -16,8 +15,7 @@ class ContentDetail extends PureComponent {
   }
 
   render() {
-    const { contentDetail } = this.props;
-    const contentType = get(contentDetail, 'typeCode');
+    const { contentDetail, contentType } = this.props;
     return (
       <React.Fragment>
         <ContentDetailTopBar contentType={contentType} />
