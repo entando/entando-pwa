@@ -38,6 +38,7 @@ public class ContentDto extends EntityDto implements Serializable {
     private String firstEditor;
     private String lastEditor;
     private String html;
+    private boolean requiresAuth;
 
     /**
      * The references grouped by service name.
@@ -164,6 +165,14 @@ public class ContentDto extends EntityDto implements Serializable {
 
     public void setReferences(Map<String, Boolean> references) {
         this.references = references;
+    }
+
+    public boolean isRequiresAuth() {
+        return requiresAuth;
+    }
+
+    public void setRequiresAuth(boolean requiresAuth) {
+        this.requiresAuth = requiresAuth;
     }
 
 }

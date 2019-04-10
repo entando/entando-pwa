@@ -45,6 +45,7 @@ import com.agiletec.plugins.jacms.aps.system.services.searchengine.ICmsSearchEng
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.entando.entando.aps.system.exception.ResourceNotFoundException;
@@ -53,6 +54,7 @@ import org.entando.entando.aps.system.services.DtoBuilder;
 import org.entando.entando.aps.system.services.IDtoBuilder;
 import org.entando.entando.aps.system.services.category.CategoryServiceUtilizer;
 import org.entando.entando.aps.system.services.entity.AbstractEntityService;
+import org.entando.entando.aps.system.services.entity.model.EntityAttributeDto;
 import org.entando.entando.aps.system.services.group.GroupServiceUtilizer;
 import org.entando.entando.aps.system.services.page.PageServiceUtilizer;
 import org.entando.entando.plugins.jacms.web.content.ContentController;
@@ -245,8 +247,12 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
             PagedMetadata<ContentDto> pagedMetadata = new PagedMetadata<>(requestList, sublist.size());
             List<ContentDto> masterList = new ArrayList<>();
             for (String contentId : sublist) {
-                masterList.add(this.buildContentDto(contentId, online,
-                        requestList.getModel(), requestList.getLang(), requestList.isResolveLink(), bindingResult));
+                ContentDto dto = this.buildContentDto(contentId, online,
+                        requestList.getModel(), requestList.getLang(), requestList.isResolveLink(), bindingResult);
+                if (null != user) {
+                    dto.setRequiresAuth(false);
+                }
+                masterList.add(dto);
             }
             pagedMetadata.setBody(masterList);
             return pagedMetadata;
@@ -283,6 +289,9 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
         boolean online = (IContentService.STATUS_ONLINE.equalsIgnoreCase(status));
         this.checkContentAuthorization(user, code, online, false, bindingResult);
         ContentDto dto = this.buildContentDto(code, online, modelId, langCode, resolveLink, bindingResult);
+        if (null != user) {
+            dto.setRequiresAuth(false);
+        }
         dto.setReferences(this.getReferencesInfo(dto.getId()));
         return dto;
     }
@@ -313,8 +322,8 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
         if (null == modelId || modelId.trim().length() == 0) {
             return null;
         }
-        Integer modelIdInteger = this.checkModel(dto, modelId, bindingResult);
-        if (null != modelIdInteger) {
+        ContentModel model = this.checkModel(dto, modelId, bindingResult);
+        if (null != model) {
             Lang lang = this.getLangManager().getDefaultLang();
             if (!StringUtils.isBlank(langCode)) {
                 lang = this.getLangManager().getLang(langCode);
@@ -324,7 +333,11 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
                     throw new ValidationGenericException(bindingResult);
                 }
             }
-            ContentRenderizationInfo renderizationInfo = this.getContentDispenser().getRenderizationInfo(dto.getId(), modelIdInteger, lang.getCode(), null, true);
+            Optional<EntityAttributeDto> optional = dto.getAttributes().stream()
+                    .filter(attr -> !model.getContentShape().contains("$content." + attr.getCode())).findAny();
+            boolean noComplete = optional.isPresent();
+            dto.setRequiresAuth(noComplete);
+            ContentRenderizationInfo renderizationInfo = this.getContentDispenser().getRenderizationInfo(dto.getId(), model.getId(), lang.getCode(), null, true);
             if (null != renderizationInfo) {
                 if (resolveLink) {
                     this.getContentDispenser().resolveLinks(renderizationInfo, null);
@@ -337,7 +350,8 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
         return render;
     }
 
-    protected Integer checkModel(ContentDto dto, String modelId, BindingResult bindingResult) {
+    protected ContentModel checkModel(ContentDto dto, String modelId, BindingResult bindingResult) {
+        ContentModel model = null;
         Integer modelIdInteger = null;
         if (StringUtils.isBlank(modelId)) {
             return null;
@@ -357,7 +371,7 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
         } else {
             modelIdInteger = Integer.parseInt(modelId);
         }
-        ContentModel model = this.getContentModelManager().getContentModel(modelIdInteger);
+        model = this.getContentModelManager().getContentModel(modelIdInteger);
         if (model == null) {
             bindingResult.reject(ContentController.ERRCODE_INVALID_MODEL, new String[]{modelId}, "content.model.nullModel");
             throw new ValidationGenericException(bindingResult);
@@ -366,7 +380,7 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
                     new String[]{modelId, dto.getTypeCode()}, "content.model.invalid");
             throw new ValidationGenericException(bindingResult);
         }
-        return modelIdInteger;
+        return model;
     }
 
     @Override
