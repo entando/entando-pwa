@@ -36,7 +36,11 @@ const ContentDetailTopBar = ({ contentType }) => (
 );
 
 ContentDetailTopBar.propTypes = {
-  contentType: PropTypes.string.isRequired,
+  contentType: PropTypes.string,
+};
+
+ContentDetailTopBar.defaultProps = {  
+  contentType: null,
 };
 
 export default ContentDetailTopBar;

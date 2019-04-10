@@ -30,12 +30,13 @@ class ContentDetail extends PureComponent {
 
 ContentDetail.propTypes = {
   contentDetail: PropTypes.object,
-  contentType: PropTypes.string.isRequired,
+  contentType: PropTypes.string,
   fetchContentDetailAndMarkAsRead: PropTypes.func.isRequired,
 };
 
 ContentDetail.defaultProps = {  
   contentDetail: null,
+  contentType: null,
 };
 
 export default ContentDetail;
