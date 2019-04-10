@@ -216,6 +216,11 @@ export const clearNotification = id => async(dispatch, getState) => {
 export const login = (data) => async dispatch => {
   try {
     console.log(process.env);
+    //
+    // WORKAROUND for SME demo purposes
+    data.username = process.env.REACT_APP_DEMO_USERNAME;
+    data.pin = process.env.REACT_APP_DEMO_PASSWORD;
+    //
     const response = await performLogin(data.username, data.pin);
     const json = await response.json();
     dispatch(loginUser(data.username, json.access_token));
