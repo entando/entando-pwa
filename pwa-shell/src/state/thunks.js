@@ -33,7 +33,6 @@ import {
   getSelectedCategoryFilters,
   getSelectedSortingFilters,
   getCategoryFilters,
-  isLoading,
 } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
