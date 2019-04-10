@@ -34,6 +34,7 @@ class TopBar extends PureComponent {
       openDrawer,
       openSearch,
       isSearchOpen,
+      isUserLogged
     } = this.props;
 
     const links = contentTypeList.length > 1 ? contentTypeList.map(contentType => (
@@ -51,6 +52,12 @@ class TopBar extends PureComponent {
     if (isSearchOpen) {
       return <SearchBarContainer />;
     }
+
+    const notificationsButton = isUserLogged ? (
+      <Link to={notificationsRoute}>
+        <NavButton icon="bell" className="mr-4" badgeText={notificationAmount} />
+      </Link>
+    ) : '';
 
     return (
       <div>
@@ -70,9 +77,7 @@ class TopBar extends PureComponent {
                 />
             </NavbarBrand>
             <div>
-              <Link to={notificationsRoute}>
-                <NavButton icon="bell" className="mr-4" badgeText={notificationAmount} />
-              </Link>
+              { notificationsButton }
               <NavButton icon="search" onClick={openSearch} />
             </div>
           </Navbar>
@@ -98,6 +103,7 @@ TopBar.propTypes = {
   openDrawer: PropTypes.func.isRequired,
   openSearch: PropTypes.func.isRequired,
   isSearchOpen: PropTypes.bool.isRequired,
+  isUserLogged: PropTypes.bool.isRequired,
 };
 
 export default withRouter(props => <TopBar {...props} />);
