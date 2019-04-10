@@ -23,6 +23,7 @@ import {
   unsetIsSearchResult,
   setIsLoading,
   unsetIsLoading,
+  unsetSelectedContent,
 } from 'state/content/actions';
 import {
   setSearch,
@@ -101,7 +102,7 @@ const fetchContentList = (params, pagination) => async(dispatch) => {
 
 export const fetchContentDetail = id => async(dispatch) => {
   try {
-    dispatch(setSelectedContent({html: ''}));
+    dispatch(unsetSelectedContent());
     const response = await getContent(id);
     const json = await response.json();
     if (response.ok) {
@@ -117,7 +118,7 @@ export const fetchContentDetail = id => async(dispatch) => {
 
 export const fetchProtectedContentDetail = id => async(dispatch) => {
   try {
-    dispatch(setSelectedContent({html: ''}));
+    dispatch(unsetSelectedContent());
     const response = await getProtectedContent(id);
     const json = await response.json();
     if (response.ok) {      

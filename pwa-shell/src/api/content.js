@@ -1,10 +1,10 @@
-import { makeMockRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { GET_CONTENTS_RESPONSE_OK, PUBLIC_CONTENT, PROTECTED_CONTENT } from '__tests__/mocks/content';
 
 const defaultPageObject = { page: 1, pageSize: 10 };
 
 export const getContents = (params = '?lang=it', page = defaultPageObject) => (
-  makeMockRequest(
+  makeRequest(
     {  
       uri: `/api/plugins/cms/contents${params}&lang=it`,
       method: METHODS.GET,
@@ -16,7 +16,7 @@ export const getContents = (params = '?lang=it', page = defaultPageObject) => (
   )
 );
 
-export const getContent = code => makeMockRequest({
+export const getContent = code => makeRequest({
   uri: `/api/plugins/cms/contents/${code}/model/default?status=published&lang=it`,
   method: METHODS.GET,
   mockResponse: PUBLIC_CONTENT,
@@ -24,7 +24,7 @@ export const getContent = code => makeMockRequest({
   errors: () => [],
 });
 
-export const getProtectedContent = code => makeMockRequest({
+export const getProtectedContent = code => makeRequest({
   uri: `/api/plugins/cms/contents/${code}/model/default?status=published&lang=it`,
   method: METHODS.GET,
   mockResponse: PROTECTED_CONTENT,

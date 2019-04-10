@@ -3,6 +3,7 @@ import {
   SET_CONTENT_FILTER,
   SET_CONTENT_LIST,
   SET_SELECTED_CONTENT,
+  UNSET_SELECTED_CONTENT,
   SET_CATEGORY_FILTER,
   SET_SORTING_FILTER,
   SET_IS_SEARCH_RESULT,
@@ -68,6 +69,13 @@ export default (state = initialState, action) => {
           html: htmlSanitizer(action.payload.html),
         },
       };
+    case UNSET_SELECTED_CONTENT:
+      return {
+        ...state,
+        selected: {
+          html: '',
+        },
+      };      
     case SET_CONTENT_FILTER:
       return {
         ...state,

@@ -1,6 +1,7 @@
 import {
   SET_CONTENT_LIST,
   SET_SELECTED_CONTENT,
+  UNSET_SELECTED_CONTENT,
   SET_CONTENT_FILTER,
   SET_SORTING_FILTER,
   SET_CATEGORY_FILTER,
@@ -59,6 +60,10 @@ export const setContentList = payload => ({
 export const setSelectedContent = payload => ({
   type: SET_SELECTED_CONTENT,
   payload,
+});
+
+export const unsetSelectedContent = () => ({
+  type: UNSET_SELECTED_CONTENT,
 });
 
 export const setRequiresAuth = (id, requiresAuth) => ({
