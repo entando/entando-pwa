@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getSelectedContent, isUserLogged } from 'state/content/selectors';
+import { getSelectedContent, isUserLogged, isLoading } from 'state/content/selectors';
 import { setRequiresAuth } from 'state/content/actions';
 import { fetchContentDetail, fetchProtectedContentDetail } from 'state/thunks';
 import ContentDetail from 'ui/content-detail/ContentDetail';
@@ -10,6 +10,7 @@ export const mapStateToProps = state => ({
   contentDetail: getSelectedContent(state),
   contentType: getSelectedContentType(state),
   isUserLogged: isUserLogged(state),
+  isLoading: isLoading(state),
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({

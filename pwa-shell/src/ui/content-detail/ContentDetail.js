@@ -16,12 +16,12 @@ class ContentDetail extends PureComponent {
   }
 
   render() {
-    const { contentDetail, contentType } = this.props;
+    const { contentDetail, contentType, isLoading } = this.props;
     return (
       <Fragment>
         <ContentDetailTopBar contentType={contentType} />
         <ProtectedContentLoginContainer>
-          <ContentDetailBody contentDetail={contentDetail} />
+          <ContentDetailBody contentDetail={contentDetail} isLoading={isLoading} />
         </ProtectedContentLoginContainer>
       </Fragment>
     );
@@ -31,6 +31,7 @@ class ContentDetail extends PureComponent {
 ContentDetail.propTypes = {
   contentDetail: PropTypes.object,
   contentType: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired,
   fetchContentDetailAndMarkAsRead: PropTypes.func.isRequired,
 };
 

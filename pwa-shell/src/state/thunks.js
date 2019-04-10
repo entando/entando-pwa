@@ -33,6 +33,7 @@ import {
   getSelectedCategoryFilters,
   getSelectedSortingFilters,
   getCategoryFilters,
+  isLoading,
 } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
@@ -102,6 +103,7 @@ const fetchContentList = (params, pagination) => async(dispatch) => {
 
 export const fetchContentDetail = id => async(dispatch) => {
   try {
+    dispatch(setIsLoading());
     dispatch(unsetSelectedContent());
     const response = await getContent(id);
     const json = await response.json();
@@ -113,11 +115,14 @@ export const fetchContentDetail = id => async(dispatch) => {
     }
   } catch (err) {
     dispatch(addErrors(err));
+  } finally {
+    dispatch(unsetIsLoading());
   }
 };
 
-export const fetchProtectedContentDetail = id => async(dispatch) => {
+export const fetchProtectedContentDetail = id => async(dispatch, getState) => {
   try {
+    dispatch(setIsLoading());
     dispatch(unsetSelectedContent());
     const response = await getProtectedContent(id);
     const json = await response.json();
@@ -129,6 +134,8 @@ export const fetchProtectedContentDetail = id => async(dispatch) => {
     }
   } catch (err) {
     dispatch(addErrors(err));
+  } finally {
+    dispatch(unsetIsLoading());
   }
 };
 
@@ -234,7 +241,6 @@ export const clearNotification = id => async(dispatch, getState) => {
 
 export const login = (data) => async dispatch => {
   try {
-    console.log(process.env);
     const response = await performLogin(data.username, data.pin);
     const json = await response.json();
     dispatch(loginUser(data.username, json.access_token));
