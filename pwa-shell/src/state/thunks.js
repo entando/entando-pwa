@@ -215,7 +215,6 @@ export const clearNotification = id => async(dispatch, getState) => {
 
 export const login = (data) => async dispatch => {
   try {
-    console.log(process.env);
     //
     // WORKAROUND for SME demo purposes
     data.username = process.env.REACT_APP_DEMO_USERNAME;
