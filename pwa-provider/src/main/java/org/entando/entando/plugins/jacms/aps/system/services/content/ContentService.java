@@ -241,7 +241,11 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
             if (!StringUtils.isBlank(requestList.getText()) && online) {
                 String langCode = (StringUtils.isBlank(requestList.getLang())) ? this.getLangManager().getDefaultLang().getCode() : requestList.getLang();
                 List<String> fullTextResult = this.getSearchEngineManager().searchEntityId(langCode, requestList.getText(), userGroupCodes);
-                result.removeIf(i -> !fullTextResult.contains(i));
+                if (null == fullTextResult) {
+                    result.clear();
+                } else {
+                    result.removeIf(i -> !fullTextResult.contains(i));
+                }
             }
             List<String> sublist = requestList.getSublist(result);
             PagedMetadata<ContentDto> pagedMetadata = new PagedMetadata<>(requestList, sublist.size());
