@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
   Navbar,
@@ -39,5 +40,9 @@ class NotificationsTopBar extends PureComponent {
     );
   }
 }
+
+NotificationsTopBar.propTypes = {
+  clearAllNotifications: PropTypes.func.isRequired,
+};
 
 export default NotificationsTopBar;

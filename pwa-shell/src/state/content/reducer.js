@@ -3,12 +3,14 @@ import {
   SET_CONTENT_FILTER,
   SET_CONTENT_LIST,
   SET_SELECTED_CONTENT,
+  UNSET_SELECTED_CONTENT,
   SET_CATEGORY_FILTER,
   SET_SORTING_FILTER,
   SET_IS_SEARCH_RESULT,
   UNSET_IS_SEARCH_RESULT,
   SET_IS_LOADING,
   UNSET_IS_LOADING,
+  SET_REQUIRES_AUTH,
 } from 'state/content/types';
 import { contentTypeCodeList, sortingFilters } from 'state/appConfig';
 import { htmlSanitizer } from 'helpers';
@@ -24,6 +26,7 @@ const filters = contentTypeCodeList.reduce((acc, curr) => ({
 const initialState = {
   list: [],
   filters,
+  requiresAuthMap: {},
   categoryFilters: {},
   sortingFilters,
   selected: null,
@@ -66,6 +69,13 @@ export default (state = initialState, action) => {
           html: htmlSanitizer(action.payload.html),
         },
       };
+    case UNSET_SELECTED_CONTENT:
+      return {
+        ...state,
+        selected: {
+          html: '',
+        },
+      };      
     case SET_CONTENT_FILTER:
       return {
         ...state,
@@ -88,6 +98,14 @@ export default (state = initialState, action) => {
         sortingFilters: {
          ...state.sortingFilters,
          [action.payload.contentType]: action.payload.filter,
+        },
+      };
+    case SET_REQUIRES_AUTH:
+      return {
+        ...state,
+        requiresAuthMap: {
+          ...state.requiresAuthMap,
+          [action.payload.id]: action.payload.requiresAuth,
         },
       };
     default:

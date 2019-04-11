@@ -3,7 +3,7 @@
 	<!--
 	<Environment name="logActiveFileOutput" value="${profile.log.activeFileOutput}" type="java.lang.String" override="false" />
 	<Environment name="logName" value="${profile.log.file.name}" type="java.lang.String" override="false" />
-    <Environment name="logFileRotatePattern" value="${profile.log.file.rotatePattern}" type="java.lang.String" override="false" />
+	<Environment name="logFileRotatePattern" value="${profile.log.file.rotatePattern}" type="java.lang.String" override="false" />
 	<Environment name="logLevel" value="${profile.log.level}" type="java.lang.String" override="false" />
 	<Environment name="logFileSize" value="${profile.log.file.size}" type="java.lang.String" override="false" />
 	<Environment name="logFilesCount" value="${profile.log.file.count}" type="java.lang.String" override="false" />

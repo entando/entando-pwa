@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getUsername } from '@entando/apimanager';
+import { isUserLogged } from 'state/content/selectors';
 import Login from 'ui/login/Login';
 
 export const mapStateToProps = state => ({
-  username: getUsername(state),
+  hasAccess: isUserLogged(state),
 });
 
 export default withRouter(connect(
