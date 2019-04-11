@@ -4,7 +4,7 @@ import { addErrors } from '@entando/messages';
 import { loginUser, getToken } from '@entando/apimanager';
 
 import { getCategory } from 'api/category';
-import { getContents, getContent } from 'api/content';
+import { getContents, getContent, getProtectedContent } from 'api/content';
 import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
 import { getNotifications, postClearNotifications } from 'api/notification';
@@ -23,6 +23,7 @@ import {
   unsetIsSearchResult,
   setIsLoading,
   unsetIsLoading,
+  unsetSelectedContent,
 } from 'state/content/actions';
 import {
   setSearch,
@@ -37,7 +38,7 @@ import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 import { setNotificationList, removeNotification } from 'state/notification/actions';
 import { htmlSanitizer } from 'helpers';
-import { getNotificationIdList } from './notification/selectors';
+import { getNotificationIdList } from 'state/notification/selectors';
 
 const toCategoryQueryString = categories => {
   return categories && categories.length
@@ -101,16 +102,40 @@ const fetchContentList = (params, pagination) => async(dispatch) => {
 
 export const fetchContentDetail = id => async(dispatch) => {
   try {
+    dispatch(setIsLoading());	
+    dispatch(unsetSelectedContent());    
     const response = await getContent(id);
     const json = await response.json();
     if (response.ok) {
       dispatch(setSelectedContent(json.payload));
+      dispatch(clearNotification(id));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (err) {
     dispatch(addErrors(err));
-  }
+  } finally {	
+    dispatch(unsetIsLoading());	
+  }	
+};	
+
+export const fetchProtectedContentDetail = id => async(dispatch, getState) => {	
+  try {	
+    dispatch(setIsLoading());	
+    dispatch(unsetSelectedContent());	
+    const response = await getProtectedContent(id);	
+    const json = await response.json();	
+    if (response.ok) {      	
+      dispatch(setSelectedContent(json.payload));	
+      dispatch(clearNotification(id));	
+    } else {	
+      dispatch(addErrors(json.errors.map(e => e.message)));	
+    }	
+  } catch (err) {	
+    dispatch(addErrors(err));	
+  } finally {	
+    dispatch(unsetIsLoading());
+  }	  
 };
 
 export const fetchContentTypeMap = () => async(dispatch) => {
