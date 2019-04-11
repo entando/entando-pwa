@@ -13,6 +13,8 @@ import launch2048x2732 from 'images/apple/launch-2048x2732.png';
 import launch1668x2388 from 'images/apple/launch-1668x2388.png';
 import launch1668x2224 from 'images/apple/launch-1668x2224.png';
 import launch1536x2048 from 'images/apple/launch-1536x2048.png';
+import launch1242x2688 from 'images/apple/launch-1242x2688.png';
+import launch828x1792 from 'images/apple/launch-828x1792.png';
 
 const name = 'Info Esercito Italiano';
 const shortName = 'Info EI';
@@ -41,6 +43,16 @@ const icons = [
 
 const startupImageRel = 'apple-touch-startup-image';
 const splashScreens = [
+  { // iPhone Xs Max (1242px x 2688px)
+    rel: startupImageRel,
+    media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)',
+    href: launch1242x2688,
+  },
+  { // iPhone Xr (828px x 1792px)
+    rel: startupImageRel,
+    media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)',
+    href: launch828x1792,
+  },  
   { // iPhone X, Xs (1125px x 2436px)
     rel: startupImageRel,
     media: '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)',
