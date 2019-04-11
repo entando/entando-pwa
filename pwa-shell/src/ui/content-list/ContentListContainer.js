@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchContentListByContentType } from 'state/thunks';
-import ContentList from 'ui/ContentList';
+import ContentList from 'ui/content-list/ContentList';
 import {
   getContentList,
   getSelectedCategoryFilters,
@@ -24,7 +24,7 @@ export const mapStateToProps = state => {
 };
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  onFetchContentList: () => {
+  fetchContentList: () => {
     const { contentType } = ownProps.match.params;
     dispatch(fetchContentListByContentType(contentType));
   }

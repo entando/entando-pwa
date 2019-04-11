@@ -5,6 +5,7 @@ import { openDrawer } from 'state/drawer/actions';
 import { openSearch } from 'state/search/actions';
 import { getContentTypeCodeList, getSelectedContentType, getContentTypeMap } from 'state/contentType/selectors';
 import { getNotificationAmount } from 'state/notification/selectors';
+import { isUserLogged } from 'state/content/selectors';
 import { isOpen } from 'state/search/selectors';
 import TopBar from 'ui/menu/TopBar';
 
@@ -14,6 +15,7 @@ export const mapStateToProps = state => ({
   contentTypeMap: getContentTypeMap(state),
   selectedContentType: getSelectedContentType(state),
   isSearchOpen: isOpen(state),
+  isUserLogged: isUserLogged(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

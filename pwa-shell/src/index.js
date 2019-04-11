@@ -14,12 +14,10 @@ import store from 'state/store';
 
 import ApiManager from 'ApiManager';
 
-import LoginContainer from 'ui/login/LoginContainer';
 import TopBarContainer from 'ui/menu/TopBarContainer';
-import ContentListContainer from 'ui/ContentListContainer';
-import ContentDetailTopBarContainer from 'ui/ContentDetailTopBarContainer';
-import ContentDetailContainer from 'ui/ContentDetailContainer';
-import DefaultRedirectContainer from 'ui/DefaultRedirectContainer';
+import ContentListContainer from 'ui/content-list/ContentListContainer';
+import ContentDetailContainer from 'ui/content-detail/ContentDetailContainer';
+import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import NotificationsContainer from 'ui/notifications/NotificationsContainer';
 import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarContainer';
 
@@ -34,18 +32,14 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <ApiManager store={store}>
-        <LoginContainer>
-          <Route exact path="/" component={DefaultRedirectContainer} />
-          <Route exact path="/notifications" render={props => (
-            <React.Fragment><NotificationsTopBarContainer {...props} /><NotificationsContainer /></React.Fragment>
-          )} />
-          <Route exact path="/content/:contentType" render={props => (
-            <React.Fragment><TopBarContainer {...props} /><ContentListContainer {...props} /></React.Fragment>
-          )} />
-          <Route exact path="/content/:contentType/:id" render={props => (
-            <React.Fragment><ContentDetailTopBarContainer {...props} /><ContentDetailContainer {...props} /></React.Fragment>
-          )} />
-        </LoginContainer>
+        <Route exact path="/" component={DefaultRedirectContainer} />
+        <Route exact path="/notifications" render={props => (
+          <React.Fragment><NotificationsTopBarContainer {...props} /><NotificationsContainer /></React.Fragment>
+        )} />
+        <Route exact path="/content/:contentType" render={props => (
+          <React.Fragment><TopBarContainer {...props} /><ContentListContainer {...props} /></React.Fragment>
+        )} />
+        <Route exact path="/content/:contentType/:id" component={ContentDetailContainer} />
       </ApiManager>
       </Router>
   </Provider>,
