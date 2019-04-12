@@ -12,6 +12,7 @@ const ContentDetailBody = ({ contentDetail, isLoading }) => !isLoading ? (
         <div dangerouslySetInnerHTML={{__html: get(contentDetail, 'html', '')}}></div>
       </CardBody>
     </Card>
+    <div className="content-footer"></div>
   </Container>  
 ) : (
   <div className="mt-4">

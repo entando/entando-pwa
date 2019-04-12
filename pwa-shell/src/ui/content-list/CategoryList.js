@@ -11,29 +11,29 @@ class CategoryList extends PureComponent {
   render() {
     const { categories, selectedCategoryCodes } = this.props;
 
-    return (
+    return categories.length ? (
       <div className="CategoryList">
-      {
-        selectedCategoryCodes.length
-          ? (
-            <div className="CategoryList__header">
-              <FilterIcon />
-              <span className="CategoryList__title">Argomenti che stai visualizzando</span>
-            </div>
-          )
-          : ''
+        {
+          selectedCategoryCodes.length
+            ? (
+              <div className="CategoryList__header">
+                <FilterIcon />
+                <span className="CategoryList__title">Argomenti che stai visualizzando</span>
+              </div>
+            )
+            : ''
+        }
+        {
+        categories.filter(category => selectedCategoryCodes.includes(category.code)).map(category => (
+          <span className="CategoryList__item"
+            key={category.code}
+          >
+            <Badge>{ category.titles['it'] }</Badge>
+          </span>
+        ))
       }
-      {
-      categories.filter(category => selectedCategoryCodes.includes(category.code)).map(category => (
-        <span className="CategoryList__item"
-          key={category.code}
-        >
-          <Badge>{ category.titles['it'] }</Badge>
-        </span>
-      ))
-    }
-    </div>
-    );
+      </div>
+    ) : '';
   }
 }
 

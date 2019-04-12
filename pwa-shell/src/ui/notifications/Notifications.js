@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Container } from 'reactstrap';
 import ContentListItem from 'ui/content-list/ContentListItem';
 import NotificationsHeader from 'ui/notifications/NotificationsHeader';
+import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarContainer';
 
 import logo1x from 'images/Logo_vertical@1x.png';
 import logo2x from 'images/Logo_vertical@2x.png';
+import PageContainer from 'ui/common/PageContainer';
 
 class Notifications extends PureComponent {
 
@@ -28,12 +29,14 @@ class Notifications extends PureComponent {
           <img src={logo2x} alt="logo" className="d-none d-sm-inline"/>
           <p className="mt-1">Buona giornata</p>          
         </div>
-        <div className="footer-background"></div>
+        <div className="content-footer"></div>
       </React.Fragment>
     );
 
     return (
-      <Container fluid className={`Notifications${notificationAmount ? '' : ' Notifications--empty'}`}>
+      <PageContainer className={`Notifications${notificationAmount ? '' : ' Notifications--empty'}`}>
+        <NotificationsTopBarContainer />
+
         <NotificationsHeader notificationAmount={notificationAmount} />
         {
           notificationAmount ? (              
@@ -42,7 +45,7 @@ class Notifications extends PureComponent {
             </div>  
           ) : emptyNotificationList
         }                
-      </Container>
+      </PageContainer>
     );
   }
 }

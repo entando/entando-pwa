@@ -1,0 +1,11 @@
+.Notifications {  
+  &--empty {
+    background-color: #FFFFFF;
+  }
+
+  &__list {
+    background-color: $color-primary-lightest;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}

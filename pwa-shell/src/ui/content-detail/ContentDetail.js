@@ -1,8 +1,9 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
 import ContentDetailBody from 'ui/content-detail/ContentDetailBody';
 import ContentDetailTopBar from 'ui/content-detail/ContentDetailTopBar';
+import PageContainer from 'ui/common/PageContainer';
 
 class ContentDetail extends PureComponent {
   componentDidMount() {
@@ -18,12 +19,12 @@ class ContentDetail extends PureComponent {
   render() {
     const { contentDetail, contentType, isLoading } = this.props;
     return (
-      <Fragment>
+      <PageContainer>
         <ContentDetailTopBar contentType={contentType} />
         <ProtectedContentLoginContainer>
           <ContentDetailBody contentDetail={contentDetail} isLoading={isLoading} />
         </ProtectedContentLoginContainer>
-      </Fragment>
+      </PageContainer>
     );
   }
 }

@@ -1,0 +1,27 @@
+/* 
+  Entando content API markup
+  and will be moved to an Entando page model
+*/  
+
+article h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+article h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.PageContainer__footer {
+  height: 10vh;
+  max-height: 100px;
+  background-size: cover;
+  background-image: url(../images/Vegetato@2x.png);
+  clip-path: polygon(0 15%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.Notifications--empty .content-footer {
+  height: 30vh;
+  max-height: 250px;
+}
