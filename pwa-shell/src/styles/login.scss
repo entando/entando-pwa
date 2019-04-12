@@ -1,7 +1,7 @@
 .login {
-  background-image: url(../images/Logo_vertical@2x.png), url(../images/illustration_camouflagepattern@2x.png);
-  background-repeat: no-repeat;
-  background-position: center 8rem, center -20rem;
+  background-image: url(../images/Logo_vertical@2x.png), url(../images/Vegetato@2x.png);
+  background-repeat: no-repeat, repeat-x;
+  background-position: center 7rem, center -13rem;
   background-size: 10rem, 28rem;
   padding: 0;
 
@@ -12,10 +12,17 @@
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     box-shadow: 0 -0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-    min-height: calc(100vh - 16rem);
 
     legend {
       font-weight: 700;
+    }
+
+    .form-group {
+      margin-top: 3rem;
+    }
+
+    .form-group:last-of-type {
+      margin-bottom: 2rem;
     }
 
     .form-control {
@@ -34,6 +41,7 @@
 
     button {
       background-color: $color-dark;
+      font-weight: 600;
     }
 
   }

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import ContentListItem from 'ui/content-list/ContentListItem';
 import CategoryListContainer from 'ui/content-list/CategoryListContainer';
 import { Container } from 'reactstrap';
+import PageContainer from 'ui/common/PageContainer';
+import ContentListTopBarContainer from 'ui/content-list/ContentListTopBarContainer';
 
 class ContentList extends PureComponent {
 
@@ -38,22 +40,27 @@ class ContentList extends PureComponent {
         'Ricerca in corso...' :
         'Caricamento...';
 
-    const notFound = isLoading ?
+    const searchResults = isLoading ?
       null :
       isSearchResult ?
         (
-          <span>
-            <strong>{contentList.length} risultat{contentList.length === 1 ? 'o' : 'i'}</strong> per: "{searchTerms}"
-          </span>
+          <div className="ContentList__search-results__header p-4">
+            <span className="ContentList__search-results__size">
+              {contentList.length} risultat{contentList.length === 1 ? 'o' : 'i'}
+            </span> per: "{searchTerms}"
+          </div>
         ) :
         null;
 
     return (
-      <Container fluid className="content">
+      <PageContainer className="ContentList">
+        <ContentListTopBarContainer />
+
         { categoryList }
+        { searchResults }
+        <Container fluid className="content">        
         <div className="mt-4">
           { loadingMessage }
-          { notFound }
         </div>
         {
           selectedCategoryCodes && selectedCategoryCodes.length
@@ -62,11 +69,12 @@ class ContentList extends PureComponent {
               <div>
                 { contentListItems }
               </div>
-              : <div>Nessun articolo trovato...</div>
+              : <div>Nessun articolo trovato</div>
             )
             : 'Nessun argomento selezionato. Seleziona almeno un argomento dal menu in alto a sinistra.'
         }
-      </Container>
+        </Container>
+      </PageContainer>
     );
   }
 }

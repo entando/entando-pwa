@@ -1,8 +1,10 @@
-import React, { Fragment, PureComponent } from 'react';
+import { get } from 'lodash';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Container } from 'reactstrap';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
-import ContentDetailBody from 'ui/content-detail/ContentDetailBody';
 import ContentDetailTopBar from 'ui/content-detail/ContentDetailTopBar';
+import PageContainer from 'ui/common/PageContainer';
 
 class ContentDetail extends PureComponent {
   componentDidMount() {
@@ -16,14 +18,29 @@ class ContentDetail extends PureComponent {
   }
 
   render() {
-    const { contentDetail, contentType, isLoading } = this.props;
+    const { contentDetail, contentType, isLoading, isUserLogged } = this.props;
+
+    const loadingMessage = 'Caricamento...';
+
+    const contentDetailBody = !isLoading ? (
+      <Container fluid>
+        <div dangerouslySetInnerHTML={{__html: get(contentDetail, 'html', '')}}></div>
+      </Container>  
+    ) : (
+      <div className="mt-4">
+        { loadingMessage }
+      </div>
+    );
+        
     return (
-      <Fragment>
+      <PageContainer className={`ContentDetail${isUserLogged ? '' : '--guest-user'}`}>
         <ContentDetailTopBar contentType={contentType} />
         <ProtectedContentLoginContainer>
-          <ContentDetailBody contentDetail={contentDetail} isLoading={isLoading} />
+          <div className="ContentDetail__body">
+            { contentDetailBody }
+          </div>
         </ProtectedContentLoginContainer>
-      </Fragment>
+      </PageContainer>
     );
   }
 }

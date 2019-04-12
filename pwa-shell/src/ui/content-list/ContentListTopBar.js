@@ -18,7 +18,7 @@ import NavButton from 'ui/common/NavButton';
 
 const notificationsRoute = '/notifications';
 
-class TopBar extends PureComponent {
+class ContentListTopBar extends PureComponent {
   componentDidMount() {
     this.props.onFetchContentTypes();
     this.props.onFetchNotifications();
@@ -95,7 +95,7 @@ class TopBar extends PureComponent {
   }
 }
 
-TopBar.propTypes = {
+ContentListTopBar.propTypes = {
   contentTypeList: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedContentType: PropTypes.string,
   contentTypeMap: PropTypes.object.isRequired,
@@ -106,4 +106,4 @@ TopBar.propTypes = {
   isUserLogged: PropTypes.bool.isRequired,
 };
 
-export default withRouter(props => <TopBar {...props} />);
+export default withRouter(props => <ContentListTopBar {...props} />);

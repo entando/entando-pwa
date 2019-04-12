@@ -1,17 +1,13 @@
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Container, Card, CardBody } from 'reactstrap';
+import { Container } from 'reactstrap';
 
 const loadingMessage = 'Caricamento...';
 
 const ContentDetailBody = ({ contentDetail, isLoading }) => !isLoading ? (
-  <Container fluid className="content">
-    <Card className="shadow">
-      <CardBody>
-        <div dangerouslySetInnerHTML={{__html: get(contentDetail, 'html', '')}}></div>
-      </CardBody>
-    </Card>
+  <Container fluid>
+    <div dangerouslySetInnerHTML={{__html: get(contentDetail, 'html', '')}}></div>
   </Container>  
 ) : (
   <div className="mt-4">

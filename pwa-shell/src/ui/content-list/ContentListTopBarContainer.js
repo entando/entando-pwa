@@ -7,7 +7,7 @@ import { getContentTypeCodeList, getSelectedContentType, getContentTypeMap } fro
 import { getNotificationAmount } from 'state/notification/selectors';
 import { isUserLogged } from 'state/content/selectors';
 import { isOpen } from 'state/search/selectors';
-import TopBar from 'ui/menu/TopBar';
+import ContentListTopBar from 'ui/content-list/ContentListTopBar';
 
 export const mapStateToProps = state => ({
   notificationAmount: getNotificationAmount(state),
@@ -35,4 +35,4 @@ export const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TopBar);
+)(ContentListTopBar);
