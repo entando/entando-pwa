@@ -7,9 +7,9 @@ import { ReactComponent as LogoutIcon } from 'images/icons/ic_exit.svg';
 class Logout extends Component
 {
   render() {
-    const { logoutUser } = this.props;
+    const { isUserLogged, logoutUser } = this.props;
 
-    return (
+    return isUserLogged ? (
       <div className="logout-box">
         <div className="d-flex">
           <FontAwesomeIcon icon="user-circle" />
@@ -22,12 +22,13 @@ class Logout extends Component
           <LogoutIcon /><span className="ml-2 align-bottom">Logout</span>
         </div>
       </div>
-    );
+    ) : '';
   }
 }
 
 Logout.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
+  isUserLogged: PropTypes.bool.isRequired,
+  logoutUser: PropTypes.func.isRequired,  
 };
 
 export default Logout;

@@ -10,7 +10,7 @@ export const mapStateToProps = state => {
 };
 
 export const mapDispatchToProps = dispatch => ({
-  onFetchNotifications: () => dispatch(fetchNotifications()),
+  fetchNotifications: () => dispatch(fetchNotifications()),
   clearNotification: id => dispatch(clearNotification(id)),
 });
 
