@@ -7,17 +7,12 @@ import LoginFormContainer from 'ui/login/LoginFormContainer';
 class Login extends Component
 {
   render() {
-    const { username, children } = this.props;
-
-    if (username !== null) {
-      return (
-        <Fragment>
+    const { hasAccess, children } = this.props;
+    return hasAccess ? (
+      <Fragment>
         { children }
-        </Fragment>
-      );
-    }
-
-    return (
+      </Fragment>
+    ) : (
       <Container fluid className="login min-vh-100">
         <LoginFormContainer />
       </Container>
@@ -26,10 +21,11 @@ class Login extends Component
 }
 
 Login.propTypes = {
-  children: PropTypes.arrayOf(
-    PropTypes.element.isRequired
-  ).isRequired,
-  username: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired,
+  hasAccess: PropTypes.bool.isRequired,
 };
 
 export default Login;

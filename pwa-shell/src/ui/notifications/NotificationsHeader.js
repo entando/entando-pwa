@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const text = amount => {
   switch(amount) {
@@ -22,5 +23,9 @@ const NotificationHeader = ({ notificationAmount }) => (
     <div className="pt-1">{ text(notificationAmount) }</div>    
   </div>
 );
+
+NotificationHeader.propTypes = {
+  notificationAmount: PropTypes.number.isRequired,
+};
 
 export default NotificationHeader;
