@@ -4,4 +4,10 @@
   &__body {
     padding: 20px;
   }
+
+  &--guest-user {
+    .PageContainer__footer {
+      background-image: none;
+    }
+  }
 }

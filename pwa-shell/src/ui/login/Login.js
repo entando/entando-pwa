@@ -13,7 +13,7 @@ class Login extends Component
         { children }
       </Fragment>
     ) : (
-      <Container fluid className="login min-vh-100">
+      <Container fluid className="login">
         <LoginFormContainer />
       </Container>
     );

@@ -18,7 +18,7 @@ class ContentDetail extends PureComponent {
   }
 
   render() {
-    const { contentDetail, contentType, isLoading } = this.props;
+    const { contentDetail, contentType, isLoading, isUserLogged } = this.props;
 
     const loadingMessage = 'Caricamento...';
 
@@ -33,7 +33,7 @@ class ContentDetail extends PureComponent {
     );
         
     return (
-      <PageContainer className="ContentDetail">
+      <PageContainer className={`ContentDetail${isUserLogged ? '' : '--guest-user'}`}>
         <ContentDetailTopBar contentType={contentType} />
         <ProtectedContentLoginContainer>
           <div className="ContentDetail__body">
