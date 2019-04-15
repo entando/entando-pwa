@@ -60,12 +60,18 @@ public class GroupService implements IGroupService {
 
     @Override
     public GroupDto updateGroup(final String groupCode, final String descr) {
-        return null;
+        final GroupRepresentation group = getGroupRepresentation(groupCode);
+        group.setName(descr);
+        keycloakService.getRealmResource().groups().group(groupCode).update(group);
+        return KeycloakMapper.convertGroup(group);
     }
 
     @Override
     public GroupDto addGroup(final GroupRequest groupRequest) {
-        return null;
+        final GroupRepresentation group = new GroupRepresentation();
+        group.setName(groupRequest.getName());
+        keycloakService.getRealmResource().groups().add(group);
+        return KeycloakMapper.convertGroup(group);
     }
 
     @Override
