@@ -12,10 +12,6 @@ import org.entando.entando.web.user.model.UserAuthoritiesRequest;
 import org.entando.entando.web.user.model.UserAuthority;
 import org.entando.entando.web.user.model.UserPasswordRequest;
 import org.entando.entando.web.user.model.UserRequest;
-import org.keycloak.OAuth2Constants;
-import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.KeycloakBuilder;
-import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.RoleResource;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -38,19 +34,12 @@ public class UserService implements IUserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
-    private final RealmResource realmResource;
+    private final KeycloakService keycloakService;
     private final String clientId;
 
     @Autowired
-    public UserService(final KeycloakConfiguration configuration) {
-        final Keycloak keycloak = KeycloakBuilder.builder()
-                .serverUrl(configuration.getAuthUrl())
-                .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
-                .realm(configuration.getRealm())
-                .clientId(configuration.getClientId())
-                .clientSecret(configuration.getClientSecret())
-                .build();
-        this.realmResource = keycloak.realm(configuration.getRealm());
+    public UserService(final KeycloakConfiguration configuration, final KeycloakService keycloakService) {
+        this.keycloakService = keycloakService;
         this.clientId = configuration.getClientId();
     }
 
@@ -72,18 +61,18 @@ public class UserService implements IUserService {
 
     @Override
     public List<UserAuthorityDto> addUserAuthorities(final String username, final UserAuthoritiesRequest request) {
-        final ClientRepresentation client = realmResource.clients().findByClientId(clientId)
+        final ClientRepresentation client = keycloakService.getRealmResource().clients().findByClientId(clientId)
                 .stream().findFirst().orElseThrow(RuntimeException::new);
         final UserRepresentation user = getUserRepresentation(username);
         final List<String> roles = user.getClientRoles().get(clientId);
         final List<RoleRepresentation> newRoles = request.stream()
                 .map(UserAuthority::getRole)
                 .filter(role -> !roles.contains(role))
-                .map(realmResource.clients().get(clientId).roles()::get)
+                .map(keycloakService.getRealmResource().clients().get(clientId).roles()::get)
                 .map(RoleResource::toRepresentation)
                 .collect(Collectors.toList());
 
-        realmResource.users().get(user.getId()).roles().clientLevel(client.getId()).add(newRoles);
+        keycloakService.getRealmResource().users().get(user.getId()).roles().clientLevel(client.getId()).add(newRoles);
         return getUserAuthorities(username);
     }
 
@@ -96,14 +85,14 @@ public class UserService implements IUserService {
     @Override
     public void deleteUserAuthorities(final String username) {
         final UserRepresentation user = getUserRepresentation(username);
-        final ClientRepresentation client = realmResource.clients().findByClientId(clientId)
+        final ClientRepresentation client = keycloakService.getRealmResource().clients().findByClientId(clientId)
                 .stream().findFirst().orElseThrow(RuntimeException::new);
         final List<String> roles = user.getClientRoles().get(clientId);
         final List<RoleRepresentation> toRemoveRoles = roles.stream()
-                .map(realmResource.clients().get(clientId).roles()::get)
+                .map(keycloakService.getRealmResource().clients().get(clientId).roles()::get)
                 .map(RoleResource::toRepresentation)
                 .collect(Collectors.toList());
-        realmResource.users().get(user.getId()).roles().clientLevel(client.getId()).remove(toRemoveRoles);
+        keycloakService.getRealmResource().users().get(user.getId()).roles().clientLevel(client.getId()).remove(toRemoveRoles);
     }
 
     @Override
@@ -111,9 +100,9 @@ public class UserService implements IUserService {
        try {
            log.info("Listing Users");
            final int offset = (requestList.getPage() - 1) * requestList.getPageSize();
-           final Integer count = realmResource.users().count();
-           final List<UserDto> list = realmResource.users().list(offset, requestList.getPageSize()).stream()
-                   .map(KeycloakUserMapper::convert)
+           final Integer count = keycloakService.getRealmResource().users().count();
+           final List<UserDto> list = keycloakService.getRealmResource().users().list(offset, requestList.getPageSize()).stream()
+                   .map(KeycloakMapper::convertUser)
                    .collect(Collectors.toList());
            return new PagedMetadata<>(requestList, list, count);
        } catch (Exception e) {
@@ -124,11 +113,11 @@ public class UserService implements IUserService {
 
     @Override
     public UserDto getUser(final String username) {
-        return KeycloakUserMapper.convert(getUserRepresentation(username));
+        return KeycloakMapper.convertUser(getUserRepresentation(username));
     }
 
     private UserRepresentation getUserRepresentation(final String username) {
-        return realmResource.users().search(username).stream()
+        return keycloakService.getRealmResource().users().search(username).stream()
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException(ERRCODE_USER_NOT_FOUND, "user", username));
     }
@@ -139,8 +128,8 @@ public class UserService implements IUserService {
         ofNullable(userRequest.getStatus()).map(IUserService.STATUS_ACTIVE::equals).ifPresent(user::setEnabled);
         ofNullable(userRequest.getPassword())
                 .ifPresent(password -> updateUserPassword(user.getId(), password, true));
-        realmResource.users().get(user.getId()).update(user);
-        return KeycloakUserMapper.convert(user);
+        keycloakService.getRealmResource().users().get(user.getId()).update(user);
+        return KeycloakMapper.convertUser(user);
     }
 
     @Override
@@ -150,11 +139,10 @@ public class UserService implements IUserService {
             user.setUsername(userRequest.getUsername());
             user.setEnabled(IUserService.STATUS_ACTIVE.equals(userRequest.getStatus()));
 
-            final Response response = realmResource.users().create(user);
-            log.info("Response Status {}", response.getStatus());
+            final Response response = keycloakService.getRealmResource().users().create(user);
             final String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
             updateUserPassword(userId, userRequest.getPassword(), true);
-            return KeycloakUserMapper.convert(user);
+            return KeycloakMapper.convertUser(user);
         } catch (Exception e) {
             log.error("Error while trying to execute addUser", e);
             throw e;
@@ -163,7 +151,7 @@ public class UserService implements IUserService {
 
     @Override
     public void removeUser(final String username) {
-        realmResource.users().get(getUserRepresentation(username).getId()).remove();
+        keycloakService.getRealmResource().users().get(getUserRepresentation(username).getId()).remove();
     }
 
     @Override
@@ -171,7 +159,7 @@ public class UserService implements IUserService {
         final UserRepresentation user = getUserRepresentation(passwordRequest.getUsername());
         // TODO validate user current password
         updateUserPassword(user.getId(), passwordRequest.getNewPassword(), false);
-        return KeycloakUserMapper.convert(user);
+        return KeycloakMapper.convertUser(user);
     }
 
     private void updateUserPassword(final String userId, final String password, final boolean temporary) {
@@ -179,7 +167,7 @@ public class UserService implements IUserService {
         credentials.setValue(password);
         credentials.setTemporary(temporary);
         credentials.setType("password");
-        realmResource.users().get(userId).resetPassword(credentials);
+        keycloakService.getRealmResource().users().get(userId).resetPassword(credentials);
     }
 
     public void setAuthorizationManager(IAuthorizationManager authorizationManager) {}

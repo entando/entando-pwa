@@ -25,10 +25,8 @@ public class EntandoOauth2Interceptor extends HandlerInterceptorAdapter {
     private KeycloakConfiguration configuration;
 
     @Override
-    public boolean preHandle(final HttpServletRequest request,
-                             final HttpServletResponse response,
-                             final Object handler) {
-        log.info("EntandoOauth2Interceptor.preHandle init {}", configuration.toString());
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
+        log.info("EntandoOauth2Interceptor.preHandle init");
         if (handler instanceof HandlerMethod) {
             final HandlerMethod method = (HandlerMethod) handler;
             final RestAccessControl accessControl = method.getMethodAnnotation(RestAccessControl.class);
@@ -43,28 +41,18 @@ public class EntandoOauth2Interceptor extends HandlerInterceptorAdapter {
 
     private void validateToken(final HttpServletRequest request, final String permission) {
         final String authorization = request.getHeader("Authorization");
-        log.info("final String authorization = request.getHeader");
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
-            log.info("authorization == null || !authorization.startsWith(");
+            log.warn("No bearer token provided");
             throw new EntandoTokenException("no token found", request, "guest");
         }
 
         final String bearerToken = authorization.substring("Bearer ".length());
-        final RestTemplate restTemplate = new RestTemplate();
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        final MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("token", bearerToken);
-        map.add("client_id", configuration.getClientId());
-        map.add("client_secret", configuration.getClientSecret());
-        final HttpEntity<MultiValueMap<String, String>> req = new HttpEntity<>(map, headers);
-        final String url = String.format("%s/realms/%s/protocol/openid-connect/token/introspect", configuration.getAuthUrl(), configuration.getRealm());
-        final ResponseEntity<AccessToken> resp = restTemplate.postForEntity(url, req, AccessToken.class);
+        final ResponseEntity<AccessToken> resp = request(bearerToken);
         final AccessToken accessToken = resp.getBody();
 
         if (HttpStatus.NOT_FOUND.equals(resp.getStatusCode()) || HttpStatus.UNAUTHORIZED.equals(resp.getStatusCode())) {
-            log.error("Invalid OAuth configuration");
+            log.error("Invalid OAuth2 configuration: {}", configuration);
             throw new EntandoTokenException("Invalid OAuth configuration", request, "guest");
         }
 
@@ -78,6 +66,28 @@ public class EntandoOauth2Interceptor extends HandlerInterceptorAdapter {
         }
 
         log.info("User authenticated");
+    }
+
+    private ResponseEntity<AccessToken> request(final String bearerToken) {
+        final RestTemplate restTemplate = new RestTemplate();
+        final HttpEntity<MultiValueMap<String, String>> req = createRequest(bearerToken);
+        final String url = String.format("%s/realms/%s/protocol/openid-connect/token/introspect", configuration.getAuthUrl(), configuration.getRealm());
+        return restTemplate.postForEntity(url, req, AccessToken.class);
+    }
+
+    private HttpEntity<MultiValueMap<String, String>> createRequest(final String bearerToken) {
+        final MultiValueMap<String, String> body = createBody(bearerToken);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        return new HttpEntity<>(body, headers);
+    }
+
+    private MultiValueMap<String, String> createBody(final String bearerToken) {
+        final MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("token", bearerToken);
+        map.add("client_id", configuration.getClientId());
+        map.add("client_secret", configuration.getClientSecret());
+        return map;
     }
 
 }
