@@ -6,6 +6,19 @@ import {
   faCheckDouble,
   faSearch,
   faUserCircle,
+  faTimes,
+  faExclamationCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faArrowLeft, faBars, faBell, faCheckDouble, faSearch, faUserCircle);
+const icons = [
+  faArrowLeft,
+  faBars,
+  faBell,
+  faCheckDouble,
+  faSearch,
+  faUserCircle,
+  faTimes,
+  faExclamationCircle,
+];
+
+library.add(...icons);
