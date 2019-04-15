@@ -3,11 +3,11 @@
  * <Your licensing text here>
  *
  */
-package org.entando.pwa.web.notification.validator;
+package org.entando.entando.plugins.pwa.web.notification.validator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.entando.entando.web.common.validator.AbstractPaginationValidator;
-import org.entando.pwa.web.notification.model.NotificationRequest;
+import org.entando.entando.plugins.pwa.web.notification.model.NotificationRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 

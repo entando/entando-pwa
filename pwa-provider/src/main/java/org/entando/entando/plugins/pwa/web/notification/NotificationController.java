@@ -3,7 +3,7 @@
  * <Your licensing text here>
  *
  */
-package org.entando.pwa.web.notification;
+package org.entando.entando.plugins.pwa.web.notification;
 //@RequestMapping(value = "/pwanotification/notifications")
 
 public class NotificationController {

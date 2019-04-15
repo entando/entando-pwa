@@ -24,9 +24,12 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
 
     private static final String ADD_NOTIFICATION = "INSERT INTO pwa_notifications (id, type, objectid, date ) VALUES (?, ?, ?, ? )";
 
-    private static final String UPDATE_NOTIFICATION = "UPDATE pwa_notifications SET  type=?,  objectid=?, date=? WHERE id = ?";
+    private static final String ADD_READ_NOTIFICATION = "INSERT INTO pwa_readnotifications(notificationid, username, date) VALUES (?, ?, ?)";
 
+    //private static final String UPDATE_NOTIFICATION = "UPDATE pwa_notifications SET  type=?,  objectid=?, date=? WHERE id = ?";
     private static final String DELETE_NOTIFICATION = "DELETE FROM pwa_notifications WHERE id = ?";
+
+    private static final String DELETE_READ_NOTIFICATION = "DELETE FROM pwa_readnotifications WHERE notificationid = ?";
 
     private static final String LOAD_NOTIFICATION = "SELECT id, type, objectid, date  FROM pwa_notifications WHERE id = ?";
 
@@ -129,6 +132,7 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         }
     }
 
+    /*
     @Override
     public void updateNotification(Notification notification) {
         Connection conn = null;
@@ -165,7 +169,7 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
             this.closeDaoResources(null, stat, null);
         }
     }
-
+     */
     @Override
     public void removeNotification(int id) {
         PreparedStatement stat = null;
@@ -173,7 +177,9 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         try {
             conn = this.getConnection();
             conn.setAutoCommit(false);
-            this.removeNotification(id, conn);
+            super.executeQueryWithoutResultset(conn, DELETE_READ_NOTIFICATION, id);
+            super.executeQueryWithoutResultset(conn, DELETE_NOTIFICATION, id);
+            //this.removeNotification(id, conn);
             conn.commit();
         } catch (Throwable t) {
             this.executeRollback(conn);
@@ -184,6 +190,7 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         }
     }
 
+    /*
     public void removeNotification(int id, Connection conn) {
         PreparedStatement stat = null;
         try {
@@ -198,7 +205,7 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
             this.closeDaoResources(null, stat, null);
         }
     }
-
+     */
     @Override
     public Notification loadNotification(int id) {
         Notification notification = null;
@@ -269,6 +276,70 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
             this.closeDaoResources(res, stat);
         }
         return id;
+    }
+
+    @Override
+    public void addUserReading(String username, String objectId, String type) {
+        FieldSearchFilter filterId = new FieldSearchFilter("objectid", objectId, false);
+        FieldSearchFilter filterType = new FieldSearchFilter("type", type, false);
+        FieldSearchFilter dateFilter = new FieldSearchFilter("date");
+        dateFilter.setOrder(FieldSearchFilter.Order.DESC);
+        FieldSearchFilter[] filters = {filterId, filterType, dateFilter};
+        Connection conn = null;
+        try {
+            conn = this.getConnection();
+            conn.setAutoCommit(false);
+            List<Integer> ids = this.searchId(filters, conn);
+            if (null != ids && !ids.isEmpty()) {
+                this.insertReadNotification(ids.get(0), username, conn);
+            }
+        } catch (Throwable t) {
+            this.executeRollback(conn);
+            logger.error("Error adding user reading", t);
+            throw new RuntimeException("Error adding user reading", t);
+        } finally {
+            this.closeConnection(conn);
+        }
+    }
+
+    protected List<Integer> searchId(FieldSearchFilter[] filters, Connection conn) {
+        List<Integer> idList = new ArrayList<>();
+        PreparedStatement stat = null;
+        ResultSet result = null;
+        try {
+            stat = this.buildStatement(filters, false, false, conn);
+            result = stat.executeQuery();
+            while (result.next()) {
+                int id = result.getInt(this.getMasterTableIdFieldName());
+                if (!idList.contains(id)) {
+                    idList.add(id);
+                }
+            }
+        } catch (Throwable t) {
+            logger.error("Error while loading the list of IDs", t);
+            throw new RuntimeException("Error while loading the list of IDs", t);
+        } finally {
+            closeDaoResources(result, stat);
+        }
+        return idList;
+    }
+
+    protected void insertReadNotification(Integer notificationId, String username, Connection conn) {
+        PreparedStatement stat = null;
+        try {
+            stat = conn.prepareStatement(ADD_READ_NOTIFICATION);
+            int index = 1;
+            stat.setInt(index++, notificationId);
+            stat.setString(index++, username);
+            Timestamp dateTimestamp = new Timestamp(new Date().getTime());
+            stat.setTimestamp(index++, dateTimestamp);
+            stat.executeUpdate();
+        } catch (Throwable t) {
+            logger.error("Error on insert user notification", t);
+            throw new RuntimeException("Error on insert user notification", t);
+        } finally {
+            this.closeDaoResources(null, stat, null);
+        }
     }
 
 }

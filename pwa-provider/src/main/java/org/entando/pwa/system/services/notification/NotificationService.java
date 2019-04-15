@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import com.agiletec.aps.system.common.FieldSearchFilter;
 import com.agiletec.aps.system.exception.ApsSystemException;
 import com.agiletec.aps.system.common.model.dao.SearcherDaoPaginatedResult;
+import com.agiletec.plugins.jacms.aps.system.services.content.IContentManager;
 import org.entando.entando.aps.system.exception.RestServerError;
 import org.entando.entando.web.common.exceptions.ValidationGenericException;
 import org.entando.entando.aps.system.services.DtoBuilder;
@@ -19,8 +20,9 @@ import org.entando.entando.web.common.model.PagedMetadata;
 import org.entando.entando.web.common.model.RestListRequest;
 import org.entando.entando.aps.system.exception.ResourceNotFoundException;
 import org.entando.pwa.system.services.notification.model.NotificationDto;
-import org.entando.pwa.web.notification.model.NotificationRequest;
-import org.entando.pwa.web.notification.validator.NotificationValidator;
+import org.entando.entando.plugins.pwa.web.notification.model.NotificationRequest;
+import org.entando.entando.plugins.pwa.web.notification.validator.NotificationValidator;
+import org.entando.pwa.system.services.notification.model.PwaNotificationDto;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,28 +35,15 @@ public class NotificationService implements INotificationService {
 
     @Autowired
     private INotificationManager notificationManager;
+
+    @Autowired
+    private IContentManager contentManager;
+
     private IDtoBuilder<Notification, NotificationDto> dtoBuilder;
-
-    protected INotificationManager getNotificationManager() {
-        return notificationManager;
-    }
-
-    public void setNotificationManager(INotificationManager notificationManager) {
-        this.notificationManager = notificationManager;
-    }
-
-    protected IDtoBuilder<Notification, NotificationDto> getDtoBuilder() {
-        return dtoBuilder;
-    }
-
-    public void setDtoBuilder(IDtoBuilder<Notification, NotificationDto> dtoBuilder) {
-        this.dtoBuilder = dtoBuilder;
-    }
 
     @PostConstruct
     public void onInit() {
         this.setDtoBuilder(new DtoBuilder<Notification, NotificationDto>() {
-
             @Override
             protected NotificationDto toDto(Notification src) {
                 NotificationDto dto = new NotificationDto();
@@ -65,20 +54,20 @@ public class NotificationService implements INotificationService {
     }
 
     @Override
+    public PagedMetadata<PwaNotificationDto> getUserNotifications(RestListRequest requestList, String username) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public PagedMetadata<NotificationDto> getNotifications(RestListRequest requestList) {
         try {
             List<FieldSearchFilter> filters = new ArrayList<FieldSearchFilter>(requestList.buildFieldSearchFilters());
-            filters
-                    .stream()
-                    .filter(i -> i.getKey() != null)
+            filters.stream().filter(i -> i.getKey() != null)
                     .forEach(i -> i.setKey(NotificationDto.getEntityFieldName(i.getKey())));
-
             SearcherDaoPaginatedResult<Notification> notifications = this.getNotificationManager().getNotifications(filters);
             List<NotificationDto> dtoList = dtoBuilder.convert(notifications.getList());
-
             PagedMetadata<NotificationDto> pagedMetadata = new PagedMetadata<>(requestList, notifications);
             pagedMetadata.setBody(dtoList);
-
             return pagedMetadata;
         } catch (Throwable t) {
             logger.error("error in search notifications", t);
@@ -86,6 +75,7 @@ public class NotificationService implements INotificationService {
         }
     }
 
+    /*
     @Override
     public NotificationDto updateNotification(NotificationRequest notificationRequest) {
         try {
@@ -105,7 +95,7 @@ public class NotificationService implements INotificationService {
             throw new RestServerError("error in update notification", e);
         }
     }
-
+     */
     @Override
     public NotificationDto addNotification(NotificationRequest notificationRequest) {
         try {
@@ -177,6 +167,30 @@ public class NotificationService implements INotificationService {
     protected BeanPropertyBindingResult validateForUpdate(Notification notification) {
         BeanPropertyBindingResult errors = new BeanPropertyBindingResult(notification, "notification");
         return errors;
+    }
+
+    protected INotificationManager getNotificationManager() {
+        return notificationManager;
+    }
+
+    public void setNotificationManager(INotificationManager notificationManager) {
+        this.notificationManager = notificationManager;
+    }
+
+    protected IDtoBuilder<Notification, NotificationDto> getDtoBuilder() {
+        return dtoBuilder;
+    }
+
+    public void setDtoBuilder(IDtoBuilder<Notification, NotificationDto> dtoBuilder) {
+        this.dtoBuilder = dtoBuilder;
+    }
+
+    protected IContentManager getContentManager() {
+        return contentManager;
+    }
+
+    public void setContentManager(IContentManager contentManager) {
+        this.contentManager = contentManager;
     }
 
 }

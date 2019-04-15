@@ -3,7 +3,7 @@
  * <Your licensing text here>
  *
  */
-package org.entando.pwa.web.notification.model;
+package org.entando.entando.plugins.pwa.web.notification.model;
 
 import java.util.Date;
 import javax.validation.constraints.*;

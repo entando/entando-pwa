@@ -20,9 +20,9 @@ public interface INotificationManager {
 
     public void addNotification(Notification notification) throws ApsSystemException;
 
-    public void updateNotification(Notification notification) throws ApsSystemException;
-
+    //public void updateNotification(Notification notification) throws ApsSystemException;
     public void deleteNotification(int id) throws ApsSystemException;
 
     public SearcherDaoPaginatedResult<Notification> getNotifications(List<FieldSearchFilter> fieldSearchFilters) throws ApsSystemException;
+
 }

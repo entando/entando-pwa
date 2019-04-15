@@ -44,7 +44,7 @@ public class NotificationManager extends AbstractService implements INotificatio
 
     @Override
     public List<Integer> getNotifications() throws ApsSystemException {
-        List<Integer> notifications = new ArrayList<Integer>();
+        List<Integer> notifications = new ArrayList<>();
         try {
             notifications = this.getNotificationDAO().loadNotifications();
         } catch (Throwable t) {
@@ -56,7 +56,7 @@ public class NotificationManager extends AbstractService implements INotificatio
 
     @Override
     public List<Integer> searchNotifications(FieldSearchFilter filters[]) throws ApsSystemException {
-        List<Integer> notifications = new ArrayList<Integer>();
+        List<Integer> notifications = new ArrayList<>();
         try {
             notifications = this.getNotificationDAO().searchNotifications(filters);
         } catch (Throwable t) {
@@ -77,6 +77,7 @@ public class NotificationManager extends AbstractService implements INotificatio
         }
     }
 
+    /*
     @Override
     public void updateNotification(Notification notification) throws ApsSystemException {
         try {
@@ -87,7 +88,7 @@ public class NotificationManager extends AbstractService implements INotificatio
             throw new ApsSystemException("Error updating Notification " + notification, t);
         }
     }
-
+     */
     @Override
     public void deleteNotification(int id) throws ApsSystemException {
         try {
@@ -108,7 +109,7 @@ public class NotificationManager extends AbstractService implements INotificatio
      * @throws Throwable
      */
     public List<JAXBNotification> getNotificationsForApi(Properties properties) throws Throwable {
-        List<JAXBNotification> list = new ArrayList<JAXBNotification>();
+        List<JAXBNotification> list = new ArrayList<>();
         List<Integer> idList = this.getNotifications();
         if (null != idList && !idList.isEmpty()) {
             Iterator<Integer> notificationIterator = idList.iterator();
@@ -163,14 +164,7 @@ public class NotificationManager extends AbstractService implements INotificatio
         this.addNotification(notification);
     }
 
-    /**
-     * PUT Content-Type: application/xml
-     * http://localhost:8080/<portal>/api/rs/en/notification
-     *
-     * @param jaxbNotification
-     * @throws ApiException
-     * @throws ApsSystemException
-     */
+    /*
     public void updateNotificationForApi(JAXBNotification jaxbNotification) throws ApiException, ApsSystemException {
         if (null == this.getNotification(jaxbNotification.getId())) {
             throw new ApiException(IApiErrorCodes.API_VALIDATION_ERROR, "Notification with id " + jaxbNotification.getId() + " does not exist", Response.Status.CONFLICT);
@@ -178,7 +172,7 @@ public class NotificationManager extends AbstractService implements INotificatio
         Notification notification = jaxbNotification.getNotification();
         this.updateNotification(notification);
     }
-
+     */
     /**
      * DELETE http://localhost:8080/<portal>/api/rs/en/notification?id=1
      *
