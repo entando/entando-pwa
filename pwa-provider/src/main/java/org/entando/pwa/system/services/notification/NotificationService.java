@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import com.agiletec.aps.system.common.FieldSearchFilter;
+import com.agiletec.aps.system.common.entity.model.attribute.ITextAttribute;
 import com.agiletec.aps.system.exception.ApsSystemException;
 import com.agiletec.aps.system.common.model.dao.SearcherDaoPaginatedResult;
+import com.agiletec.plugins.jacms.aps.system.JacmsSystemConstants;
 import com.agiletec.plugins.jacms.aps.system.services.content.IContentManager;
+import com.agiletec.plugins.jacms.aps.system.services.content.model.Content;
 import org.entando.entando.aps.system.exception.RestServerError;
 import org.entando.entando.web.common.exceptions.ValidationGenericException;
 import org.entando.entando.aps.system.services.DtoBuilder;
@@ -89,8 +92,26 @@ public class NotificationService implements INotificationService {
             List<FieldSearchFilter> filters = new ArrayList<>(requestList.buildFieldSearchFilters());
             filters.stream().filter(i -> i.getKey() != null)
                     .forEach(i -> i.setKey(NotificationDto.getEntityFieldName(i.getKey())));
+            FieldSearchFilter filterType = new FieldSearchFilter("type", "cms-content", false);
+            filters.add(filterType);
             SearcherDaoPaginatedResult<Notification> notifications = this.getNotificationManager().getNotifications(filters, username);
             List<PwaNotificationDto> dtoList = this.getDtoPwaBuilder().convert(notifications.getList());
+            for (int i = 0; i < dtoList.size(); i++) {
+                PwaNotificationDto not = dtoList.get(i);
+                Content content = this.getContentManager().loadContent(not.getObjectId(), true);
+                if (null == content) {
+                    this.getNotificationManager().deleteNotification(not.getId());
+                } else {
+                    ITextAttribute title = (ITextAttribute) content.getAttributeByRole(JacmsSystemConstants.ATTRIBUTE_ROLE_TITLE);
+                    if (null != title) {
+                        not.setTitle(title.getText());
+                    }
+                    if (null != content.getCategories()) {
+                        content.getCategories().stream().forEach(cat -> not.getCategories().add(cat.getCode()));
+                    }
+                    not.getProperties().put("contentType", content.getTypeCode());
+                }
+            }
             PagedMetadata<PwaNotificationDto> pagedMetadata = new PagedMetadata<>(requestList, notifications);
             pagedMetadata.setBody(dtoList);
             return pagedMetadata;

@@ -15,6 +15,7 @@ import java.util.Date;
 import com.agiletec.aps.system.common.AbstractSearcherDAO;
 import com.agiletec.aps.system.common.FieldSearchFilter;
 import java.sql.Statement;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -365,14 +366,16 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
     }
 
     protected PreparedStatement buildStatement(FieldSearchFilter[] filters, boolean isCount, boolean selectAll, String username, Connection conn) {
-        String query = this.createQueryString(filters, isCount, selectAll);
+        String query = this.createQueryString(filters, isCount, selectAll, username);
         logger.trace("{}", query);
         PreparedStatement stat = null;
         try {
             stat = conn.prepareStatement(query);
             int index = 0;
             index = this.addMetadataFieldFilterStatementBlock(filters, index, stat);
-            stat.setString(++index, username);
+            if (!StringUtils.isBlank(username)) {
+                stat.setString(++index, username);
+            }
         } catch (Throwable t) {
             logger.error("Error while creating the statement", t);
             throw new RuntimeException("Error while creating the statement", t);
@@ -383,8 +386,10 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
     protected String createQueryString(FieldSearchFilter[] filters, boolean isCount, boolean selectAll, String username) {
         StringBuffer query = this.createBaseQueryBlock(filters, isCount, selectAll);
         boolean hasAppendWhereClause = this.appendMetadataFieldFilterQueryBlocks(filters, query, false);
-        hasAppendWhereClause = super.verifyWhereClauseAppend(query, hasAppendWhereClause);
-        query.append(" id NOT IN (SELECT notificationid FROM pwa_readnotifications WHERE username = ?) ");
+        if (!StringUtils.isBlank(username)) {
+            hasAppendWhereClause = super.verifyWhereClauseAppend(query, hasAppendWhereClause);
+            query.append(" id NOT IN (SELECT notificationid FROM pwa_readnotifications WHERE username = ?) ");
+        }
         if (!isCount) {
             boolean ordered = appendOrderQueryBlocks(filters, query, false);
             this.appendLimitQueryBlock(filters, query, hasAppendWhereClause);

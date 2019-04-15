@@ -1,7 +1,9 @@
 package org.entando.pwa.system.services.notification.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -11,9 +13,8 @@ public class PwaNotificationDto extends NotificationDto {
 
     private String title;
     private String body;
-
-    @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
-    private List<String> categories;
+    private Map<String, String> properties = new HashMap<>();
+    private List<String> categories = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -29,6 +30,14 @@ public class PwaNotificationDto extends NotificationDto {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Map<String, String> properties) {
+        this.properties = properties;
     }
 
     public List<String> getCategories() {
