@@ -41,6 +41,8 @@ public class NotificationService implements INotificationService {
 
     private IDtoBuilder<Notification, NotificationDto> dtoBuilder;
 
+    private IDtoBuilder<Notification, PwaNotificationDto> dtoPwaBuilder;
+
     @PostConstruct
     public void onInit() {
         this.setDtoBuilder(new DtoBuilder<Notification, NotificationDto>() {
@@ -51,11 +53,17 @@ public class NotificationService implements INotificationService {
                 return dto;
             }
         });
-    }
-
-    @Override
-    public PagedMetadata<PwaNotificationDto> getUserNotifications(RestListRequest requestList, String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.setDtoPwaBuilder(new DtoBuilder<Notification, PwaNotificationDto>() {
+            @Override
+            protected PwaNotificationDto toDto(Notification src) {
+                PwaNotificationDto dto = new PwaNotificationDto();
+                dto.setDate(src.getDate());
+                dto.setId(src.getId());
+                dto.setObjectId(src.getObjectId());
+                dto.setType(src.getType());
+                return dto;
+            }
+        });
     }
 
     @Override
@@ -67,6 +75,23 @@ public class NotificationService implements INotificationService {
             SearcherDaoPaginatedResult<Notification> notifications = this.getNotificationManager().getNotifications(filters);
             List<NotificationDto> dtoList = dtoBuilder.convert(notifications.getList());
             PagedMetadata<NotificationDto> pagedMetadata = new PagedMetadata<>(requestList, notifications);
+            pagedMetadata.setBody(dtoList);
+            return pagedMetadata;
+        } catch (Throwable t) {
+            logger.error("error in search notifications", t);
+            throw new RestServerError("error in search notifications", t);
+        }
+    }
+
+    @Override
+    public PagedMetadata<PwaNotificationDto> getNotificationsByUser(RestListRequest requestList, String username) {
+        try {
+            List<FieldSearchFilter> filters = new ArrayList<>(requestList.buildFieldSearchFilters());
+            filters.stream().filter(i -> i.getKey() != null)
+                    .forEach(i -> i.setKey(NotificationDto.getEntityFieldName(i.getKey())));
+            SearcherDaoPaginatedResult<Notification> notifications = this.getNotificationManager().getNotifications(filters, username);
+            List<PwaNotificationDto> dtoList = this.getDtoPwaBuilder().convert(notifications.getList());
+            PagedMetadata<PwaNotificationDto> pagedMetadata = new PagedMetadata<>(requestList, notifications);
             pagedMetadata.setBody(dtoList);
             return pagedMetadata;
         } catch (Throwable t) {
@@ -183,6 +208,14 @@ public class NotificationService implements INotificationService {
 
     public void setDtoBuilder(IDtoBuilder<Notification, NotificationDto> dtoBuilder) {
         this.dtoBuilder = dtoBuilder;
+    }
+
+    public IDtoBuilder<Notification, PwaNotificationDto> getDtoPwaBuilder() {
+        return dtoPwaBuilder;
+    }
+
+    public void setDtoPwaBuilder(IDtoBuilder<Notification, PwaNotificationDto> dtoPwaBuilder) {
+        this.dtoPwaBuilder = dtoPwaBuilder;
     }
 
     protected IContentManager getContentManager() {

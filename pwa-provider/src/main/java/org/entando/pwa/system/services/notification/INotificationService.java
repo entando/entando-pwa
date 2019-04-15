@@ -17,7 +17,7 @@ public interface INotificationService {
 
     public PagedMetadata<NotificationDto> getNotifications(RestListRequest requestList);
 
-    public PagedMetadata<PwaNotificationDto> getUserNotifications(RestListRequest requestList, String username);
+    public PagedMetadata<PwaNotificationDto> getNotificationsByUser(RestListRequest requestList, String username);
 
     //public NotificationDto updateNotification(NotificationRequest notificationRequest);
     public NotificationDto addNotification(NotificationRequest notificationRequest);

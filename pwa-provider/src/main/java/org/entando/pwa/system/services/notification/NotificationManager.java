@@ -67,6 +67,18 @@ public class NotificationManager extends AbstractService implements INotificatio
     }
 
     @Override
+    public List<Notification> searchNotificationsByUser(FieldSearchFilter[] filters, String username) throws ApsSystemException {
+        List<Notification> notifications = new ArrayList<>();
+        try {
+            notifications = this.getNotificationDAO().searchNotificationsByUser(filters, username);
+        } catch (Throwable t) {
+            logger.error("Error searching Notifications", t);
+            throw new ApsSystemException("Error searching Notifications", t);
+        }
+        return notifications;
+    }
+
+    @Override
     public void addNotification(Notification notification) throws ApsSystemException {
         try {
             this.getNotificationDAO().insertNotification(notification);
@@ -200,16 +212,16 @@ public class NotificationManager extends AbstractService implements INotificatio
 
     @SuppressWarnings("rawtypes")
     public SearcherDaoPaginatedResult<Notification> getNotifications(FieldSearchFilter[] filters) throws ApsSystemException {
+        return this.getNotifications(filters, null);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public SearcherDaoPaginatedResult<Notification> getNotifications(FieldSearchFilter[] filters, String username) throws ApsSystemException {
         SearcherDaoPaginatedResult<Notification> pagedResult = null;
         try {
-            List<Notification> notifications = new ArrayList<>();
             int count = this.getNotificationDAO().countNotifications(filters);
-
-            List<Integer> notificationNames = this.getNotificationDAO().searchNotifications(filters);
-            for (Integer notificationName : notificationNames) {
-                notifications.add(this.getNotification(notificationName));
-            }
-            pagedResult = new SearcherDaoPaginatedResult<Notification>(count, notifications);
+            List<Notification> notifications = this.getNotificationDAO().searchNotificationsByUser(filters, username);
+            pagedResult = new SearcherDaoPaginatedResult<>(count, notifications);
         } catch (Throwable t) {
             logger.error("Error searching notifications", t);
             throw new ApsSystemException("Error searching notifications", t);
@@ -219,11 +231,16 @@ public class NotificationManager extends AbstractService implements INotificatio
 
     @Override
     public SearcherDaoPaginatedResult<Notification> getNotifications(List<FieldSearchFilter> filters) throws ApsSystemException {
+        return this.getNotifications(filters, null);
+    }
+
+    @Override
+    public SearcherDaoPaginatedResult<Notification> getNotifications(List<FieldSearchFilter> filters, String username) throws ApsSystemException {
         FieldSearchFilter[] array = null;
         if (null != filters) {
             array = filters.toArray(new FieldSearchFilter[filters.size()]);
         }
-        return this.getNotifications(array);
+        return this.getNotifications(array, username);
     }
 
     public void setNotificationDAO(INotificationDAO notificationDAO) {

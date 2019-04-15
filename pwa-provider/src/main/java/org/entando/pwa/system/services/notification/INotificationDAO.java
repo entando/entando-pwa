@@ -12,6 +12,8 @@ public interface INotificationDAO {
 
     public List<Integer> searchNotifications(FieldSearchFilter[] filters);
 
+    public List<Notification> searchNotificationsByUser(FieldSearchFilter[] filters, String username);
+
     public Notification loadNotification(int id);
 
     public List<Integer> loadNotifications();

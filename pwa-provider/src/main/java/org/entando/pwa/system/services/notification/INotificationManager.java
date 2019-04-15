@@ -18,11 +18,15 @@ public interface INotificationManager {
 
     public List<Integer> searchNotifications(FieldSearchFilter filters[]) throws ApsSystemException;
 
+    public List<Notification> searchNotificationsByUser(FieldSearchFilter[] filters, String username) throws ApsSystemException;
+
     public void addNotification(Notification notification) throws ApsSystemException;
 
     //public void updateNotification(Notification notification) throws ApsSystemException;
     public void deleteNotification(int id) throws ApsSystemException;
 
     public SearcherDaoPaginatedResult<Notification> getNotifications(List<FieldSearchFilter> fieldSearchFilters) throws ApsSystemException;
+
+    public SearcherDaoPaginatedResult<Notification> getNotifications(List<FieldSearchFilter> fieldSearchFilters, String username) throws ApsSystemException;
 
 }
