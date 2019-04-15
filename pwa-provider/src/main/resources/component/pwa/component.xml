@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+	<code>pwa</code>
+	<description>PWA</description>
+	<installation>
+		<tableMapping>
+			<datasource name="servDataSource">
+				<class>org.entando.pwa.system.init.NotificationTable</class>
+				<class>org.entando.pwa.system.init.NotificationReadTable</class>
+			</datasource>
+		</tableMapping>
+	</installation>
+</component>

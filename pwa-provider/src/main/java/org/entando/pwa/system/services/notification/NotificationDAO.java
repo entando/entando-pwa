@@ -1,0 +1,274 @@
+/*
+ *
+ * <Your licensing text here>
+ *
+ */
+package org.entando.pwa.system.services.notification;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.Timestamp;
+import java.util.Date;
+import com.agiletec.aps.system.common.AbstractSearcherDAO;
+import com.agiletec.aps.system.common.FieldSearchFilter;
+import java.sql.Statement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class NotificationDAO extends AbstractSearcherDAO implements INotificationDAO {
+
+    private static final Logger logger = LoggerFactory.getLogger(NotificationDAO.class);
+
+    private static final String ADD_NOTIFICATION = "INSERT INTO pwa_notifications (id, type, objectid, date ) VALUES (?, ?, ?, ? )";
+
+    private static final String UPDATE_NOTIFICATION = "UPDATE pwa_notifications SET  type=?,  objectid=?, date=? WHERE id = ?";
+
+    private static final String DELETE_NOTIFICATION = "DELETE FROM pwa_notifications WHERE id = ?";
+
+    private static final String LOAD_NOTIFICATION = "SELECT id, type, objectid, date  FROM pwa_notifications WHERE id = ?";
+
+    private static final String LOAD_NOTIFICATIONS_ID = "SELECT id FROM pwa_notifications";
+
+    private final String EXTRACT_NEXT_ID = "SELECT MAX(id) FROM pwa_notifications";
+
+    @Override
+    public int countNotifications(FieldSearchFilter[] filters) {
+        Integer notifications = null;
+        try {
+            notifications = super.countId(filters);
+        } catch (Throwable t) {
+            logger.error("error in count notifications", t);
+            throw new RuntimeException("error in count notifications", t);
+        }
+        return notifications;
+    }
+
+    @Override
+    protected String getTableFieldName(String metadataFieldKey) {
+        return metadataFieldKey;
+    }
+
+    @Override
+    protected String getMasterTableName() {
+        return "pwa_notifications";
+    }
+
+    @Override
+    protected String getMasterTableIdFieldName() {
+        return "id";
+    }
+
+    @Override
+    public List<Integer> searchNotifications(FieldSearchFilter[] filters) {
+        List<Integer> notificationsId = new ArrayList<>();
+        List<String> masterList = super.searchId(filters);
+        masterList.stream().forEach(idString -> notificationsId.add(Integer.parseInt(idString)));
+        return notificationsId;
+    }
+
+    @Override
+    public List<Integer> loadNotifications() {
+        List<Integer> notificationsId = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stat = null;
+        ResultSet res = null;
+        try {
+            conn = this.getConnection();
+            stat = conn.prepareStatement(LOAD_NOTIFICATIONS_ID);
+            res = stat.executeQuery();
+            while (res.next()) {
+                int id = res.getInt("id");
+                notificationsId.add(id);
+            }
+        } catch (Throwable t) {
+            logger.error("Error loading Notification list", t);
+            throw new RuntimeException("Error loading Notification list", t);
+        } finally {
+            closeDaoResources(res, stat, conn);
+        }
+        return notificationsId;
+    }
+
+    @Override
+    public void insertNotification(Notification notification) {
+        Connection conn = null;
+        try {
+            conn = this.getConnection();
+            conn.setAutoCommit(false);
+            this.insertNotification(notification, conn);
+            conn.commit();
+        } catch (Throwable t) {
+            this.executeRollback(conn);
+            logger.error("Error on insert notification", t);
+            throw new RuntimeException("Error on insert notification", t);
+        } finally {
+            this.closeConnection(conn);
+        }
+    }
+
+    public void insertNotification(Notification notification, Connection conn) {
+        PreparedStatement stat = null;
+        try {
+            stat = conn.prepareStatement(ADD_NOTIFICATION);
+            notification.setId(this.extractNextId(conn));
+            int index = 1;
+            stat.setInt(index++, notification.getId());
+            stat.setString(index++, notification.getType());
+            stat.setString(index++, notification.getObjectId());
+            Timestamp dateTimestamp = new Timestamp(notification.getDate().getTime());
+            stat.setTimestamp(index++, dateTimestamp);
+            stat.executeUpdate();
+        } catch (Throwable t) {
+            logger.error("Error on insert notification", t);
+            throw new RuntimeException("Error on insert notification", t);
+        } finally {
+            this.closeDaoResources(null, stat, null);
+        }
+    }
+
+    @Override
+    public void updateNotification(Notification notification) {
+        Connection conn = null;
+        try {
+            conn = this.getConnection();
+            conn.setAutoCommit(false);
+            this.updateNotification(notification, conn);
+            conn.commit();
+        } catch (Throwable t) {
+            this.executeRollback(conn);
+            logger.error("Error updating notification {}", notification.getId(), t);
+            throw new RuntimeException("Error updating notification", t);
+        } finally {
+            this.closeConnection(conn);
+        }
+    }
+
+    public void updateNotification(Notification notification, Connection conn) {
+        PreparedStatement stat = null;
+        try {
+            stat = conn.prepareStatement(UPDATE_NOTIFICATION);
+            int index = 1;
+
+            stat.setString(index++, notification.getType());
+            stat.setString(index++, notification.getObjectId());
+            Timestamp dateTimestamp = new Timestamp(notification.getDate().getTime());
+            stat.setTimestamp(index++, dateTimestamp);
+            stat.setInt(index++, notification.getId());
+            stat.executeUpdate();
+        } catch (Throwable t) {
+            logger.error("Error updating notification {}", notification.getId(), t);
+            throw new RuntimeException("Error updating notification", t);
+        } finally {
+            this.closeDaoResources(null, stat, null);
+        }
+    }
+
+    @Override
+    public void removeNotification(int id) {
+        PreparedStatement stat = null;
+        Connection conn = null;
+        try {
+            conn = this.getConnection();
+            conn.setAutoCommit(false);
+            this.removeNotification(id, conn);
+            conn.commit();
+        } catch (Throwable t) {
+            this.executeRollback(conn);
+            logger.error("Error deleting notification {}", id, t);
+            throw new RuntimeException("Error deleting notification", t);
+        } finally {
+            this.closeDaoResources(null, stat, conn);
+        }
+    }
+
+    public void removeNotification(int id, Connection conn) {
+        PreparedStatement stat = null;
+        try {
+            stat = conn.prepareStatement(DELETE_NOTIFICATION);
+            int index = 1;
+            stat.setInt(index++, id);
+            stat.executeUpdate();
+        } catch (Throwable t) {
+            logger.error("Error deleting notification {}", id, t);
+            throw new RuntimeException("Error deleting notification", t);
+        } finally {
+            this.closeDaoResources(null, stat, null);
+        }
+    }
+
+    @Override
+    public Notification loadNotification(int id) {
+        Notification notification = null;
+        Connection conn = null;
+        try {
+            conn = this.getConnection();
+            notification = this.loadNotification(id, conn);
+        } catch (Throwable t) {
+            logger.error("Error loading notification with id {}", id, t);
+            throw new RuntimeException("Error loading notification with id " + id, t);
+        } finally {
+            closeConnection(conn);
+        }
+        return notification;
+    }
+
+    public Notification loadNotification(int id, Connection conn) {
+        Notification notification = null;
+        PreparedStatement stat = null;
+        ResultSet res = null;
+        try {
+            stat = conn.prepareStatement(LOAD_NOTIFICATION);
+            int index = 1;
+            stat.setInt(index++, id);
+            res = stat.executeQuery();
+            if (res.next()) {
+                notification = this.buildNotificationFromRes(res);
+            }
+        } catch (Throwable t) {
+            logger.error("Error loading notification with id {}", id, t);
+            throw new RuntimeException("Error loading notification with id " + id, t);
+        } finally {
+            closeDaoResources(res, stat, null);
+        }
+        return notification;
+    }
+
+    protected Notification buildNotificationFromRes(ResultSet res) {
+        Notification notification = null;
+        try {
+            notification = new Notification();
+            notification.setId(res.getInt("id"));
+            notification.setType(res.getString("type"));
+            notification.setObjectId(res.getString("objectid"));
+            Timestamp dateValue = res.getTimestamp("date");
+            if (null != dateValue) {
+                notification.setDate(new Date(dateValue.getTime()));
+            }
+        } catch (Throwable t) {
+            logger.error("Error in buildNotificationFromRes", t);
+        }
+        return notification;
+    }
+
+    protected int extractNextId(Connection conn) {
+        int id = 0;
+        Statement stat = null;
+        ResultSet res = null;
+        try {
+            stat = conn.createStatement();
+            res = stat.executeQuery(EXTRACT_NEXT_ID);
+            res.next();
+            id = res.getInt(1) + 1;
+        } catch (Throwable t) {
+            logger.error("Error extracting next id", t);
+            throw new RuntimeException("Error extracting next id", t);
+        } finally {
+            this.closeDaoResources(res, stat);
+        }
+        return id;
+    }
+
+}
