@@ -1,6 +1,7 @@
-package org.entando.entando.aps.system.services.user;
+package org.entando.entando.aps.system.services.keycloak;
 
 import org.entando.entando.aps.system.services.group.model.GroupDto;
+import org.entando.entando.aps.system.services.role.model.RoleDto;
 import org.entando.entando.aps.system.services.user.model.UserDto;
 import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -16,6 +17,13 @@ public class KeycloakMapper {
         group.setCode(groupRepresentation.getId());
         group.setName(groupRepresentation.getName());
         return group;
+    }
+
+    public static RoleDto convertRole(final GroupRepresentation groupRepresentation) {
+        final RoleDto role = new RoleDto();
+        role.setCode(groupRepresentation.getId());
+        role.setName(groupRepresentation.getName());
+        return role;
     }
 
 }

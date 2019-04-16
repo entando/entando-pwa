@@ -1,6 +1,6 @@
 package org.entando.entando.web.common.interceptor;
 
-import org.entando.entando.plugins.keycloak.aps.KeycloakConfiguration;
+import org.entando.entando.aps.system.services.keycloak.KeycloakConfiguration;
 import org.entando.entando.web.common.annotation.RestAccessControl;
 import org.entando.entando.web.common.exceptions.EntandoAuthorizationException;
 import org.entando.entando.web.common.exceptions.EntandoTokenException;

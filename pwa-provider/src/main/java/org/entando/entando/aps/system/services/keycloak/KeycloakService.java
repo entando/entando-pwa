@@ -1,6 +1,5 @@
-package org.entando.entando.aps.system.services.user;
+package org.entando.entando.aps.system.services.keycloak;
 
-import org.entando.entando.plugins.keycloak.aps.KeycloakConfiguration;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;

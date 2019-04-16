@@ -1,4 +1,4 @@
-package org.entando.entando.plugins.keycloak.aps;
+package org.entando.entando.aps.system.services.keycloak;
 
 public class KeycloakConfiguration {
 

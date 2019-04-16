@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="keycloakConfiguration"
-          class="org.entando.entando.plugins.keycloak.aps.KeycloakConfiguration">
+          class="org.entando.entando.aps.system.services.keycloak.KeycloakConfiguration">
         <property name="authUrl">
             <value>${keycloak.authUrl}</value>
         </property>
@@ -19,7 +19,7 @@
         </property>
     </bean>
 
-    <bean id="keycloakService" class="org.entando.entando.aps.system.services.user.KeycloakService">
+    <bean id="keycloakService" class="org.entando.entando.aps.system.services.keycloak.KeycloakService">
         <constructor-arg index="0" ref="keycloakConfiguration"/>
     </bean>
 
