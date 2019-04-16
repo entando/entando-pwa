@@ -290,6 +290,7 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
                 super.executeQueryWithoutResultset(conn, DELETE_READ_NOTIFICATION, ids.get(0));
                 super.executeQueryWithoutResultset(conn, DELETE_NOTIFICATION, ids.get(0));
             }
+            conn.commit();
         } catch (Throwable t) {
             this.executeRollback(conn);
             logger.error("Error removing notifications", t);
@@ -309,6 +310,7 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
             if (null != ids && !ids.isEmpty()) {
                 this.insertReadNotification(ids.get(0), username, conn);
             }
+            conn.commit();
         } catch (Throwable t) {
             this.executeRollback(conn);
             logger.error("Error adding user reading", t);
