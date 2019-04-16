@@ -9,6 +9,8 @@ import com.agiletec.aps.system.common.AbstractService;
 import com.agiletec.aps.system.common.FieldSearchFilter;
 import com.agiletec.aps.system.common.model.dao.SearcherDaoPaginatedResult;
 import com.agiletec.aps.system.exception.ApsSystemException;
+import com.agiletec.plugins.jacms.aps.system.services.content.event.PublicContentChangedEvent;
+import com.agiletec.plugins.jacms.aps.system.services.content.event.PublicContentChangedObserver;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,13 +23,34 @@ import org.entando.pwa.system.services.notification.event.NotificationChangedEve
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NotificationManager extends AbstractService implements INotificationManager {
+public class NotificationManager extends AbstractService implements INotificationManager, PublicContentChangedObserver {
 
     private static final Logger logger = LoggerFactory.getLogger(NotificationManager.class);
 
     @Override
     public void init() throws Exception {
         logger.debug("{} ready.", this.getClass().getName());
+    }
+
+    @Override
+    public void updateFromPublicContentChanged(PublicContentChangedEvent pcce) {
+        try {
+            switch (pcce.getOperationCode()) {
+                case PublicContentChangedEvent.INSERT_OPERATION_CODE:
+                    Notification notification = new Notification();
+                    notification.setObjectId(pcce.getContent().getId());
+                    this.addNotification(notification);
+                    break;
+                case PublicContentChangedEvent.REMOVE_OPERATION_CODE:
+                    // code block
+                    break;
+                default:
+                    // code block
+                    break;
+            }
+        } catch (Exception e) {
+            logger.error("Error notification with id '{}'", e);
+        }
     }
 
     @Override
@@ -86,6 +109,16 @@ public class NotificationManager extends AbstractService implements INotificatio
         } catch (Throwable t) {
             logger.error("Error adding Notification", t);
             throw new ApsSystemException("Error adding Notification", t);
+        }
+    }
+
+    @Override
+    public void markAsRead(String username, String objectId, String type) throws ApsSystemException {
+        try {
+            this.getNotificationDAO().markAsRead(username, objectId, type);
+        } catch (Throwable t) {
+            logger.error("Error on markAsRead", t);
+            throw new ApsSystemException("Error on markAsRead", t);
         }
     }
 

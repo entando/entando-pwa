@@ -280,17 +280,32 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
     }
 
     @Override
-    public void addUserReading(String username, String objectId, String type) {
-        FieldSearchFilter filterId = new FieldSearchFilter("objectid", objectId, false);
-        FieldSearchFilter filterType = new FieldSearchFilter("type", type, false);
-        FieldSearchFilter dateFilter = new FieldSearchFilter("date");
-        dateFilter.setOrder(FieldSearchFilter.Order.DESC);
-        FieldSearchFilter[] filters = {filterId, filterType, dateFilter};
+    public void removeNotification(String type, String objectId) {
         Connection conn = null;
         try {
             conn = this.getConnection();
             conn.setAutoCommit(false);
-            List<Integer> ids = this.searchId(filters, conn);
+            List<Integer> ids = this.searchNotification(objectId, type, conn);
+            if (null != ids && !ids.isEmpty()) {
+                super.executeQueryWithoutResultset(conn, DELETE_READ_NOTIFICATION, ids.get(0));
+                super.executeQueryWithoutResultset(conn, DELETE_NOTIFICATION, ids.get(0));
+            }
+        } catch (Throwable t) {
+            this.executeRollback(conn);
+            logger.error("Error removing notifications", t);
+            throw new RuntimeException("Error removing notifications", t);
+        } finally {
+            this.closeConnection(conn);
+        }
+    }
+
+    @Override
+    public void markAsRead(String username, String objectId, String type) {
+        Connection conn = null;
+        try {
+            conn = this.getConnection();
+            conn.setAutoCommit(false);
+            List<Integer> ids = this.searchNotification(objectId, type, conn);
             if (null != ids && !ids.isEmpty()) {
                 this.insertReadNotification(ids.get(0), username, conn);
             }
@@ -301,6 +316,15 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         } finally {
             this.closeConnection(conn);
         }
+    }
+
+    private List<Integer> searchNotification(String objectId, String type, Connection conn) {
+        FieldSearchFilter filterId = new FieldSearchFilter("objectid", objectId, false);
+        FieldSearchFilter filterType = new FieldSearchFilter("type", type, false);
+        FieldSearchFilter dateFilter = new FieldSearchFilter("date");
+        dateFilter.setOrder(FieldSearchFilter.Order.DESC);
+        FieldSearchFilter[] filters = {filterId, filterType, dateFilter};
+        return this.searchId(filters, conn);
     }
 
     protected List<Integer> searchId(FieldSearchFilter[] filters, Connection conn) {

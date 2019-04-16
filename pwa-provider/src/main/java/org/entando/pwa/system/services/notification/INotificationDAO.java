@@ -20,10 +20,12 @@ public interface INotificationDAO {
 
     public void removeNotification(int id);
 
+    public void removeNotification(String type, String objectId);
+
     //public void updateNotification(Notification notification);
     public void insertNotification(Notification notification);
 
-    public void addUserReading(String username, String objectId, String type);
+    public void markAsRead(String username, String objectId, String type);
 
     public int countNotifications(FieldSearchFilter[] filters);
 

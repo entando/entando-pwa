@@ -12,6 +12,8 @@ import com.agiletec.aps.system.common.FieldSearchFilter;
 
 public interface INotificationManager {
 
+    public static final String TYPE_CONTENT = "cms-content";
+
     public Notification getNotification(int id) throws ApsSystemException;
 
     public List<Integer> getNotifications() throws ApsSystemException;
@@ -21,6 +23,8 @@ public interface INotificationManager {
     public List<Notification> searchNotificationsByUser(FieldSearchFilter[] filters, String username) throws ApsSystemException;
 
     public void addNotification(Notification notification) throws ApsSystemException;
+
+    public void markAsRead(String username, String objectId, String type) throws ApsSystemException;
 
     //public void updateNotification(Notification notification) throws ApsSystemException;
     public void deleteNotification(int id) throws ApsSystemException;

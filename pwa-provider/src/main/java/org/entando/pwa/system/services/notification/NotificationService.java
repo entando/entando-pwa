@@ -22,6 +22,8 @@ import org.entando.entando.aps.system.services.IDtoBuilder;
 import org.entando.entando.web.common.model.PagedMetadata;
 import org.entando.entando.web.common.model.RestListRequest;
 import org.entando.entando.aps.system.exception.ResourceNotFoundException;
+import org.entando.entando.plugins.pwa.web.notification.NotificationController;
+import org.entando.entando.plugins.pwa.web.notification.model.MarkAsReadRequest;
 import org.entando.pwa.system.services.notification.model.NotificationDto;
 import org.entando.entando.plugins.pwa.web.notification.model.NotificationRequest;
 import org.entando.entando.plugins.pwa.web.notification.validator.NotificationValidator;
@@ -31,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 
 public class NotificationService implements INotificationService {
 
@@ -72,7 +75,7 @@ public class NotificationService implements INotificationService {
     @Override
     public PagedMetadata<NotificationDto> getNotifications(RestListRequest requestList) {
         try {
-            List<FieldSearchFilter> filters = new ArrayList<FieldSearchFilter>(requestList.buildFieldSearchFilters());
+            List<FieldSearchFilter> filters = new ArrayList<>(requestList.buildFieldSearchFilters());
             filters.stream().filter(i -> i.getKey() != null)
                     .forEach(i -> i.setKey(NotificationDto.getEntityFieldName(i.getKey())));
             SearcherDaoPaginatedResult<Notification> notifications = this.getNotificationManager().getNotifications(filters);
@@ -92,7 +95,7 @@ public class NotificationService implements INotificationService {
             List<FieldSearchFilter> filters = new ArrayList<>(requestList.buildFieldSearchFilters());
             filters.stream().filter(i -> i.getKey() != null)
                     .forEach(i -> i.setKey(NotificationDto.getEntityFieldName(i.getKey())));
-            FieldSearchFilter filterType = new FieldSearchFilter("type", "cms-content", false);
+            FieldSearchFilter filterType = new FieldSearchFilter("type", INotificationManager.TYPE_CONTENT, false);
             filters.add(filterType);
             SearcherDaoPaginatedResult<Notification> notifications = this.getNotificationManager().getNotifications(filters, username);
             List<PwaNotificationDto> dtoList = this.getDtoPwaBuilder().convert(notifications.getList());
@@ -198,6 +201,22 @@ public class NotificationService implements INotificationService {
         Notification notification = new Notification();
         BeanUtils.copyProperties(notificationRequest, notification);
         return notification;
+    }
+
+    @Override
+    public void markAsRead(MarkAsReadRequest request, String type, String username, BindingResult bindingResult) {
+        if (null == request || null == request.getObjectIds()) {
+            return;
+        }
+        for (int i = 0; i < request.getObjectIds().size(); i++) {
+            String objectId = request.getObjectIds().get(i);
+            try {
+                this.getNotificationManager().markAsRead(username, objectId, type);
+            } catch (Exception e) {
+                logger.error("Error marking as read object '{}' of type '{}'", objectId, type, e);
+                bindingResult.reject(NotificationController.ERRCODE_INVALID_OBJECT_ID, new String[]{objectId}, "notification.username.missing");
+            }
+        }
     }
 
     protected BeanPropertyBindingResult validateForAdd(Notification notification) {
