@@ -12,6 +12,7 @@ import com.agiletec.aps.system.exception.ApsSystemException;
 import com.agiletec.plugins.jacms.aps.system.services.content.event.PublicContentChangedEvent;
 import com.agiletec.plugins.jacms.aps.system.services.content.event.PublicContentChangedObserver;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -38,14 +39,19 @@ public class NotificationManager extends AbstractService implements INotificatio
             switch (pcce.getOperationCode()) {
                 case PublicContentChangedEvent.INSERT_OPERATION_CODE:
                     Notification notification = new Notification();
+                    notification.setType(INotificationManager.TYPE_CONTENT);
                     notification.setObjectId(pcce.getContent().getId());
+                    notification.setDate(new Date());
                     this.addNotification(notification);
                     break;
                 case PublicContentChangedEvent.REMOVE_OPERATION_CODE:
-                    // code block
+                    this.getNotificationDAO().removeNotification(TYPE_CONTENT, pcce.getContent().getId());
+                    break;
+                case PublicContentChangedEvent.UPDATE_OPERATION_CODE:
+                    // nothing to do
                     break;
                 default:
-                    // code block
+                    // nothing to do
                     break;
             }
         } catch (Exception e) {
