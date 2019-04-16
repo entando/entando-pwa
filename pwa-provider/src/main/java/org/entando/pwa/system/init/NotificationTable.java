@@ -21,17 +21,17 @@ public class NotificationTable {
             canBeNull = false, id = true)
     private int _id;
 
-    @DatabaseField(columnName = "type",
-            dataType = DataType.LONG_STRING,
-            canBeNull = false)
+    @DatabaseField(columnName = "notiftype",
+            dataType = DataType.STRING,
+            width = 100, canBeNull = false)
     private String _type;
 
     @DatabaseField(columnName = "objectid",
-            dataType = DataType.LONG_STRING,
-            canBeNull = false)
+            dataType = DataType.STRING,
+            width = 100, canBeNull = false)
     private String _objectId;
 
-    @DatabaseField(columnName = "date",
+    @DatabaseField(columnName = "notifdate",
             dataType = DataType.DATE,
             canBeNull = false)
     private Date _date;

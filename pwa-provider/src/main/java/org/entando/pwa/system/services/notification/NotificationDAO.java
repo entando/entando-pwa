@@ -23,16 +23,16 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
 
     private static final Logger logger = LoggerFactory.getLogger(NotificationDAO.class);
 
-    private static final String ADD_NOTIFICATION = "INSERT INTO pwa_notifications (id, type, objectid, date ) VALUES (?, ?, ?, ? )";
+    private static final String ADD_NOTIFICATION = "INSERT INTO pwa_notifications (id, notiftype, objectid, notifdate ) VALUES (?, ?, ?, ? )";
 
-    private static final String ADD_READ_NOTIFICATION = "INSERT INTO pwa_readnotifications(notificationid, username, date) VALUES (?, ?, ?)";
+    private static final String ADD_READ_NOTIFICATION = "INSERT INTO pwa_readnotifications(notificationid, username, readdate) VALUES (?, ?, ?)";
 
     //private static final String UPDATE_NOTIFICATION = "UPDATE pwa_notifications SET  type=?,  objectid=?, date=? WHERE id = ?";
     private static final String DELETE_NOTIFICATION = "DELETE FROM pwa_notifications WHERE id = ?";
 
     private static final String DELETE_READ_NOTIFICATION = "DELETE FROM pwa_readnotifications WHERE notificationid = ?";
 
-    private static final String LOAD_NOTIFICATION = "SELECT id, type, objectid, date  FROM pwa_notifications WHERE id = ?";
+    private static final String LOAD_NOTIFICATION = "SELECT id, notiftype, objectid, notifdate FROM pwa_notifications WHERE id = ?";
 
     private static final String LOAD_NOTIFICATIONS_ID = "SELECT id FROM pwa_notifications";
 
@@ -249,9 +249,9 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         try {
             notification = new Notification();
             notification.setId(res.getInt("id"));
-            notification.setType(res.getString("type"));
+            notification.setType(res.getString("notiftype"));
             notification.setObjectId(res.getString("objectid"));
-            Timestamp dateValue = res.getTimestamp("date");
+            Timestamp dateValue = res.getTimestamp("notifdate");
             if (null != dateValue) {
                 notification.setDate(new Date(dateValue.getTime()));
             }
@@ -268,8 +268,10 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         try {
             stat = conn.createStatement();
             res = stat.executeQuery(EXTRACT_NEXT_ID);
-            res.next();
-            id = res.getInt(1) + 1;
+            if (res.next()) {
+                id = res.getInt(1);
+            }
+            id++;
         } catch (Throwable t) {
             logger.error("Error extracting next id", t);
             throw new RuntimeException("Error extracting next id", t);
@@ -322,8 +324,8 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
 
     private List<Integer> searchNotification(String objectId, String type, Connection conn) {
         FieldSearchFilter filterId = new FieldSearchFilter("objectid", objectId, false);
-        FieldSearchFilter filterType = new FieldSearchFilter("type", type, false);
-        FieldSearchFilter dateFilter = new FieldSearchFilter("date");
+        FieldSearchFilter filterType = new FieldSearchFilter("notiftype", type, false);
+        FieldSearchFilter dateFilter = new FieldSearchFilter("notifdate");
         dateFilter.setOrder(FieldSearchFilter.Order.DESC);
         FieldSearchFilter[] filters = {filterId, filterType, dateFilter};
         return this.searchId(filters, conn);

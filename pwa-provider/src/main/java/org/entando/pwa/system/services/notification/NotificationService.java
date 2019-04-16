@@ -95,7 +95,7 @@ public class NotificationService implements INotificationService {
             List<FieldSearchFilter> filters = new ArrayList<>(requestList.buildFieldSearchFilters());
             filters.stream().filter(i -> i.getKey() != null)
                     .forEach(i -> i.setKey(NotificationDto.getEntityFieldName(i.getKey())));
-            FieldSearchFilter filterType = new FieldSearchFilter("type", INotificationManager.TYPE_CONTENT, false);
+            FieldSearchFilter filterType = new FieldSearchFilter("notiftype", INotificationManager.TYPE_CONTENT, false);
             filters.add(filterType);
             SearcherDaoPaginatedResult<Notification> notifications = this.getNotificationManager().getNotifications(filters, username);
             List<PwaNotificationDto> dtoList = this.getDtoPwaBuilder().convert(notifications.getList());

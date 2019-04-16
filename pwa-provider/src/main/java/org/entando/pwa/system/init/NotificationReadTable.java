@@ -30,11 +30,11 @@ public class NotificationReadTable implements ExtendedColumnDefinition {
     private NotificationTable notificationid;
 
     @DatabaseField(columnName = "username",
-            dataType = DataType.LONG_STRING,
+            dataType = DataType.STRING,
             width = 40, canBeNull = false)
     private String username;
 
-    @DatabaseField(columnName = "date",
+    @DatabaseField(columnName = "readdate",
             dataType = DataType.DATE,
             canBeNull = false)
     private Date _date;
