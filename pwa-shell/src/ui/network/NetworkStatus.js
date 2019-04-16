@@ -6,7 +6,6 @@ import NetworkOfflineWarning from 'ui/network/NetworkOfflineWarning';
 class NetworkStatus extends Component {
 
   handleStatusChange = status => {
-    console.log('network status is', status);
     this.props.onStatusChange(status.type);
   }
 
@@ -23,8 +22,8 @@ class NetworkStatus extends Component {
   render() {
     const { children, isOffline } = this.props; 
     return (
-      <Fragment>        
-        { isOffline ?  <NetworkOfflineWarning /> : '' }
+      <Fragment>  
+        { isOffline ? <NetworkOfflineWarning /> : '' }
         { children }
       </Fragment>
     );
