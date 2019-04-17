@@ -36,6 +36,9 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import org.entando.entando.aps.system.init.model.DataInstallationReport;
 import org.entando.entando.aps.system.init.model.SystemInstallationReport;
@@ -151,6 +154,8 @@ public class TableDataUtils {
     }
 
     public static TableDumpReport dumpTable(BufferedWriter br, DataSource dataSource, String tableName, TableInfo tableInfo) throws ApsSystemException {
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet(tableName);
         TableDumpReport report = new TableDumpReport(tableName);
         StringBuilder scriptPrefix = new StringBuilder("INSERT INTO ").append(tableName).append(" (");
         Connection conn = null;
@@ -167,6 +172,8 @@ public class TableDataUtils {
             int columnCount = metaData.getColumnCount();
             List<Integer> columnToExclude = new ArrayList<>();
             int[] types = new int[columnCount];
+            HSSFRow header = sheet.createRow((short)0);
+            int indexColumnHeader = 0;
             for (int i = 0; i < columnCount; i++) {
                 int indexColumn = i + 1;
                 String columnName = metaData.getColumnName(indexColumn).toLowerCase();
@@ -174,14 +181,18 @@ public class TableDataUtils {
                     columnToExclude.add(i);
                     continue;
                 }
+                header.createCell(indexColumnHeader).setCellValue(columnName);
                 scriptPrefix.append(columnName).append(",");
                 types[i] = metaData.getColumnType(indexColumn);
+                indexColumnHeader++;
             }
             scriptPrefix.deleteCharAt(scriptPrefix.lastIndexOf(","));
             scriptPrefix.append(") VALUES (");
             int rows = 0;
             while (res.next()) {
                 StringBuilder newRecord = new StringBuilder(scriptPrefix);
+                HSSFRow row = sheet.createRow((short)rows+1);
+                int indexColumn = 0;
                 for (int i = 0; i < columnCount; i++) {
                     if (columnToExclude.contains(i)) {
                         continue;
@@ -191,6 +202,7 @@ public class TableDataUtils {
                         newRecord.append("NULL");
                     } else {
                         String outputValue = value.toString();
+                        row.createCell(indexColumn).setCellValue(outputValue);
                         outputValue = StringEscapeUtils.escapeSql(outputValue);
                         if (isDataNeedsQuotes(types[i])) {
                             newRecord.append("'").append(outputValue).append("'");
@@ -199,6 +211,7 @@ public class TableDataUtils {
                         }
                     }
                     newRecord.append(",");
+                    indexColumn++;
                 }
                 newRecord.deleteCharAt(newRecord.lastIndexOf(","));
                 newRecord.append(");\n");
@@ -206,6 +219,7 @@ public class TableDataUtils {
                 rows++;
             }
             report.setRows(rows);
+            report.setWorkbook(workbook);
         } catch (Throwable t) {
             _logger.error("Error creating backup", t);
             throw new ApsSystemException("Error creating backup", t);

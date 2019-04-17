@@ -104,6 +104,8 @@ public class DatabaseDumper extends AbstractDatabaseUtils {
 
     protected void dumpTableData(String tableName, String dataSourceName,
             DataSource dataSource, DataSourceDumpReport report, String backupSubFolder, TableInfo tableInfo) throws ApsSystemException {
+        ByteArrayOutputStream baos = null;
+        InputStream is = null;
         String filename = tableName + ".sql";
         File tempFile = null;
         FileWriter fileWriter = null;
@@ -114,6 +116,17 @@ public class DatabaseDumper extends AbstractDatabaseUtils {
             bufferWriter = new BufferedWriter(fileWriter);
             TableDumpReport tableDumpReport = TableDataUtils.dumpTable(bufferWriter, dataSource, tableName, tableInfo);
             report.addTableReport(dataSourceName, tableDumpReport);
+
+            baos = new ByteArrayOutputStream();
+            tableDumpReport.getWorkbook().write(baos);
+            is = new ByteArrayInputStream(baos.toByteArray());
+            StringBuilder dirName = new StringBuilder(this.getLocalBackupsFolder());
+            if (null != backupSubFolder) {
+                dirName.append(backupSubFolder).append(File.separator);
+            }
+            dirName.append(dataSourceName).append(File.separator);
+            this.getStorageManager().saveFile(dirName.toString() + tableName + ".xls", true, is);
+            
         } catch (IOException t) {
             _logger.error("Error dumping table '{}' - datasource '{}'", tableName, dataSourceName, t);
             throw new ApsSystemException("Error dumping table '" + tableName + "' - datasource '" + dataSourceName + "'", t);
@@ -124,6 +137,12 @@ public class DatabaseDumper extends AbstractDatabaseUtils {
                 }
                 if (null != fileWriter) {
                     fileWriter.close();
+                }
+                if (null != is) {
+                    is.close();
+                }
+                if (null != baos) {
+                    baos.close();
                 }
             } catch (IOException t2) {
                 _logger.error("Error closing FileWriter and BufferedWriter of file '{}'", filename, t2);
