@@ -9,7 +9,6 @@ import {
 } from 'react-router-dom';
 
 import appId from 'appId';
-
 import store from 'state/store';
 
 import ApiManager from 'ApiManager';

@@ -5,7 +5,7 @@
   background-size: 10rem, 28rem;
   padding: 0;
 
-  .loginForm {
+  .LoginForm {
     position: relative;
     top: 16rem;
     background-color: $color-bordered-light;
@@ -39,7 +39,7 @@
       }
     }
 
-    button {
+    &__button {
       background-color: $color-dark;
       font-weight: 600;
     }
