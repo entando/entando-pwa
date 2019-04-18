@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { config, setApi, useMocks } from '@entando/apimanager';
 import { addToast, TOAST_WARNING } from '@entando/messages';
+import 'i18n/api-manager/init';
 
 class ApiManager extends Component {
   constructor(props) {
@@ -28,12 +28,13 @@ class ApiManager extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Fragment>
         { this.props.children }
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
+
 
 ApiManager.propTypes = {
   store: PropTypes.object.isRequired,
@@ -43,4 +44,4 @@ ApiManager.propTypes = {
   ]).isRequired,  
 };
 
-export default withRouter(props => <ApiManager {...props} />);
+export default ApiManager;

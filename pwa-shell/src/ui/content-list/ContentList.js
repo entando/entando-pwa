@@ -5,6 +5,7 @@ import CategoryListContainer from 'ui/content-list/CategoryListContainer';
 import { Container } from 'reactstrap';
 import PageContainer from 'ui/common/PageContainer';
 import ContentListTopBarContainer from 'ui/content-list/ContentListTopBarContainer';
+import ToastsContainer from 'ui/common/ToastsContainer';
 
 class ContentList extends PureComponent {
 
@@ -54,7 +55,8 @@ class ContentList extends PureComponent {
 
     return (
       <PageContainer className="ContentList">
-        <ContentListTopBarContainer />
+        <ToastsContainer />
+        <ContentListTopBarContainer />        
 
         { categoryList }
         { searchResults }

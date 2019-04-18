@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const PageContainer = ({ children, className }) => (
-  <div className={`PageContainer ${className}`}>
+  <div className={`PageContainer ${className}`}>    
     <div>
       { children }
     </div>

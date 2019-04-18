@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import { convertToQueryString } from '@entando/utils';
-import { addErrors } from '@entando/messages';
+import { addErrors, clearErrors } from '@entando/messages';
 import { loginUser, getToken } from '@entando/apimanager';
 
 import { getCategory } from 'api/category';
@@ -89,12 +89,11 @@ const fetchContentList = (params, pagination) => async(dispatch) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(setContentList(json.payload));
-      dispatch(setSelectedContent(null));
+      dispatch(unsetSelectedContent());
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (err) {
-    dispatch(addErrors(err));
   } finally {
     dispatch(unsetIsLoading());
   }
@@ -103,7 +102,7 @@ const fetchContentList = (params, pagination) => async(dispatch) => {
 export const fetchContentDetail = id => async(dispatch) => {
   try {
     dispatch(setIsLoading());	
-    dispatch(unsetSelectedContent());    
+    dispatch(unsetSelectedContent());
     const response = await getContent(id);
     const json = await response.json();
     if (response.ok) {
@@ -113,47 +112,43 @@ export const fetchContentDetail = id => async(dispatch) => {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (err) {
-    dispatch(addErrors(err));
-  } finally {	
-    dispatch(unsetIsLoading());	
-  }	
+  } finally {
+    dispatch(unsetIsLoading());
+  }
 };	
 
 export const fetchProtectedContentDetail = id => async(dispatch, getState) => {	
-  try {	
+  try {
     dispatch(setIsLoading());	
     dispatch(unsetSelectedContent());	
-    const response = await getProtectedContent(id);	
-    const json = await response.json();	
-    if (response.ok) {      	
-      dispatch(setSelectedContent(json.payload));	
-      dispatch(clearNotification(id));	
-    } else {	
-      dispatch(addErrors(json.errors.map(e => e.message)));	
-    }	
-  } catch (err) {	
-    dispatch(addErrors(err));	
-  } finally {	
+    const response = await getProtectedContent(id);
+    if (response.status !== 401) {      
+      const json = await response.json();
+      if (response.ok) {
+        dispatch(setSelectedContent(json.payload));	
+        dispatch(clearNotification(id));	
+      } else {
+        dispatch(addErrors(json.errors.map(e => e.message)));
+      } 
+    } 
+  } catch (err) {
+  } finally {
     dispatch(unsetIsLoading());
-  }	  
+  }
 };
 
 export const fetchContentTypeMap = () => async(dispatch) => {
-  try {
-    const responseList = await Promise.all(contentTypeCodeList.map(getContentType));
-    const jsonList = await Promise.all(responseList.map(response => response.json()));
-    const contentTypeList = jsonList.map(json => json.payload);
-    if (!responseList.map(res => res.ok).includes(false)) {
-      const contentTypeMap = contentTypeList.reduce((acc, curr) => ({
-        ...acc,
-        [curr.code]: curr,
-      }), {});
-      dispatch(setContentTypeMap(contentTypeMap));
-    } else {
-      dispatch(addErrors(contentTypeList.reduce((acc, curr) => acc.concat(curr.errors), []).map(e => e.message)));
-    }
-  } catch (err) {
-    dispatch(addErrors(err));
+  const responseList = await Promise.all(contentTypeCodeList.map(getContentType));
+  const jsonList = await Promise.all(responseList.map(response => response.json()));
+  const contentTypeList = jsonList.map(json => json.payload);
+  if (!responseList.map(res => res.ok).includes(false)) {
+    const contentTypeMap = contentTypeList.reduce((acc, curr) => ({
+      ...acc,
+      [curr.code]: curr,
+    }), {});
+    dispatch(setContentTypeMap(contentTypeMap));
+  } else {
+    dispatch(addErrors(contentTypeList.reduce((acc, curr) => acc.concat(curr.errors), []).map(e => e.message)));
   }
 };
 
@@ -165,76 +160,60 @@ const orderCategoryList = (categoryList, contentType) => {
 };
 
 export const fetchCategoryListAndFilters = () => async(dispatch, getState) => {
-  try {
-    const state = getState();
-    const categoryRootCode = getCategoryRootCode(state);
-    if (!categoryRootCode) {
-      dispatch(setCategoryList([]));
-      return;
+  const state = getState();
+  const categoryRootCode = getCategoryRootCode(state);
+  if (!categoryRootCode) {
+    dispatch(setCategoryList([]));
+    return;
+  }
+  const response = await getCategory(categoryRootCode);
+  const json = await response.json();
+  if (response.ok) {
+    const selectedContentType = getSelectedContentType(state);
+    const categoryList = orderCategoryList(json.payload, selectedContentType);
+    const categoryFilters = getCategoryFilters(state);
+    dispatch(setCategoryList(categoryList));
+    if (!categoryFilters || !Object.keys(categoryFilters).length) {
+      dispatch(setCategoryFilter(json.payload.map(category => category.code), selectedContentType));
     }
-    const response = await getCategory(categoryRootCode);
-    const json = await response.json();
-    if (response.ok) {
-      const selectedContentType = getSelectedContentType(state);
-      const categoryList = orderCategoryList(json.payload, selectedContentType);
-      const categoryFilters = getCategoryFilters(state);
-      dispatch(setCategoryList(categoryList));
-      if (!categoryFilters || !Object.keys(categoryFilters).length) {
-        dispatch(setCategoryFilter(json.payload.map(category => category.code), selectedContentType));
-      }
-    } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
-    }
-  } catch (err) {
-    dispatch(addErrors(err));
+  } else {
+    dispatch(addErrors(json.errors.map(e => e.message)));
   }
 };
 
 export const fetchNotifications = () => async(dispatch, getState) => {
-  try {
-    const userToken = getToken(getState());
-    const response = await getNotifications(userToken);
-    const json = await response.json();
-    if (response.ok) {
-      const notifications = json.payload.map(notification => ({...notification, html: htmlSanitizer(notification.html)}));
-      dispatch(setNotificationList(notifications));
-    } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
-    }
-  } catch (err) {
-    dispatch(addErrors(err));
+  const userToken = getToken(getState());
+  const response = await getNotifications(userToken);
+  const json = await response.json();
+  if (response.ok) {
+    const notifications = json.payload.map(notification => ({...notification, html: htmlSanitizer(notification.html)}));
+    dispatch(setNotificationList(notifications));
+  } else {
+    dispatch(addErrors(json.errors.map(e => e.message)));
   }
 }
 
 export const clearAllNotifications = () => async(dispatch, getState) => {
-  try {
-    const state = getState();
-    const userToken = getToken(state);
-    const notificationIdList = getNotificationIdList(state);
-    const response = await postClearNotifications(userToken, notificationIdList);
-    const json = await response.json();
-    if (response.ok) {
-      dispatch(setNotificationList([]));
-    } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
-    }
-  } catch (err) {
-    dispatch(addErrors(err));
+  const state = getState();
+  const userToken = getToken(state);
+  const notificationIdList = getNotificationIdList(state);
+  const response = await postClearNotifications(userToken, notificationIdList);
+  const json = await response.json();
+  if (response.ok) {
+    dispatch(setNotificationList([]));
+  } else {
+    dispatch(addErrors(json.errors.map(e => e.message)));
   }
 }
 
 export const clearNotification = id => async(dispatch, getState) => {
-  try {
-    const userToken = getToken(getState());
-    const response = await postClearNotifications(userToken, [id]);
-    const json = await response.json();
-    if (response.ok) {
-      dispatch(removeNotification(id));
-    } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
-    }
-  } catch (err) {
-    dispatch(addErrors(err));
+  const userToken = getToken(getState());
+  const response = await postClearNotifications(userToken, [id]);
+  const json = await response.json();
+  if (response.ok) {
+    dispatch(removeNotification(id));
+  } else {
+    dispatch(addErrors(json.errors.map(e => e.message)));
   }
 }
 
@@ -242,13 +221,15 @@ export const login = (data) => async dispatch => {
   try {
     //
     // WORKAROUND for SME demo purposes
-    data.username = process.env.REACT_APP_DEMO_USERNAME;
-    data.pin = process.env.REACT_APP_DEMO_PASSWORD;
+    //data.username = process.env.REACT_APP_DEMO_USERNAME;
+    //data.pin = process.env.REACT_APP_DEMO_PASSWORD;
     //
+    dispatch(clearErrors());
     const response = await performLogin(data.username, data.pin);
     const json = await response.json();
     dispatch(loginUser(data.username, json.access_token));
   } catch (err) {
-    dispatch(addErrors(err));
+    const msg = err.message === 'permissionDenied' ? 'Username e password non validi' : 'Errore durante il login';
+    dispatch(addErrors([msg]));
   }
 };
