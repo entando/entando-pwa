@@ -30,16 +30,16 @@ import 'styles/index.scss';
 ReactDOM.render(
   <Provider store={store}>
     <HomePageHead />
-    <Router>
-      <NetworkStatusContainer>
+    <NetworkStatusContainer>
+      <Router>      
         <ApiManager store={store}>
           <Route exact path="/" component={DefaultRedirectContainer} />
           <Route exact path="/notifications" component={NotificationsContainer} />
           <Route exact path="/content/:contentType" component={ContentListContainer} />
           <Route exact path="/content/:contentType/:id" component={ContentDetailContainer} />
-        </ApiManager>
-      </NetworkStatusContainer>
+        </ApiManager>      
       </Router>
+    </NetworkStatusContainer>
   </Provider>,
   document.getElementById(appId)
 );
