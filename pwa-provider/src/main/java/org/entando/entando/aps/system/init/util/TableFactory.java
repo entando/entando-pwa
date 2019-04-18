@@ -68,6 +68,17 @@ public class TableFactory {
         }
     }
 
+    public <T, ID> Dao getTableDao(Class dataClass) throws ApsSystemException {
+        try {
+            ConnectionSource connectionSource = this.createConnectionSource();
+            Dao<T, ID> dao = DaoManager.createDao(connectionSource, dataClass);
+            return dao;
+        } catch (Exception e) {
+            _logger.error("Error extracting table dao", e);
+            throw new ApsSystemException("Error extracting table dao", e);
+        }
+    }
+
     public void createTables(List<String> tableClassNames, DataSourceInstallationReport schemaReport) throws ApsSystemException {
         ConnectionSource connectionSource = null;
         try {

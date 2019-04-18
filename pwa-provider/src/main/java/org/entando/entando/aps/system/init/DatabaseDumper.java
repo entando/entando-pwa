@@ -92,7 +92,7 @@ public class DatabaseDumper extends AbstractDatabaseUtils {
                         tableClass = Class.forName(tableClassName);
                     }
                     String tableName = TableFactory.getTableName(tableClass);
-                    TableFactory tableFactory = new TableFactory(tableName, dataSource, super.getType(dataSource));
+                    TableFactory tableFactory = new TableFactory(dataSourceName, dataSource, super.getType(dataSource));
                     this.dumpTableData(tableName, dataSourceName, dataSource, report, backupSubFolder, tableFactory.getTableInfo(tableClass));
                 }
             }
