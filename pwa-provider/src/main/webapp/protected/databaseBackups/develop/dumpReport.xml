@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <backup>
-	<date>2019-03-22 12:27:43</date>
-	<requiredTime>203</requiredTime>
+	<date>2019-04-16 15:45:44</date>
+	<requiredTime>1359</requiredTime>
 	<subfolder>develop</subfolder>
 	<componentsHistory>
-		<component code="entandoCore" date="2019-03-22 11:42:33" status="OK">
+		<component code="entandoCore" date="2019-04-15 10:30:28" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="OK">
 					<table name="sysconfig" />
@@ -51,7 +51,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-misc-jquery" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-misc-jquery" date="2019-04-15 10:30:29" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -62,7 +62,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-misc-html5-essentials" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-misc-html5-essentials" date="2019-04-15 10:30:29" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -73,7 +73,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-misc-bootstrap" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-misc-bootstrap" date="2019-04-15 10:30:29" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -84,7 +84,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-misc-less" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-misc-less" date="2019-04-15 10:30:29" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -95,7 +95,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-widget-login_form_inspinia" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-widget-login_form_inspinia" date="2019-04-15 10:30:29" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -106,7 +106,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="jacms" date="2019-03-22 11:42:34" status="OK">
+		<component code="jacms" date="2019-04-15 10:30:29" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="OK">
 					<table name="contentmodels" />
@@ -128,7 +128,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-content-generic" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-content-generic" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -139,7 +139,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-widget-language_choose_inspinia" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-widget-language_choose_inspinia" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -150,7 +150,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-widget-navigation_bar" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-widget-navigation_bar" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -161,7 +161,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-widget-language_choose" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-widget-language_choose" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -172,7 +172,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-widget-login_form" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-widget-login_form" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -183,7 +183,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-widget-search_form" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-widget-search_form" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -194,7 +194,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-misc-inspinia" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-misc-inspinia" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -205,7 +205,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-page-inspinia" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-page-inspinia" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -216,7 +216,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-admin-console" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-admin-console" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="OK">
@@ -229,7 +229,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-portal-ui" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-portal-ui" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -240,7 +240,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-app-view-cms-default" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-app-view-cms-default" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -251,7 +251,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="jpinfinispan" date="2019-03-22 11:42:34" status="OK">
+		<component code="jpinfinispan" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -262,7 +262,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-page-bootstrap-hero" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-page-bootstrap-hero" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -273,7 +273,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-widget-navigation_bar_inspinia" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-widget-navigation_bar_inspinia" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -284,7 +284,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-page-inspinia_BPM" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-page-inspinia_BPM" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -295,7 +295,7 @@
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
-		<component code="entando-content-news" date="2019-03-22 11:42:34" status="OK">
+		<component code="entando-content-news" date="2019-04-15 10:30:30" status="OK">
 			<schema status="OK">
 				<datasource name="portDataSource" status="NOT_AVAILABLE" />
 				<datasource name="servDataSource" status="NOT_AVAILABLE" />
@@ -303,6 +303,20 @@
 			<data status="OK">
 				<datasource name="portDataSource" status="RESTORE" />
 				<datasource name="servDataSource" status="RESTORE" />
+			</data>
+			<postProcess status="NOT_AVAILABLE" />
+		</component>
+		<component code="pwa" date="2019-04-15 12:49:56" status="OK">
+			<schema status="OK">
+				<datasource name="portDataSource" status="NOT_AVAILABLE" />
+				<datasource name="servDataSource" status="OK">
+					<table name="pwa_notifications" />
+					<table name="pwa_readnotifications" />
+				</datasource>
+			</schema>
+			<data status="OK">
+				<datasource name="portDataSource" status="NOT_AVAILABLE" />
+				<datasource name="servDataSource" status="NOT_AVAILABLE" />
 			</data>
 			<postProcess status="NOT_AVAILABLE" />
 		</component>
@@ -355,6 +369,8 @@
 		<table name="dataobjectrelations" requiredTime="0" rows="0" />
 		<table name="dataobjects" requiredTime="0" rows="0" />
 		<table name="dataobjectsearch" requiredTime="0" rows="0" />
+		<table name="pwa_notifications" requiredTime="9" rows="5" />
+		<table name="pwa_readnotifications" requiredTime="12" rows="1" />
 	</datasource>
 </backup>
 
