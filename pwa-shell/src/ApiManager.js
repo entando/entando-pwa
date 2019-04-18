@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { config, setApi, useMocks } from '@entando/apimanager';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import 'i18n/api-manager/init';
@@ -33,5 +34,14 @@ class ApiManager extends Component {
     );
   }
 }
+
+
+ApiManager.propTypes = {
+  store: PropTypes.object.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired,  
+};
 
 export default ApiManager;

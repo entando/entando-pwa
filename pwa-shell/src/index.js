@@ -12,6 +12,7 @@ import appId from 'appId';
 import store from 'state/store';
 
 import ApiManager from 'ApiManager';
+import NetworkStatusContainer from 'ui/network/NetworkStatusContainer';
 
 import ContentListContainer from 'ui/content-list/ContentListContainer';
 import ContentDetailContainer from 'ui/content-detail/ContentDetailContainer';
@@ -30,12 +31,14 @@ ReactDOM.render(
   <Provider store={store}>
     <HomePageHead />
     <Router>
-      <ApiManager store={store}>
-        <Route exact path="/" component={DefaultRedirectContainer} />
-        <Route exact path="/notifications" component={NotificationsContainer} />
-        <Route exact path="/content/:contentType" component={ContentListContainer} />
-        <Route exact path="/content/:contentType/:id" component={ContentDetailContainer} />
-      </ApiManager>
+      <NetworkStatusContainer>
+        <ApiManager store={store}>
+          <Route exact path="/" component={DefaultRedirectContainer} />
+          <Route exact path="/notifications" component={NotificationsContainer} />
+          <Route exact path="/content/:contentType" component={ContentListContainer} />
+          <Route exact path="/content/:contentType/:id" component={ContentDetailContainer} />
+        </ApiManager>
+      </NetworkStatusContainer>
       </Router>
   </Provider>,
   document.getElementById(appId)
