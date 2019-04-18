@@ -14,11 +14,11 @@ article h2 {
 }
 
 .PageContainer__footer {
-  height: 10vh;
-  max-height: 100px;
+  height: 20vh;
+  max-height: 250px;
   background-size: cover;
   background-image: url(../images/Vegetato@2x.png);
-  clip-path: polygon(0 15%, 100% 0%, 100% 100%, 0% 100%);
+  clip-path: polygon(0 60%, 100% 30%, 100% 100%, 0% 100%);
 }
 
 .Notifications--empty .content-footer {
