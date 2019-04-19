@@ -221,8 +221,8 @@ export const login = (data) => async dispatch => {
   try {
     //
     // WORKAROUND for SME demo purposes
-    //data.username = process.env.REACT_APP_DEMO_USERNAME;
-    //data.pin = process.env.REACT_APP_DEMO_PASSWORD;
+    data.username = process.env.REACT_APP_DEMO_USERNAME;
+    data.pin = process.env.REACT_APP_DEMO_PASSWORD;
     //
     dispatch(clearErrors());
     const response = await performLogin(data.username, data.pin);
