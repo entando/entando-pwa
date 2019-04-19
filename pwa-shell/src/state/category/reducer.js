@@ -3,7 +3,6 @@ import { SET_CATEGORY_LIST } from 'state/category/types';
 
 const initialState = {
   rootCodes: categoryRootCodes,
-  map: {},
   list: [],
 };
 
