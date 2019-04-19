@@ -1,15 +1,24 @@
+import { isEmpty } from 'lodash';
 import { connect } from 'react-redux';
-
-import ContentCategoryList from 'ui/common/ContentCategoryList';
 import { getCategoryMap } from 'state/category/selectors';
+import { fetchCategoryListAndFilters } from 'state/thunks';
+import ContentCategoryList from 'ui/common/ContentCategoryList';
 
 export const mapStateToProps = (state, ownProps) => {
-  const categoryMap = getCategoryMap(state);  
-  return {
-    categoryList: ownProps.contentCategoryIdList.map(categoryId => categoryMap[categoryId])
-  };
+  const categoryMap = getCategoryMap(state);
+  const contentCategoryList = isEmpty(ownProps.contentCategoryIdList) || isEmpty(categoryMap) ?
+    [] :
+    ownProps.contentCategoryIdList.map(categoryId => categoryMap[categoryId]);
+  return { contentCategoryList };
 };
 
-const ContentCategoryListContainer = connect(mapStateToProps, null)(ContentCategoryList);
+export const mapDispatchToProps = dispatch => {
+  return {
+    fetchCategoryList: () => dispatch(fetchCategoryListAndFilters()),
+  }
+};
 
-export default ContentCategoryListContainer;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContentCategoryList);

@@ -9,12 +9,17 @@
     max-width: 5rem;
   }
 
+  .nav-link {
+    padding: 0;
+  }
+
   .contentType--selected a {
-    border-bottom: .15rem solid $color-primary;
+    border-bottom: 0.15rem solid $color-primary;
   }
 
   .navbar {
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+      0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
   }
 
   .navbar-toggler {
@@ -30,7 +35,7 @@
       text-align: left;
       display: inline-block;
       height: 100%;
-      padding-top: .4rem;
+      padding-top: 0.4rem;
     }
 
     .input-group:focus-within {
@@ -41,7 +46,6 @@
       .form-control {
         box-shadow: none;
       }
-
     }
 
     .input-group-text {

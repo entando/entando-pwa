@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Navbar,
   NavbarBrand,
@@ -60,7 +60,7 @@ class ContentListTopBar extends PureComponent {
     ) : '';
 
     return (
-      <div>
+      <Fragment>
         <div className="topbar shadow-sm fixed-top">
           <Navbar expand="lg" light>
             <NavButton icon="bars" className="mr-3" onClick={openDrawer} />
@@ -74,7 +74,7 @@ class ContentListTopBar extends PureComponent {
                 className="logo"
                 src={logo}
                 alt="logo"
-                />
+              />
             </NavbarBrand>
             <div>
               { notificationsButton }
@@ -90,7 +90,7 @@ class ContentListTopBar extends PureComponent {
           </Navbar>          
           <CategoryFilterContainer contentType={selectedContentType} />
         </DrawerContainer>
-      </div>
+      </Fragment>
     );
   }
 }
@@ -106,4 +106,4 @@ ContentListTopBar.propTypes = {
   isUserLogged: PropTypes.bool.isRequired,
 };
 
-export default withRouter(props => <ContentListTopBar {...props} />);
+export default ContentListTopBar;
