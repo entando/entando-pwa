@@ -118,8 +118,10 @@ public class TableFactory {
     private ConnectionSource createConnectionSource() throws ApsSystemException {
         ConnectionSource connectionSource = null;
         try {
+            System.out.println("createConnectionSource");
             DataSource dataSource = this.getDataSource();
             IDatabaseManager.DatabaseType type = this.getType();
+            System.out.println("createConnectionSource type -> " + type);
             String url = this.invokeGetMethod("getUrl", dataSource);
             String username = this.invokeGetMethod("getUsername", dataSource);
             String password = this.invokeGetMethod("getPassword", dataSource);
@@ -138,7 +140,7 @@ public class TableFactory {
                 } else if (type.equals(IDatabaseManager.DatabaseType.SQLSERVER)) {
                     dataType = new SqlServerDatabaseType();
                 }
-                connectionSource = new JdbcConnectionSource(url, username, password, dataType);
+                connectionSource = new ApsJdbcConnectionSource(url, username, password, dataType);
             }
         } catch (Throwable t) {
             _logger.error("Error creating connectionSource to db {}", this.getDatabaseName(), t);
