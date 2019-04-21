@@ -14,10 +14,10 @@ import logo from 'images/Logo_horizontal@2x.png';
 
 class NotificationsTopBar extends PureComponent {
   render() {
-    const { clearAllNotifications } = this.props;
+    const { clearAllNotifications, selectedContentType } = this.props;
     return (
       <div className="topbar shadow-sm fixed-top">
-        <Navbar expand="lg" light>
+        <Navbar light>
           <Nav>
             <NavItem>
               <NavLink tag={Link} to={`/`}>
@@ -26,6 +26,8 @@ class NotificationsTopBar extends PureComponent {
             </NavItem>
           </Nav>
           <NavbarBrand
+            tag={Link}
+            to={`/content/${selectedContentType}`}
             className="mx-auto"
           >
             <img
@@ -34,7 +36,11 @@ class NotificationsTopBar extends PureComponent {
               alt="logo"
             />
           </NavbarBrand>
-          <NavButton icon="check-double" onClick={clearAllNotifications} />
+          <Nav className="nav-right">
+            <NavItem>
+                <NavButton icon="check-double" onClick={clearAllNotifications} />
+            </NavItem>
+          </Nav>          
         </Navbar>
       </div>
     );

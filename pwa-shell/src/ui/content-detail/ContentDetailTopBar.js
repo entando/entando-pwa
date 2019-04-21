@@ -33,6 +33,7 @@ const ContentDetailTopBar = ({ contentType }) => (
           alt="logo"
         />
       </NavbarBrand>
+      <Nav />
     </Navbar>
   </div>  
 );

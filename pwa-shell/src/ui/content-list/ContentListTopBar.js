@@ -62,8 +62,12 @@ class ContentListTopBar extends PureComponent {
     return (
       <Fragment>
         <div className="topbar shadow-sm fixed-top">
-          <Navbar expand="lg" light>        
-            <NavButton icon="bars" onClick={openDrawer} />
+          <Navbar light>     
+            <Nav>
+              <NavItem>
+                <NavButton icon="bars" onClick={openDrawer} />
+              </NavItem>
+            </Nav>                   
             <NavbarBrand
               tag={Link}
               to={`/content/${selectedContentType}`}
@@ -75,14 +79,14 @@ class ContentListTopBar extends PureComponent {
                 alt="logo"
               />
             </NavbarBrand>
-            <div>
-              { notificationsButton }
-              <NavButton icon="search" onClick={openSearch} />
-            </div>
+            <Nav className="nav-right">
+              <NavItem>{ notificationsButton }</NavItem>
+              <NavItem><NavButton icon="search" onClick={openSearch} /></NavItem>
+            </Nav>
           </Navbar>
         </div>
         <DrawerContainer>
-          <Navbar expand="lg" light>
+          <Navbar light>
             <Nav className="ml-auto" navbar>
               { contentTypeLinks }
             </Nav>
