@@ -37,7 +37,7 @@ class ContentListTopBar extends PureComponent {
       isUserLogged
     } = this.props;
 
-    const links = contentTypeList.length > 1 ? contentTypeList.map(contentType => (
+    const contentTypeLinks = contentTypeList.length > 1 ? contentTypeList.map(contentType => (
       <NavItem
         key={contentType}
         className={`${contentType === selectedContentType ? 'contentType--selected' : ''}`}
@@ -62,14 +62,13 @@ class ContentListTopBar extends PureComponent {
     return (
       <Fragment>
         <div className="topbar shadow-sm fixed-top">
-          <Navbar expand="lg" light>
-            <NavButton icon="bars" className="mr-3" onClick={openDrawer} />
+          <Navbar expand="lg" light>        
+            <NavButton icon="bars" onClick={openDrawer} />
             <NavbarBrand
               tag={Link}
-              to={`/content/${contentTypeList[0]}`}
-              onClick={() => onSelectContentType(contentTypeList[0])}
+              to={`/content/${selectedContentType}`}
               className="mx-auto"
-              >
+            >
               <img
                 className="logo"
                 src={logo}
@@ -85,7 +84,7 @@ class ContentListTopBar extends PureComponent {
         <DrawerContainer>
           <Navbar expand="lg" light>
             <Nav className="ml-auto" navbar>
-              {links}
+              { contentTypeLinks }
             </Nav>
           </Navbar>          
           <CategoryFilterContainer contentType={selectedContentType} />

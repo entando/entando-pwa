@@ -23,6 +23,8 @@ const ContentDetailTopBar = ({ contentType }) => (
         </NavItem>
       </Nav>
       <NavbarBrand
+        tag={Link}
+        to={`/content/${contentType}`}
         className="mx-auto"
       >
         <img
