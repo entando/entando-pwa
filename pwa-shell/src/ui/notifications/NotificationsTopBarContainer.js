@@ -4,7 +4,7 @@ import { getSelectedContentType } from 'state/contentType/selectors';
 import NotificationsTopBar from 'ui/notifications//NotificationsTopBar';
 
 export const mapStateToProps = state => ({
-  selectedContentType: getSelectedContentType(state),
+  contentType: getSelectedContentType(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

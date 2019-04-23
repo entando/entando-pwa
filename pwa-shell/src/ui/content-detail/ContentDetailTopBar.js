@@ -1,48 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import {
-  Navbar,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-} from 'reactstrap';
+import { NavLink } from 'reactstrap';
 import NavButton from 'ui/common/NavButton';
 
-import logo from 'images/Logo_horizontal@2x.png';
+import TopBar from 'ui/common/TopBar';
 
-const ContentDetailTopBar = ({ contentType }) => (
-  <div className="topbar shadow-sm fixed-top">
-    <Navbar expand="lg" light>
-      <Nav>
-        <NavItem>
-          <NavLink tag={Link} to={`/content/${contentType}`}>
-            <NavButton icon="arrow-left" />
-          </NavLink>
-        </NavItem>
-      </Nav>
-      <NavbarBrand
-        tag={Link}
-        to={`/content/${contentType}`}
-        className="mx-auto"
-      >
-        <img
-          className="logo"
-          src={logo}
-          alt="logo"
-        />
-      </NavbarBrand>
-      <Nav />
-    </Navbar>
-  </div>  
-);
+const ContentDetailTopBar = ({ contentType }) => {
+  const leftItems = (
+    <NavLink  
+      tag={Link}
+      to={contentType ? `/content/${contentType}` : '/'}
+    >
+      <NavButton icon="arrow-left" />
+    </NavLink>
+  );
+  return <TopBar contentType={contentType} leftItems={leftItems} />
+};
 
 ContentDetailTopBar.propTypes = {
   contentType: PropTypes.string,
 };
 
-ContentDetailTopBar.defaultProps = {  
+ContentDetailTopBar.defaultProps = {
   contentType: null,
 };
 
