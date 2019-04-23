@@ -15,12 +15,13 @@
             classpath*:spring/apsadmin/**/**.xml
             classpath*:spring/plugins/**/aps/**/**.xml
             classpath*:spring/plugins/**/apsadmin/**/**.xml
+            classpath*:spring/pwa/aps/**/**.xml
+            classpath*:spring/pwa/apsadmin/**/**.xml
         </param-value>
     </context-param>
     <context-param>
         <param-name>Struts2Config</param-name>
-        <param-value>struts-default.xml,struts-plugin.xml,struts.xml,entando-struts-plugin.xml,japs-struts-plugin.xml
-        </param-value>
+        <param-value>struts-default.xml,struts-plugin.xml,struts.xml,entando-struts-plugin.xml,japs-struts-plugin.xml</param-value>
     </context-param>
     <context-param>
         <param-name>org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG</param-name>
