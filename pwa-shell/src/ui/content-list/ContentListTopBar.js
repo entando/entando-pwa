@@ -42,7 +42,7 @@ class ContentListTopBar extends PureComponent {
         key={contentType}
         className={`${contentType === selectedContentType ? 'contentType--selected' : ''}`}
       >
-          <NavLink tag={Link} to={`/${contentType}`} onClick={() => onSelectContentType(contentType)}>
+          <NavLink tag={Link} to={`/content/${contentType}`} onClick={() => onSelectContentType(contentType)}>
             { get(contentTypeMap, `${contentType}.name`, contentType) }
           </NavLink>
       </NavItem>
