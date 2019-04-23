@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { isEmpty, uniqueId } from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -12,8 +12,8 @@ import {
 import logo from 'images/Logo_horizontal@2x.png';
 
 const wrapNavItems = items => isEmpty(items) ? null : 
-  Array.isArray(items) ? items.map(item => (
-    <NavItem>
+  Array.isArray(items) ? items.map((item, index) => (
+    <NavItem key={uniqueId('nav-')}>
       { item }
     </NavItem>
   )) : (

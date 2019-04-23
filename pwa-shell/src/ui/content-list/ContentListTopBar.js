@@ -4,7 +4,6 @@ import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import {
   Navbar,
-  NavbarBrand,
   Nav,
   NavItem,
   NavLink,
@@ -12,8 +11,8 @@ import {
 
 import DrawerContainer from 'ui/menu/DrawerContainer';
 import SearchBarContainer from 'ui/menu/SearchBarContainer';
-import logo from 'images/Logo_horizontal@2x.png';
 import CategoryFilterContainer from 'ui/menu/CategoryFilterContainer';
+import TopBar from 'ui/common/TopBar';
 import NavButton from 'ui/common/NavButton';
 
 const notificationsRoute = '/notifications';
@@ -59,32 +58,22 @@ class ContentListTopBar extends PureComponent {
       </Link>
     ) : '';
 
+    const leftItems = (
+      <NavButton icon="bars" onClick={openDrawer} />      
+    );
+
+    const rightItems = [
+      notificationsButton,
+      (<NavButton icon="search" onClick={openSearch} />),
+    ];
+
     return (
       <Fragment>
-        <div className="topbar shadow-sm fixed-top">
-          <Navbar light>     
-            <Nav>
-              <NavItem>
-                <NavButton icon="bars" onClick={openDrawer} />
-              </NavItem>
-            </Nav>                   
-            <NavbarBrand
-              tag={Link}
-              to={`/content/${selectedContentType}`}
-              className="mx-auto"
-            >
-              <img
-                className="logo"
-                src={logo}
-                alt="logo"
-              />
-            </NavbarBrand>
-            <Nav className="nav-right">
-              <NavItem>{ notificationsButton }</NavItem>
-              <NavItem><NavButton icon="search" onClick={openSearch} /></NavItem>
-            </Nav>
-          </Navbar>
-        </div>
+        <TopBar
+          contentType={selectedContentType}
+          leftItems={leftItems}
+          rightItems={rightItems}
+        />
         <DrawerContainer>
           <Navbar light>
             <Nav className="ml-auto" navbar>
