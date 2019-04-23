@@ -140,9 +140,6 @@ public class ApsOracleDatabaseType extends OracleDatabaseType {
                 + "BEGIN SELECT " + seqName + ".NEXTVAL "
                 + "INTO :new." + fieldType.getColumnName() + " FROM dual; END;";
         statementsAfter.add(trigger);
-        System.out.println("----------------TRIGGER-------------------");
-        System.out.println(trigger);
-        System.out.println("------------------------------------------");
         // needs to match dropColumnArg()
         StringBuilder seqSb = new StringBuilder(64);
         seqSb.append("CREATE SEQUENCE ");

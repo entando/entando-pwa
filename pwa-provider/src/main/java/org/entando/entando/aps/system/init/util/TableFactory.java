@@ -118,10 +118,8 @@ public class TableFactory {
     private ConnectionSource createConnectionSource() throws ApsSystemException {
         ConnectionSource connectionSource = null;
         try {
-            System.out.println("createConnectionSource");
             DataSource dataSource = this.getDataSource();
             IDatabaseManager.DatabaseType type = this.getType();
-            System.out.println("createConnectionSource type -> " + type);
             String url = this.invokeGetMethod("getUrl", dataSource);
             String username = this.invokeGetMethod("getUsername", dataSource);
             String password = this.invokeGetMethod("getPassword", dataSource);

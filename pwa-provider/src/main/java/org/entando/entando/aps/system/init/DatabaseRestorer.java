@@ -17,7 +17,6 @@ import com.agiletec.aps.system.exception.ApsSystemException;
 import com.agiletec.aps.util.DateConverter;
 import com.agiletec.aps.util.FileTextReader;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.field.DatabaseField;
 
 import java.io.File;
@@ -27,7 +26,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -160,16 +158,12 @@ public class DatabaseRestorer extends AbstractDatabaseUtils {
                 this.initOracleSchema(dataSource);
                 for (int j = 0; j < tableClasses.size(); j++) {
                     String tableClassName = tableClasses.get(j);
-                    System.out.println("TABELLA " + tableClassName);
                     Class tableClass = Class.forName(tableClassName);
                     String tableName = TableFactory.getTableName(tableClass);
-
                     String xlsFileName = folder.toString() + dataSourceName + File.separator + tableName + ".xls";
                     InputStream xlsIs = this.getStorageManager().getStream(xlsFileName, true);
                     if (null != xlsIs) {
-                        // creazione da excel
-                        System.out.println("***************************************");
-                        System.out.println("EXCEL " + tableClassName);
+                        // creation of "excel dump"
                         TableFactory tableFactory = new TableFactory(dataSourceName, dataSource, super.getType(dataSource));
                         Dao dao = tableFactory.getTableDao(tableClass);
                         HSSFWorkbook workbook = new HSSFWorkbook(xlsIs);
@@ -181,7 +175,6 @@ public class DatabaseRestorer extends AbstractDatabaseUtils {
                             fieldNames.add(header.getCell(columnIndex).getStringCellValue());
                             columnIndex++;
                         }
-                        System.out.println("CAMPI " + fieldNames);
                         int rowIndex = 1;
                         boolean hasRow = false;
                         do {
@@ -191,21 +184,15 @@ public class DatabaseRestorer extends AbstractDatabaseUtils {
                                 values[k] = (null != row && null != row.getCell(k)) ? row.getCell(k).getStringCellValue() : null;
                             }
                             hasRow = Arrays.asList(values).stream().filter(v -> StringUtils.isNoneBlank(v)).findAny().isPresent();
-                            System.out.println(rowIndex + " - HA VALORI ");
                             if (hasRow) {
                                 Object object = tableClass.newInstance();
                                 for (int k = 0; k < fieldNames.size(); k++) {
-                                    System.out.println("------------");
-                                    System.out.println("CAMPO " + fieldNames.get(k));
                                     Field field = this.getFieldByColumnName(tableClass, fieldNames.get(k), true);
-
                                     if (null == field) {
-                                        System.out.println("CAMPO NULLO " + field);
                                         continue;
                                     }
                                     String value = values[k];
                                     if (null == value) {
-                                        System.out.println("valore NULLO " + field);
                                         continue;
                                     }
                                     try {
@@ -217,7 +204,6 @@ public class DatabaseRestorer extends AbstractDatabaseUtils {
                                             Object v = ConvertUtils.convert(value, key.getType());
                                             key.set(forein, v);
                                             key.setAccessible(accessible);
-
                                             boolean accessible2 = field.isAccessible();
                                             field.setAccessible(true);
                                             field.set(object, forein);
@@ -240,7 +226,6 @@ public class DatabaseRestorer extends AbstractDatabaseUtils {
                             }
                             rowIndex++;
                         } while (hasRow);
-
                     } else {
                         String fileName = folder.toString() + dataSourceName + File.separator + tableName + ".sql";
                         InputStream is = this.getStorageManager().getStream(fileName, true);
@@ -258,9 +243,7 @@ public class DatabaseRestorer extends AbstractDatabaseUtils {
 
     private Field getFieldByColumnName(Class tableClass, String columnName, boolean contineOnSuper) {
         Field[] fields = tableClass.getDeclaredFields();
-        System.out.println(tableClass + " TABELLA - NUMERO CAMPI -> " + fields.length);
         for (Field field : fields) {
-            System.out.println("field -> " + field);
             Annotation annotation = field.getAnnotation(DatabaseField.class);
             if (null == annotation) {
                 continue;
@@ -280,9 +263,7 @@ public class DatabaseRestorer extends AbstractDatabaseUtils {
 
     private Field getPrimaryFieldField(Class tableClass) {
         Field[] fields = tableClass.getDeclaredFields();
-        System.out.println(tableClass + " TABELLA CORRELATE - NUMERO CAMPI -> " + fields.length);
         for (Field field : fields) {
-            System.out.println("field correlato -> " + field);
             Annotation annotation = field.getAnnotation(DatabaseField.class);
             if (null == annotation) {
                 continue;
