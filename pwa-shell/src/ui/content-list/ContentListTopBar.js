@@ -1,10 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Navbar,
-  NavbarBrand,
   Nav,
   NavItem,
   NavLink,
@@ -12,8 +11,8 @@ import {
 
 import DrawerContainer from 'ui/menu/DrawerContainer';
 import SearchBarContainer from 'ui/menu/SearchBarContainer';
-import logo from 'images/Logo_horizontal@2x.png';
 import CategoryFilterContainer from 'ui/menu/CategoryFilterContainer';
+import TopBar from 'ui/common/TopBar';
 import NavButton from 'ui/common/NavButton';
 
 const notificationsRoute = '/notifications';
@@ -37,12 +36,12 @@ class ContentListTopBar extends PureComponent {
       isUserLogged
     } = this.props;
 
-    const links = contentTypeList.length > 1 ? contentTypeList.map(contentType => (
+    const contentTypeLinks = contentTypeList.length > 1 ? contentTypeList.map(contentType => (
       <NavItem
         key={contentType}
         className={`${contentType === selectedContentType ? 'contentType--selected' : ''}`}
       >
-          <NavLink tag={Link} to={`/${contentType}`} onClick={() => onSelectContentType(contentType)}>
+          <NavLink tag={Link} to={`/content/${contentType}`} onClick={() => onSelectContentType(contentType)}>
             { get(contentTypeMap, `${contentType}.name`, contentType) }
           </NavLink>
       </NavItem>
@@ -59,38 +58,31 @@ class ContentListTopBar extends PureComponent {
       </Link>
     ) : '';
 
+    const leftItems = (
+      <NavButton icon="bars" onClick={openDrawer} />      
+    );
+
+    const rightItems = [
+      notificationsButton,
+      (<NavButton icon="search" onClick={openSearch} />),
+    ];
+
     return (
-      <div>
-        <div className="topbar shadow-sm fixed-top">
-          <Navbar expand="lg" light>
-            <NavButton icon="bars" className="mr-3" onClick={openDrawer} />
-            <NavbarBrand
-              tag={Link}
-              to={`/content/${contentTypeList[0]}`}
-              onClick={() => onSelectContentType(contentTypeList[0])}
-              className="mx-auto"
-              >
-              <img
-                className="logo"
-                src={logo}
-                alt="logo"
-                />
-            </NavbarBrand>
-            <div>
-              { notificationsButton }
-              <NavButton icon="search" onClick={openSearch} />
-            </div>
-          </Navbar>
-        </div>
+      <Fragment>
+        <TopBar
+          contentType={selectedContentType}
+          leftItems={leftItems}
+          rightItems={rightItems}
+        />
         <DrawerContainer>
-          <Navbar expand="lg" light>
+          <Navbar light>
             <Nav className="ml-auto" navbar>
-              {links}
+              { contentTypeLinks }
             </Nav>
           </Navbar>          
           <CategoryFilterContainer contentType={selectedContentType} />
         </DrawerContainer>
-      </div>
+      </Fragment>
     );
   }
 }
@@ -106,4 +98,4 @@ ContentListTopBar.propTypes = {
   isUserLogged: PropTypes.bool.isRequired,
 };
 
-export default withRouter(props => <ContentListTopBar {...props} />);
+export default ContentListTopBar;

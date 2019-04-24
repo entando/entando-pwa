@@ -1,6 +1,12 @@
 .Notifications {  
   &--empty {
     background-color: #FFFFFF;
+
+    &__body {
+      img {
+        margin-top: 15vh;
+      }
+    }
   }
 
   &__list {

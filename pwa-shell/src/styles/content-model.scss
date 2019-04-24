@@ -1,27 +1,58 @@
 /* 
   Entando content API markup
-  and will be moved to an Entando page model
-*/  
+  (will be moved to an Entando content model)
+*/
 
 article h1 {
   font-size: 2rem;
   font-weight: bold;
+  color: $color-darkest;
+  opacity: 1;
 }
 
 article h2 {
   font-size: 1.5rem;
   font-weight: bold;
+  color: $color-darkest;
+  opacity: 1;
+}
+
+article h2 {
+  margin-top: 2rem;
+}
+
+article time {
+  text-transform: uppercase;
+  color: $color-dark;
+}
+
+.ContentListItem article h2 {
+  margin-top: inherit;
+}
+
+.ContentListItem article figure {
+  margin: 0 -35px 0 -35px;
+}
+
+.ContentListItem article figure img {
+  width: 100vw!important;
+  height: 200px!important;
+  object-fit: cover!important;
+}
+
+.ContentListItem article .btn {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.ContentListItem article .btn::after {
+  content: "\0020\0020\2192";
 }
 
 .PageContainer__footer {
-  height: 10vh;
-  max-height: 100px;
+  height: 20vh;
+  max-height: 250px;
   background-size: cover;
   background-image: url(../images/Vegetato@2x.png);
-  clip-path: polygon(0 15%, 100% 0%, 100% 100%, 0% 100%);
-}
-
-.Notifications--empty .content-footer {
-  height: 30vh;
-  max-height: 250px;
+  clip-path: polygon(0 60%, 100% 30%, 100% 100%, 0% 100%);
 }
