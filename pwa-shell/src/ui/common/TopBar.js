@@ -22,7 +22,7 @@ const wrapNavItems = items => isEmpty(items) ? null :
     </NavItem>
   );
 
-const TopBar = ({leftItems, rightItems}) => {
+const TopBar = ({contentType, leftItems, rightItems}) => {
   const leftItemsMarkup = wrapNavItems(leftItems);
   const rightItemsMarkup = wrapNavItems(rightItems);
   return (
@@ -33,7 +33,7 @@ const TopBar = ({leftItems, rightItems}) => {
         </Nav>                   
         <NavbarBrand
           tag={Link}
-          to={'/content'}
+          to={contentType ? `/content/${contentType}` : '/'}
           className="mx-auto"
         >
           <img
@@ -51,6 +51,7 @@ const TopBar = ({leftItems, rightItems}) => {
 };
 
 TopBar.propTypes = {
+  contentType: PropTypes.string,
   leftItems: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
@@ -62,6 +63,7 @@ TopBar.propTypes = {
 };
 
 TopBar.defaultProps = {
+  contentType: null,
   leftItems: null,
   rightItems: null
 };

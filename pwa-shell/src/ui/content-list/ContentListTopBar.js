@@ -1,30 +1,52 @@
 import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { Link } from 'react-router-dom';
+import {
+  Navbar,
+  Nav,
+  NavItem,
+  NavLink,
+} from 'reactstrap';
 
 import DrawerContainer from 'ui/menu/DrawerContainer';
 import SearchBarContainer from 'ui/menu/SearchBarContainer';
 import CategoryFilterContainer from 'ui/menu/CategoryFilterContainer';
 import TopBar from 'ui/common/TopBar';
 import NavButton from 'ui/common/NavButton';
-import ContentTypeFilterContainer from 'ui/menu/ContentTypeFilterContainer';
 
 const notificationsRoute = '/notifications';
 
 class ContentListTopBar extends PureComponent {
   componentDidMount() {
+    this.props.onFetchContentTypes();
     this.props.onFetchNotifications();
   }
 
   render() {
     const {
+      contentTypeList,
       selectedContentType,
+      contentTypeMap,
       notificationAmount,
+      onSelectContentType,
       openDrawer,
       openSearch,
       isSearchOpen,
       isUserLogged
     } = this.props;
+
+    const contentTypeLinks = contentTypeList.length > 1 ? contentTypeList.map(contentType => (
+      <NavItem
+        key={contentType}
+        className={`${contentType === selectedContentType ? 'contentType--selected' : ''}`}
+      >
+          <NavLink tag={Link} to={`/content/${contentType}`} onClick={() => onSelectContentType(contentType)}>
+            { get(contentTypeMap, `${contentType}.name`, contentType) }
+          </NavLink>
+      </NavItem>
+    ))       
+    : '';
 
     if (isSearchOpen) {
       return <SearchBarContainer />;
@@ -48,11 +70,16 @@ class ContentListTopBar extends PureComponent {
     return (
       <Fragment>
         <TopBar
+          contentType={selectedContentType}
           leftItems={leftItems}
           rightItems={rightItems}
         />
         <DrawerContainer>
-          <ContentTypeFilterContainer />
+          <Navbar light>
+            <Nav className="ml-auto" navbar>
+              { contentTypeLinks }
+            </Nav>
+          </Navbar>          
           <CategoryFilterContainer contentType={selectedContentType} />
         </DrawerContainer>
       </Fragment>
@@ -61,8 +88,9 @@ class ContentListTopBar extends PureComponent {
 }
 
 ContentListTopBar.propTypes = {
+  contentTypeList: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedContentType: PropTypes.string,
-  onFetchNotifications: PropTypes.func.isRequired,
+  contentTypeMap: PropTypes.object.isRequired,
   onSelectContentType: PropTypes.func.isRequired,
   openDrawer: PropTypes.func.isRequired,
   openSearch: PropTypes.func.isRequired,

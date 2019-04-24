@@ -6,11 +6,11 @@ import NavButton from 'ui/common/NavButton';
 
 import TopBar from 'ui/common/TopBar';
 
-const NotificationsTopBar = ({ clearAllNotifications }) => {
+const NotificationsTopBar = ({ contentType, clearAllNotifications }) => {
   const leftItems = (
     <NavLink  
       tag={Link}
-      to={'/content'}
+      to={contentType ? `/content/${contentType}` : '/'}
     >
       <NavButton icon="arrow-left" />
     </NavLink>
@@ -20,6 +20,7 @@ const NotificationsTopBar = ({ clearAllNotifications }) => {
   );
   return (
     <TopBar
+      contentType={contentType}
       leftItems={leftItems}
       rightItems={rightItems}
     />
@@ -27,7 +28,12 @@ const NotificationsTopBar = ({ clearAllNotifications }) => {
 };
 
 NotificationsTopBar.propTypes = {
+  contentType: PropTypes.string,
   clearAllNotifications: PropTypes.func.isRequired,
+};
+
+NotificationsTopBar.defaultProps = {
+  contentType: null,
 };
 
 export default NotificationsTopBar;

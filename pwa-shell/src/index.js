@@ -16,7 +16,7 @@ import NetworkStatusContainer from 'ui/network/NetworkStatusContainer';
 
 import ContentListContainer from 'ui/content-list/ContentListContainer';
 import ContentDetailContainer from 'ui/content-detail/ContentDetailContainer';
-import DefaultRedirect from 'DefaultRedirect';
+import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import NotificationsContainer from 'ui/notifications/NotificationsContainer';
 import HomePageHead from 'HomePageHead';
 
@@ -33,10 +33,10 @@ ReactDOM.render(
     <NetworkStatusContainer>
       <Router>      
         <ApiManager store={store}>
-          <Route exact path="/" component={DefaultRedirect} />
-          <Route exact path="/content" component={ContentListContainer} />
-          <Route exact path="/content/:id" component={ContentDetailContainer} />
+          <Route exact path="/" component={DefaultRedirectContainer} />
           <Route exact path="/notifications" component={NotificationsContainer} />
+          <Route exact path="/content/:contentType" component={ContentListContainer} />
+          <Route exact path="/content/:contentType/:id" component={ContentDetailContainer} />
         </ApiManager>      
       </Router>
     </NetworkStatusContainer>
