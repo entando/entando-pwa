@@ -3,14 +3,13 @@ import { GET_NOTIFICATIONS_RESPONSE_OK } from '__tests__/mocks/notification';
 
 const defaultPageObject = { page: 1, pageSize: 10 };
 
-export const getNotifications = (user, params = '?status=published&model=list&lang=it', page = defaultPageObject) => (
+export const getNotifications = (page = defaultPageObject) => (
   makeMockRequest(
     {  
-      uri: `/api/plugins/cms/contents${params}`,
+      uri: '/api/pwa/notifications',
       method: METHODS.GET,
       mockResponse: GET_NOTIFICATIONS_RESPONSE_OK,
-      contentType: 'application/json',
-      errors: () => [],
+      useAuthentication: true,
     },
     page,
   )

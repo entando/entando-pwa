@@ -181,12 +181,11 @@ export const fetchCategoryListAndFilters = () => async(dispatch, getState) => {
   }
 };
 
-export const fetchNotifications = () => async(dispatch, getState) => {
-  const userToken = getToken(getState());
-  const response = await getNotifications(userToken);
+export const fetchNotifications = () => async(dispatch) => {
+  const response = await getNotifications();
   const json = await response.json();
   if (response.ok) {
-    const notifications = json.payload.map(notification => ({...notification, html: htmlSanitizer(notification.html)}));
+    const notifications = json.payload.map(notification => ({...notification, body: htmlSanitizer(notification.body)}));
     dispatch(setNotificationList(notifications));
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));

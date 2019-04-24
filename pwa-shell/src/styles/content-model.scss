@@ -40,12 +40,17 @@ article time {
   object-fit: cover!important;
 }
 
-.ContentListItem article .btn {
+.ContentListItem article .btn,
+.NotificationListItem article .btn {
   text-transform: uppercase;
   font-weight: bold;
+  margin: 2rem 0 1rem 0;
+  float: left;
+  padding: 0;
 }
 
-.ContentListItem article .btn::after {
+.ContentListItem article .btn::after,
+.NotificationListItem article .btn::after {
   content: "\0020\0020\2192";
 }
 

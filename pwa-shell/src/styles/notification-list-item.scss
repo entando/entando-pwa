@@ -1,4 +1,4 @@
-.ContentListItem {
+.NotificationListItem {
   .card-header {
     background-color: inherit;
     border-bottom: 0;
@@ -9,5 +9,12 @@
 
   &__link-to-detail {
     word-break: normal;
+  }
+    
+  &__status--unread {
+    color: #FFF;
+    background-color: $color-red;
+    text-transform: uppercase;
+    font-weight: bolder;
   }
 }

@@ -5,7 +5,7 @@ import { Container } from 'reactstrap';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
 import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarContainer';
 import PageContainer from 'ui/common/PageContainer';
-import ContentCategoryListContainer from 'ui/common/ContentCategoryListContainer';
+import ItemCategoryListContainer from 'ui/common/ItemCategoryListContainer';
 
 class ContentDetail extends PureComponent {
   componentDidMount() {
@@ -21,11 +21,11 @@ class ContentDetail extends PureComponent {
   render() {
     const { contentDetail, isLoading, isUserLogged } = this.props;
     const loadingMessage = 'Caricamento...';
-    const contentCategoryIdList = get(contentDetail, 'categories', []);
+    const associatedCategoryIdList = get(contentDetail, 'categories', []);
 
     const contentDetailBody = !isLoading ? (
       <Container fluid>
-        <ContentCategoryListContainer contentCategoryIdList={contentCategoryIdList} />
+        <ItemCategoryListContainer categoryIdList={associatedCategoryIdList} />
         <div dangerouslySetInnerHTML={{__html: get(contentDetail, 'html', '')}}></div>
       </Container>  
     ) : (
