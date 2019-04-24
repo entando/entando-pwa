@@ -64,13 +64,14 @@ const toSortingQueryString = (sortingFilters, standardFilters) => {
 
 export const fetchContentListByContentType = (contentType, pagination, search = null) => (dispatch, getState) => {
   dispatch(setSelectedContentType(contentType));
+  const contentSpecificParams = '?status=published&model=list';
   const state = getState();
-  const filters = getSelectedStandardFilters(state);
+  const standardFilters = getSelectedStandardFilters(state);
   const categoryFilters = getSelectedCategoryFilters(state);
   const sortingFilters = getSelectedSortingFilters(state);
+  const standardParams = standardFilters ? convertToQueryString(standardFilters) : '';
   const categoryParams = toCategoryQueryString(categoryFilters);
-  const sortingParams = toSortingQueryString(sortingFilters, filters);
-  const contentSpecificParams = '&status=published&model=list';
+  const sortingParams = toSortingQueryString(sortingFilters, standardFilters);
   const searchParams = search ? `&text=${search}` : '';
   if (search) {
     dispatch(setIsSearchResult());
@@ -78,7 +79,7 @@ export const fetchContentListByContentType = (contentType, pagination, search = 
   } else {
     dispatch(unsetIsSearchResult());
   }
-  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}${searchParams}`;
+  const params = `${contentSpecificParams}${standardParams}${categoryParams}${sortingParams}${searchParams}`;
   dispatch(fetchContentList(params, pagination));
 };
 

@@ -12,6 +12,7 @@ import {
   UNSET_IS_LOADING,
   SET_REQUIRES_AUTH,
 } from 'state/content/types';
+import { ALL_CONTENT_TYPES } from 'state/const';
 import { contentTypeCodeList, sortingFilters } from 'state/appConfig';
 import { htmlSanitizer } from 'helpers';
 
@@ -21,7 +22,12 @@ const filters = contentTypeCodeList.reduce((acc, curr) => ({
     formValues: { typeCode: [curr] },
     operators: { typeCode: FILTER_OPERATORS.EQUAL },
   }
-}), {});
+}), {
+  [ALL_CONTENT_TYPES] : {
+    formValues: {},
+    operators: {},
+  }
+});
 
 const initialState = {
   list: [],

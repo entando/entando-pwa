@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
-import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarContainer';
+import ContentDetailTopBar from 'ui/content-detail/ContentDetailTopBar';
 import PageContainer from 'ui/common/PageContainer';
 import ContentCategoryListContainer from 'ui/common/ContentCategoryListContainer';
 
@@ -36,7 +36,7 @@ class ContentDetail extends PureComponent {
         
     return (
       <PageContainer className={`ContentDetail${isUserLogged ? '' : '--guest-user'}`}>
-        <ContentDetailTopBarContainer />
+        <ContentDetailTopBar />
         <ProtectedContentLoginContainer>
           <div className="ContentDetail__body">
             { contentDetailBody }

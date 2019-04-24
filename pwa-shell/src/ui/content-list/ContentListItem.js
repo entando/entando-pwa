@@ -20,7 +20,7 @@ const ContentListItem = ({ data }) => (
     </CardHeader>
     <CardBody className="ContentListItem__body">
       <ContentCategoryListContainer contentCategoryIdList={data.categories} />
-      <Link className="ContentListItem__link-to-detail" to={`/content/${data.typeCode}/${data.id}${data.requiresAuth ? '?requiresAuth=true' : ''}`}>
+      <Link className="ContentListItem__link-to-detail" to={`/content/${data.id}${data.requiresAuth ? '?requiresAuth=true' : ''}`}>
         <div dangerouslySetInnerHTML={{__html: data.html}} />
       </Link>
     </CardBody>

@@ -1,22 +1,23 @@
 import { get } from 'lodash';
 import appId from 'appId';
+import { ALL_CONTENT_TYPES } from 'state/const';
 
 const defaultAppConfig = {
   contentTypes: ['NWS'],
   categoryRoots: {
-    NWS: 'home',
+    [ALL_CONTENT_TYPES]: 'home',
   },
   categoryOrder: { // temporary, category order will be handled backend-side
-    NWS: [
+    [ALL_CONTENT_TYPES]: [
       'ìn_evidenza',
       'personale',
       'amministrazione',
       'benessere',
       'varie',
-    ]
+    ],
   },
   sortingFilters: {
-    NWS: [
+    [ALL_CONTENT_TYPES]: [
       {
         type: 'date',
         entityAttr: 'Date',
