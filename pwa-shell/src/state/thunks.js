@@ -122,7 +122,7 @@ export const fetchProtectedContentDetail = id => async(dispatch, getState) => {
     dispatch(setIsLoading());	
     dispatch(unsetSelectedContent());	
     const response = await getProtectedContent(id);
-    if (response.status !== 401) {      
+    if (response.status !== 401) {
       const json = await response.json();
       if (response.ok) {
         dispatch(setSelectedContent(json.payload));	
@@ -182,13 +182,21 @@ export const fetchCategoryListAndFilters = () => async(dispatch, getState) => {
 };
 
 export const fetchNotifications = () => async(dispatch) => {
-  const response = await getNotifications();
-  const json = await response.json();
-  if (response.ok) {
-    const notifications = json.payload.map(notification => ({...notification, body: htmlSanitizer(notification.body)}));
-    dispatch(setNotificationList(notifications));
+  const response = await getNotifications();  
+  if (response.status !== 401) {
+    const json = await response.json();
+    if (response.ok) {
+      const notifications = json.payload.map(notification => {
+        return notification && notification.body ?
+          {...notification, body: htmlSanitizer(notification.body)}
+          : notification;
+      });
+      dispatch(setNotificationList(notifications));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
   } else {
-    dispatch(addErrors(json.errors.map(e => e.message)));
+    dispatch(setNotificationList([]));
   }
 }
 

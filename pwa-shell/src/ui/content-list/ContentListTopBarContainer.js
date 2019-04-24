@@ -19,10 +19,10 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onFetchContentTypes: () => {
+  fetchContentTypes: () => {
     dispatch(fetchContentTypeMap());
   },
-  onFetchNotifications: () => {
+  fetchNotifications: () => {
     dispatch(fetchNotifications());
   },
   onSelectContentType: (contentType) => {
