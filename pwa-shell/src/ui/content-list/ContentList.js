@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import InfiniteScroll from 'react-infinite-scroller';
 import ContentListItem from 'ui/content-list/ContentListItem';
 import CategoryListContainer from 'ui/content-list/CategoryListContainer';
-import { Container } from 'reactstrap';
+import { Container, Spinner } from 'reactstrap';
 import PageContainer from 'ui/common/PageContainer';
 import ContentListTopBarContainer from 'ui/content-list/ContentListTopBarContainer';
 import ToastsContainer from 'ui/common/ToastsContainer';
@@ -23,6 +24,8 @@ class ContentList extends PureComponent {
     const {
       contentList,
       contentType,
+      fetchNextContentList,
+      hasMoreItems,
       selectedCategoryCodes,
       isSearchResult,
       isLoading,
@@ -60,21 +63,24 @@ class ContentList extends PureComponent {
 
         { categoryList }
         { searchResults }
-        <Container fluid className="content">        
-        <div className="mt-4">
-          { loadingMessage }
-        </div>
-        {
-          selectedCategoryCodes && selectedCategoryCodes.length
-            ? (
-              contentList && contentList.length ?
-              <div>
-                { contentListItems }
-              </div>
-              : <div>Nessun articolo trovato</div>
-            )
-            : 'Nessun argomento selezionato. Seleziona almeno un argomento dal menu in alto a sinistra.'
-        }
+        <Container fluid className="content">
+          {
+            selectedCategoryCodes && selectedCategoryCodes.length
+              ? (
+                contentList && contentList.length ?
+                <InfiniteScroll
+                  pageStart={0}
+                  loadMore={fetchNextContentList}
+                  hasMore={hasMoreItems}
+                  threshold={50}
+                  loader={<div key={-1} className="mt-4 ContentList__load-more">{ loadingMessage } <Spinner size="sm" color="primary" /></div>}
+                >
+                  { contentListItems }
+                </InfiniteScroll>
+                : <div>Nessun articolo trovato</div>
+              )
+              : 'Nessun argomento selezionato. Seleziona almeno un argomento dal menu in alto a sinistra.'
+          }
         </Container>
       </PageContainer>
     );
@@ -83,16 +89,19 @@ class ContentList extends PureComponent {
 
 ContentList.propTypes = {
   contentList: PropTypes.arrayOf(PropTypes.object),
+  hasMoreItems: PropTypes.bool, 
   contentType: PropTypes.string,
   selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
   isSearchResult: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   searchTerms: PropTypes.string,
   fetchContentList: PropTypes.func.isRequired,
+  fetchNextContentList: PropTypes.func.isRequired,
 };
 
 ContentList.defaultProps = {  
   contentList: [],
+  hasMoreItems: false,
   contentType: null,
   selectedCategoryCodes: [],
   searchTerms: '',

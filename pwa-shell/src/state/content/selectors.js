@@ -10,6 +10,17 @@ export const getContentList = createSelector(
   content => content.list,
 );
 
+export const getContentListMeta = createSelector(
+  getContent,
+  content => content.listMeta,
+);
+
+export const getListHasMorePages = createSelector(
+  getContentListMeta,
+  // meta => !!Object.keys(meta).length && meta.page < meta.lastPage,
+  meta => !!Object.keys(meta).length && meta.pageSize === meta.totalItems
+);
+
 export const getSelectedContent = createSelector(
   getContent,
   content => content.selected,
