@@ -76,7 +76,7 @@ public class ApsOracleDatabaseType extends OracleDatabaseType {
 		 * isId. isGeneratedId is also isId.
          */
         if (fieldType.isGeneratedIdSequence() && !fieldType.isSelfGeneratedId()) {
-            configureGeneratedIdSequence(sb, fieldType, statementsBefore, additionalArgs, queriesAfter);
+            configureGeneratedIdSequence(sb, fieldType, statementsBefore, additionalArgs, statementsAfter, queriesAfter);
         } else if (fieldType.isGeneratedId() && !fieldType.isSelfGeneratedId()) {
             configureGeneratedId(tableName, sb, fieldType, statementsBefore, statementsAfter, additionalArgs,
                     queriesAfter);
@@ -123,10 +123,50 @@ public class ApsOracleDatabaseType extends OracleDatabaseType {
         additionalArgs.add(alterSb.toString());
     }
 
+    //@Override
+    protected void configureGeneratedIdSequence(StringBuilder sb, FieldType fieldType, List<String> statementsBefore,
+            List<String> additionalArgs, List<String> statementsAfter, List<String> queriesAfter) {
+        String seqName = fieldType.getGeneratedIdSequence();
+
+        if (seqName.length() > 30) {
+            seqName = org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(20).toUpperCase() + "_SEQ";
+        }
+        String triggerName = fieldType.getTableName() + "_TRG";
+        if (triggerName.length() > 30) {
+            triggerName = org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(20).toUpperCase() + "_TRG";
+        }
+        String trigger = "CREATE OR REPLACE TRIGGER " + triggerName + " "
+                + "BEFORE INSERT ON " + fieldType.getTableName() + " FOR EACH ROW "
+                + "BEGIN SELECT " + seqName + ".NEXTVAL "
+                + "INTO :new." + fieldType.getColumnName() + " FROM dual; END;";
+        statementsAfter.add(trigger);
+        // needs to match dropColumnArg()
+        StringBuilder seqSb = new StringBuilder(64);
+        seqSb.append("CREATE SEQUENCE ");
+        // when it is created, it needs to be escaped specially
+        appendEscapedEntityName(seqSb, seqName);
+        statementsBefore.add(seqSb.toString());
+
+        configureId(sb, fieldType, statementsBefore, additionalArgs, queriesAfter);
+    }
+
+    /*
+    CREATE OR REPLACE TRIGGER authrolepermissions
+BEFORE INSERT ON authrolepermissions
+FOR EACH ROW
+
+BEGIN
+  SELECT authrolepermissions_id_seq.NEXTVAL
+  INTO   :new.id
+  FROM   dual;
+END;
+     */
+
+ /*
     @Override
     protected void configureGeneratedIdSequence(StringBuilder sb, FieldType fieldType, List<String> statementsBefore,
             List<String> additionalArgs, List<String> queriesAfter) {
-        sb.append(" GENERATED as IDENTITY ");
+        sb.append(" GENERATED ALWAYS as IDENTITY ");
     }
-
+     */
 }

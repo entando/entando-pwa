@@ -44,9 +44,6 @@ INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,l
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS27','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS27','Title','Circolare applicativa sulle istanze di trasferimento dei Sottufficiali per l''anno 2019',NULL,NULL,'en');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS27','Title','Circolare applicativa sulle istanze di trasferimento dei Sottufficiali per l''anno 2019',NULL,NULL,'it');
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS33','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS33','Title','Concorso VFP1 - 2'' Blocco 2019',NULL,NULL,'en');
-INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS33','Title','Concorso VFP1 - 2'' Blocco 2019',NULL,NULL,'it');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS36','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS36','Title','Concorso fotografico "Uno scatto in avanti: Le donne nella Difesa" Fotografia un''idea.',NULL,NULL,'en');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS36','Title','Concorso fotografico "Uno scatto in avanti: Le donne nella Difesa" Fotografia un''idea.',NULL,NULL,'it');
@@ -59,3 +56,6 @@ INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,l
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'en');
 INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS42','Title','Prosegue l''impegno della Forza Armata a tutela del benessere del proprio personale.',NULL,NULL,'it');
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS33','Date',NULL,'2019-03-18 00:00:00',NULL,NULL);
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS33','Title','Concorso VFP1 - 2'' Blocco 2019',NULL,NULL,'en');
+INSERT INTO workcontentsearch (contentid,attrname,textvalue,datevalue,numvalue,langcode) VALUES ('NWS33','Title','Concorso VFP1 - 2'' Blocco 2019',NULL,NULL,'it');

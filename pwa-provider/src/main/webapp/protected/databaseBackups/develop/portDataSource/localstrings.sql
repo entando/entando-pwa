@@ -108,6 +108,8 @@ INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_MET
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_METHOD_SCHEMA_REQ','en','Request');
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_METHOD_SCHEMA_RESP','it','Risposta');
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_METHOD_SCHEMA_RESP','en','Response');
+INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_SERVICE_AUTHORIZATION','it','Autorizzazione');
+INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_SERVICE_AUTH_FREE','en','Free');
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_METHOD_PARAMS_SUMM','it','Questa tabella mostra i parametri per la richiesta del metodo. Per ciascuno di essi ci sono tre colonne: il nome del parametro, la descrizione del parametro e l''indicazione di obbligatorietà.');
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_METHOD_PARAMS_SUMM','en','This table shows the request parameters for this method. For each of them there are three columns: the parameter name, the parameter description and whether if it''s mandatory or not.');
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_METHOD_REQUEST_PARAMS','it','Parametri');
@@ -211,8 +213,6 @@ INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_SER
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_SERVICE_PARENT_API','en','Parent API');
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_SERVICE_PARENT_API','it','API Padre');
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_SERVICE_AUTHORIZATION','en','Authorization');
-INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_SERVICE_AUTHORIZATION','it','Autorizzazione');
-INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_SERVICE_AUTH_FREE','en','Free');
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_SERVICE_AUTH_FREE','it','Accesso Libero');
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_SERVICE_URI','en','URI');
 INSERT INTO localstrings (keycode,langcode,stringvalue) VALUES ('ENTANDO_API_SERVICE_URI','it','URI');
