@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
+import ToastsContainer from 'ui/common/ToastsContainer';
 
 class Login extends Component
 {
@@ -10,10 +11,11 @@ class Login extends Component
     const { hasAccess, children } = this.props;
     return hasAccess ? (
       <Fragment>
+        <ToastsContainer />
         { children }
       </Fragment>
     ) : (
-      <Container fluid className="login min-vh-100">
+      <Container fluid className="login">
         <LoginFormContainer />
       </Container>
     );

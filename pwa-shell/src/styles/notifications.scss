@@ -1,0 +1,17 @@
+.Notifications {  
+  &--empty {
+    background-color: #FFFFFF;
+
+    &__body {
+      img {
+        margin-top: 15vh;
+      }
+    }
+  }
+
+  &__list {
+    background-color: $color-primary-lightest;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}

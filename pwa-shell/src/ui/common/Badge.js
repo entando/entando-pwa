@@ -5,8 +5,6 @@ const Badge = ({children, className}) => (
   <span className={`Badge ${className}`}>{children}</span>
 );
 
-export default Badge;
-
 Badge.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
@@ -18,3 +16,5 @@ Badge.propTypes = {
 Badge.defaultProps = {  
   className: '',
 };
+
+export default Badge;

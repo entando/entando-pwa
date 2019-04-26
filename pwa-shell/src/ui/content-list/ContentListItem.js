@@ -7,6 +7,7 @@ import {
   CardBody,
 } from 'reactstrap';
 import Badge from 'ui/common/Badge';
+import ContentCategoryListContainer from 'ui/common/ContentCategoryListContainer';
 
 const ContentListItem = ({ data }) => (
   <Card className="shadow ContentListItem">
@@ -18,6 +19,7 @@ const ContentListItem = ({ data }) => (
       }
     </CardHeader>
     <CardBody className="ContentListItem__body">
+      <ContentCategoryListContainer contentCategoryIdList={data.categories} />
       <Link className="ContentListItem__link-to-detail" to={`/content/${data.typeCode}/${data.id}${data.requiresAuth ? '?requiresAuth=true' : ''}`}>
         <div dangerouslySetInnerHTML={{__html: data.html}} />
       </Link>
