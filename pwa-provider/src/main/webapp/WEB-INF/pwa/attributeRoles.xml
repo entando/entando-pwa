@@ -1,0 +1,7 @@
+<roles>
+	<role>
+		<name>jacms:body</name>
+		<description>The main body of a Content</description>
+		<allowedTypes>Text,Monotext,Longtext,Hypertext</allowedTypes>
+	</role>
+</roles>

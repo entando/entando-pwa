@@ -5,6 +5,7 @@
  */
 package org.entando.pwa.system.services.notification;
 
+import com.agiletec.aps.system.SystemConstants;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -12,6 +13,7 @@ import com.agiletec.aps.system.common.FieldSearchFilter;
 import com.agiletec.aps.system.common.entity.model.attribute.ITextAttribute;
 import com.agiletec.aps.system.exception.ApsSystemException;
 import com.agiletec.aps.system.common.model.dao.SearcherDaoPaginatedResult;
+import com.agiletec.aps.system.services.user.UserDetails;
 import com.agiletec.plugins.jacms.aps.system.JacmsSystemConstants;
 import com.agiletec.plugins.jacms.aps.system.services.content.IContentManager;
 import com.agiletec.plugins.jacms.aps.system.services.content.model.Content;
@@ -27,6 +29,7 @@ import org.entando.entando.plugins.pwa.web.notification.model.MarkAsReadRequest;
 import org.entando.pwa.system.services.notification.model.NotificationDto;
 import org.entando.entando.plugins.pwa.web.notification.model.NotificationRequest;
 import org.entando.entando.plugins.pwa.web.notification.validator.NotificationValidator;
+import org.entando.pwa.system.PwaSystemConstants;
 import org.entando.pwa.system.services.notification.model.PwaNotificationDto;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.slf4j.Logger;
@@ -90,17 +93,17 @@ public class NotificationService implements INotificationService {
     }
 
     @Override
-    public PagedMetadata<PwaNotificationDto> getNotificationsByUser(RestListRequest requestList, String username) {
+    public PagedMetadata<PwaNotificationDto> getNotificationsByUser(RestListRequest requestList, UserDetails userDetails) {
         try {
             List<FieldSearchFilter> filters = new ArrayList<>(requestList.buildFieldSearchFilters());
             filters.stream().filter(i -> i.getKey() != null)
                     .forEach(i -> i.setKey(NotificationDto.getEntityFieldName(i.getKey())));
             FieldSearchFilter filterType = new FieldSearchFilter("notiftype", INotificationManager.TYPE_CONTENT, false);
             filters.add(filterType);
-            SearcherDaoPaginatedResult<Notification> notifications = this.getNotificationManager().getNotifications(filters, username);
+            SearcherDaoPaginatedResult<Notification> notifications = this.getNotificationManager().getNotifications(filters, userDetails);
+            String username = (null != userDetails && !userDetails.getUsername().equals(SystemConstants.GUEST_USER_NAME)) ? userDetails.getUsername() : null;
             List<PwaNotificationDto> dtoList = this.getDtoPwaBuilder().convert(notifications.getList());
-            for (int i = 0; i < dtoList.size(); i++) {
-                PwaNotificationDto not = dtoList.get(i);
+            for (PwaNotificationDto not : dtoList) {
                 Content content = this.getContentManager().loadContent(not.getObjectId(), true);
                 if (null == content) {
                     this.getNotificationManager().deleteNotification(not.getId());
@@ -109,9 +112,14 @@ public class NotificationService implements INotificationService {
                     if (null != title) {
                         not.setTitle(title.getText());
                     }
+                    ITextAttribute body = (ITextAttribute) content.getAttributeByRole(PwaSystemConstants.CMS_MAINBODY_ATTRIBUTE_ROLE);
+                    if (null != body) {
+                        not.setBody(body.getText());
+                    }
                     if (null != content.getCategories()) {
                         content.getCategories().stream().forEach(cat -> not.getCategories().add(cat.getCode()));
                     }
+                    not.setRequiresAuth(username == null);
                     not.getProperties().put("contentType", content.getTypeCode());
                 }
             }
