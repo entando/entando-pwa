@@ -10,6 +10,11 @@ import ToastsContainer from 'ui/common/ToastsContainer';
 
 class ContentList extends PureComponent {
 
+  constructor(props) {
+    super(props);
+    this.loadMoreListItems = this.loadMoreListItems.bind(this);
+  }
+
   componentDidMount() {
     this.props.fetchContentList();
   }
@@ -20,11 +25,17 @@ class ContentList extends PureComponent {
     }
   }
 
+  loadMoreListItems() {
+    if (!this.props.isLoading) {
+      const { page, pageSize } = this.props.contentListMeta;
+      this.props.fetchContentList({ page: page + 1, pageSize });
+    }
+  }
+
   render() {
     const {
       contentList,
       contentType,
-      fetchNextContentList,
       hasMoreItems,
       selectedCategoryCodes,
       isSearchResult,
@@ -70,7 +81,7 @@ class ContentList extends PureComponent {
                 contentList && contentList.length ?
                 <InfiniteScroll
                   pageStart={0}
-                  loadMore={fetchNextContentList}
+                  loadMore={this.loadMoreListItems}
                   hasMore={hasMoreItems}
                   threshold={50}
                   loader={<div key={-1} className="mt-4 ContentList__load-more">{ loadingMessage } <Spinner size="sm" color="primary" /></div>}
@@ -89,6 +100,7 @@ class ContentList extends PureComponent {
 
 ContentList.propTypes = {
   contentList: PropTypes.arrayOf(PropTypes.object),
+  contentListMeta: PropTypes.object,
   hasMoreItems: PropTypes.bool, 
   contentType: PropTypes.string,
   selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
@@ -96,11 +108,11 @@ ContentList.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   searchTerms: PropTypes.string,
   fetchContentList: PropTypes.func.isRequired,
-  fetchNextContentList: PropTypes.func.isRequired,
 };
 
 ContentList.defaultProps = {  
   contentList: [],
+  contentListMeta: {},
   hasMoreItems: false,
   contentType: null,
   selectedCategoryCodes: [],

@@ -17,7 +17,6 @@ export const getContentListMeta = createSelector(
 
 export const getListHasMorePages = createSelector(
   getContentListMeta,
-  // meta => !!Object.keys(meta).length && meta.page < meta.lastPage,
   meta => !!Object.keys(meta).length && meta.pageSize === meta.totalItems
 );
 

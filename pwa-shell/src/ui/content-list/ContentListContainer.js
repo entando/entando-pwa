@@ -32,20 +32,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-const getNextPageMeta = ({ page, pageSize }) => ({ page: page + 1, pageSize });
-
-export const mergeProps = (stateProps, dispatchProps) => ({
-  ...stateProps,
-  ...dispatchProps,
-  fetchNextContentList: () => {
-    if (!stateProps.isLoading) {
-      dispatchProps.fetchContentList(getNextPageMeta(stateProps.contentListMeta))
-    }
-  },
-});
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps,
 )(ContentList);
