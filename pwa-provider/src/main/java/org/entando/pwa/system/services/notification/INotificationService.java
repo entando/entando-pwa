@@ -5,6 +5,7 @@
  */
 package org.entando.pwa.system.services.notification;
 
+import com.agiletec.aps.system.services.user.UserDetails;
 import org.entando.entando.plugins.pwa.web.notification.model.MarkAsReadRequest;
 import org.entando.entando.web.common.model.PagedMetadata;
 import org.entando.entando.web.common.model.RestListRequest;
@@ -19,7 +20,7 @@ public interface INotificationService {
 
     public PagedMetadata<NotificationDto> getNotifications(RestListRequest requestList);
 
-    public PagedMetadata<PwaNotificationDto> getNotificationsByUser(RestListRequest requestList, String username);
+    public PagedMetadata<PwaNotificationDto> getNotificationsByUser(RestListRequest requestList, UserDetails userDetails);
 
     //public NotificationDto updateNotification(NotificationRequest notificationRequest);
     public NotificationDto addNotification(NotificationRequest notificationRequest);

@@ -15,6 +15,7 @@ public class PwaNotificationDto extends NotificationDto {
     private String body;
     private Map<String, String> properties = new HashMap<>();
     private List<String> categories = new ArrayList<>();
+    private boolean requiresAuth;
 
     public String getTitle() {
         return title;
@@ -46,6 +47,14 @@ public class PwaNotificationDto extends NotificationDto {
 
     public void setCategories(List<String> categories) {
         this.categories = categories;
+    }
+
+    public boolean isRequiresAuth() {
+        return requiresAuth;
+    }
+
+    public void setRequiresAuth(boolean requiresAuth) {
+        this.requiresAuth = requiresAuth;
     }
 
 }

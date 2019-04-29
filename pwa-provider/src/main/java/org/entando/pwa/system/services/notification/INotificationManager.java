@@ -9,6 +9,7 @@ import java.util.List;
 import com.agiletec.aps.system.exception.ApsSystemException;
 import com.agiletec.aps.system.common.model.dao.SearcherDaoPaginatedResult;
 import com.agiletec.aps.system.common.FieldSearchFilter;
+import com.agiletec.aps.system.services.user.UserDetails;
 
 public interface INotificationManager {
 
@@ -20,7 +21,7 @@ public interface INotificationManager {
 
     public List<Integer> searchNotifications(FieldSearchFilter filters[]) throws ApsSystemException;
 
-    public List<Notification> searchNotificationsByUser(FieldSearchFilter[] filters, String username) throws ApsSystemException;
+    public List<Notification> searchNotificationsByUser(FieldSearchFilter[] filters, UserDetails userDetails) throws ApsSystemException;
 
     public void addNotification(Notification notification) throws ApsSystemException;
 
@@ -31,6 +32,6 @@ public interface INotificationManager {
 
     public SearcherDaoPaginatedResult<Notification> getNotifications(List<FieldSearchFilter> fieldSearchFilters) throws ApsSystemException;
 
-    public SearcherDaoPaginatedResult<Notification> getNotifications(List<FieldSearchFilter> fieldSearchFilters, String username) throws ApsSystemException;
+    public SearcherDaoPaginatedResult<Notification> getNotifications(List<FieldSearchFilter> fieldSearchFilters, UserDetails userDetails) throws ApsSystemException;
 
 }
