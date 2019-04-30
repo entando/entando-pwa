@@ -74,37 +74,13 @@ public class NotificationController {
     public ResponseEntity<PagedRestResponse<PwaNotificationDto>> getNotifications(RestListRequest requestList) throws JsonProcessingException {
         this.getNotificationValidator().validateRestListRequest(requestList, NotificationDto.class);
         UserDetails userDetails = this.extractCurrentUser();
-        String username = (null != userDetails && !userDetails.getUsername().equals(SystemConstants.GUEST_USER_NAME)) ? userDetails.getUsername() : null;
-        PagedMetadata<PwaNotificationDto> result = this.getNotificationService().getNotificationsByUser(requestList, username);
+        //String username = (null != userDetails && !userDetails.getUsername().equals(SystemConstants.GUEST_USER_NAME)) ? userDetails.getUsername() : null;
+        PagedMetadata<PwaNotificationDto> result = this.getNotificationService().getNotificationsByUser(requestList, userDetails);
         this.getNotificationValidator().validateRestListResult(requestList, result);
         logger.debug("Main Response -> {}", result);
         return new ResponseEntity<>(new PagedRestResponse<>(result), HttpStatus.OK);
     }
 
-    /*
-    @RestAccessControl(permission = "superuser")
-    @RequestMapping(value = "/{notificationId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RestResponse> getNotification(@PathVariable String notificationId) {
-        NotificationDto notification = this.getNotificationService().getNotification(Integer.valueOf(notificationId));
-        return new ResponseEntity<>(new RestResponse(notification), HttpStatus.OK);
-    }
-
-    @RestAccessControl(permission = "superuser")
-    @RequestMapping(value = "/{notificationId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SimpleRestResponse<NotificationDto>> updateNotification(@PathVariable String notificationId, @Valid @RequestBody NotificationRequest notificationRequest, BindingResult bindingResult) {
-        //field validations
-        if (bindingResult.hasErrors()) {
-            throw new ValidationGenericException(bindingResult);
-        }
-        this.getNotificationValidator().validateBodyName(String.valueOf(notificationId), notificationRequest, bindingResult);
-        if (bindingResult.hasErrors()) {
-            throw new ValidationGenericException(bindingResult);
-        }
-
-        NotificationDto notification = this.getNotificationService().updateNotification(notificationRequest);
-        return new ResponseEntity<>(new SimpleRestResponse<>(notification), HttpStatus.OK);
-    }
-     */
     @RestAccessControl(permission = "")
     @RequestMapping(value = "/contents/markAsRead", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SimpleRestResponse<MarkAsReadRequest>> markAsReadContents(@Valid @RequestBody MarkAsReadRequest notificationRequest, BindingResult bindingResult) {
@@ -122,17 +98,6 @@ public class NotificationController {
         return new ResponseEntity<>(new SimpleRestResponse<>(notificationRequest), HttpStatus.OK);
     }
 
-    /*
-    @RestAccessControl(permission = "superuser")
-    @RequestMapping(value = "/{notificationId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SimpleRestResponse<Map>> deleteNotification(@PathVariable String notificationId) {
-        logger.info("deleting {}", notificationId);
-        this.getNotificationService().removeNotification(Integer.valueOf(notificationId));
-        Map<String, Integer> result = new HashMap<>();
-        result.put("id", Integer.valueOf(notificationId));
-        return new ResponseEntity<>(new SimpleRestResponse<>(result), HttpStatus.OK);
-    }
-     */
     protected UserDetails extractCurrentUser() {
         return (UserDetails) this.httpSession.getAttribute("user");
     }

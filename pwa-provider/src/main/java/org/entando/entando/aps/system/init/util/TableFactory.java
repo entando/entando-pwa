@@ -68,6 +68,17 @@ public class TableFactory {
         }
     }
 
+    public <T, ID> Dao getTableDao(Class dataClass) throws ApsSystemException {
+        try {
+            ConnectionSource connectionSource = this.createConnectionSource();
+            Dao<T, ID> dao = DaoManager.createDao(connectionSource, dataClass);
+            return dao;
+        } catch (Exception e) {
+            _logger.error("Error extracting table dao", e);
+            throw new ApsSystemException("Error extracting table dao", e);
+        }
+    }
+
     public void createTables(List<String> tableClassNames, DataSourceInstallationReport schemaReport) throws ApsSystemException {
         ConnectionSource connectionSource = null;
         try {
@@ -127,7 +138,7 @@ public class TableFactory {
                 } else if (type.equals(IDatabaseManager.DatabaseType.SQLSERVER)) {
                     dataType = new SqlServerDatabaseType();
                 }
-                connectionSource = new JdbcConnectionSource(url, username, password, dataType);
+                connectionSource = new ApsJdbcConnectionSource(url, username, password, dataType);
             }
         } catch (Throwable t) {
             _logger.error("Error creating connectionSource to db {}", this.getDatabaseName(), t);

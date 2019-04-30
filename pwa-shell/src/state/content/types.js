@@ -1,4 +1,6 @@
 export const SET_CONTENT_LIST = 'content/setList';
+export const PUSH_CONTENT_LIST = 'content/pushList';
+export const SET_CONTENT_LIST_META = 'content/setListMeta';
 export const SET_SELECTED_CONTENT = 'content/setSelected';
 export const UNSET_SELECTED_CONTENT = 'content/unsetSelected';
 export const SET_CONTENT_FILTER = 'content/setFilter';

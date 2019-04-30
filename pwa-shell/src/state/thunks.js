@@ -17,6 +17,8 @@ import {
 } from 'state/contentType/actions';
 import {
   setContentList,
+  pushContentList,
+  setContentListMeta,
   setSelectedContent,
   setCategoryFilter,
   setIsSearchResult,
@@ -88,7 +90,12 @@ const fetchContentList = (params, pagination) => async(dispatch) => {
     const response = await getContents(params, pagination);
     const json = await response.json();
     if (response.ok) {
-      dispatch(setContentList(json.payload));
+      dispatch(setContentListMeta(json.metaData));
+      if (pagination && pagination.page > 1) {
+        dispatch(pushContentList(json.payload));
+      } else {
+        dispatch(setContentList(json.payload));
+      }
       dispatch(unsetSelectedContent());
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));

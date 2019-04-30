@@ -971,5 +971,13 @@
             <scope>provided</scope>
         </dependency>
         
+        <!-- for excel -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.11</version>
+            <type>jar</type>
+        </dependency>
+        
     </dependencies>
 </project>
