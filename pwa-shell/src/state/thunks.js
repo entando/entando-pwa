@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import { convertToQueryString } from '@entando/utils';
 import { addErrors, clearErrors } from '@entando/messages';
-import { loginUser, getToken } from '@entando/apimanager';
+import { loginUser } from '@entando/apimanager';
 
 import { getCategory } from 'api/category';
 import { getContents, getContent, getProtectedContent } from 'api/content';
@@ -40,7 +40,7 @@ import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 import { setNotificationList, removeNotification } from 'state/notification/actions';
 import { htmlSanitizer } from 'helpers';
-import { getNotificationIdList } from 'state/notification/selectors';
+import { getNotificationObjectIdList } from 'state/notification/selectors';
 
 const toCategoryQueryString = categories => {
   return categories && categories.length
@@ -209,9 +209,8 @@ export const fetchNotifications = () => async(dispatch) => {
 
 export const clearAllNotifications = () => async(dispatch, getState) => {
   const state = getState();
-  const userToken = getToken(state);
-  const notificationIdList = getNotificationIdList(state);
-  const response = await postClearNotifications(userToken, notificationIdList);
+  const notificationIdList = getNotificationObjectIdList(state);
+  const response = await postClearNotifications(notificationIdList);
   const json = await response.json();
   if (response.ok) {
     dispatch(setNotificationList([]));
@@ -220,9 +219,8 @@ export const clearAllNotifications = () => async(dispatch, getState) => {
   }
 }
 
-export const clearNotification = id => async(dispatch, getState) => {
-  const userToken = getToken(getState());
-  const response = await postClearNotifications(userToken, [id]);
+export const clearNotification = id => async(dispatch) => {
+  const response = await postClearNotifications([id]);
   const json = await response.json();
   if (response.ok) {
     dispatch(removeNotification(id));

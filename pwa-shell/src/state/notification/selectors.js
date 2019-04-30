@@ -8,9 +8,9 @@ export const getNotificationList = createSelector(
   notification => get(notification, 'list', [])
 );
 
-export const getNotificationIdList = createSelector(
+export const getNotificationObjectIdList = createSelector(
   getNotificationList,
-  notificationList => notificationList.map(item => item.id)
+  notificationList => notificationList.map(item => item.objectId)
 );
 
 export const getNotificationAmount = createSelector(

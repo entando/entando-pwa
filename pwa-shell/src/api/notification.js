@@ -1,4 +1,4 @@
-import { makeMockRequest, makeRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { GET_NOTIFICATIONS_RESPONSE_OK } from '__tests__/mocks/notification';
 
 const defaultPageObject = { page: 1, pageSize: 10 };
@@ -15,12 +15,11 @@ export const getNotifications = (page = defaultPageObject) => (
   )
 );
 
-export const postClearNotifications = (user, notifications) => (
-  makeMockRequest({
-    uri: `/api/TODO`,
+export const postClearNotifications = notificationIds => (
+  makeRequest({
+    uri: `/api/pwa/notifications/contents/markAsRead`,
     body: {
-      notifications,
-      user,
+      objectIds: notificationIds
     },
     method: METHODS.POST,
     mockResponse: {},

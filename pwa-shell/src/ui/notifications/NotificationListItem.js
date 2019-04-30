@@ -20,7 +20,7 @@ const NotificationListItem = ({ data }) => (
           </p>
           <h2>{data.title}</h2>
           <div className="body" dangerouslySetInnerHTML={{__html: data.body}} />
-        </article>        
+        </article>
       </Link>
     </CardBody>    
   </Card>

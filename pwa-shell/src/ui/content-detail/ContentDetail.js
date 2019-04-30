@@ -9,12 +9,12 @@ import ItemCategoryListContainer from 'ui/common/ItemCategoryListContainer';
 
 class ContentDetail extends PureComponent {
   componentDidMount() {
-    this.props.fetchContentDetailAndMarkAsRead();
+    this.props.fetchContentDetail();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.isUserLogged !== prevProps.isUserLogged) {
-      this.props.fetchContentDetailAndMarkAsRead();
+      this.props.fetchContentDetail();
     }
   }
 
@@ -51,7 +51,7 @@ ContentDetail.propTypes = {
   contentDetail: PropTypes.object,
   contentType: PropTypes.string,
   isLoading: PropTypes.bool.isRequired,
-  fetchContentDetailAndMarkAsRead: PropTypes.func.isRequired,
+  fetchContentDetail: PropTypes.func.isRequired,
 };
 
 ContentDetail.defaultProps = {  

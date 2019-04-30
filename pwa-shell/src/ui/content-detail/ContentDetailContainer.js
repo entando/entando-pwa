@@ -14,7 +14,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchContentDetailAndMarkAsRead: () => {
+  fetchContentDetail: () => {
     const requiresAuth = new URLSearchParams(ownProps.location.search).get('requiresAuth') === 'true';
     const { id, contentType } = ownProps.match.params;
     dispatch(setSelectedContentType(contentType));
