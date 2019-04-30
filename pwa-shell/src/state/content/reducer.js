@@ -2,6 +2,8 @@ import { FILTER_OPERATORS } from '@entando/utils';
 import {
   SET_CONTENT_FILTER,
   SET_CONTENT_LIST,
+  PUSH_CONTENT_LIST,
+  SET_CONTENT_LIST_META,
   SET_SELECTED_CONTENT,
   UNSET_SELECTED_CONTENT,
   SET_CATEGORY_FILTER,
@@ -25,6 +27,7 @@ const filters = contentTypeCodeList.reduce((acc, curr) => ({
 
 const initialState = {
   list: [],
+  listMeta: {},
   filters,
   requiresAuthMap: {},
   categoryFilters: {},
@@ -60,6 +63,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
+      };
+    case PUSH_CONTENT_LIST:
+      return {
+        ...state,
+        list: [...state.list, ...action.payload],
+      };
+    case SET_CONTENT_LIST_META:
+      return {
+        ...state,
+        listMeta: action.payload,
       };
     case SET_SELECTED_CONTENT:
       return {
