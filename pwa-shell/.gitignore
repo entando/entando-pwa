@@ -11,6 +11,9 @@
 # production
 /build
 
+# i18n
+/.messages
+
 # misc
 *.zip
 .DS_Store
