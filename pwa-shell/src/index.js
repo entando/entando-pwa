@@ -9,9 +9,8 @@ import { addLocaleData, IntlProvider } from 'react-intl';
 
 import appId from 'appId';
 import store from 'state/store';
-import enLocaleData from 'react-intl/locale-data/en';
 import itLocaleData from 'react-intl/locale-data/it';
-import locales from 'i18n/translations/locales';
+import locales from 'i18n/locales';
 
 import ApiManager from 'ApiManager';
 import NetworkStatusContainer from 'ui/network/NetworkStatusContainer';
@@ -28,7 +27,6 @@ import 'fontawesome';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'styles/index.scss';
 
-addLocaleData(enLocaleData);
 addLocaleData(itLocaleData);
 const appLocale = 'it';
 
