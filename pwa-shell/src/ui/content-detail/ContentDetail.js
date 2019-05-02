@@ -5,27 +5,27 @@ import { Container } from 'reactstrap';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
 import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarContainer';
 import PageContainer from 'ui/common/PageContainer';
-import ContentCategoryListContainer from 'ui/common/ContentCategoryListContainer';
+import ItemCategoryListContainer from 'ui/common/ItemCategoryListContainer';
 
 class ContentDetail extends PureComponent {
   componentDidMount() {
-    this.props.fetchContentDetailAndMarkAsRead();
+    this.props.fetchContentDetail();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.isUserLogged !== prevProps.isUserLogged) {
-      this.props.fetchContentDetailAndMarkAsRead();
+      this.props.fetchContentDetail();
     }
   }
 
   render() {
     const { contentDetail, isLoading, isUserLogged } = this.props;
     const loadingMessage = 'Caricamento...';
-    const contentCategoryIdList = get(contentDetail, 'categories', []);
+    const associatedCategoryIdList = get(contentDetail, 'categories', []);
 
     const contentDetailBody = !isLoading ? (
       <Container fluid>
-        <ContentCategoryListContainer contentCategoryIdList={contentCategoryIdList} />
+        <ItemCategoryListContainer categoryIdList={associatedCategoryIdList} />
         <div dangerouslySetInnerHTML={{__html: get(contentDetail, 'html', '')}}></div>
       </Container>  
     ) : (
@@ -51,7 +51,7 @@ ContentDetail.propTypes = {
   contentDetail: PropTypes.object,
   contentType: PropTypes.string,
   isLoading: PropTypes.bool.isRequired,
-  fetchContentDetailAndMarkAsRead: PropTypes.func.isRequired,
+  fetchContentDetail: PropTypes.func.isRequired,
 };
 
 ContentDetail.defaultProps = {  

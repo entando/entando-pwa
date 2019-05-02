@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import ContentListItem from 'ui/content-list/ContentListItem';
+import NotificationListItem from 'ui/notifications/NotificationListItem';
 import NotificationsHeader from 'ui/notifications/NotificationsHeader';
 import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarContainer';
 
@@ -19,7 +19,7 @@ class Notifications extends PureComponent {
     const notificationAmount = notificationList.length;
 
     const items = notificationList.map((item, index) => (
-      <ContentListItem data={item} key={index} />
+      <NotificationListItem data={item} key={index} />
     ));
 
     const emptyNotificationList = (

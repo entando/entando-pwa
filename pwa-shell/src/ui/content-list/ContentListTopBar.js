@@ -19,8 +19,8 @@ const notificationsRoute = '/notifications';
 
 class ContentListTopBar extends PureComponent {
   componentDidMount() {
-    this.props.onFetchContentTypes();
-    this.props.onFetchNotifications();
+    this.props.fetchContentTypes();
+    this.props.fetchNotifications();
   }
 
   render() {
@@ -94,6 +94,8 @@ ContentListTopBar.propTypes = {
   onSelectContentType: PropTypes.func.isRequired,
   openDrawer: PropTypes.func.isRequired,
   openSearch: PropTypes.func.isRequired,
+  fetchContentTypes: PropTypes.func.isRequired,
+  fetchNotifications: PropTypes.func.isRequired,
   isSearchOpen: PropTypes.bool.isRequired,
   isUserLogged: PropTypes.bool.isRequired,
 };
