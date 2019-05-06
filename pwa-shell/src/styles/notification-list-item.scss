@@ -1,11 +1,6 @@
 .NotificationListItem {
-  .card-header {
-    background-color: inherit;
-    border-bottom: 0;
-    padding-top: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-  }
+  font-size: 0.9rem;
+  line-height: 1.5rem;
 
   &__link-to-detail {
     word-break: normal;
@@ -16,5 +11,41 @@
     background-color: $color-red;
     text-transform: uppercase;
     font-weight: bolder;
+  }
+
+  time {
+    display: inline-block;
+    margin-bottom: .5rem;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;    
+    font-weight: bold;  
+    opacity: 1;
+    color: #000000;
+  }  
+
+  .card-header {
+    background-color: inherit;
+    border-bottom: 0;
+    padding-top: 1.5rem;
+    padding-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+  }  
+
+  .more-link {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 1.2rem 0 1rem 0;
+    float: left;
+    padding: 0;
+
+    &::after {
+      content: "\0020\0020\2192";
+    }  
   }
 }

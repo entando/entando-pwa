@@ -10,6 +10,7 @@
 @import 'nav-button';
 @import 'category-filter';
 @import 'category-list';
+@import 'item-category-list';
 @import 'notifications';
 @import 'notification-list-item';
 @import 'notifications-header';
@@ -17,4 +18,6 @@
 @import 'content-list-item';
 @import 'content-detail';
 @import 'network-offline-warning';
-@import 'content-model';
+
+@import 'content-model.css';
+@import 'page-model.css';

@@ -1,0 +1,54 @@
+article.content-model {
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+}
+
+article.content-model time {
+  display: inline-block;
+  margin-bottom: .5rem;
+  text-transform: uppercase;
+  color: #000000;
+}
+
+article.content-model .attachments {
+  margin-top: 1rem;
+}
+
+article.content-model h1,
+article.content-model h2 {
+  font-weight: bold;  
+  opacity: 1;
+  color: #000000;
+}
+
+article.content-model-full h1,
+article.content-model-list h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+article.content-model-full h2 {
+  font-size: 1.3rem;
+}
+
+article.content-model-list figure {
+  margin: 0 -35px 0 -35px;
+}
+
+article.content-model-list figure img {
+  width: 100vw!important;
+  height: 200px!important;
+  object-fit: cover!important;
+}
+
+article.content-model-list .more-link {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 2rem 0 1rem 0;
+  float: left;
+  padding: 0;
+}
+
+article.content-model-list .more-link::after {
+  content: "\0020\0020\2192";
+}
