@@ -10,4 +10,8 @@
       background-image: none;
     }
   }
+
+  & article {
+    word-break: break-word;
+  }
 }
