@@ -2,14 +2,14 @@ import { isEmpty } from 'lodash';
 import { connect } from 'react-redux';
 import { getCategoryMap } from 'state/category/selectors';
 import { fetchCategoryListAndFilters } from 'state/thunks';
-import ContentCategoryList from 'ui/common/ContentCategoryList';
+import ItemCategoryList from 'ui/common/ItemCategoryList';
 
 export const mapStateToProps = (state, ownProps) => {
   const categoryMap = getCategoryMap(state);
-  const contentCategoryList = isEmpty(ownProps.contentCategoryIdList) || isEmpty(categoryMap) ?
+  const itemCategoryList = isEmpty(ownProps.categoryIdList) || isEmpty(categoryMap) ?
     [] :
-    ownProps.contentCategoryIdList.map(categoryId => categoryMap[categoryId]);
-  return { contentCategoryList };
+    ownProps.categoryIdList.map(categoryId => categoryMap[categoryId]);
+  return { itemCategoryList };
 };
 
 export const mapDispatchToProps = dispatch => {
@@ -21,4 +21,4 @@ export const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ContentCategoryList);
+)(ItemCategoryList);

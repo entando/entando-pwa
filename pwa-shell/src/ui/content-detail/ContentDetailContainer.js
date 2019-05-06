@@ -22,7 +22,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-  fetchContentDetailAndMarkAsRead: (location, params) => {
+  fetchContentDetail: (location, params) => {
     const requiresAuth = new URLSearchParams(location.search).get('requiresAuth') === 'true';
     const { id, contentType } = params;
     dispatch(setSelectedContentType(contentType));

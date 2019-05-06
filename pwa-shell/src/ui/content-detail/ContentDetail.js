@@ -6,7 +6,7 @@ import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContai
 import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarContainer';
 import SwipeContentNavigator from 'ui/common/SwipeContentNavigator';
 import PageContainer from 'ui/common/PageContainer';
-import ContentCategoryListContainer from 'ui/common/ContentCategoryListContainer';
+import ItemCategoryListContainer from 'ui/common/ItemCategoryListContainer';
 
 class ContentDetail extends PureComponent {
   constructor(props) {
@@ -18,13 +18,13 @@ class ContentDetail extends PureComponent {
   }
   componentDidMount() {
     const { location, match } = this.props;
-    this.props.fetchContentDetailAndMarkAsRead(location, match.params);
+    this.props.fetchContentDetail(location, match.params);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params !== nextProps.match.params) {
       const { location, match } = nextProps;
-      this.props.fetchContentDetailAndMarkAsRead(location, match.params);
+      this.props.fetchContentDetail(location, match.params);
     }
   }
 
@@ -52,11 +52,11 @@ class ContentDetail extends PureComponent {
   render() {
     const { contentDetail, isLoading, isUserLogged } = this.props;
     const loadingMessage = 'Caricamento...';
-    const contentCategoryIdList = get(contentDetail, 'categories', []);
+    const associatedCategoryIdList = get(contentDetail, 'categories', []);
 
     const contentDetailBody = !isLoading ? (
       <Container fluid>
-        <ContentCategoryListContainer contentCategoryIdList={contentCategoryIdList} />
+        <ItemCategoryListContainer categoryIdList={associatedCategoryIdList} />
         <div dangerouslySetInnerHTML={{__html: get(contentDetail, 'html', '')}}></div>
       </Container>  
     ) : (
@@ -84,7 +84,7 @@ ContentDetail.propTypes = {
   contentDetail: PropTypes.object,
   contentType: PropTypes.string,
   isLoading: PropTypes.bool.isRequired,
-  fetchContentDetailAndMarkAsRead: PropTypes.func.isRequired,
+  fetchContentDetail: PropTypes.func.isRequired,
   prevContent: PropTypes.object,
   nextContent: PropTypes.object,
 };

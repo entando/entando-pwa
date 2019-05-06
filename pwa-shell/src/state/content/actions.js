@@ -1,5 +1,7 @@
 import {
   SET_CONTENT_LIST,
+  PUSH_CONTENT_LIST,
+  SET_CONTENT_LIST_META,
   SET_SELECTED_CONTENT,
   UNSET_SELECTED_CONTENT,
   SET_CONTENT_FILTER,
@@ -54,6 +56,16 @@ export const setSortingFilter = (filter, contentType) => ({
 
 export const setContentList = payload => ({
   type: SET_CONTENT_LIST,
+  payload,
+});
+
+export const pushContentList = payload => ({
+  type: PUSH_CONTENT_LIST,
+  payload,
+});
+
+export const setContentListMeta = payload => ({
+  type: SET_CONTENT_LIST_META,
   payload,
 });
 
