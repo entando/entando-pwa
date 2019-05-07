@@ -2,5 +2,6 @@
   "login.passwordPlaceholder": "inserisci la tua password",
   "login.performLogin": "Accedi",
   "login.title": "Accedi al tuo account",
-  "login.usernamePlaceholder": "inserisci la tua username"
+  "login.usernamePlaceholder": "inserisci la tua username",
+  "notification.readMore": "Continua"
 }
