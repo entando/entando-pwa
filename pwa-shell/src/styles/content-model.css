@@ -10,7 +10,8 @@ article.content-model time {
   color: #000000;
 }
 
-article.content-model .attachments {
+article.content-model .attachments,
+article.content-model .links {
   margin-top: 1rem;
 }
 
