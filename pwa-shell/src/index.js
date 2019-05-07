@@ -4,12 +4,14 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import {
-  BrowserRouter as Router,
+  Router,
   Route,
 } from 'react-router-dom';
 
 import appId from 'appId';
 import store from 'state/store';
+
+import { history } from 'helpers';
 
 import ApiManager from 'ApiManager';
 import NetworkStatusContainer from 'ui/network/NetworkStatusContainer';
@@ -31,7 +33,7 @@ ReactDOM.render(
   <Provider store={store}>
     <HomePageHead />
     <NetworkStatusContainer>
-      <Router>      
+      <Router history={history}>
         <ApiManager store={store}>
           <Route exact path="/" component={DefaultRedirectContainer} />
           <Route exact path="/notifications" component={NotificationsContainer} />

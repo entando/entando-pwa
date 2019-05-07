@@ -9,27 +9,23 @@ import PageContainer from 'ui/common/PageContainer';
 import ItemCategoryListContainer from 'ui/common/ItemCategoryListContainer';
 
 class ContentDetail extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      nextURL: '',
-      previousURL: '',
-    };
+  state = {
+    nextURL: '',
+    previousURL: '',
   }
+
   componentDidMount() {
     const { location, match } = this.props;
     this.props.fetchContentDetail(location, match.params);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.match.params !== nextProps.match.params) {
-      const { location, match } = nextProps;
-      this.props.fetchContentDetail(location, match.params);
-    }
-  }
-
   componentDidUpdate(prevProps) {
-    if (this.props.nextContent !== prevProps.nextContent || this.props.prevContent !== prevProps.prevContent) {
+    if (this.props.match.params !== prevProps.match.params) {
+      // if url params change, fetch the content
+      const { location, match } = this.props;
+      this.props.fetchContentDetail(location, match.params);
+    }else if (this.props.nextContent !== prevProps.nextContent || this.props.prevContent !== prevProps.prevContent) {
+      // this assumes that content has now being loaded and next/previous content is now updated
       this.checkContentSiblings();
     }
   }

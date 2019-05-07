@@ -51,16 +51,20 @@ class Drawer extends Component
 
   render() {
     const { isOpen } = this.props;
-    const state = isOpen ? 'open' : 'closed';
+    const drawerState = isOpen ? 'open' : 'closed';
     const config = { event: { passive: false } };
     return (
       <Fragment>
-        <div className={`grey-overlay ${state}`}></div>
+        <div className={`grey-overlay ${drawerState}`}></div>
         <Gesture {...config} onUp={this.handleTouchEnd}>
           {event => {
             const { down, delta } = event;
             return (
-              <div ref={this.setWrapperRef} className={`drawer vh-100 shadow ${state}`} style={(isOpen && down && delta[0] < 0) ? { transition: 'none', left: delta[0] } : {}}>
+              <div
+                ref={this.setWrapperRef}
+                className={`drawer vh-100 shadow ${drawerState}`}
+                style={(isOpen && down && delta[0] < 0) ? { transition: 'none', left: delta[0] } : {}}
+              >
                 <div className="p-2">
                   <Close onClick={this.props.closeDrawer} className="cursor-pointer color-primary-lightest float-right" />
                 </div>
