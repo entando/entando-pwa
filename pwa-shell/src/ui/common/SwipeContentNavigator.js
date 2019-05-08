@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Gesture } from 'react-with-gesture';
-import { history } from 'helpers';
+import { withRouter } from "react-router";
 
 class SwipeContentNavigator extends PureComponent {
   state = {
@@ -36,6 +36,7 @@ class SwipeContentNavigator extends PureComponent {
   }
 
   handleCursorMoving(event) {
+    const { history } = this.props;
     const { delta } = event;
     const { xMin, xMax } = this.state;
     if (xMax > 0 && delta[0] > xMax ) {
@@ -77,6 +78,7 @@ class SwipeContentNavigator extends PureComponent {
 SwipeContentNavigator.propTypes = {
   previousURL: PropTypes.string,
   nextURL: PropTypes.string,
+  history: PropTypes.object.isRequired,
 };
 
 SwipeContentNavigator.defaultProps = {
@@ -84,4 +86,4 @@ SwipeContentNavigator.defaultProps = {
   nextURL: '',
 };
 
-export default SwipeContentNavigator;
+export default withRouter(SwipeContentNavigator);
