@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
 import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarContainer';
-import PageContainer from 'ui/common/PageContainer';
+import Page from 'ui/common/Page';
 import ItemCategoryListContainer from 'ui/common/ItemCategoryListContainer';
 
 class ContentDetail extends PureComponent {
@@ -35,14 +35,16 @@ class ContentDetail extends PureComponent {
     );
         
     return (
-      <PageContainer className={`ContentDetail${isUserLogged ? '' : '--guest-user'}`}>
-        <ContentDetailTopBarContainer />
+      <Page
+        className={`ContentDetail${isUserLogged ? '' : '--guest-user'}`}
+        header={<ContentDetailTopBarContainer />}
+      > 
         <ProtectedContentLoginContainer>
           <div className="ContentDetail__body">
             { contentDetailBody }
           </div>
         </ProtectedContentLoginContainer>
-      </PageContainer>
+      </Page>
     );
   }
 }

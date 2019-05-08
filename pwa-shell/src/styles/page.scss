@@ -1,10 +1,13 @@
-.PageContainer {
+.Page {
   width: 100%;
   min-height: 100vh;
   margin: 0 auto;
   padding-top: 60px;
   color: $color-dark;
   display: flex;
-  flex-direction: column;  
-  justify-content: space-between;
+  flex-direction: column;
+  
+  &__content {
+    flex-grow: 1;
+  }
 }
