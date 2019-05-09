@@ -21,11 +21,9 @@ class ContentDetail extends PureComponent {
 
   componentDidUpdate(prevProps) {
     if (this.props.match.params !== prevProps.match.params) {
-      // if url params change, fetch the content
       const { location, match } = this.props;
       this.props.fetchContentDetail(location, match.params);
-    }else if (this.props.nextContent !== prevProps.nextContent || this.props.prevContent !== prevProps.prevContent) {
-      // this assumes that content has now being loaded and next/previous content is now updated
+    } else if (this.props.nextContent !== prevProps.nextContent || this.props.prevContent !== prevProps.prevContent) {
       this.checkContentSiblings();
     }
   }
