@@ -1,17 +1,17 @@
-.to-detail-enter .Page__content {
+.content-detail-enter .Page__content {
   transform: translateX(-100%);
 }
 
-.to-detail-enter-active .Page__content {
+.content-detail-enter-active .Page__content {
   transform: translateX(0%);
   transition: all 500ms ease;
 }
 
-.to-detail-exit .Page__content {
+.content-detail-exit .Page__content {
   transform: translateX(0%);
 }
 
-.to-detail-exit-active .Page__content {
+.content-detail-exit-active .Page__content {
   transform: translateX(100%);
   transition: all 500ms ease;
 }

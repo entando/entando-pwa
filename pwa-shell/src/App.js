@@ -42,7 +42,7 @@ const App = ({ location }) => (
             <CSSTransition
               key={location.key}
               timeout={{ enter: 500, exit: 500 }}
-              classNames={'to-detail'}
+              classNames={location.state ? location.state.transition : ''}
             >            
               <Switch location={location}>
                 <Route exact path="/" component={DefaultRedirectContainer} />                
@@ -51,7 +51,7 @@ const App = ({ location }) => (
                 <Route exact path="/content/:contentType/:id" component={ContentDetailContainer} />
               </Switch>
             </CSSTransition>
-          </TransitionGroup>          
+          </TransitionGroup>
         </ApiManager>      
       </NetworkStatusContainer>
     </Provider>
