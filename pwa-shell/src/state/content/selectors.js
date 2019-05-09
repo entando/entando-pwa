@@ -30,6 +30,21 @@ export const getSelectedContentId = createSelector(
   content => get(content, 'selected.id')
 );
 
+export const getSelectedContentIndexFromList = createSelector(
+  [getSelectedContentId, getContentList],
+  (contentId, contentList) => contentList.findIndex(el => el.id === contentId),
+);
+
+export const getNextToSelectedContent = createSelector(
+  [getSelectedContentIndexFromList, getContentList],
+  (contentIndex, contentList) => contentList[contentIndex + 1] || {},
+);
+
+export const getPreviousFromSelectedContent = createSelector(
+  [getSelectedContentIndexFromList, getContentList],
+  (contentIndex, contentList) => contentList[contentIndex - 1] || {},
+);
+
 export const getRequiresAuthMap = createSelector(
   getContent,
   content => content.requiresAuthMap,
