@@ -26,7 +26,6 @@ import HomePageHead from 'HomePageHead';
 addLocaleData(itLocaleData);
 const appLocale = 'it';
 
-
 const App = ({ location }) => (
   <IntlProvider
     locale={appLocale}
@@ -41,7 +40,7 @@ const App = ({ location }) => (
           <TransitionGroup>
             <CSSTransition
               key={location.key}
-              timeout={{ enter: 500, exit: 500 }}
+              timeout={location.state && location.state.transition ? { enter: 500, exit: 500 } : 0}
               classNames={location.state ? location.state.transition : ''}
             >            
               <Switch location={location}>

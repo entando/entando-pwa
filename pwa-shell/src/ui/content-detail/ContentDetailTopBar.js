@@ -10,7 +10,10 @@ const ContentDetailTopBar = ({ contentType }) => {
   const leftItems = (
     <NavLink  
       tag={Link}
-      to={contentType ? `/content/${contentType}` : '/'}
+      to={{
+        pathname: contentType ? `/content/${contentType}` : '/',
+        state: { transition: 'content-list' },
+      }}
     >
       <NavButton icon="arrow-left" />
     </NavLink>

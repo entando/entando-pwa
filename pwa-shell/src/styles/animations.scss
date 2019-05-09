@@ -15,3 +15,21 @@
   transform: translateX(100%);
   transition: all 500ms ease;
 }
+
+.content-list-enter .Page__content {
+  transform: translateX(100%);
+}
+
+.content-list-enter-active .Page__content {
+  transform: translateX(0%);
+  transition: all 500ms ease;
+}
+
+.content-list-exit .Page__content {
+  transform: translateX(0%);
+}
+
+.content-list-exit-active .Page__content {
+  transform: translateX(-100%);
+  transition: all 500ms ease;
+}
