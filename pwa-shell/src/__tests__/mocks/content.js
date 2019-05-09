@@ -1,7 +1,7 @@
 export const GET_CONTENTS_RESPONSE_OK = [
   {
       "id": "NWS14",
-      "requiresAuth": false,
+      "requiresAuth": true,
       "typeCode": "NWS",
       "typeDescription": "News",
       "description": "Sample - News 6",
@@ -97,7 +97,7 @@ export const GET_CONTENTS_RESPONSE_OK = [
       "version": "1.0",
       "firstEditor": "admin",
       "lastEditor": null,
-      "html": "<article>\n<p class=\"text-right\"><time class=\"label\" datetime=\"6/12/12\">Tuesday 12 June 2012</time></p>\n<h2>Here come the news 6</h2>\n  \n\t\t\t\n\t\t\t<p> Scenester farm-to-table, ethical pinterest DIY quinoa before they sold out cardigan. Wolf sriracha portland ethical freegan. Fingerstache locavore +1 selvage chambray. Flexitarian umami cray quinoa raw denim whatever. American viral vegan DIY polaroid, sweater etsy williamsburg +1 bicycle rights whatever PBR hoodie photo booth. Master blog mumblecore vice, pork belly fap leggings sweater. Synth whatever put a bird on it lo-fi, stumptown tumblr typewriter helvetica odd future banksy post-ironic selvage.</p>\n\t\t\t\n\t\t\t\n<p class=\"text-right\"><a class=\"btn\" href=\"#!C;NWS14!#\">View details</a></p>\n</article>",
+      "html": "<article>\n<p class=\"text-right\"><time class=\"label\" datetime=\"6/12/12\">Tuesday 12 June 2012</time></p>\n<h2>Here come the news 6</h2>\n  \n\t\t\t\n\t\t\t<p> Scenester farm-to-table, ethical pinterest DIY quinoa before they sold out cardigan. Wolf sriracha portland ethical freegan. Fingerstache locavore +1 selvage chambray. Flexitarian umami cray quinoa raw denim whatever. American viral vegan DIY polaroid, sweater etsy williamsburg +1 bicycle rights whatever PBR hoodie photo booth. Master blog mumblecore vice, pork belly fap leggings sweater. Synth whatever put a bird on it lo-fi, stumptown tumblr typewriter helvetica odd future banksy post-ironic selvage.</p></article>",
       "references": {
           "CmsPageManagerWrapper": false,
           "jacmsContentManager": false
@@ -201,7 +201,7 @@ export const GET_CONTENTS_RESPONSE_OK = [
       "version": "1.0",
       "firstEditor": "admin",
       "lastEditor": null,
-      "html": "<article>\n<p class=\"text-right\"><time class=\"label\" datetime=\"6/12/12\">Tuesday 12 June 2012</time></p>\n<h2>Here come the news 5</h2>\n  \n\t\t\t\n\t\t\t<p> Scenester farm-to-table, ethical pinterest DIY quinoa before they sold out cardigan. Wolf sriracha portland ethical freegan. Fingerstache locavore +1 selvage chambray. Flexitarian umami cray quinoa raw denim whatever. American viral vegan DIY polaroid, sweater etsy williamsburg +1 bicycle rights whatever PBR hoodie photo booth. Master blog mumblecore vice, pork belly fap leggings sweater. Synth whatever put a bird on it lo-fi, stumptown tumblr typewriter helvetica odd future banksy post-ironic selvage.</p>\n\t\t\t\n\t\t\t\n<p class=\"text-right\"><a class=\"btn\" href=\"#!C;NWS13!#\">View details</a></p>\n</article>",
+      "html": "<article>\n<p class=\"text-right\"><time class=\"label\" datetime=\"6/12/12\">Tuesday 12 June 2012</time></p>\n<h2>Here come the news 5</h2>\n  \n\t\t\t\n\t\t\t<p> Scenester farm-to-table, ethical pinterest DIY quinoa before they sold out cardigan. Wolf sriracha portland ethical freegan. Fingerstache locavore +1 selvage chambray. Flexitarian umami cray quinoa raw denim whatever. American viral vegan DIY polaroid, sweater etsy williamsburg +1 bicycle rights whatever PBR hoodie photo booth. Master blog mumblecore vice, pork belly fap leggings sweater. Synth whatever put a bird on it lo-fi, stumptown tumblr typewriter helvetica odd future banksy post-ironic selvage.</p>\n\t\t\t\n\t\t\t\n<p class=\"text-right\"></article>",
       "references": {
           "CmsPageManagerWrapper": false,
           "jacmsContentManager": false
@@ -305,7 +305,7 @@ export const GET_CONTENTS_RESPONSE_OK = [
       "version": "1.0",
       "firstEditor": "admin",
       "lastEditor": null,
-      "html": "<article>\n<p class=\"text-right\"><time class=\"label\" datetime=\"6/12/12\">Tuesday 12 June 2012</time></p>\n<h2>Here come the news 4</h2>\n  \n\t\t\t\n\t\t\t<p> Scenester farm-to-table, ethical pinterest DIY quinoa before they sold out cardigan. Wolf sriracha portland ethical freegan. Fingerstache locavore +1 selvage chambray. Flexitarian umami cray quinoa raw denim whatever. American viral vegan DIY polaroid, sweater etsy williamsburg +1 bicycle rights whatever PBR hoodie photo booth. Master blog mumblecore vice, pork belly fap leggings sweater. Synth whatever put a bird on it lo-fi, stumptown tumblr typewriter helvetica odd future banksy post-ironic selvage.</p>\n\t\t\t\n\t\t\t\n<p class=\"text-right\"><a class=\"btn\" href=\"#!C;NWS12!#\">View details</a></p>\n</article>",
+      "html": "<article>\n<p class=\"text-right\"><time class=\"label\" datetime=\"6/12/12\">Tuesday 12 June 2012</time></p>\n<h2>Here come the news 4</h2>\n  \n\t\t\t\n\t\t\t<p> Scenester farm-to-table, ethical pinterest DIY quinoa before they sold out cardigan. Wolf sriracha portland ethical freegan. Fingerstache locavore +1 selvage chambray. Flexitarian umami cray quinoa raw denim whatever. American viral vegan DIY polaroid, sweater etsy williamsburg +1 bicycle rights whatever PBR hoodie photo booth. Master blog mumblecore vice, pork belly fap leggings sweater. Synth whatever put a bird on it lo-fi, stumptown tumblr typewriter helvetica odd future banksy post-ironic selvage.</p>\n\t\t\t\n\t\t\t\n<p class=\"text-right\"></article>",
       "references": {
           "CmsPageManagerWrapper": false,
           "jacmsContentManager": false

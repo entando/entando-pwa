@@ -3,7 +3,7 @@ import { convertToQueryString } from '@entando/utils';
 import { addErrors, clearErrors } from '@entando/messages';
 import { loginUser } from '@entando/apimanager';
 
-import { getCategory } from 'api/category';
+import { getCategoryTree } from 'api/category';
 import { getContents, getContent, getProtectedContent } from 'api/content';
 import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
@@ -173,7 +173,7 @@ export const fetchCategoryListAndFilters = () => async(dispatch, getState) => {
     dispatch(setCategoryList([]));
     return;
   }
-  const response = await getCategory(categoryRootCode);
+  const response = await getCategoryTree(categoryRootCode);
   const json = await response.json();
   if (response.ok) {
     const selectedContentType = getSelectedContentType(state);
