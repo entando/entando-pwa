@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import { Provider } from 'react-redux';
-
 import {
   BrowserRouter as Router,
   Route,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { addLocaleData, IntlProvider } from 'react-intl';
 
 import appId from 'appId';
 import store from 'state/store';
+import itLocaleData from 'react-intl/locale-data/it';
+import locales from 'i18n/locales';
 
 import ApiManager from 'ApiManager';
 import NetworkStatusContainer from 'ui/network/NetworkStatusContainer';
@@ -26,21 +27,31 @@ import 'fontawesome';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'styles/index.scss';
 
+addLocaleData(itLocaleData);
+const appLocale = 'it';
+
 
 ReactDOM.render(
-  <Provider store={store}>
-    <HomePageHead />
-    <NetworkStatusContainer>
-      <Router>
-        <ApiManager store={store}>
-          <Route exact path="/" component={DefaultRedirectContainer} />
-          <Route exact path="/notifications" component={NotificationsContainer} />
-          <Route exact path="/content/:contentType" component={ContentListContainer} />
-          <Route exact path="/content/:contentType/:id" component={ContentDetailContainer} />
-        </ApiManager>      
-      </Router>
-    </NetworkStatusContainer>
-  </Provider>,
+  <IntlProvider
+    locale={appLocale}
+    defaultLocale="en"
+    key={appLocale}
+    messages={locales[appLocale]}
+  >  
+    <Provider store={store}>
+      <HomePageHead />
+      <NetworkStatusContainer>
+        <Router>      
+          <ApiManager store={store}>
+            <Route exact path="/" component={DefaultRedirectContainer} />
+            <Route exact path="/notifications" component={NotificationsContainer} />
+            <Route exact path="/content/:contentType" component={ContentListContainer} />
+            <Route exact path="/content/:contentType/:id" component={ContentDetailContainer} />
+          </ApiManager>      
+        </Router>
+      </NetworkStatusContainer>
+    </Provider>
+  </IntlProvider>,
   document.getElementById(appId)
 );
 

@@ -1,7 +1,9 @@
 .Badge {
   font-size: 0.9rem;
+  font-weight: 600;
+  display: inline-block;
   color: #908e82;
   background-color: $color-primary-lightest;
-  padding: .5rem 1rem;
+  padding: .3rem .6rem;
   border-radius: .3rem;
 }
