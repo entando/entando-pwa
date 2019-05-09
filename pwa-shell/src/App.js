@@ -41,11 +41,11 @@ const App = ({ location }) => (
           <TransitionGroup>
             <CSSTransition
               key={location.key}
-              timeout={{ enter: 300, exit: 300 }}
-              classNames={'slide-right'}
-            >
-              <Switch location={location}>        
-                <Route exact path="/" component={DefaultRedirectContainer} />
+              timeout={{ enter: 500, exit: 500 }}
+              classNames={'to-detail'}
+            >            
+              <Switch location={location}>
+                <Route exact path="/" component={DefaultRedirectContainer} />                
                 <Route exact path="/notifications" component={NotificationsContainer} />
                 <Route exact path="/content/:contentType" component={ContentListContainer} />
                 <Route exact path="/content/:contentType/:id" component={ContentDetailContainer} />
