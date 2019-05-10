@@ -15,8 +15,8 @@ const ContentListItem = ({ data }) => (
           search: `${data.requiresAuth ? '?requiresAuth=true' : ''}`,
           state: {
             transition: {
-              className: 'content-detail',
-              timeout: 500,
+              classNames: 'content-detail',
+              timeout: 350,
             },
           },
         }}

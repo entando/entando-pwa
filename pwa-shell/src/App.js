@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Provider } from 'react-redux';
 import { addLocaleData, IntlProvider } from 'react-intl';
@@ -27,8 +28,7 @@ import HomePageHead from 'HomePageHead';
 addLocaleData(itLocaleData);
 const appLocale = 'it';
 
-const getTransitionClassName = location => get(location, 'state.transition.className', '');
-const getTransitionTimeout = location => get(location, 'state.transition.timeout', 0);
+const getTransition = location => get(location, 'state.transition', { classNames: '', timeout: 0 });
 
 const App = ({ location }) => (
   <IntlProvider
@@ -44,8 +44,7 @@ const App = ({ location }) => (
           <TransitionGroup>
             <CSSTransition
               key={location.key}
-              classNames={getTransitionClassName(location)}
-              timeout={getTransitionTimeout(location)}
+              {...getTransition(location)}
             >            
               <Switch location={location}>
                 <Route exact path="/" component={DefaultRedirectContainer} />                
@@ -60,5 +59,9 @@ const App = ({ location }) => (
     </Provider>
   </IntlProvider>
 );
+
+App.propTypes = {
+  location: PropTypes.object.isRequired,
+};
 
 export default withRouter(App);

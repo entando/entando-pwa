@@ -5,9 +5,10 @@
   padding-top: 60px;
   color: $color-dark;
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  
   
   &__content {
     flex-grow: 1;
+    will-change: transform;
   }
 }

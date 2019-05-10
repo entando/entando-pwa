@@ -2,6 +2,11 @@
 
 html {
   height: 100%;
+  -ms-overflow-style: none;  
+}
+
+::-webkit-scrollbar { 
+  display: none; 
 }
 
 body {

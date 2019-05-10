@@ -14,8 +14,8 @@ const ContentDetailTopBar = ({ contentType }) => {
         pathname: contentType ? `/content/${contentType}` : '/',
         state: {
           transition: {
-            className: 'content-list',
-            timeout: 500,
+            classNames: 'content-list',
+            timeout: 350,
           },
         },
     }}
