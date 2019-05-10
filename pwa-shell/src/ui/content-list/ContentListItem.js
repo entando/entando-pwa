@@ -13,7 +13,12 @@ const ContentListItem = ({ data }) => (
         to={{
           pathname: `/content/${data.typeCode}/${data.id}`,
           search: `${data.requiresAuth ? '?requiresAuth=true' : ''}`,
-          state: { transition: 'content-detail' },
+          state: {
+            transition: {
+              className: 'content-detail',
+              timeout: 500,
+            },
+          },
         }}
       >
         <div dangerouslySetInnerHTML={{__html: data.html}} />

@@ -12,8 +12,13 @@ const ContentDetailTopBar = ({ contentType }) => {
       tag={Link}
       to={{
         pathname: contentType ? `/content/${contentType}` : '/',
-        state: { transition: 'content-list' },
-      }}
+        state: {
+          transition: {
+            className: 'content-list',
+            timeout: 500,
+          },
+        },
+    }}
     >
       <NavButton icon="arrow-left" />
     </NavLink>

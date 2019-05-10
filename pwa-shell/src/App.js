@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import { Provider } from 'react-redux';
@@ -26,6 +27,9 @@ import HomePageHead from 'HomePageHead';
 addLocaleData(itLocaleData);
 const appLocale = 'it';
 
+const getTransitionClassName = location => get(location, 'state.transition.className', '');
+const getTransitionTimeout = location => get(location, 'state.transition.timeout', 0);
+
 const App = ({ location }) => (
   <IntlProvider
     locale={appLocale}
@@ -40,8 +44,8 @@ const App = ({ location }) => (
           <TransitionGroup>
             <CSSTransition
               key={location.key}
-              timeout={location.state && location.state.transition ? { enter: 500, exit: 500 } : 0}
-              classNames={location.state ? location.state.transition : ''}
+              classNames={getTransitionClassName(location)}
+              timeout={getTransitionTimeout(location)}
             >            
               <Switch location={location}>
                 <Route exact path="/" component={DefaultRedirectContainer} />                
