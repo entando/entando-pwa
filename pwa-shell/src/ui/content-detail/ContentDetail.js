@@ -14,15 +14,18 @@ class ContentDetail extends PureComponent {
     previousURL: '',
   }
 
-  componentDidMount() {
+  fetchDetail() {
     const { location, match } = this.props;
     this.props.fetchContentDetail(location, match.params);
   }
 
+  componentDidMount() {
+    this.fetchDetail();
+  }
+
   componentDidUpdate(prevProps) {
-    if (this.props.match.params !== prevProps.match.params) {
-      const { location, match } = this.props;
-      this.props.fetchContentDetail(location, match.params);
+    if (this.props.isUserLogged !== prevProps.isUserLogged || this.props.match.params !== prevProps.match.params) {
+      this.fetchDetail();
     } else if (this.props.nextContent !== prevProps.nextContent || this.props.prevContent !== prevProps.prevContent) {
       this.checkContentSiblings();
     }
