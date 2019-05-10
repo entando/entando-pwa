@@ -4,7 +4,7 @@
 
 .content-detail-enter-active .Page__content {
   transform: translateX(0%);
-  transition: all 500ms ease;
+  transition: all 500ms ease-in-out;
 }
 
 .content-detail-exit .Page__content {
@@ -13,7 +13,7 @@
 
 .content-detail-exit-active .Page__content {
   transform: translateX(100%);
-  transition: all 500ms ease;
+  transition: all 500ms ease-in-out;
 }
 
 .content-list-enter .Page__content {
@@ -22,7 +22,7 @@
 
 .content-list-enter-active .Page__content {
   transform: translateX(0%);
-  transition: all 500ms ease;
+  transition: all 500ms ease-in-out;
 }
 
 .content-list-exit .Page__content {
@@ -31,5 +31,5 @@
 
 .content-list-exit-active .Page__content {
   transform: translateX(-100%);
-  transition: all 500ms ease;
+  transition: all 500ms ease-in-out;
 }
