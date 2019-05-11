@@ -1,16 +1,12 @@
-import { get } from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { Provider } from 'react-redux';
+import { Provider as StateProvider } from 'react-redux';
 import { addLocaleData, IntlProvider } from 'react-intl';
 
 import {
   Route,
-  Switch,
-  withRouter,
 } from 'react-router-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 
 import store from 'state/store';
 import itLocaleData from 'react-intl/locale-data/it';
@@ -28,40 +24,53 @@ import HomePageHead from 'HomePageHead';
 addLocaleData(itLocaleData);
 const appLocale = 'it';
 
-const getTransition = location => get(location, 'state.transition', { classNames: '', timeout: 0 });
-
-const App = ({ location }) => (
+const App = () => (  
   <IntlProvider
     locale={appLocale}
     defaultLocale="en"
     key={appLocale}
     messages={locales[appLocale]}
-  >  
-    <Provider store={store}>
+  >    
+    <StateProvider store={store}>
       <HomePageHead />
       <NetworkStatusContainer>        
         <ApiManager store={store}>
-          <TransitionGroup>
-            <CSSTransition
-              key={location.key}
-              {...getTransition(location)}
-            >            
-              <Switch location={location}>
-                <Route exact path="/" component={DefaultRedirectContainer} />                
-                <Route exact path="/notifications" component={NotificationsContainer} />
-                <Route exact path="/content/:contentType" component={ContentListContainer} />
-                <Route exact path="/content/:contentType/:id" component={ContentDetailContainer} />
-              </Switch>
-            </CSSTransition>
-          </TransitionGroup>
-        </ApiManager>      
+        <div className="App__transitions-wrapper">
+          <Route exact path="/" component={DefaultRedirectContainer} />                
+          <Route exact path="/notifications" component={NotificationsContainer} />
+          <Route exact path="/content/:contentType/:id">
+            {
+              props => (
+                <CSSTransition
+                  in={props.match && props.match.isExact}
+                  timeout={350}
+                  classNames="content-detail"
+                  unmountOnExit
+                >
+                  <div className="App__page-wrapper"><ContentDetailContainer {...props} /></div>                  
+                </CSSTransition>
+              )
+            }  
+          </Route>
+          <Route exact path="/content/:contentType">
+            {
+              props => (
+                <CSSTransition
+                  in={props.match && props.match.isExact}
+                  timeout={350}
+                  classNames="content-list"
+                  unmountOnExit
+                >
+                  <div className="App__page-wrapper">><ContentListContainer {...props} /></div>
+                </CSSTransition>
+              )
+            }  
+          </Route>         
+          </div> 
+        </ApiManager>
       </NetworkStatusContainer>
-    </Provider>
+    </StateProvider>
   </IntlProvider>
 );
 
-App.propTypes = {
-  location: PropTypes.object.isRequired,
-};
-
-export default withRouter(App);
+export default App;

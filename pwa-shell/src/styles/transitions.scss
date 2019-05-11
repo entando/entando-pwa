@@ -1,35 +1,61 @@
-.content-detail-enter .Page__content {
+.content-detail-enter {
   transform: translateX(-100%);
 }
 
-.content-detail-enter-active .Page__content {
+.content-detail-enter-active {
   transform: translateX(0%);
   transition: 350ms ease-out;
 }
 
-.content-detail-exit .Page__content {
+.content-detail-exit {
   transform: translateX(0%);
 }
 
-.content-detail-exit-active .Page__content {
+.content-detail-exit-active {
+  transform: translateX(-100%);
+  transition: 350ms ease-out;
+}
+
+.content-detail-exit-done {
+  .drawer {
+    display: block;
+  }
+}
+
+.content-list-enter {
+  transform: translateX(100%);
+
+  .drawer {
+    display: none;
+  }
+}
+
+.content-list-enter-active {
+  transform: translateX(0%);
+  transition: 350ms ease-out;
+}
+
+.content-list-enter-done {
+  .drawer {
+    display: block;
+  }
+}
+
+.content-list-exit {
+  transform: translateX(0%);
+
+  .drawer {
+    display: none;
+  }
+}
+
+.content-list-exit-active {
   transform: translateX(100%);
   transition: 350ms ease-out;
 }
 
-.content-list-enter .Page__content {
-  transform: translateX(100%);
-}
-
-.content-list-enter-active .Page__content {
-  transform: translateX(0%);
-  transition: 350ms ease-out;
-}
-
-.content-list-exit .Page__content {
-  transform: translateX(0%);
-}
-
-.content-list-exit-active .Page__content {
-  transform: translateX(-100%);
-  transition: 350ms ease-out;
+.content-list-exit-done {
+  .drawer {
+    display: block;
+  }
 }

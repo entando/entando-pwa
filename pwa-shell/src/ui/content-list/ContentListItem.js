@@ -10,16 +10,7 @@ const ContentListItem = ({ data }) => (
       <ItemCategoryListContainer categoryIdList={data.categories} />
       <Link
         className="ContentListItem__link-to-detail"
-        to={{
-          pathname: `/content/${data.typeCode}/${data.id}`,
-          search: `${data.requiresAuth ? '?requiresAuth=true' : ''}`,
-          state: {
-            transition: {
-              classNames: 'content-detail',
-              timeout: 350,
-            },
-          },
-        }}
+        to={`/content/${data.typeCode}/${data.id}${data.requiresAuth ? '?requiresAuth=true' : ''}`}
       >
         <div dangerouslySetInnerHTML={{__html: data.html}} />
       </Link>

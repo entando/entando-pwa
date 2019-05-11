@@ -24,7 +24,8 @@ class ContentDetail extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.isUserLogged !== prevProps.isUserLogged || this.props.match.params !== prevProps.match.params) {
+    const newParams = get(this.props, 'match.params');
+    if (this.props.isUserLogged !== prevProps.isUserLogged || (newParams && newParams !== prevProps.match.params)) {
       this.fetchDetail();
     } else if (this.props.nextContent !== prevProps.nextContent || this.props.prevContent !== prevProps.prevContent) {
       this.checkContentSiblings();
