@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Page = ({ children, className, header, footer }) => (
+const Page = ({ children, className, footer }) => (
   <div className={`Page ${className}`}>
-    <div className="Page__header">
-      { header }
-    </div>
     <div className="Page__content">
       { children }
     </div>
@@ -21,13 +18,11 @@ Page.propTypes = {
     PropTypes.node
   ]).isRequired,
   className: PropTypes.string,
-  header: PropTypes.node,
   footer: PropTypes.node,
 };
 
 Page.defaultProps = {
   className: '',
-  header: null,
   footer: null,
 };
 
