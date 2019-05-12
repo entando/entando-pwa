@@ -43,8 +43,8 @@ const App = () => (
                 <>
                 <CSSTransition
                   in={props.match && props.match.isExact}
-                  timeout={350}
-                  classNames="fade"
+                  timeout={250}
+                  classNames="topbar"
                   unmountOnExit
                 >
                   <NotificationsTopBarContainer />
@@ -67,8 +67,8 @@ const App = () => (
                 <>
                 <CSSTransition
                   in={props.match && props.match.isExact}
-                  timeout={350}
-                  classNames="fade"
+                  timeout={250}
+                  classNames="topbar"
                   unmountOnExit
                 >
                   <ContentDetailTopBarContainer />           
@@ -91,8 +91,8 @@ const App = () => (
                 <>
                 <CSSTransition
                   in={props.match && props.match.isExact}
-                  timeout={350}
-                  classNames="fade"
+                  timeout={250}
+                  classNames="topbar"
                   unmountOnExit
                 >
                   <ContentListTopBarContainer />

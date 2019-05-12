@@ -60,20 +60,20 @@
   }
 }
 
-.fade-enter .nav-left {
+.topbar-enter .nav-right {
   opacity: 0.01;
 }
 
-.fade-enter-active {
+.topbar-enter-active .nav-right {
   opacity: 1;
   transition: 350ms ease;
 }
 
-.fade-exit {
+.topbar-exit .nav-right {
   opacity: 1;
 }
 
-.fade-exit-active {
+.topbar-exit-active .nav-right {
   opacity: 0.01;
   transition: 350ms ease;
 }
