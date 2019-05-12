@@ -85,7 +85,9 @@ const routes = routesData.map(route => (
                 unmountOnExit
                 { ...cssTransition }
               >
-                <cssTransition.Component {...props} />
+                <div className="App__page-wrapper">
+                  <cssTransition.Component {...props} />
+                </div>
               </CSSTransition>                
             ))
           }
