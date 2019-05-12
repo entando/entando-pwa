@@ -78,15 +78,16 @@ const routes = routesData.map(route => (
       props => (
         <>
           { 
-            route.cssTransitions.map((cssTransition, index) => (
+            route.cssTransitions.map(({timeout, classNames, Component}, index) => (
               <CSSTransition
                 key={`${route.path}_${index}`}
                 in={props.match && props.match.isExact}
                 unmountOnExit
-                { ...cssTransition }
+                timeout={timeout}
+                classNames={classNames}
               >
                 <div className="App__page-wrapper">
-                  <cssTransition.Component {...props} />
+                  <Component {...props} />
                 </div>
               </CSSTransition>                
             ))
