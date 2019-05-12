@@ -33,7 +33,6 @@ class Notifications extends PureComponent {
     return (
       <Page
         className={`Notifications${notificationAmount ? '' : ' Notifications--empty'}`}
-        header={<NotificationsTopBarContainer />}
       >            
         <NotificationsHeader notificationAmount={notificationAmount} />
         {

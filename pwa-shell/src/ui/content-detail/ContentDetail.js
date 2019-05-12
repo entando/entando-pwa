@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
-import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarContainer';
 import Page from 'ui/common/Page';
 import SwipeContentNavigator from 'ui/common/SwipeContentNavigator';
 import ItemCategoryListContainer from 'ui/common/ItemCategoryListContainer';
@@ -66,7 +65,6 @@ class ContentDetail extends PureComponent {
     return (
       <Page
         className={`ContentDetail${isUserLogged ? '' : '--guest-user'}`}
-        header={<ContentDetailTopBarContainer />}
       > 
         <ProtectedContentLoginContainer>
           <SwipeContentNavigator nextURL={this.state.nextURL} previousURL={this.state.previousURL}>
