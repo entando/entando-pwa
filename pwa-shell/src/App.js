@@ -24,6 +24,77 @@ import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarCo
 addLocaleData(itLocaleData);
 const appLocale = 'it';
 
+const routesData = [
+  {
+    path: '/notifications',
+    cssTransitions: [
+      {
+        timeout: 250,
+        classNames: 'topbar',
+        Component: NotificationsTopBarContainer,
+      },
+      {
+        timeout: 350,
+        classNames: 'content-detail',
+        Component: NotificationsContainer,
+      },
+    ]     
+  },
+  {
+    path: '/content/:contentType/:id',
+    cssTransitions: [
+      {
+        timeout: 250,
+        classNames: 'topbar',
+        Component: ContentDetailTopBarContainer,
+      },
+      {
+        timeout: 350,
+        classNames: 'content-detail',
+        Component: ContentDetailContainer,
+      },
+    ]     
+  },
+  {
+    path: '/content/:contentType',
+    cssTransitions: [
+      {
+        timeout: 250,
+        classNames: 'topbar',
+        Component: ContentListTopBarContainer,
+      },
+      {
+        timeout: 350,
+        classNames: 'content-list',
+        Component: ContentListContainer,
+      },
+    ]     
+  },  
+];
+
+const routes = routesData.map(route => (
+  <Route exact key={route.path} path={route.path}>
+    {
+      props => (
+        <>
+          { 
+            route.cssTransitions.map((cssTransition, index) => (
+              <CSSTransition
+                key={`${route.path}_${index}`}
+                in={props.match && props.match.isExact}
+                unmountOnExit
+                { ...cssTransition }
+              >
+                <cssTransition.Component {...props} />
+              </CSSTransition>                
+            ))
+          }
+        </>
+      )
+    }        
+  </Route>
+));
+
 const App = () => (  
   <IntlProvider
     locale={appLocale}
@@ -35,81 +106,10 @@ const App = () => (
       <HomePageHead />
       <NetworkStatusContainer>        
         <ApiManager store={store}>
-        <div className="App__transitions-wrapper">
-          <Route exact path="/" component={DefaultRedirectContainer} />                
-          <Route exact path="/notifications">
-            {
-              props => (
-                <>
-                <CSSTransition
-                  in={props.match && props.match.isExact}
-                  timeout={250}
-                  classNames="topbar"
-                  unmountOnExit
-                >
-                  <NotificationsTopBarContainer />
-                </CSSTransition>                
-                <CSSTransition
-                  in={props.match && props.match.isExact}
-                  timeout={350}
-                  classNames="content-detail"
-                  unmountOnExit
-                >
-                  <div className="App__page-wrapper"><NotificationsContainer {...props} /></div>                  
-                </CSSTransition>
-                </>
-              )
-            }            
-          </Route>
-          <Route exact path="/content/:contentType/:id">
-            {
-              props => (
-                <>
-                <CSSTransition
-                  in={props.match && props.match.isExact}
-                  timeout={250}
-                  classNames="topbar"
-                  unmountOnExit
-                >
-                  <ContentDetailTopBarContainer />           
-                </CSSTransition>                
-                <CSSTransition
-                  in={props.match && props.match.isExact}
-                  timeout={350}
-                  classNames="content-detail"
-                  unmountOnExit
-                >
-                  <div className="App__page-wrapper"><ContentDetailContainer {...props} /></div>                  
-                </CSSTransition>
-                </>
-              )
-            }  
-          </Route>
-          <Route exact path="/content/:contentType">
-            {
-              props => (
-                <>
-                <CSSTransition
-                  in={props.match && props.match.isExact}
-                  timeout={250}
-                  classNames="topbar"
-                  unmountOnExit
-                >
-                  <ContentListTopBarContainer />
-                </CSSTransition>                  
-                <CSSTransition
-                  in={props.match && props.match.isExact}
-                  timeout={350}
-                  classNames="content-list"
-                  unmountOnExit
-                >
-                  <div className="App__page-wrapper"><ContentListContainer {...props} /></div>
-                </CSSTransition>
-                </>
-              )
-            }  
-          </Route>         
-          </div> 
+          <div className="App__transitions-wrapper">
+            <Route exact path="/" component={DefaultRedirectContainer} />
+            { routes }
+          </div>
         </ApiManager>
       </NetworkStatusContainer>
     </StateProvider>
