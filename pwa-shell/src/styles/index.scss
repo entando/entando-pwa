@@ -2,7 +2,8 @@
 @import 'general';
 @import 'errors-alert';
 @import 'toasts';
-@import 'page-container';
+@import 'app';
+@import 'page';
 @import 'login';
 @import 'topbar';
 @import 'drawer';
@@ -18,6 +19,7 @@
 @import 'content-list-item';
 @import 'content-detail';
 @import 'network-offline-warning';
+@import 'transitions';
 
 @import 'content-model.css';
 @import 'page-model.css';

@@ -28,13 +28,13 @@ const TopBar = ({contentType, leftItems, rightItems}) => {
   return (
     <div className="topbar shadow-sm fixed-top">
       <Navbar light>     
-        <Nav>
+        <Nav className="nav-left">
           { leftItemsMarkup }
         </Nav>                   
         <NavbarBrand
           tag={Link}
           to={contentType ? `/content/${contentType}` : '/'}
-          className="mx-auto"
+          className="brand mx-auto"
         >
           <img
             className="logo"

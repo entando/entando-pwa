@@ -2,11 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import NotificationListItem from 'ui/notifications/NotificationListItem';
 import NotificationsHeader from 'ui/notifications/NotificationsHeader';
-import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarContainer';
 
 import logo1x from 'images/Logo_vertical@1x.png';
 import logo2x from 'images/Logo_vertical@2x.png';
-import PageContainer from 'ui/common/PageContainer';
+import Page from 'ui/common/Page';
 
 class Notifications extends PureComponent {
 
@@ -31,9 +30,9 @@ class Notifications extends PureComponent {
     );
 
     return (
-      <PageContainer className={`Notifications${notificationAmount ? '' : ' Notifications--empty'}`}>
-        <NotificationsTopBarContainer />
-
+      <Page
+        className={`Notifications${notificationAmount ? '' : ' Notifications--empty'}`}
+      >            
         <NotificationsHeader notificationAmount={notificationAmount} />
         {
           notificationAmount ? (              
@@ -42,7 +41,7 @@ class Notifications extends PureComponent {
             </div>  
           ) : emptyNotificationList
         }                
-      </PageContainer>
+      </Page>
     );
   }
 }

@@ -1,0 +1,10 @@
+.App {
+  &__transitions-wrapper {
+    position: relative;
+  }
+  &__page-wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+}

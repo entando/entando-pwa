@@ -3,9 +3,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
-import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarContainer';
+import Page from 'ui/common/Page';
 import SwipeContentNavigator from 'ui/common/SwipeContentNavigator';
-import PageContainer from 'ui/common/PageContainer';
 import ItemCategoryListContainer from 'ui/common/ItemCategoryListContainer';
 
 class ContentDetail extends PureComponent {
@@ -24,7 +23,8 @@ class ContentDetail extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.isUserLogged !== prevProps.isUserLogged || this.props.match.params !== prevProps.match.params) {
+    const newParams = get(this.props, 'match.params');
+    if (this.props.isUserLogged !== prevProps.isUserLogged || (newParams && newParams !== prevProps.match.params)) {
       this.fetchDetail();
     } else if (this.props.nextContent !== prevProps.nextContent || this.props.prevContent !== prevProps.prevContent) {
       this.checkContentSiblings();
@@ -63,8 +63,9 @@ class ContentDetail extends PureComponent {
     );
         
     return (
-      <PageContainer className={`ContentDetail${isUserLogged ? '' : '--guest-user'}`}>
-        <ContentDetailTopBarContainer />
+      <Page
+        className={`ContentDetail${isUserLogged ? '' : '--guest-user'}`}
+      > 
         <ProtectedContentLoginContainer>
           <SwipeContentNavigator nextURL={this.state.nextURL} previousURL={this.state.previousURL}>
             <div className="ContentDetail__body">
@@ -72,7 +73,7 @@ class ContentDetail extends PureComponent {
             </div>
           </SwipeContentNavigator>
         </ProtectedContentLoginContainer>
-      </PageContainer>
+      </Page>
     );
   }
 }

@@ -4,8 +4,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import ContentListItem from 'ui/content-list/ContentListItem';
 import CategoryListContainer from 'ui/content-list/CategoryListContainer';
 import { Container, Spinner } from 'reactstrap';
-import PageContainer from 'ui/common/PageContainer';
-import ContentListTopBarContainer from 'ui/content-list/ContentListTopBarContainer';
+import Page from 'ui/common/Page';
 import ToastsContainer from 'ui/common/ToastsContainer';
 
 class ContentList extends PureComponent {
@@ -68,10 +67,10 @@ class ContentList extends PureComponent {
         null;
 
     return (
-      <PageContainer className="ContentList">
+      <Page
+        className="ContentList"
+      >
         <ToastsContainer />
-        <ContentListTopBarContainer />        
-
         { categoryList }
         { searchResults }
         <Container fluid className="content">
@@ -93,7 +92,7 @@ class ContentList extends PureComponent {
               : 'Nessun argomento selezionato. Seleziona almeno un argomento dal menu in alto a sinistra.'
           }
         </Container>
-      </PageContainer>
+      </Page>
     );
   }
 }

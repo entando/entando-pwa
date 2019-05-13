@@ -8,7 +8,10 @@ const ContentListItem = ({ data }) => (
   <Card className="shadow ContentListItem">
     <CardBody className="ContentListItem__body">
       <ItemCategoryListContainer categoryIdList={data.categories} />
-      <Link className="ContentListItem__link-to-detail" to={`/content/${data.typeCode}/${data.id}${data.requiresAuth ? '?requiresAuth=true' : ''}`}>
+      <Link
+        className="ContentListItem__link-to-detail"
+        to={`/content/${data.typeCode}/${data.id}${data.requiresAuth ? '?requiresAuth=true' : ''}`}
+      >
         <div dangerouslySetInnerHTML={{__html: data.html}} />
       </Link>
     </CardBody>

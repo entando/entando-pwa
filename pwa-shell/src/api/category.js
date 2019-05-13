@@ -1,21 +1,28 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
 
-export const getCategory = code => makeRequest({
+export const getCategoryTree = code => makeRequest({
   uri: `/api/categories?parentCode=${code}`,
   method: METHODS.GET,
-  mockResponse: { 
-    code: 'sample',
-    parentCode: 'home',
-    titles: {
-        en: 'Sample Category',
-        it: 'Categoria di Esempio',
+  mockResponse: [
+    { 
+      code: 'child1',
+      parentCode: 'sample',
+      titles: {
+        en: 'Child 1',
+        it: 'Figlio 1',
+      },
+      children: [],
     },
-    children: [
-        'sample_child_1',
-        'sample_child_2',
-    ],
-    references: {},
-  },
+    { 
+      code: 'child2',
+      parentCode: 'sample',
+      titles: {
+        en: 'Child 2',
+        it: 'Figlio 2',
+      },
+      children: [],
+    },
+  ],
   contentType: 'application/json',
   errors: () => [],
 });

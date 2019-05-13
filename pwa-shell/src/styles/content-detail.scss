@@ -6,12 +6,8 @@
   }
 
   &--guest-user {
-    .PageContainer__footer {
+    .Page__footer {
       background-image: none;
     }
-  }
-
-  & article {
-    word-break: break-word;
   }
 }
