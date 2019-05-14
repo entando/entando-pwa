@@ -1,19 +1,30 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Environmental Variables
+
 The system uses the given vars inside `.env` files to setup `@entando/apimanager`
 
 ### REACT_APP_USE_MOCKS
+
 defaults to `true`, to set it to false it is necessary to also set a valid REACT_APP_DOMAIN.
 
 ### REACT_APP_DOMAIN
+
 the domain used for api calls.
 
 ### REACT_APP_CLIENT_ID
+
 the client id used for oauth2 authentication.
 
 ### REACT_APP_CLIENT_SECRET
+
 the client secret used for oauth2 authentication.
+
+## Development Notes
+
+### Using absolute imports
+
+See [CRA docs](https://facebook.github.io/create-react-app/docs/importing-a-component#absolute-imports).
 
 ## Available Scripts
 
@@ -57,6 +68,7 @@ Instead, it will copy all the configuration files and the transitive dependencie
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## i18n
+
 Please pay attention to import `FormattedMessage` and `defineMessages` from `react-intl.macro` and not from `react-intl`, otherwise the `npm run i18n` command won't work.
 
 ## Learn More
