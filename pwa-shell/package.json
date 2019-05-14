@@ -39,8 +39,20 @@
     "package": "react-scripts build && npm run zip",
     "zip": "node scripts/zip.js"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "singleQuote": true
+  },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "plugin:prettier/recommended"
+    ]
   },
   "browserslist": [
     ">0.2%",
@@ -50,6 +62,11 @@
   ],
   "devDependencies": {
     "archiver": "^3.0.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^2.2.0",
+    "prettier": "^1.17.1",
+    "pretty-quick": "^1.10.0",
     "react-intl-translations-manager": "^5.0.3",
     "redux-mock-store": "^1.5.3"
   }
