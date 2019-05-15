@@ -1,6 +1,11 @@
 import { get } from 'lodash';
 import { convertToQueryString } from '@entando/utils';
-import { addErrors, clearErrors } from '@entando/messages';
+import {
+  addErrors,
+  clearErrors,
+  getToasts,
+  removeToast,
+} from '@entando/messages';
 import { loginUser } from '@entando/apimanager';
 
 import { getCategoryTree } from 'api/category';
@@ -229,6 +234,12 @@ export const clearNotification = id => async(dispatch) => {
   }
 }
 
+const clearToasts = () => (dispatch, getState) => {
+  const state = getState();
+  const toasts = getToasts(state);
+  Object.keys(toasts).forEach(toastId => dispatch(removeToast(toastId)));
+};
+
 export const login = (data) => async dispatch => {
   try {
     //
@@ -237,6 +248,7 @@ export const login = (data) => async dispatch => {
     data.pin = process.env.REACT_APP_DEMO_PASSWORD;
     //
     dispatch(clearErrors());
+    dispatch(clearToasts());
     const response = await performLogin(data.username, data.pin);
     const json = await response.json();
     dispatch(loginUser(data.username, json.access_token));
