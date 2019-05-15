@@ -239,7 +239,7 @@ export const login = (data) => async dispatch => {
     dispatch(clearErrors());
     const response = await performLogin(data.username, data.pin);
     const json = await response.json();
-    dispatch(loginUser(data.username, json.access_token));
+    dispatch(loginUser(data.username, json.access_token, json.refresh_token));
   } catch (err) {
     const msg = err.message === 'permissionDenied' ? 'Username e password non validi' : 'Errore durante il login';
     dispatch(addErrors([msg]));

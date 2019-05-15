@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { config, setApi, useMocks } from '@entando/apimanager';
 import { addToast, TOAST_WARNING } from '@entando/messages';
+import { createRefreshTokenParams } from 'api/login';
 import 'i18n/api-manager/init';
 
 class ApiManager extends Component {
@@ -12,7 +13,13 @@ class ApiManager extends Component {
 
   initApiManager(props) {
     const { store } = props;
-    config(store, () => {}, () => {});
+    config(store, () => {}, () => {}, {
+      generateParams: token => createRefreshTokenParams(token),
+      parseResults: response => (
+        response.json()
+          .then(json => (json.payload ? json.payload : json))
+      ),
+    });
     store.dispatch(setApi({
       domain: process.env.REACT_APP_DOMAIN,
       useMocks: process.env.REACT_APP_USE_MOCKS === 'true',
