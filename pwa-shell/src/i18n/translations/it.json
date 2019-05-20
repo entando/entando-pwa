@@ -1,4 +1,12 @@
 {
+  "categoryfilter.selectTopic": "Seleziona i tuoi argomenti di interesse",
+  "categorylist.topicsViewing": "Argomenti che stai visualizzando",
+  "contentlist.searchLoadingProgress": "Ricerca in corso...",
+  "contentlist.listLoadingProgress": "Caricamento...",
+  "contentlist.noArticlesMessage": "Nessun articolo trovato",
+  "contentlist.noTopicsSelected": "Nessun argomento selezionato. Seleziona almeno un argomento dal menu in alto a sinistra.",
+  "contentlist.searchResultCount": "{count} risultat{count,plural,=0{i}one{o}other{i}}",
+  "contentlist.searchResultTerm": "per: \"{keyword}\"",
   "login.passwordPlaceholder": "inserisci la tua password",
   "login.performLogin": "Accedi",
   "login.title": "Accedi al tuo account",

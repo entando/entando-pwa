@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, defineMessages } from 'react-intl.macro';
 import InfiniteScroll from 'react-infinite-scroller';
 import ContentListItem from 'ui/content-list/ContentListItem';
 import CategoryListContainer from 'ui/content-list/CategoryListContainer';
@@ -7,8 +9,18 @@ import { Container, Spinner } from 'reactstrap';
 import Page from 'ui/common/Page';
 import ToastsContainer from 'ui/common/ToastsContainer';
 
-class ContentList extends PureComponent {
+const messages = defineMessages({
+  searchLoadingProgress: {
+    id: 'contentlist.searchLoadingProgress',
+    defaultMessage: 'Searching...',
+  },
+  listLoadingProgress: {
+    id: 'contentlist.listLoadingProgress',
+    defaultMessage: 'Loading...',
+  },
+});
 
+class ContentList extends PureComponent {
   constructor(props) {
     super(props);
     this.loadMoreListItems = this.loadMoreListItems.bind(this);
@@ -33,6 +45,7 @@ class ContentList extends PureComponent {
 
   render() {
     const {
+      intl,
       contentList,
       contentType,
       hasMoreItems,
@@ -42,55 +55,78 @@ class ContentList extends PureComponent {
       searchTerms,
     } = this.props;
 
-    const categoryList = contentType && !isSearchResult ? <CategoryListContainer contentType={contentType} /> : '';
+    const categoryList =
+      contentType && !isSearchResult ? (
+        <CategoryListContainer contentType={contentType} />
+      ) : (
+        ''
+      );
 
     const contentListItems = contentList.map((item, index) => (
       <ContentListItem data={item} key={index} />
     ));
 
-    const loadingMessage = !isLoading ?
-      null :
-      isSearchResult ?
-        'Ricerca in corso...' :
-        'Caricamento...';
+    const loadingMessage = !isLoading
+      ? null
+      : isSearchResult
+      ? intl.formatMessage(messages.searchLoadingProgress)
+      : intl.formatMessage(messages.listLoadingProgress);
 
-    const searchResults = isLoading ?
-      null :
-      isSearchResult ?
-        (
-          <div className="ContentList__search-results__header p-4">
-            <span className="ContentList__search-results__size">
-              {contentList.length} risultat{contentList.length === 1 ? 'o' : 'i'}
-            </span> per: "{searchTerms}"
-          </div>
-        ) :
-        null;
+    const searchResults = isLoading ? null : isSearchResult ? (
+      <div className="ContentList__search-results__header p-4">
+        <span className="ContentList__search-results__size">
+          <FormattedMessage
+            id="contentlist.searchResultCount"
+            defaultMessage="{count} result{count,plural,=0{}one{}other{s}}"
+            values={{ count: contentList.length }}
+          />
+        </span>
+        &nbsp;
+        <FormattedMessage
+          id="contentlist.searchResultTerm"
+          defaultMessage="for: {keyword}"
+          values={{ keyword: searchTerms }}
+        />
+      </div>
+    ) : null;
 
     return (
-      <Page
-        className="ContentList"
-      >
+      <Page className="ContentList">
         <ToastsContainer />
-        { categoryList }
-        { searchResults }
+        {categoryList}
+        {searchResults}
         <Container fluid className="content">
-          {
-            selectedCategoryCodes && selectedCategoryCodes.length
-              ? (
-                contentList && contentList.length ?
-                <InfiniteScroll
-                  pageStart={0}
-                  loadMore={this.loadMoreListItems}
-                  hasMore={hasMoreItems}
-                  threshold={50}
-                  loader={<div key={-1} className="mt-4 ContentList__load-more">{ loadingMessage } <Spinner size="sm" color="primary" /></div>}
-                >
-                  { contentListItems }
-                </InfiniteScroll>
-                : <div>Nessun articolo trovato</div>
-              )
-              : 'Nessun argomento selezionato. Seleziona almeno un argomento dal menu in alto a sinistra.'
-          }
+          {selectedCategoryCodes && selectedCategoryCodes.length ? (
+            contentList && contentList.length ? (
+              <InfiniteScroll
+                pageStart={0}
+                loadMore={this.loadMoreListItems}
+                hasMore={hasMoreItems}
+                threshold={50}
+                loader={
+                  <div key={-1} className="mt-4 ContentList__load-more">
+                    {loadingMessage}
+                    &nbsp;
+                    <Spinner size="sm" color="primary" />
+                  </div>
+                }
+              >
+                {contentListItems}
+              </InfiniteScroll>
+            ) : (
+              <div>
+                <FormattedMessage
+                  id="contentlist.noArticlesMessage"
+                  defaultMessage="No articles found."
+                />
+              </div>
+            )
+          ) : (
+            <FormattedMessage
+              id="contentlist.noTopicsSelected"
+              defaultMessage="No topics selected. Select at least one topic from the top left menu."
+            />
+          )}
         </Container>
       </Page>
     );
@@ -100,7 +136,7 @@ class ContentList extends PureComponent {
 ContentList.propTypes = {
   contentList: PropTypes.arrayOf(PropTypes.object),
   contentListMeta: PropTypes.object,
-  hasMoreItems: PropTypes.bool, 
+  hasMoreItems: PropTypes.bool,
   contentType: PropTypes.string,
   selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
   isSearchResult: PropTypes.bool.isRequired,
@@ -109,7 +145,8 @@ ContentList.propTypes = {
   fetchContentList: PropTypes.func.isRequired,
 };
 
-ContentList.defaultProps = {  
+ContentList.defaultProps = {
+  intl: intlShape.isRequired,
   contentList: [],
   contentListMeta: {},
   hasMoreItems: false,
@@ -118,4 +155,4 @@ ContentList.defaultProps = {
   searchTerms: '',
 };
 
-export default ContentList;
+export default injectIntl(ContentList);
