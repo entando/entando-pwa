@@ -10,6 +10,7 @@ import {
   InputGroupAddon,
   InputGroupText,
 } from 'reactstrap';
+import { FormattedMessage } from 'react-intl.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class SearchBar extends Component
@@ -44,7 +45,9 @@ class SearchBar extends Component
                 </InputGroup>
               </Col>
               <Col xs={3} md={1}>
-                <span className="cancel cursor-pointer" onClick={() => closeSearch(contentType)}>Annulla</span>
+                <span className="cancel cursor-pointer" onClick={() => closeSearch(contentType)}>
+                  <FormattedMessage id="search.cancelLabel" defaultMessage="Cancel" />
+                </span>
               </Col>
             </Row>
           </Form>

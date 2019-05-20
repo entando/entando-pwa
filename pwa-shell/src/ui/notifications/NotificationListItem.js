@@ -9,7 +9,9 @@ import Badge from 'ui/common/Badge';
 const NotificationListItem = ({ data }) => (
   <Card className="shadow  NotificationListItem ">
     <CardHeader className="NotificationListItem__header">
-      <Badge className="NotificationListItem__status--unread">nuovo</Badge>
+      <Badge className="NotificationListItem__status--unread">
+        <FormattedMessage id="notification.badgeNewLabel" defaultMessage="new" />
+      </Badge>
     </CardHeader>  
     <CardBody className="NotificationListItem__body">
       <Link

@@ -14,8 +14,8 @@ const messages = defineMessages({
     id: 'contentlist.searchLoadingProgress',
     defaultMessage: 'Searching...',
   },
-  listLoadingProgress: {
-    id: 'contentlist.listLoadingProgress',
+  loadingProgress: {
+    id: 'contentlist.loadingProgress',
     defaultMessage: 'Loading...',
   },
 });
@@ -70,7 +70,7 @@ class ContentList extends PureComponent {
       ? null
       : isSearchResult
       ? intl.formatMessage(messages.searchLoadingProgress)
-      : intl.formatMessage(messages.listLoadingProgress);
+      : intl.formatMessage(messages.loadingProgress);
 
     const searchResults = isLoading ? null : isSearchResult ? (
       <div className="ContentList__search-results__header p-4">
@@ -134,6 +134,7 @@ class ContentList extends PureComponent {
 }
 
 ContentList.propTypes = {
+  intl: intlShape.isRequired,
   contentList: PropTypes.arrayOf(PropTypes.object),
   contentListMeta: PropTypes.object,
   hasMoreItems: PropTypes.bool,
@@ -146,7 +147,6 @@ ContentList.propTypes = {
 };
 
 ContentList.defaultProps = {
-  intl: intlShape.isRequired,
   contentList: [],
   contentListMeta: {},
   hasMoreItems: false,

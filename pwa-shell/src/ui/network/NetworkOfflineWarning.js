@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FormattedMessage } from 'react-intl.macro';
 
 class NetworkOfflineWarning extends Component {
   state = {
@@ -14,7 +15,9 @@ class NetworkOfflineWarning extends Component {
     return this.state.visible ? (
       <div className="NetworkOfflineWarning">
         <FontAwesomeIcon icon="exclamation-circle" size="lg" />
-        <span className="NetworkOfflineWarning__text">Nessuna connessione</span>
+        <span className="NetworkOfflineWarning__text">
+          <FormattedMessage id="network.offlineWarning" defaultMessage="No connection" />
+        </span>
         <FontAwesomeIcon
           icon="times"
           size="lg"

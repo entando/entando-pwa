@@ -1,31 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, defineMessages } from 'react-intl.macro';
 
-const text = amount => {
-  switch(amount) {
-    case 0: return 'Non ci sono nuove notifiche';
-    case 1: return (
+const messages = defineMessages({
+  headerNotifMessage: {
+    id: 'notification.headerNotifMessage',
+    defaultMessage: '{count,plural,=0{No new notifications}one{You have a new notification}other{You have # new notifications}}',
+  },
+});
+
+const text = (amount, caption) => {
+  if (amount > 0) {
+    const match = caption.match(/(\d[^\s])*/);
+    if (match === null) {
+      return caption;
+    }
+    const strParts = caption.split(` ${amount} `);
+    return (
       <React.Fragment>
-        Hai <span className="NotificationsHeader__amount">1</span> nuova notifica
-      </React.Fragment>
-    );
-    default: return (
-      <React.Fragment>
-        Hai <span className="NotificationsHeader__amount">{amount}</span> nuove notifiche
+        {strParts[0]} <span className="NotificationsHeader__amount">{amount}</span> {strParts[1]}
       </React.Fragment>
     );
   }
+  return caption;
 };
 
-const NotificationHeader = ({ notificationAmount }) => (
-  <div className="NotificationsHeader px-3 pb-3">
-    <div className="NotificationsHeader__title">Notifiche</div>
-    <div className="pt-1">{ text(notificationAmount) }</div>    
-  </div>
-);
+const NotificationHeader = ({ intl, notificationAmount }) => {
+  const caption = intl.formatMessage(messages.headerNotifMessage, { count: notificationAmount });
+  return (
+    <div className="NotificationsHeader px-3 pb-3">
+      <div className="NotificationsHeader__title">
+        <FormattedMessage id="notification.headerNotif" defaultMessage="Notifications" />
+      </div>
+      <div className="pt-1">{ text(notificationAmount, caption) }</div>    
+    </div>
+  );
+};
 
 NotificationHeader.propTypes = {
+  intl: intlShape.isRequired,
   notificationAmount: PropTypes.number.isRequired,
 };
 
-export default NotificationHeader;
+export default injectIntl(NotificationHeader);
