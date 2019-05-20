@@ -29,8 +29,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && npm run sw-addendum",
-    "sw-addendum": "cat src/swAddendum.js >> build/service-worker.js",
+    "build": "react-scripts build && npm run sw:buildEnv && npm run sw:append",
+    "sw:append": "node scripts/appendSw.js",
+    "sw:buildEnv": "node scripts/buildSwEnv.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "i18n:extract": "MESSAGE_DIR='./.messages' react-scripts build",
