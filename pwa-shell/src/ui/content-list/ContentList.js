@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import { FormattedMessage, defineMessages } from 'react-intl.macro';
 import InfiniteScroll from 'react-infinite-scroller';
+import { messagePluralObjectToString } from 'i18n/locales';
 import ContentListItem from 'ui/content-list/ContentListItem';
 import CategoryListContainer from 'ui/content-list/CategoryListContainer';
 import { Container, Spinner } from 'reactstrap';
@@ -18,6 +19,12 @@ const messages = defineMessages({
     id: 'contentlist.loadingProgress',
     defaultMessage: 'Loading...',
   },
+});
+
+const defaultSearchResultCountFormatString = messagePluralObjectToString({
+  $0: 'no results',
+  one: '{count} result',
+  other: '{count} results',
 });
 
 class ContentList extends PureComponent {
@@ -77,7 +84,7 @@ class ContentList extends PureComponent {
         <span className="ContentList__search-results__size">
           <FormattedMessage
             id="contentlist.searchResultCount"
-            defaultMessage="{count} result{count,plural,=0{}one{}other{s}}"
+            defaultMessage={defaultSearchResultCountFormatString}
             values={{ count: contentList.length }}
           />
         </span>

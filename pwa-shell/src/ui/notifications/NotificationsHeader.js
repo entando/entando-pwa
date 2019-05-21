@@ -2,11 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import { FormattedMessage, defineMessages } from 'react-intl.macro';
+import { messagePluralObjectToString } from 'i18n/locales';
 
 const messages = defineMessages({
   headerNotifMessage: {
     id: 'notification.headerNotifMessage',
-    defaultMessage: '{count,plural,=0{No new notifications}one{You have a new notification}other{You have # new notifications}}',
+    defaultMessage: messagePluralObjectToString({
+      $0: 'No new notifications',
+      one: 'You have a new notification.',
+      other: 'You have {count} new notifications',
+    }),
   },
 });
 
