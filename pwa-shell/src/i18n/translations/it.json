@@ -6,11 +6,7 @@
   "contentlist.noArticlesMessage": "Nessun articolo trovato",
   "contentlist.noTopicsSelected": "Nessun argomento selezionato. Seleziona almeno un argomento dal menu in alto a sinistra.",
   "contentlist.searchLoadingProgress": "Ricerca in corso...",
-  "contentlist.searchResultCount": {
-    "$0": "0 risultati",
-    "one": "{count} risultato",
-    "other": "{count} risultati"
-  },
+  "contentlist.searchResultCount": "{count} risultat{count,plural,=0{i}one{o}other{i}}",
   "contentlist.searchResultTerm": "per: \"{keyword}\"",
   "drawer.labelLogout": "Logout",
   "login.passwordPlaceholder": "inserisci la tua password",
@@ -22,10 +18,6 @@
   "notification.readMore": "Continua",
   "notification.badgeNewLabel": "nuovo",
   "notification.headerNotif": "Notifiche",
-  "notification.headerNotifMessage": {
-    "$0": "Non ci sono nuove notifiche",
-    "one": "Hai {count} nuova notifica",
-    "other": "Hai {count} nuove notifiche"
-  },
+  "notification.headerNotifMessage": "{count,plural,one{Hai {amount} nuova notifica}other{Hai {amount} nuove notifiche}}",
   "search.cancelLabel": "Annula"
 }
