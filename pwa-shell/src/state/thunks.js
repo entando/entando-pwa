@@ -43,6 +43,7 @@ import {
 } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
+import { getLanguageCode } from 'state/language/selectors';
 import { setNotificationList, removeNotification } from 'state/notification/actions';
 import { htmlSanitizer } from 'helpers';
 import { getNotificationObjectIdList } from 'state/notification/selectors';
@@ -75,17 +76,19 @@ export const fetchContentListByContentType = (contentType, pagination, search = 
   const filters = getSelectedStandardFilters(state);
   const categoryFilters = getSelectedCategoryFilters(state);
   const sortingFilters = getSelectedSortingFilters(state);
+  const lang = getLanguageCode(state);
   const categoryParams = toCategoryQueryString(categoryFilters);
   const sortingParams = toSortingQueryString(sortingFilters, filters);
   const contentSpecificParams = '&status=published&model=list';
   const searchParams = search ? `&text=${search}` : '';
+  const langParams = `&lang=${lang}`;
   if (search) {
     dispatch(setIsSearchResult());
     dispatch(setSearch(search));
   } else {
     dispatch(unsetIsSearchResult());
   }
-  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}${searchParams}`;
+  const params = `${convertToQueryString(filters)}${categoryParams}${sortingParams}${contentSpecificParams}${searchParams}${langParams}`;
   dispatch(fetchContentList(params, pagination));
 };
 
@@ -111,11 +114,14 @@ const fetchContentList = (params, pagination) => async(dispatch) => {
   }
 };
 
-export const fetchContentDetail = id => async(dispatch) => {
+export const fetchContentDetail = id => async(dispatch, getState) => {
   try {
+    const state = getState();
+    const lang = getLanguageCode(state);
+    const params = `?status=published&lang=${lang}`;
     dispatch(setIsLoading());	
     dispatch(unsetSelectedContent());
-    const response = await getContent(id);
+    const response = await getContent(id, params);
     const json = await response.json();
     if (response.ok) {
       dispatch(setSelectedContent(json.payload));
@@ -131,9 +137,12 @@ export const fetchContentDetail = id => async(dispatch) => {
 
 export const fetchProtectedContentDetail = id => async(dispatch, getState) => {	
   try {
+    const state = getState();
+    const lang = getLanguageCode(state);
+    const params = `?status=published&lang=${lang}`;
     dispatch(setIsLoading());	
     dispatch(unsetSelectedContent());	
-    const response = await getProtectedContent(id);
+    const response = await getProtectedContent(id, params);
     if (response.status !== 401) {
       const json = await response.json();
       if (response.ok) {

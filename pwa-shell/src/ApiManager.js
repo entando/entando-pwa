@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { config, setApi, useMocks } from '@entando/apimanager';
 import { addToast, TOAST_WARNING } from '@entando/messages';
+import { setLanguage } from 'state/language/actions';
 import 'i18n/api-manager/init';
 
 class ApiManager extends Component {
@@ -17,6 +18,10 @@ class ApiManager extends Component {
       domain: process.env.REACT_APP_DOMAIN,
       useMocks: process.env.REACT_APP_USE_MOCKS === 'true',
     }));
+    
+    if (props.lang) {
+      store.dispatch(setLanguage(props.lang));
+    }
 
     if (useMocks(store.getState())) {
       store.dispatch(addToast(

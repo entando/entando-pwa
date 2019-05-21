@@ -108,7 +108,7 @@ const App = () => (
     <StateProvider store={store}>
       <HomePageHead />
       <NetworkStatusContainer>        
-        <ApiManager store={store}>
+        <ApiManager store={store} lang={appLocale}>
           <div className="App__transitions-wrapper">
             <Route exact path="/" component={DefaultRedirectContainer} />
             { routes }

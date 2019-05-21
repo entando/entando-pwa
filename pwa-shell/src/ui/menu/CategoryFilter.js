@@ -19,7 +19,7 @@ class CategoryFilter extends PureComponent {
   }
 
   render() {
-    const { categories, selectedCategoryCodes } = this.props;
+    const { categories, lang, selectedCategoryCodes } = this.props;
 
     return (
       <div className="CategoryFilter">
@@ -35,7 +35,7 @@ class CategoryFilter extends PureComponent {
         <ul className="CategoryFilter__group">
           {categories.map(category => (
             <li key={category.code} className="CategoryFilter__group-item">
-              <label>{category.titles['it']}</label>
+              <label>{category.titles[lang]}</label>
               <input
                 type="checkbox"
                 checked={selectedCategoryCodes.includes(category.code)}
@@ -56,6 +56,7 @@ CategoryFilter.propTypes = {
       titles: PropTypes.shape({}),
     }),
   ),
+  lang: PropTypes.string,
   selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
   fetchCategoryListAndFilters: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -63,6 +64,7 @@ CategoryFilter.propTypes = {
 
 CategoryFilter.defaultProps = {
   categories: [],
+  lang: 'en',
   selectedCategoryCodes: [],
 };
 
