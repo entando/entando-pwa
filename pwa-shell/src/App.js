@@ -1,9 +1,7 @@
 import React from 'react';
 import { Provider as StateProvider } from 'react-redux';
 import { addLocaleData, IntlProvider } from 'react-intl';
-import {
-  Route,
-} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import store from 'state/store';
@@ -13,6 +11,7 @@ import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import ApiManager from 'ApiManager';
 import HomePageHead from 'HomePageHead';
 
+import ToastsContainer from 'ui/common/ToastsContainer';
 import NetworkStatusContainer from 'ui/network/NetworkStatusContainer';
 import ContentListContainer from 'ui/content-list/ContentListContainer';
 import ContentDetailContainer from 'ui/content-detail/ContentDetailContainer';
@@ -38,7 +37,7 @@ const routesData = [
         classNames: 'content-detail',
         Component: NotificationsContainer,
       },
-    ]     
+    ],
   },
   {
     path: '/content/:contentType/:id',
@@ -53,7 +52,7 @@ const routesData = [
         classNames: 'content-detail',
         Component: ContentDetailContainer,
       },
-    ]     
+    ],
   },
   {
     path: '/content/:contentType',
@@ -68,50 +67,49 @@ const routesData = [
         classNames: 'content-list',
         Component: ContentListContainer,
       },
-    ]     
-  },  
+    ],
+  },
 ];
 
 const routes = routesData.map(route => (
   <Route exact key={route.path} path={route.path}>
-    {
-      props => (
-        <>
-          { 
-            route.cssTransitions.map(({timeout, classNames, Component}, index) => (
-              <CSSTransition
-                key={`${route.path}_${index}`}
-                in={props.match && props.match.isExact}
-                unmountOnExit
-                timeout={timeout}
-                classNames={classNames}
-              >
-                <div className="App__page-wrapper">
-                  <Component {...props} />
-                </div>
-              </CSSTransition>                
-            ))
-          }
-        </>
-      )
-    }        
+    {props => (
+      <>
+        {route.cssTransitions.map(
+          ({ timeout, classNames, Component }, index) => (
+            <CSSTransition
+              key={`${route.path}_${index}`}
+              in={props.match && props.match.isExact}
+              unmountOnExit
+              timeout={timeout}
+              classNames={classNames}
+            >
+              <div className="App__page-wrapper">
+                <Component {...props} />
+              </div>
+            </CSSTransition>
+          ),
+        )}
+      </>
+    )}
   </Route>
 ));
 
-const App = () => (  
+const App = () => (
   <IntlProvider
     locale={appLocale}
     defaultLocale="en"
     key={appLocale}
     messages={locales[appLocale]}
-  >    
+  >
     <StateProvider store={store}>
       <HomePageHead />
-      <NetworkStatusContainer>        
+      <NetworkStatusContainer>
+        <ToastsContainer />
         <ApiManager store={store}>
           <div className="App__transitions-wrapper">
             <Route exact path="/" component={DefaultRedirectContainer} />
-            { routes }
+            {routes}
           </div>
         </ApiManager>
       </NetworkStatusContainer>
