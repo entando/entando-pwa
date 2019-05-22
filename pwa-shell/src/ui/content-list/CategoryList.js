@@ -46,14 +46,13 @@ CategoryList.propTypes = {
       titles: PropTypes.shape({}),
     }),
   ),
-  lang: PropTypes.string,
+  lang: PropTypes.string.isRequired,
   selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
   fetchCategoryListAndFilters: PropTypes.func.isRequired,
 };
 
 CategoryList.defaultProps = {
   categories: [],
-  lang: 'en',
   selectedCategoryCodes: [],
 };
 

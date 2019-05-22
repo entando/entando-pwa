@@ -56,7 +56,7 @@ CategoryFilter.propTypes = {
       titles: PropTypes.shape({}),
     }),
   ),
-  lang: PropTypes.string,
+  lang: PropTypes.string.isRequired,
   selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
   fetchCategoryListAndFilters: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -64,7 +64,6 @@ CategoryFilter.propTypes = {
 
 CategoryFilter.defaultProps = {
   categories: [],
-  lang: 'en',
   selectedCategoryCodes: [],
 };
 
