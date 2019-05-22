@@ -221,6 +221,11 @@
         <env-entry-value>/${profile.application.name}/resources/</env-entry-value>
     </env-entry>
     <env-entry>
+        <env-entry-name>cmsResourceRootURL</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>/cmsresources/</env-entry-value>
+    </env-entry>
+    <env-entry>
         <env-entry-name>protectedResourceRootURL</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
         <env-entry-value>/${profile.application.name}/protected/</env-entry-value>
