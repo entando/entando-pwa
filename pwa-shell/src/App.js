@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider as StateProvider } from 'react-redux';
-import { addLocaleData, IntlProvider } from 'react-intl';
+import { addLocaleData } from 'react-intl';
 import { Route } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
@@ -9,7 +9,7 @@ import itLocaleData from 'react-intl/locale-data/it';
 import locales from 'i18n/locales';
 import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import ApiManager from 'ApiManager';
-import AppLanguage from 'AppLanguage';
+import IntlProviderContainer from 'IntlProviderContainer';
 import HomePageHead from 'HomePageHead';
 
 import NetworkStatusContainer from 'ui/network/NetworkStatusContainer';
@@ -96,16 +96,14 @@ const routes = routesData.map(route => (
 ));
 
 const App = () => (
-  <IntlProvider
-    locale={appLocale}
-    defaultLocale="en"
-    key={appLocale}
-    messages={locales[appLocale]}
-  >
-    <StateProvider store={store}>
+  <StateProvider store={store}>
+    <IntlProviderContainer
+      store={store}
+      locale={appLocale}
+      messages={locales[appLocale]}
+    >
       <HomePageHead />
       <NetworkStatusContainer>
-        <AppLanguage store={store} lang={appLocale} />
         <ApiManager store={store}>
           <div className="App__transitions-wrapper">
             <Route exact path="/" component={DefaultRedirectContainer} />
@@ -113,8 +111,8 @@ const App = () => (
           </div>
         </ApiManager>
       </NetworkStatusContainer>
-    </StateProvider>
-  </IntlProvider>
+    </IntlProviderContainer>
+  </StateProvider>
 );
 
 export default App;

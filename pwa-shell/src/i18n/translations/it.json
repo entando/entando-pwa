@@ -13,6 +13,8 @@
   "login.performLogin": "Accedi",
   "login.title": "Accedi al tuo account",
   "login.usernamePlaceholder": "inserisci la tua username",
+  "login.errorInvalidCredentials": "Username e password non validi",
+  "login.errorLoginRequest": "Errore durante il login",
   "network.offlineWarning": "Nessuna connessione",
   "notification.emptyNotifMidLabel": "Buona giornata",
   "notification.readMore": "Continua",

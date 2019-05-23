@@ -7,6 +7,7 @@ import {
   removeToast,
 } from '@entando/messages';
 import { loginUser } from '@entando/apimanager';
+import { defineMessages } from 'react-intl.macro';
 
 import { getCategoryTree } from 'api/category';
 import { getContents, getContent, getProtectedContent } from 'api/content';
@@ -284,7 +285,18 @@ const clearToasts = () => (dispatch, getState) => {
   Object.keys(toasts).forEach(toastId => dispatch(removeToast(toastId)));
 };
 
-export const login = data => async dispatch => {
+const loginErrorMessages = defineMessages({
+  errorInvalidCredentials: {
+    id: 'login.errorInvalidCredentials',
+    defaultMessage: 'Invalid username and password.',
+  },
+  errorLoginRequest: {
+    id: 'login.errorLoginRequest',
+    defaultMessage: 'Error during login.',
+  },
+});
+
+export const login = (data, intl) => async dispatch => {
   try {
     //
     // WORKAROUND for SME demo purposes
@@ -299,8 +311,8 @@ export const login = data => async dispatch => {
   } catch (err) {
     const msg =
       err.message === 'permissionDenied'
-        ? 'Username e password non validi'
-        : 'Errore durante il login';
+        ? intl.formatMessage(loginErrorMessages.errorInvalidCredentials)
+        : intl.formatMessage(loginErrorMessages.errorLoginRequest);
     dispatch(addErrors([msg]));
   }
 };
