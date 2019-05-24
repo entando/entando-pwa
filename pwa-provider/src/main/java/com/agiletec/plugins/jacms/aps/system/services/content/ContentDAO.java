@@ -13,6 +13,7 @@
  */
 package com.agiletec.plugins.jacms.aps.system.services.content;
 
+import com.agiletec.aps.system.SystemConstants;
 import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -644,14 +645,13 @@ public class ContentDAO extends AbstractEntityDAO implements IContentDAO {
     @Override
     public ContentsStatus loadContentStatus() {
         Connection conn = null;
-        PreparedStatement stat = null;
-        ResultSet res = null;
         ContentsStatus status = null;
         try {
+            boolean isOracle = (null != this.getDataSourceClassName()) ? this.getDataSourceClassName().equalsIgnoreCase(SystemConstants.JDBC_DRIVER_ORACLE) : false;
             conn = this.getConnection();
-            int online = this.loadContentStatus(conn, COUNT_ONLINE_CONTENTS);
+            int online = this.loadContentStatus(conn, (isOracle) ? COUNT_EQUALS_ONLINE_CONTENTS_ORACLE : COUNT_EQUALS_ONLINE_CONTENTS);
             int offline = this.loadContentStatus(conn, COUNT_OFFLINE_CONTENTS);
-            int withDiffs = this.loadContentStatus(conn, COUNT_ONLINE_CONTENTS_WITH_DIFFS);
+            int withDiffs = this.loadContentStatus(conn, (isOracle) ? COUNT_NOT_EQUALS_ONLINE_CONTENTS_ORACLE : COUNT_NOT_EQUALS_ONLINE_CONTENTS);
             Date lastModified = this.loadContentStatusLastModified(conn, LOAD_LAST_MODIFIED);
             status = new ContentsStatus();
             status.setDraft(offline);
@@ -662,7 +662,7 @@ public class ContentDAO extends AbstractEntityDAO implements IContentDAO {
             _logger.error("Error loading contents status", t);
             throw new RuntimeException("Error loading contents status", t);
         } finally {
-            closeDaoResources(res, stat, conn);
+            this.closeConnection(conn);
         }
         return status;
     }
@@ -788,7 +788,7 @@ public class ContentDAO extends AbstractEntityDAO implements IContentDAO {
             + "WHERE contentid = ? ";
 
     private final String INSERT_ONLINE_CONTENT_WITHOUT_DATE = "UPDATE contents SET contenttype = ? , descr = ? , status = ? , "
-            + "workxml = ? , onlinexml = ? , maingroup = ? , currentversion = ? , lasteditor = ? " + "WHERE contentid = ? ";
+            + "workxml = ? , onlinexml = ? , maingroup = ? , currentversion = ? , lasteditor = ? WHERE contentid = ? ";
 
     private final String REMOVE_ONLINE_CONTENT = "UPDATE contents SET onlinexml = ? , status = ? , "
             + "workxml = ? , lastmodified = ? , currentversion = ? , lasteditor = ? WHERE contentid = ? ";
@@ -797,10 +797,10 @@ public class ContentDAO extends AbstractEntityDAO implements IContentDAO {
             + "workxml = ? , currentversion = ? , lasteditor = ? WHERE contentid = ? ";
 
     private final String UPDATE_CONTENT = "UPDATE contents SET contenttype = ? , descr = ? , status = ? , "
-            + "workxml = ? , lastmodified = ? , maingroup = ? , currentversion = ? , lasteditor = ? " + "WHERE contentid = ? ";
+            + "workxml = ? , lastmodified = ? , maingroup = ? , currentversion = ? , lasteditor = ? WHERE contentid = ? ";
 
     private final String UPDATE_CONTENT_WITHOUT_DATE = "UPDATE contents SET contenttype = ? , descr = ? , status = ? , "
-            + "workxml = ? , maingroup = ? , currentversion = ? , lasteditor = ? " + "WHERE contentid = ? ";
+            + "workxml = ? , maingroup = ? , currentversion = ? , lasteditor = ? WHERE contentid = ? ";
 
     private final String LOAD_ALL_CONTENTS_ID = "SELECT contentid FROM contents";
 
@@ -812,13 +812,22 @@ public class ContentDAO extends AbstractEntityDAO implements IContentDAO {
 
     private final String DELETE_WORK_ATTRIBUTE_ROLE_RECORD = "DELETE FROM workcontentattributeroles WHERE contentid = ? ";
 
-    private static final String COUNT_OFFLINE_CONTENTS = "SELECT count(contentid) FROM contents " + "WHERE onlinexml IS NULL";
+    private static final String COUNT_OFFLINE_CONTENTS = "SELECT count(contentid) FROM contents WHERE onlinexml IS NULL";
 
-    private static final String COUNT_ONLINE_CONTENTS = "SELECT count(contentid) FROM contents "
-            + "WHERE onlinexml IS NOT NULL AND onlinexml = workxml";
+    private static final String COUNT_CONTENTS_START_BLOCK
+            = "SELECT count(contentid) FROM contents WHERE onlinexml IS NOT NULL ";
 
-    private static final String COUNT_ONLINE_CONTENTS_WITH_DIFFS = "SELECT count(contentid) FROM contents "
-            + "WHERE onlinexml IS NOT NULL AND onlinexml <> workxml";
+    private static final String COUNT_EQUALS_ONLINE_CONTENTS
+            = COUNT_CONTENTS_START_BLOCK + " AND onlinexml = workxml";
+
+    private static final String COUNT_NOT_EQUALS_ONLINE_CONTENTS
+            = COUNT_CONTENTS_START_BLOCK + " AND onlinexml <> workxml";
+
+    private static final String COUNT_EQUALS_ONLINE_CONTENTS_ORACLE
+            = COUNT_CONTENTS_START_BLOCK + " AND dbms_lob.compare(onlinexml, workxml) = 0";
+
+    private static final String COUNT_NOT_EQUALS_ONLINE_CONTENTS_ORACLE
+            = COUNT_CONTENTS_START_BLOCK + " AND dbms_lob.compare(onlinexml, workxml) != 0";
 
     private final String LOAD_LAST_MODIFIED = LOAD_CONTENTS_VO_MAIN_BLOCK + "order by contents.lastmodified desc";
 

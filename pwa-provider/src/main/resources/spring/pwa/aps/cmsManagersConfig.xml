@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd" >
+    
+    <bean id="jacmsContentManager" class="com.agiletec.plugins.jacms.aps.system.services.content.ContentManager" 
+          parent="abstractEntityManager" >
+        <property name="entityClassName" value="com.agiletec.plugins.jacms.aps.system.services.content.model.Content"/>
+        <property name="entityTypeDom" ref="jacmsEntityTypeDom" />
+        <property name="xmlAttributeRootElementName" value="content" />
+        <property name="entityHandler">
+            <bean class="com.agiletec.plugins.jacms.aps.system.services.content.parse.ContentHandler" />
+        </property>
+        <property name="entityDom">
+            <bean class="com.agiletec.plugins.jacms.aps.system.services.content.parse.ContentDOM" />
+        </property>
+        <property name="contentDAO" >
+            <bean class="com.agiletec.plugins.jacms.aps.system.services.content.ContentDAO" parent="abstractEntityDAO">
+                <property name="dataSource" ref="portDataSource" />
+                <property name="dataSourceClassName"><value>${portDataSourceClassName}</value></property>
+            </bean>
+        </property>
+        <property name="publicContentSearcherDAO" ref="jacmsPublicContentSearcherDAO" />
+        <property name="workContentSearcherDAO" ref="jacmsWorkContentSearcherDAO" />
+    </bean>
+    
+</beans>

@@ -5,7 +5,6 @@ import ContentListItem from 'ui/content-list/ContentListItem';
 import CategoryListContainer from 'ui/content-list/CategoryListContainer';
 import { Container, Spinner } from 'reactstrap';
 import Page from 'ui/common/Page';
-import ToastsContainer from 'ui/common/ToastsContainer';
 
 class ContentList extends PureComponent {
 
@@ -70,7 +69,6 @@ class ContentList extends PureComponent {
       <Page
         className="ContentList"
       >
-        <ToastsContainer />
         { categoryList }
         { searchResults }
         <Container fluid className="content">
