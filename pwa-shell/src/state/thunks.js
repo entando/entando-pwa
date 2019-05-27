@@ -49,6 +49,7 @@ import {
 } from 'state/notification/actions';
 import { htmlSanitizer } from 'helpers';
 import { getNotificationObjectIdList } from 'state/notification/selectors';
+import { addMessageIds } from 'state/messageIds/actions';
 
 const toCategoryQueryString = categories => {
   return categories && categories.length
@@ -309,10 +310,11 @@ export const login = (data, intl) => async dispatch => {
     const json = await response.json();
     dispatch(loginUser(data.username, json.access_token));
   } catch (err) {
-    const msg =
-      err.message === 'permissionDenied'
-        ? intl.formatMessage(loginErrorMessages.errorInvalidCredentials)
-        : intl.formatMessage(loginErrorMessages.errorLoginRequest);
-    dispatch(addErrors([msg]));
+    const msg = {
+      id: err.message === 'permissionDenied'
+        ? loginErrorMessages.errorInvalidCredentials
+        : loginErrorMessages.errorLoginRequest,
+    };
+    dispatch(addMessageIds([msg]));
   }
 };

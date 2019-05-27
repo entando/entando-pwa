@@ -9,6 +9,7 @@ import category from 'state/category/reducer';
 import drawer from 'state/drawer/reducer';
 import search from 'state/search/reducer';
 import network from 'state/network/reducer';
+import messageIds from 'state/messageIds/reducer';
 import language from 'state/language/reducer';
 
 const rootReducer = combineReducers({
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   search,
   network,
   language,
+  messageIds,
 });
 
 export default rootReducer;

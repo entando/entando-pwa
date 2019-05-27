@@ -6,10 +6,9 @@ import { CSSTransition } from 'react-transition-group';
 
 import store from 'state/store';
 import itLocaleData from 'react-intl/locale-data/it';
-import locales from 'i18n/locales';
 import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import ApiManager from 'ApiManager';
-import IntlProviderContainer from 'IntlProviderContainer';
+import AppIntlProviderContainer from 'AppIntlProviderContainer';
 import HomePageHead from 'HomePageHead';
 
 import NetworkStatusContainer from 'ui/network/NetworkStatusContainer';
@@ -97,11 +96,7 @@ const routes = routesData.map(route => (
 
 const App = () => (
   <StateProvider store={store}>
-    <IntlProviderContainer
-      store={store}
-      locale={appLocale}
-      messages={locales[appLocale]}
-    >
+    <AppIntlProviderContainer locale={appLocale}>
       <HomePageHead />
       <NetworkStatusContainer>
         <ApiManager store={store}>
@@ -111,7 +106,7 @@ const App = () => (
           </div>
         </ApiManager>
       </NetworkStatusContainer>
-    </IntlProviderContainer>
+    </AppIntlProviderContainer>
   </StateProvider>
 );
 
