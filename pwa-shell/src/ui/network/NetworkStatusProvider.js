@@ -1,13 +1,14 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NETWORK_ONLINE_STATUS, NETWORK_OFFLINE_STATUS } from 'state/network/const';
-import NetworkOfflineWarning from 'ui/network/NetworkOfflineWarning';
+import {
+  NETWORK_ONLINE_STATUS,
+  NETWORK_OFFLINE_STATUS,
+} from 'state/network/const';
 
-class NetworkStatus extends Component {
-
+class NetworkStatusProvider extends Component {
   handleStatusChange = status => {
     this.props.onStatusChange(status.type);
-  }
+  };
 
   componentDidMount() {
     window.addEventListener(NETWORK_ONLINE_STATUS, this.handleStatusChange);
@@ -20,23 +21,17 @@ class NetworkStatus extends Component {
   }
 
   render() {
-    const { children, isOffline } = this.props; 
-    return (
-      <Fragment>  
-        { isOffline ? <NetworkOfflineWarning /> : '' }
-        { children }
-      </Fragment>
-    );
+    const { children } = this.props;
+    return <>{children}</>;
   }
 }
 
-NetworkStatus.propTypes = {
-  isOffline: PropTypes.bool.isRequired,
+NetworkStatusProvider.propTypes = {
   onStatusChange: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired,  
+    PropTypes.node,
+  ]).isRequired,
 };
 
-export default NetworkStatus;
+export default NetworkStatusProvider;

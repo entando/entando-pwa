@@ -278,7 +278,7 @@ export const clearNotification = id => async dispatch => {
   }
 };
 
-const clearToasts = () => (dispatch, getState) => {
+export const clearToasts = () => (dispatch, getState) => {
   const state = getState();
   const toasts = getToasts(state);
   Object.keys(toasts).forEach(toastId => dispatch(removeToast(toastId)));

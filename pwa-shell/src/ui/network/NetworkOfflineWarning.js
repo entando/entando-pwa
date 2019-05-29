@@ -3,20 +3,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormattedMessage } from 'react-intl.macro';
 
 class NetworkOfflineWarning extends Component {
-  state = {
+  initialState = {
     visible: true,
   };
+  state = this.initialState;
 
   closeWarning = () => {
     this.setState({ visible: false });
+  };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.isOffline !== prevProps.isOffline) {
+      this.setState(this.initialState);
+    }
   }
-  
+
   render() {
-    return this.state.visible ? (
+    const { isOffline } = this.props;
+    return this.state.visible && isOffline ? (
       <div className="NetworkOfflineWarning">
         <FontAwesomeIcon icon="exclamation-circle" size="lg" />
         <span className="NetworkOfflineWarning__text">
-          <FormattedMessage id="network.offlineWarning" defaultMessage="No connection" />
+          <FormattedMessage
+            id="network.offlineWarning"
+            defaultMessage="No connection"
+          />
         </span>
         <FontAwesomeIcon
           icon="times"
@@ -25,7 +36,9 @@ class NetworkOfflineWarning extends Component {
           onClick={this.closeWarning}
         />
       </div>
-    ) : '';
+    ) : (
+      ''
+    );
   }
 }
 

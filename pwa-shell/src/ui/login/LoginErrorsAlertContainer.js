@@ -28,9 +28,9 @@ export const mapDispatchToProps = dispatch => ({
   onDismiss: () => dispatch(clearErrors()),
 });
 
-const ErrorsAlertContainer = connect(
+const LoginErrorsAlertContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ErrorsAlert);
 
-export default ErrorsAlertContainer;
+export default LoginErrorsAlertContainer;

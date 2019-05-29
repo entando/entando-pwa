@@ -7,7 +7,9 @@ export const mapStateToProps = state => ({
   hasAccess: isUserLogged(state),
 });
 
-export default withRouter(connect(
-  mapStateToProps,
-  null,
-)(Login));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    null,
+  )(Login),
+);
