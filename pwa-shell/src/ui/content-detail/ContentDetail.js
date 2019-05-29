@@ -5,9 +5,10 @@ import { defineMessages } from 'react-intl.macro';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
-import Page from 'ui/common/Page';
+import PageContainer from 'ui/common/PageContainer';
 import SwipeContentNavigator from 'ui/common/SwipeContentNavigator';
 import ItemCategoryListContainer from 'ui/common/ItemCategoryListContainer';
+import NetworkOfflineWarningContainer from 'ui/network/NetworkOfflineWarningContainer';
 
 const messages = defineMessages({
   loadingProgress: {
@@ -81,8 +82,13 @@ class ContentDetail extends PureComponent {
       <div className="mt-4">{loadingMessage}</div>
     );
 
+    const messageComponents = <NetworkOfflineWarningContainer />;
+
     return (
-      <Page className={`ContentDetail${isUserLogged ? '' : '--guest-user'}`}>
+      <PageContainer
+        className={`ContentDetail${isUserLogged ? '' : '--guest-user'}`}
+        messageComponents={messageComponents}
+      >
         <ProtectedContentLoginContainer>
           <SwipeContentNavigator
             nextURL={this.state.nextURL}
@@ -91,7 +97,7 @@ class ContentDetail extends PureComponent {
             <div className="ContentDetail__body">{contentDetailBody}</div>
           </SwipeContentNavigator>
         </ProtectedContentLoginContainer>
-      </Page>
+      </PageContainer>
     );
   }
 }

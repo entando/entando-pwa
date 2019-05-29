@@ -11,14 +11,14 @@ import ApiManager from 'ApiManager';
 import IntlProviderContainer from 'IntlProviderContainer';
 import HomePageHead from 'HomePageHead';
 
-import ToastsContainer from 'ui/common/ToastsContainer';
-import NetworkStatusContainer from 'ui/network/NetworkStatusContainer';
+import NetworkStatusProviderContainer from 'ui/network/NetworkStatusProviderContainer';
 import ContentListContainer from 'ui/content-list/ContentListContainer';
 import ContentDetailContainer from 'ui/content-detail/ContentDetailContainer';
 import NotificationsContainer from 'ui/notifications/NotificationsContainer';
 import ContentListTopBarContainer from 'ui/content-list/ContentListTopBarContainer';
 import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarContainer';
 import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarContainer';
+import NetworkOfflineWarningContainer from 'ui/network/NetworkOfflineWarningContainer';
 
 addLocaleData(itLocaleData);
 
@@ -97,16 +97,16 @@ const routes = routesData.map(route => (
 const App = () => (
   <StateProvider store={store}>
     <IntlProviderContainer>
-      <NetworkStatusContainer>
-        <ToastsContainer />
+      <NetworkStatusProviderContainer>
         <ApiManager store={store}>
+          <NetworkOfflineWarningContainer />
           <HomePageHead />
           <div className="App__transitions-wrapper">
             <Route exact path="/" component={DefaultRedirectContainer} />
             {routes}
           </div>
         </ApiManager>
-      </NetworkStatusContainer>
+      </NetworkStatusProviderContainer>
     </IntlProviderContainer>
   </StateProvider>
 );
