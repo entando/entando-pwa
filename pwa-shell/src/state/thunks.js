@@ -7,7 +7,6 @@ import {
   removeToast,
 } from '@entando/messages';
 import { loginUser } from '@entando/apimanager';
-import { defineMessages } from 'react-intl.macro';
 
 import { getCategoryTree } from 'api/category';
 import { getContents, getContent, getProtectedContent } from 'api/content';
@@ -49,7 +48,6 @@ import {
 } from 'state/notification/actions';
 import { htmlSanitizer } from 'helpers';
 import { getNotificationObjectIdList } from 'state/notification/selectors';
-import { addMessageIds } from 'state/messageIds/actions';
 
 const toCategoryQueryString = categories => {
   return categories && categories.length
@@ -286,35 +284,15 @@ const clearToasts = () => (dispatch, getState) => {
   Object.keys(toasts).forEach(toastId => dispatch(removeToast(toastId)));
 };
 
-const loginErrorMessages = defineMessages({
-  errorInvalidCredentials: {
-    id: 'login.errorInvalidCredentials',
-    defaultMessage: 'Invalid username and password.',
-  },
-  errorLoginRequest: {
-    id: 'login.errorLoginRequest',
-    defaultMessage: 'Error during login.',
-  },
-});
-
-export const login = (data, intl) => async dispatch => {
+export const login = data => async dispatch => {
   try {
-    //
-    // WORKAROUND for SME demo purposes
-    data.username = process.env.REACT_APP_DEMO_USERNAME;
-    data.pin = process.env.REACT_APP_DEMO_PASSWORD;
-    //
     dispatch(clearErrors());
     dispatch(clearToasts());
     const response = await performLogin(data.username, data.pin);
     const json = await response.json();
     dispatch(loginUser(data.username, json.access_token));
   } catch (err) {
-    const msg = {
-      id: err.message === 'permissionDenied'
-        ? loginErrorMessages.errorInvalidCredentials
-        : loginErrorMessages.errorLoginRequest,
-    };
-    dispatch(addMessageIds([msg]));
+    const msg = get(err, 'message', err);
+    dispatch(addErrors([msg]));
   }
 };

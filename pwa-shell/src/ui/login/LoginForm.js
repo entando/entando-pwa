@@ -7,7 +7,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import { FormattedMessage, defineMessages } from 'react-intl.macro';
 
 import Input from 'ui/common/Input';
-import ErrorsAlertContainer from 'ui/common/ErrorsAlertContainer';
+import LoginErrorsAlertContainer from 'ui/login/LoginErrorsAlertContainer';
 
 const messages = defineMessages({
   passwordPlaceholder: {
@@ -20,27 +20,49 @@ const messages = defineMessages({
   },
 });
 
-class LoginForm extends Component
-{
+class LoginForm extends Component {
   render() {
     const { handleSubmit, intl } = this.props;
 
-    const passwordPlaceholder = intl.formatMessage(messages.passwordPlaceholder);
-    const usernamePlaceholder = intl.formatMessage(messages.usernamePlaceholder);
+    const passwordPlaceholder = intl.formatMessage(
+      messages.passwordPlaceholder,
+    );
+    const usernamePlaceholder = intl.formatMessage(
+      messages.usernamePlaceholder,
+    );
 
     return (
       <Form className="LoginForm p-4" onSubmit={handleSubmit}>
         <legend className="text-center mt-4">
-          <FormattedMessage id="login.title" defaultMessage="Login to your account" />
+          <FormattedMessage
+            id="login.title"
+            defaultMessage="Login to your account"
+          />
         </legend>
-        <ErrorsAlertContainer />
+        <LoginErrorsAlertContainer />
         <FormGroup>
-          <Label for="username" className="ml-2">Username</Label>
-          <Field component={Input} type="text" name="username" id="username" placeholder={usernamePlaceholder} />
+          <Label for="username" className="ml-2">
+            Username
+          </Label>
+          <Field
+            component={Input}
+            type="text"
+            name="username"
+            id="username"
+            placeholder={usernamePlaceholder}
+          />
         </FormGroup>
         <FormGroup>
-          <Label for="pin" className="ml-2">PIN</Label>
-          <Field component={Input} type="password" name="pin" id="pin" placeholder={passwordPlaceholder} />
+          <Label for="pin" className="ml-2">
+            PIN
+          </Label>
+          <Field
+            component={Input}
+            type="password"
+            name="pin"
+            id="pin"
+            placeholder={passwordPlaceholder}
+          />
         </FormGroup>
         <FormGroup>
           <Button className="LoginForm__button w-100">

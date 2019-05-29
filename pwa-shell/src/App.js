@@ -8,7 +8,7 @@ import store from 'state/store';
 import itLocaleData from 'react-intl/locale-data/it';
 import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import ApiManager from 'ApiManager';
-import AppIntlProviderContainer from 'AppIntlProviderContainer';
+import IntlProviderContainer from 'IntlProviderContainer';
 import HomePageHead from 'HomePageHead';
 
 import NetworkStatusContainer from 'ui/network/NetworkStatusContainer';
@@ -20,7 +20,6 @@ import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarC
 import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarContainer';
 
 addLocaleData(itLocaleData);
-const appLocale = 'it';
 
 const routesData = [
   {
@@ -96,17 +95,17 @@ const routes = routesData.map(route => (
 
 const App = () => (
   <StateProvider store={store}>
-    <AppIntlProviderContainer locale={appLocale}>
-      <HomePageHead />
+    <IntlProviderContainer>
       <NetworkStatusContainer>
         <ApiManager store={store}>
+          <HomePageHead />
           <div className="App__transitions-wrapper">
             <Route exact path="/" component={DefaultRedirectContainer} />
             {routes}
           </div>
         </ApiManager>
       </NetworkStatusContainer>
-    </AppIntlProviderContainer>
+    </IntlProviderContainer>
   </StateProvider>
 );
 
