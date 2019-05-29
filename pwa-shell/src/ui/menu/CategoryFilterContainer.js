@@ -3,10 +3,12 @@ import { fetchContentListByContentType, fetchCategoryListAndFilters } from 'stat
 import CategoryFilter from 'ui/menu/CategoryFilter';
 import { getCategoryList } from 'state/category/selectors';
 import { getSelectedCategoryFilters } from 'state/content/selectors';
+import { getLanguageCode } from 'state/language/selectors';
 import { setCategoryFilter } from 'state/content/actions';
 
 export const mapStateToProps = state => ({
   categories: getCategoryList(state),
+  lang: getLanguageCode(state),
   selectedCategoryCodes: getSelectedCategoryFilters(state),
 });
 

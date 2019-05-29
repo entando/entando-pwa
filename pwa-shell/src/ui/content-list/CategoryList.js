@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl.macro';
 import { ReactComponent as FilterIcon } from 'images/icons/ic_filter.svg';
 import Badge from 'ui/common/Badge';
 
@@ -9,39 +10,43 @@ class CategoryList extends PureComponent {
   }
 
   render() {
-    const { categories, selectedCategoryCodes } = this.props;
+    const { categories, lang, selectedCategoryCodes } = this.props;
 
     return categories.length ? (
       <div className="CategoryList">
-        {
-          selectedCategoryCodes.length
-            ? (
-              <div className="CategoryList__header">
-                <FilterIcon />
-                <span className="CategoryList__title">Argomenti che stai visualizzando</span>
-              </div>
-            )
-            : ''
-        }
-        {
-        categories.filter(category => selectedCategoryCodes.includes(category.code)).map(category => (
-          <span className="CategoryList__item"
-            key={category.code}
-          >
-            <Badge>{ category.titles['it'] }</Badge>
-          </span>
-        ))
-      }
+        {selectedCategoryCodes.length ? (
+          <div className="CategoryList__header">
+            <FilterIcon />
+            <span className="CategoryList__title">
+              <FormattedMessage
+                id="categorylist.topicsViewing"
+                defaultMessage="Topics you are viewing"
+              />
+            </span>
+          </div>
+        ) : null}
+        {categories
+          .filter(category => selectedCategoryCodes.includes(category.code))
+          .map(category => (
+            <span className="CategoryList__item" key={category.code}>
+              <Badge>{category.titles[lang]}</Badge>
+            </span>
+          ))}
       </div>
-    ) : '';
+    ) : (
+      ''
+    );
   }
 }
 
 CategoryList.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string,
-    titles: PropTypes.shape({}),
-  })),
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      titles: PropTypes.shape({}),
+    }),
+  ),
+  lang: PropTypes.string.isRequired,
   selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
   fetchCategoryListAndFilters: PropTypes.func.isRequired,
 };

@@ -13,35 +13,31 @@ class ApiManager extends Component {
   initApiManager(props) {
     const { store } = props;
     config(store, () => {}, () => {});
-    store.dispatch(setApi({
-      domain: process.env.REACT_APP_DOMAIN,
-      useMocks: process.env.REACT_APP_USE_MOCKS === 'true',
-    }));
+    store.dispatch(
+      setApi({
+        domain: process.env.REACT_APP_DOMAIN,
+        useMocks: process.env.REACT_APP_USE_MOCKS === 'true',
+      }),
+    );
 
     if (useMocks(store.getState())) {
-      store.dispatch(addToast(
-        'This application is using mocks',
-        TOAST_WARNING,
-      ));
+      store.dispatch(
+        addToast('This application is using mocks', TOAST_WARNING),
+      );
     }
   }
 
   render() {
-    return (
-      <Fragment>
-        { this.props.children }
-      </Fragment>
-    );
+    return <Fragment>{this.props.children}</Fragment>;
   }
 }
-
 
 ApiManager.propTypes = {
   store: PropTypes.object.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired,  
+    PropTypes.node,
+  ]).isRequired,
 };
 
 export default ApiManager;

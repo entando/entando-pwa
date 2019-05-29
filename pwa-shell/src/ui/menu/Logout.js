@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FormattedMessage } from 'react-intl.macro';
 
 import { ReactComponent as LogoutIcon } from 'images/icons/ic_exit.svg';
 
@@ -19,7 +20,7 @@ class Logout extends Component
           </div>
         </div>
         <div className="cursor-pointer" onClick={() => logoutUser()}>
-          <LogoutIcon /><span className="ml-2 align-bottom">Logout</span>
+          <LogoutIcon /><span className="ml-2 align-bottom"><FormattedMessage id="drawer.labelLogout" defaultMessage="Logout" /></span>
         </div>
       </div>
     ) : '';

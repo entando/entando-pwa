@@ -1,11 +1,20 @@
 import { get } from 'lodash';
 import React, { PureComponent } from 'react';
+import { injectIntl, intlShape } from 'react-intl';
+import { defineMessages } from 'react-intl.macro';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
 import Page from 'ui/common/Page';
 import SwipeContentNavigator from 'ui/common/SwipeContentNavigator';
 import ItemCategoryListContainer from 'ui/common/ItemCategoryListContainer';
+
+const messages = defineMessages({
+  loadingProgress: {
+    id: 'contentdetail.loadingProgress',
+    defaultMessage: 'Loading...',
+  },
+});
 
 class ContentDetail extends PureComponent {
   state = {
@@ -47,8 +56,8 @@ class ContentDetail extends PureComponent {
   }
 
   render() {
-    const { contentDetail, isLoading, isUserLogged } = this.props;
-    const loadingMessage = 'Caricamento...';
+    const { intl, contentDetail, isLoading, isUserLogged } = this.props;
+    const loadingMessage = intl.formatMessage(messages.loadingProgress);
     const associatedCategoryIdList = get(contentDetail, 'categories', []);
 
     const contentDetailBody = !isLoading ? (
@@ -79,6 +88,7 @@ class ContentDetail extends PureComponent {
 }
 
 ContentDetail.propTypes = {
+  intl: intlShape.isRequired,
   contentDetail: PropTypes.object,
   contentType: PropTypes.string,
   isLoading: PropTypes.bool.isRequired,
@@ -94,4 +104,4 @@ ContentDetail.defaultProps = {
   nextContent: {},
 };
 
-export default ContentDetail;
+export default injectIntl(ContentDetail);

@@ -8,21 +8,22 @@ class ItemCategoryList extends PureComponent {
   }
 
   render() {
-    const { itemCategoryList } = this.props;
+    const { itemCategoryList, lang } = this.props;
     return itemCategoryList && itemCategoryList.length ? (
       <span className="ItemCategoryList">
-        {
-          itemCategoryList.map(category => (
-            <Badge key={category.code}>{category.titles['it']}</Badge>
-          ))
-        }
+        {itemCategoryList.map(category => (
+          <Badge key={category.code}>{category.titles[lang]}</Badge>
+        ))}
       </span>
-    ) : '';
+    ) : (
+      ''
+    );
   }
 }
 
 ItemCategoryList.propTypes = {
   itemCategoryList: PropTypes.arrayOf(PropTypes.object),
+  lang: PropTypes.string.isRequired,
 };
 
 ItemCategoryList.defaultProps = {
