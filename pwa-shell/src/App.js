@@ -1,14 +1,14 @@
 import React from 'react';
 import { Provider as StateProvider } from 'react-redux';
-import { addLocaleData, IntlProvider } from 'react-intl';
+import { addLocaleData } from 'react-intl';
 import { Route } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import store from 'state/store';
 import itLocaleData from 'react-intl/locale-data/it';
-import locales from 'i18n/locales';
 import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import ApiManager from 'ApiManager';
+import IntlProviderContainer from 'IntlProviderContainer';
 import HomePageHead from 'HomePageHead';
 
 import ToastsContainer from 'ui/common/ToastsContainer';
@@ -21,7 +21,6 @@ import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarC
 import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarContainer';
 
 addLocaleData(itLocaleData);
-const appLocale = 'it';
 
 const routesData = [
   {
@@ -96,25 +95,20 @@ const routes = routesData.map(route => (
 ));
 
 const App = () => (
-  <IntlProvider
-    locale={appLocale}
-    defaultLocale="en"
-    key={appLocale}
-    messages={locales[appLocale]}
-  >
-    <StateProvider store={store}>
-      <HomePageHead />
+  <StateProvider store={store}>
+    <IntlProviderContainer>
       <NetworkStatusContainer>
         <ToastsContainer />
         <ApiManager store={store}>
+          <HomePageHead />
           <div className="App__transitions-wrapper">
             <Route exact path="/" component={DefaultRedirectContainer} />
             {routes}
           </div>
         </ApiManager>
       </NetworkStatusContainer>
-    </StateProvider>
-  </IntlProvider>
+    </IntlProviderContainer>
+  </StateProvider>
 );
 
 export default App;

@@ -11,6 +11,9 @@ export const mapDispatchToProps = dispatch => ({
   onDismiss: () => dispatch(clearErrors()),
 });
 
-const ErrorsAlertContainer = connect(mapStateToProps, mapDispatchToProps)(ErrorsAlert);
+const ErrorsAlertContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ErrorsAlert);
 
 export default ErrorsAlertContainer;
