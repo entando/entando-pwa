@@ -10,6 +10,7 @@ import drawer from 'state/drawer/reducer';
 import search from 'state/search/reducer';
 import network from 'state/network/reducer';
 import language from 'state/language/reducer';
+import userProfile from 'state/user-profile/reducer';
 
 const rootReducer = combineReducers({
   api,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   search,
   network,
   language,
+  userProfile,
 });
 
 export default rootReducer;

@@ -13,6 +13,8 @@ import { getContents, getContent, getProtectedContent } from 'api/content';
 import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
 import { getNotifications, postClearNotifications } from 'api/notification';
+import { getUserProfile } from 'api/userProfile';
+import { setUserProfile } from 'state/user-profile/actions';
 
 import { categoryOrder, contentTypeCodeList } from 'state/appConfig';
 import { setCategoryList } from 'state/category/actions';
@@ -284,6 +286,16 @@ export const clearToasts = () => (dispatch, getState) => {
   Object.keys(toasts).forEach(toastId => dispatch(removeToast(toastId)));
 };
 
+export const fetchUserProfile = username => async dispatch => {
+  const response = await getUserProfile(username);
+  const json = await response.json();
+  if (response.ok) {
+    dispatch(setUserProfile(json.payload));
+  } else {
+    dispatch(addErrors(json.errors.map(e => e.message)));
+  }
+};
+
 export const login = data => async dispatch => {
   try {
     dispatch(clearErrors());
@@ -291,6 +303,7 @@ export const login = data => async dispatch => {
     const response = await performLogin(data.username, data.pin);
     const json = await response.json();
     dispatch(loginUser(data.username, json.access_token));
+    dispatch(fetchUserProfile(data.username));
   } catch (err) {
     const msg = get(err, 'message', err);
     dispatch(addErrors([msg]));
