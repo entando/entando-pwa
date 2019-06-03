@@ -9,9 +9,7 @@ import {
   isSearchResult,
   isLoading,
 } from 'state/content/selectors';
-import {
-  getSearchTerms,
-} from 'state/search/selectors';
+import { getSearchTerms } from 'state/search/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 
 export const mapStateToProps = state => ({
@@ -26,9 +24,9 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchContentList: (pageObj) => {
+  fetchContentList: ({ pageObj, search }) => {
     const { contentType } = ownProps.match.params;
-    dispatch(fetchContentListByContentType(contentType, pageObj));
+    dispatch(fetchContentListByContentType(contentType, pageObj, search));
   },
 });
 
