@@ -14,22 +14,9 @@ import { FormattedMessage } from 'react-intl.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class SearchBar extends Component {
-  state = {
-    searchTerm: '',
-  };
-
   constructor() {
     super();
     this.onSubmit = this.onSubmit.bind(this);
-    this.onSearchValueChange = this.onSearchValueChange.bind(this);
-  }
-
-  componentDidMount() {
-    this.onSearchValueChange(this.props.searchTerm || '');
-  }
-
-  onSearchValueChange(searchTerm) {
-    this.setState({ searchTerm });
   }
 
   onSubmit(e) {
@@ -55,8 +42,7 @@ class SearchBar extends Component {
                   <Input
                     type="search"
                     name="search"
-                    value={this.state.searchTerm}
-                    onChange={e => this.onSearchValueChange(e.target.value)}
+                    defaultValue={this.props.searchTerm || ''}
                     autoFocus
                   />
                 </InputGroup>

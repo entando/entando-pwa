@@ -3,38 +3,36 @@ import { api, currentUser } from '@entando/apimanager';
 import { messages } from '@entando/messages';
 import { reducer as form } from 'redux-form';
 import notification from 'state/notification/reducer';
-import contentReducer from 'state/content/reducer';
+import content from 'state/content/reducer';
 import contentType from 'state/contentType/reducer';
 import category from 'state/category/reducer';
 import drawer from 'state/drawer/reducer';
-import searchReducer from 'state/search/reducer';
+import search from 'state/search/reducer';
 import network from 'state/network/reducer';
 import language from 'state/language/reducer';
 import { persistReducer } from 'redux-persist';
 import localForage from 'localforage';
 
-const persist = (key, whitelist, reducer) =>
-  persistReducer({ key, storage: localForage, whitelist }, reducer);
-
-const content = persist(
-  'content',
-  ['categoryFilters', 'isSearchResult'],
-  contentReducer,
-);
-
-const search = persist('search', null, searchReducer);
+const storage = localForage;
 
 const rootReducer = combineReducers({
   api,
   currentUser,
   messages,
   notification,
-  content,
+  content: persistReducer(
+    {
+      key: 'content',
+      storage,
+      whitelist: ['categoryFilters', 'isSearchResult'],
+    },
+    content,
+  ),
   contentType,
   category,
   drawer,
   form,
-  search,
+  search: persistReducer({ key: 'search', storage }, search),
   network,
   language,
 });
