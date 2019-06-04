@@ -21,5 +21,6 @@
   "notification.badgeNewLabel": "nuovo",
   "notification.headerNotif": "Notifiche",
   "notification.headerNotifMessage": "{count,plural,one{Hai {amount} nuova notifica}other{Hai {amount} nuove notifiche}}",
-  "search.cancelLabel": "Annulla"
+  "search.cancelLabel": "Annulla",
+  "profile.noname": "Utente Registrato"
 }
