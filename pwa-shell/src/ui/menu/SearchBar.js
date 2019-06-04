@@ -16,7 +16,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 class SearchBar extends Component {
   constructor() {
     super();
-
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -40,7 +39,12 @@ class SearchBar extends Component {
                       <FontAwesomeIcon icon="search" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input type="search" name="search" autoFocus />
+                  <Input
+                    type="search"
+                    name="search"
+                    defaultValue={this.props.searchTerm || ''}
+                    autoFocus
+                  />
                 </InputGroup>
               </Col>
               <Col xs={3} md={1}>
@@ -65,7 +69,13 @@ class SearchBar extends Component {
 SearchBar.propTypes = {
   closeSearch: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
-  contentType: PropTypes.string.isRequired,
+  contentType: PropTypes.string,
+  searchTerm: PropTypes.string,
+};
+
+SearchBar.defaultProps = {
+  contentType: '',
+  searchTerm: '',
 };
 
 export default SearchBar;

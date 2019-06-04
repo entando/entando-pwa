@@ -27,19 +27,30 @@ class ContentList extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.fetchContentList();
+    this.fetchContentListWithFilter();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.contentType !== prevProps.contentType) {
-      this.props.fetchContentList();
+      this.fetchContentListWithFilter();
     }
+  }
+
+  fetchContentListWithFilter(params = {}) {
+    const { fetchContentList, isSearchResult, searchTerms } = this.props;
+    const filters = {
+      search: isSearchResult ? searchTerms : '',
+      ...params,
+    };
+    fetchContentList(filters);
   }
 
   loadMoreListItems() {
     if (!this.props.isLoading) {
-      const { page, pageSize } = this.props.contentListMeta;
-      this.props.fetchContentList({ page: page + 1, pageSize });
+      const { contentListMeta } = this.props;
+      const { page, pageSize } = contentListMeta;
+      const pageObj = { page: page + 1, pageSize };
+      this.fetchContentListWithFilter({ pageObj });
     }
   }
 

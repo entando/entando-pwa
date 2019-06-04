@@ -14,7 +14,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  loadUserProfile: (username) => dispatch(fetchUserProfile(username)),
+  loadUserProfile: username => dispatch(fetchUserProfile(username)),
   logoutUser: () => {
     dispatch(logoutUser());
     dispatch(closeDrawer());
