@@ -27,16 +27,16 @@ class ContentList extends PureComponent {
   }
 
   componentDidMount() {
-    this.requestListWithFilter();
+    this.fetchContentListWithFilter();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.contentType !== prevProps.contentType) {
-      this.requestListWithFilter();
+      this.fetchContentListWithFilter();
     }
   }
 
-  requestListWithFilter(params = {}) {
+  fetchContentListWithFilter(params = {}) {
     const { fetchContentList, isSearchResult, searchTerms } = this.props;
     const filters = {
       search: isSearchResult ? searchTerms : '',
@@ -50,7 +50,7 @@ class ContentList extends PureComponent {
       const { contentListMeta } = this.props;
       const { page, pageSize } = contentListMeta;
       const pageObj = { page: page + 1, pageSize };
-      this.requestListWithFilter({ pageObj });
+      this.fetchContentListWithFilter({ pageObj });
     }
   }
 
