@@ -4,6 +4,8 @@ import { addLocaleData } from 'react-intl';
 import { Route } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { PersistGate } from 'redux-persist/integration/react';
+import Keycloak from 'keycloak-js';
+import { KeycloakProvider } from 'react-keycloak';
 
 import store from 'state/store';
 import { persistStore } from 'redux-persist';
@@ -98,23 +100,31 @@ const routes = routesData.map(route => (
 
 const persistor = persistStore(store);
 
+const keycloak = new Keycloak({
+  url: process.env.REACT_APP_KEYCLOAK_URL,
+  realm: process.env.REACT_APP_KEYCLOAK_REALM,
+  clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
+});
+
 const App = () => (
-  <StateProvider store={store}>
-    <PersistGate persistor={persistor}>
-      <IntlProviderContainer>
-        <NetworkStatusProviderContainer>
-          <ApiManager store={store}>
-            <NetworkOfflineWarningContainer />
-            <HomePageHead />
-            <div className="App__transitions-wrapper">
-              <Route exact path="/" component={DefaultRedirectContainer} />
-              {routes}
-            </div>
-          </ApiManager>
-        </NetworkStatusProviderContainer>
-      </IntlProviderContainer>
-    </PersistGate>
-  </StateProvider>
+  <KeycloakProvider keycloak={keycloak}>
+    <StateProvider store={store}>
+      <PersistGate persistor={persistor}>
+        <IntlProviderContainer>
+          <NetworkStatusProviderContainer>
+            <ApiManager store={store}>
+              <NetworkOfflineWarningContainer />
+              <HomePageHead />
+              <div className="App__transitions-wrapper">
+                <Route exact path="/" component={DefaultRedirectContainer} />
+                {routes}
+              </div>
+            </ApiManager>
+          </NetworkStatusProviderContainer>
+        </IntlProviderContainer>
+      </PersistGate>
+    </StateProvider>
+  </KeycloakProvider>
 );
 
 export default App;
