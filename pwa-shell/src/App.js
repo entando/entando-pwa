@@ -4,6 +4,8 @@ import { addLocaleData } from 'react-intl';
 import { Route } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { PersistGate } from 'redux-persist/integration/react';
+import Keycloak from 'keycloak-js';
+import { KeycloakProvider } from 'react-keycloak';
 
 import store from 'state/store';
 import { persistStore } from 'redux-persist';
@@ -12,6 +14,7 @@ import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import ApiManager from 'ApiManager';
 import IntlProviderContainer from 'IntlProviderContainer';
 import HomePageHead from 'HomePageHead';
+import { loginUser } from '@entando/apimanager';
 
 import NetworkStatusProviderContainer from 'ui/network/NetworkStatusProviderContainer';
 import ContentListContainer from 'ui/content-list/ContentListContainer';
@@ -98,23 +101,48 @@ const routes = routesData.map(route => (
 
 const persistor = persistStore(store);
 
+let AuthProvider;
+let authProps;
+
+if (process.env.REACT_APP_USE_KEYCLOAK === 'true') {
+  const keycloak = new Keycloak({
+    url: process.env.REACT_APP_KEYCLOAK_URL,
+    realm: process.env.REACT_APP_KEYCLOAK_REALM,
+    clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
+  });
+  const onEvent = (event, error) => {
+    if (event === 'onAuthSuccess') {
+      store.dispatch(
+        loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
+      );
+    }
+  };
+  AuthProvider = KeycloakProvider;
+  authProps = { keycloak, onEvent };
+} else {
+  AuthProvider = React.Fragment;
+  authProps = {};
+}
+
 const App = () => (
-  <StateProvider store={store}>
-    <PersistGate persistor={persistor}>
-      <IntlProviderContainer>
-        <NetworkStatusProviderContainer>
-          <ApiManager store={store}>
-            <NetworkOfflineWarningContainer />
-            <HomePageHead />
-            <div className="App__transitions-wrapper">
-              <Route exact path="/" component={DefaultRedirectContainer} />
-              {routes}
-            </div>
-          </ApiManager>
-        </NetworkStatusProviderContainer>
-      </IntlProviderContainer>
-    </PersistGate>
-  </StateProvider>
+  <AuthProvider {...authProps}>
+    <StateProvider store={store}>
+      <PersistGate persistor={persistor}>
+        <IntlProviderContainer>
+          <NetworkStatusProviderContainer>
+            <ApiManager store={store}>
+              <NetworkOfflineWarningContainer />
+              <HomePageHead />
+              <div className="App__transitions-wrapper">
+                <Route exact path="/" component={DefaultRedirectContainer} />
+                {routes}
+              </div>
+            </ApiManager>
+          </NetworkStatusProviderContainer>
+        </IntlProviderContainer>
+      </PersistGate>
+    </StateProvider>
+  </AuthProvider>
 );
 
 export default App;
