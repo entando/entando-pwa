@@ -11,14 +11,11 @@ let mapStateToProps;
 let ProtectedContentLoginContainer;
 
 if (process.env.REACT_APP_USE_KEYCLOAK === 'true') {
-  mapStateToProps = (state, ownProps) => {
-    console.log(ownProps);
-    return {
-      hasAccess:
-        !doesSelectedContentRequireAuth(state) ||
-        get(ownProps, 'keycloak.authenticated', false),
-    };
-  };
+  mapStateToProps = (state, ownProps) => ({
+    hasAccess:
+      !doesSelectedContentRequireAuth(state) ||
+      get(ownProps, 'keycloak.authenticated', false),
+  });
   ProtectedContentLoginContainer = withKeycloak(
     connect(
       mapStateToProps,

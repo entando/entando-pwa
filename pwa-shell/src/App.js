@@ -14,6 +14,7 @@ import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import ApiManager from 'ApiManager';
 import IntlProviderContainer from 'IntlProviderContainer';
 import HomePageHead from 'HomePageHead';
+import { loginUser } from '@entando/apimanager';
 
 import NetworkStatusProviderContainer from 'ui/network/NetworkStatusProviderContainer';
 import ContentListContainer from 'ui/content-list/ContentListContainer';
@@ -109,8 +110,16 @@ if (process.env.REACT_APP_USE_KEYCLOAK === 'true') {
     realm: process.env.REACT_APP_KEYCLOAK_REALM,
     clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
   });
+  const onEvent = (event, error) => {
+    if (event === 'onAuthSuccess') {
+      console.log(keycloak);
+      store.dispatch(
+        loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
+      );
+    }
+  };
   AuthProvider = KeycloakProvider;
-  authProps = { keycloak };
+  authProps = { keycloak, onEvent };
 } else {
   AuthProvider = React.Fragment;
   authProps = {};
