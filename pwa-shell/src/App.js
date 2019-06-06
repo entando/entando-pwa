@@ -112,7 +112,6 @@ if (process.env.REACT_APP_USE_KEYCLOAK === 'true') {
   });
   const onEvent = (event, error) => {
     if (event === 'onAuthSuccess') {
-      console.log(keycloak);
       store.dispatch(
         loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
       );
