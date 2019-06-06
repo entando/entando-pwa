@@ -6,8 +6,11 @@ import Logout from 'ui/menu/Logout';
 
 export const mapStateToProps = (state, ownProps) => ({
   isUserLogged: get(ownProps, 'keycloak.authenticated', false),
-  username: get(ownProps, 'keycloak.idTokenParsed', 'MALE :('),
-  userFullname: 'KEYCLOAK', //getUserFullname(state),
+  username: get(ownProps, 'keycloak.idTokenParsed.preferred_username'),
+  userFullname: `${get(ownProps, 'keycloak.idTokenParsed.given_name')} ${get(
+    ownProps,
+    'keycloak.idTokenParsed.family_name',
+  )}`,
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -19,7 +22,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withKeycloak(Logout));
+export default withKeycloak(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Logout),
+);
