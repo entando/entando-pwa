@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { Form, FormGroup, Label, Button } from 'reactstrap';
-import { withKeycloak } from 'react-keycloak';
 
 import { injectIntl, intlShape } from 'react-intl';
 import { FormattedMessage, defineMessages } from 'react-intl.macro';
@@ -23,7 +22,7 @@ const messages = defineMessages({
 
 class LoginForm extends Component {
   render() {
-    const { keycloak, keycloakInitialized, handleSubmit, intl } = this.props;
+    const { handleSubmit, intl } = this.props;
 
     const passwordPlaceholder = intl.formatMessage(
       messages.passwordPlaceholder,
@@ -32,15 +31,8 @@ class LoginForm extends Component {
       messages.usernamePlaceholder,
     );
 
-    const kl = () => {
-      keycloak.login();
-    };
-
     return (
-      <Form className="LoginForm p-4" onSubmit={kl}>
-        <button type="button" onClick={kl}>
-          Login
-        </button>
+      <Form className="LoginForm p-4" onSubmit={handleSubmit}>
         <legend className="text-center mt-4">
           <FormattedMessage
             id="login.title"
@@ -90,4 +82,4 @@ LoginForm.propTypes = {
 
 export default reduxForm({
   form: 'login',
-})(injectIntl(withKeycloak(LoginForm)));
+})(injectIntl(LoginForm));

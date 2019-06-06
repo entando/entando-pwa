@@ -100,14 +100,24 @@ const routes = routesData.map(route => (
 
 const persistor = persistStore(store);
 
-const keycloak = new Keycloak({
-  url: process.env.REACT_APP_KEYCLOAK_URL,
-  realm: process.env.REACT_APP_KEYCLOAK_REALM,
-  clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
-});
+let AuthProvider;
+let authProps;
+
+if (process.env.REACT_APP_USE_KEYCLOAK === 'true') {
+  const keycloak = new Keycloak({
+    url: process.env.REACT_APP_KEYCLOAK_URL,
+    realm: process.env.REACT_APP_KEYCLOAK_REALM,
+    clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
+  });
+  AuthProvider = KeycloakProvider;
+  authProps = { keycloak };
+} else {
+  AuthProvider = React.Fragment;
+  authProps = {};
+}
 
 const App = () => (
-  <KeycloakProvider keycloak={keycloak}>
+  <AuthProvider {...authProps}>
     <StateProvider store={store}>
       <PersistGate persistor={persistor}>
         <IntlProviderContainer>
@@ -124,7 +134,7 @@ const App = () => (
         </IntlProviderContainer>
       </PersistGate>
     </StateProvider>
-  </KeycloakProvider>
+  </AuthProvider>
 );
 
 export default App;
