@@ -7,7 +7,6 @@ import { FormattedMessage } from 'react-intl.macro';
 import logo1x from 'images/Logo_vertical@1x.png';
 import logo2x from 'images/Logo_vertical@2x.png';
 import PageContainer from 'ui/common/PageContainer';
-import ToastsContainer from 'ui/common/ToastsContainer';
 
 class Notifications extends PureComponent {
   componentDidMount() {
@@ -41,7 +40,6 @@ class Notifications extends PureComponent {
           notificationAmount ? '' : ' Notifications--empty'
         }`}
       >
-        <ToastsContainer />
         <NotificationsHeader notificationAmount={notificationAmount} />
         {notificationAmount ? (
           <div className="Notifications__list">{items}</div>
