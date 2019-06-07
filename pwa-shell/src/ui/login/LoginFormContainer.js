@@ -1,12 +1,21 @@
 import { connect } from 'react-redux';
-import Login from 'ui/login/LoginForm';
 import { login as performLogin } from 'state/thunks';
+import LoginForm from 'ui/login/LoginForm';
+import KeycloakLoginForm from 'ui/login/KeycloakLoginForm';
 
-export const mapDispatchToProps = dispatch => ({
-  onSubmit: data => dispatch(performLogin(data)),
-});
+let mapDispatchToProps;
+let LoginFormContainer;
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Login);
+if (process.env.REACT_APP_USE_KEYCLOAK === 'true') {
+  LoginFormContainer = KeycloakLoginForm;
+} else {
+  mapDispatchToProps = dispatch => ({
+    onSubmit: data => dispatch(performLogin(data)),
+  });
+  LoginFormContainer = connect(
+    null,
+    mapDispatchToProps,
+  )(LoginForm);
+}
+
+export default LoginFormContainer;

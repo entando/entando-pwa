@@ -9,12 +9,19 @@ import Badge from 'ui/common/Badge';
 const NotificationListItem = ({ data }) => (
   <Card className="shadow  NotificationListItem ">
     <CardHeader className="NotificationListItem__header">
-      <Badge className="NotificationListItem__status--unread">nuovo</Badge>
-    </CardHeader>  
+      <Badge className="NotificationListItem__status--unread">
+        <FormattedMessage
+          id="notification.badgeNewLabel"
+          defaultMessage="new"
+        />
+      </Badge>
+    </CardHeader>
     <CardBody className="NotificationListItem__body">
       <Link
         className="NotificationListItem__link-to-detail"
-        to={`/content/${data.properties.contentType}/${data.objectId}${data.requiresAuth ? '?requiresAuth=true' : ''}`}
+        to={`/content/${data.properties.contentType}/${data.objectId}${
+          data.requiresAuth ? '?requiresAuth=true' : ''
+        }`}
       >
         <article className="notification">
           <header>
@@ -23,17 +30,24 @@ const NotificationListItem = ({ data }) => (
                 value={data.date}
                 year="numeric"
                 month="short"
-                day="numeric" />
+                day="numeric"
+              />
             </time>
             <h2>{data.title}</h2>
           </header>
-          <section className="body" dangerouslySetInnerHTML={{__html: data.body}} />
+          <section
+            className="body"
+            dangerouslySetInnerHTML={{ __html: data.body }}
+          />
         </article>
         <span className="more-link">
-          <FormattedMessage id="notification.readMore" defaultMessage="Continue" />
+          <FormattedMessage
+            id="notification.readMore"
+            defaultMessage="Continue"
+          />
         </span>
       </Link>
-    </CardBody>    
+    </CardBody>
   </Card>
 );
 

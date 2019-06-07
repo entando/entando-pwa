@@ -1,12 +1,17 @@
 import { connect } from 'react-redux';
-import { fetchContentListByContentType, fetchCategoryListAndFilters } from 'state/thunks';
+import {
+  fetchContentListByContentType,
+  fetchCategoryListAndFilters,
+} from 'state/thunks';
 import CategoryFilter from 'ui/menu/CategoryFilter';
 import { getCategoryList } from 'state/category/selectors';
 import { getSelectedCategoryFilters } from 'state/content/selectors';
+import { getLanguageCode } from 'state/language/selectors';
 import { setCategoryFilter } from 'state/content/actions';
 
 export const mapStateToProps = state => ({
   categories: getCategoryList(state),
+  lang: getLanguageCode(state),
   selectedCategoryCodes: getSelectedCategoryFilters(state),
 });
 
@@ -20,5 +25,5 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(CategoryFilter);
