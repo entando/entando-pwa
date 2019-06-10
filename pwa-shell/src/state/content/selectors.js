@@ -17,7 +17,7 @@ export const getContentListMeta = createSelector(
 
 export const getListHasMorePages = createSelector(
   getContentListMeta,
-  meta => !!Object.keys(meta).length && meta.pageSize === meta.totalItems
+  meta => !!Object.keys(meta).length && meta.pageSize === meta.totalItems,
 );
 
 export const getSelectedContent = createSelector(
@@ -27,7 +27,7 @@ export const getSelectedContent = createSelector(
 
 export const getSelectedContentId = createSelector(
   getContent,
-  content => get(content, 'selected.id')
+  content => get(content, 'selected.id'),
 );
 
 export const getSelectedContentIndexFromList = createSelector(
@@ -77,30 +77,34 @@ export const isLoading = createSelector(
 
 export const getSelectedStandardFilters = createSelector(
   [getSelectedContentType, getStandardFilters],
-  (selectedContentType, standardFilters) => standardFilters[selectedContentType]
+  (selectedContentType, standardFilters) =>
+    standardFilters[selectedContentType],
 );
 
 export const getSelectedCategoryFilters = createSelector(
   [getSelectedContentType, getCategoryFilters],
-  (selectedContentType, categoryFilters) => categoryFilters[selectedContentType] || []
+  (selectedContentType, categoryFilters) =>
+    categoryFilters[selectedContentType] || [],
 );
 
 export const getSelectedSortingFilters = createSelector(
   [getSelectedContentType, getSortingFilters],
-  (selectedContentType, sortingFilters) => sortingFilters[selectedContentType] || []
+  (selectedContentType, sortingFilters) =>
+    sortingFilters[selectedContentType] || [],
 );
 
 export const isUserLogged = createSelector(
   [getUsername, getToken],
-  (username, token) => !!username && !!token
+  (username, token) => !!username && !!token,
 );
 
 export const doesSelectedContentRequireAuth = createSelector(
   [getSelectedContentId, getRequiresAuthMap],
-  (selectedContentId, requiresAuthMap) => requiresAuthMap[selectedContentId] !== false
+  (selectedContentId, requiresAuthMap) =>
+    requiresAuthMap[selectedContentId] !== false,
 );
 
 export const isSelectedContentAvailable = createSelector(
   [doesSelectedContentRequireAuth, isUserLogged],
-  (requiresAuth, userLogged) => !requiresAuth || userLogged
+  (requiresAuth, userLogged) => !requiresAuth || userLogged,
 );

@@ -10,7 +10,7 @@ import Login from 'ui/login/Login';
 let mapStateToProps;
 let ProtectedContentLoginContainer;
 
-if (process.env.REACT_APP_USE_KEYCLOAK === 'true') {
+if (process.env.REACT_APP_AUTH_TYPE === 'keycloak') {
   mapStateToProps = (state, ownProps) => ({
     hasAccess:
       !doesSelectedContentRequireAuth(state) ||
