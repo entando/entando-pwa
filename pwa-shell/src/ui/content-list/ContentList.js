@@ -7,7 +7,6 @@ import InfiniteScroll from 'react-infinite-scroller';
 import ContentListItem from 'ui/content-list/ContentListItem';
 import CategoryListContainer from 'ui/content-list/CategoryListContainer';
 import PageContainer from 'ui/common/PageContainer';
-import ToastsContainer from 'ui/common/ToastsContainer';
 
 const messages = defineMessages({
   searchLoadingProgress: {
@@ -103,7 +102,6 @@ class ContentList extends PureComponent {
 
     return (
       <PageContainer className="ContentList">
-        <ToastsContainer />
         {categoryList}
         {searchResults}
         <Container fluid className="content">

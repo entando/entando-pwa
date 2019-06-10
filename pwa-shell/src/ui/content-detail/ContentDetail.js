@@ -2,6 +2,7 @@ import { get } from 'lodash';
 import React, { PureComponent } from 'react';
 import { injectIntl, intlShape } from 'react-intl';
 import { defineMessages } from 'react-intl.macro';
+import { withKeycloak } from 'react-keycloak';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
@@ -29,10 +30,15 @@ class ContentDetail extends PureComponent {
   }
 
   componentDidMount() {
-    this.fetchDetail();
+    if (this.props.keycloakInitialized) {
+      this.fetchDetail();
+    }
   }
 
   componentDidUpdate(prevProps) {
+    if (!prevProps.keycloakInitialized && this.props.keycloakInitialized) {
+      this.fetchDetail();
+    }
     const newParams = get(this.props, 'match.params');
     if (
       this.props.isUserLogged !== prevProps.isUserLogged ||
@@ -119,4 +125,4 @@ ContentDetail.defaultProps = {
   nextContent: {},
 };
 
-export default injectIntl(ContentDetail);
+export default injectIntl(withKeycloak(ContentDetail));
