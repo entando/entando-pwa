@@ -15,6 +15,7 @@ if (process.env.REACT_APP_USE_KEYCLOAK === 'true') {
     hasAccess:
       !doesSelectedContentRequireAuth(state) ||
       get(ownProps, 'keycloak.authenticated', false),
+    useKeycloak: true,
   });
   ProtectedContentLoginContainer = withKeycloak(
     connect(
@@ -25,6 +26,7 @@ if (process.env.REACT_APP_USE_KEYCLOAK === 'true') {
 } else {
   mapStateToProps = state => ({
     hasAccess: isSelectedContentAvailable(state),
+    useKeycloak: false,
   });
   ProtectedContentLoginContainer = connect(
     mapStateToProps,
