@@ -240,44 +240,51 @@ export const fetchCategoryListAndFilters = () => async (dispatch, getState) => {
 };
 
 export const fetchNotifications = () => async dispatch => {
-  const response = await getNotifications();
-  if (response.status !== 401) {
-    const json = await response.json();
-    if (response.ok) {
-      const notifications = json.payload.map(notification => {
-        return notification && notification.body
-          ? { ...notification, body: htmlSanitizer(notification.body) }
-          : notification;
-      });
-      dispatch(setNotificationList(notifications));
+  try {
+    const response = await getNotifications();
+    if (response.status !== 401) {
+      const json = await response.json();
+      if (response.ok) {
+        const notifications = json.payload.map(notification => {
+          return notification && notification.body
+            ? { ...notification, body: htmlSanitizer(notification.body) }
+            : notification;
+        });
+        dispatch(setNotificationList(notifications));
+      } else {
+        const jsonErrors = json.errors.map(e => e.message);
+        throw new Error(jsonErrors[0]);
+      }
     } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
+      dispatch(setNotificationList([]));
     }
-  } else {
-    dispatch(setNotificationList([]));
-  }
+  } catch (err) {}
 };
 
 export const clearAllNotifications = () => async (dispatch, getState) => {
-  const state = getState();
-  const notificationIdList = getNotificationObjectIdList(state);
-  const response = await postClearNotifications(notificationIdList);
-  const json = await response.json();
-  if (response.ok) {
-    dispatch(setNotificationList([]));
-  } else {
-    dispatch(addErrors(json.errors.map(e => e.message)));
-  }
+  try {
+    const state = getState();
+    const notificationIdList = getNotificationObjectIdList(state);
+    const response = await postClearNotifications(notificationIdList);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(setNotificationList([]));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {}
 };
 
 export const clearNotification = id => async dispatch => {
-  const response = await postClearNotifications([id]);
-  const json = await response.json();
-  if (response.ok) {
-    dispatch(removeNotification(id));
-  } else {
-    dispatch(addErrors(json.errors.map(e => e.message)));
-  }
+  try {
+    const response = await postClearNotifications([id]);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(removeNotification(id));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {}
 };
 
 export const clearToasts = () => (dispatch, getState) => {
@@ -287,13 +294,15 @@ export const clearToasts = () => (dispatch, getState) => {
 };
 
 export const fetchUserProfile = username => async dispatch => {
-  const response = await getUserProfile(username);
-  const json = await response.json();
-  if (response.ok) {
-    dispatch(setUserProfile(json.payload));
-  } else {
-    dispatch(addErrors(json.errors.map(e => e.message)));
-  }
+  try {
+    const response = await getUserProfile(username);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(setUserProfile(json.payload));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (err) {}
 };
 
 export const login = data => async dispatch => {
