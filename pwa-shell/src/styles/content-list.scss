@@ -1,8 +1,8 @@
 .ContentList {
   &__search-results__header {
-    background-color: #FFFFFF
+    background-color: $color-secondary-lightest;
   }
-  
+
   &__search-results__size {
     font-weight: bold;
   }

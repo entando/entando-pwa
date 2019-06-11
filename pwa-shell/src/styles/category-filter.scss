@@ -4,42 +4,47 @@
   }
 
   &__title {
-    font-size: .8rem;
-    color: $color-dark;
-    padding-left: .5rem;
+    font-size: 0.875rem;
+    color: $color-primary;
+    padding-left: 0.5rem;
   }
 
   &__group {
     list-style-type: none;
-    padding: .5rem 0;
+    padding: 3rem 0 0.5rem;
   }
 
   &__group-item {
-    padding: .8rem 1rem;
-    border-bottom: .1rem solid $color-primary-lightest;
+    padding: 1.25rem 1.625rem;
+    border-bottom: 0.1rem solid $color-secondary;
 
     label {
       margin-bottom: 0;
+      font-weight: 600;
+      color: $color-secondary-text;
     }
 
     input {
       display: inline-block;
       float: right;
-      margin-top: .14rem;
+      margin-top: 0.14rem;
       width: 1.2rem;
       height: 1.2rem;
       appearance: none;
-      background-color: $color-dark;
-      color: #fff;
+      border: 2px solid $color-secondary-light;
+      color: $color-primary-text;
       outline: none;
+      border-radius: 4px;
 
       &:checked {
+        background-color: $color-accent;
+        border: none;
         &:before {
           content: 'L';
           position: relative;
           display: inline-block;
-          top: -.24rem;
-          left: .35rem;
+          top: -0.24rem;
+          left: 0.37rem;
           transform: rotate(40deg) scaleX(-1);
         }
       }

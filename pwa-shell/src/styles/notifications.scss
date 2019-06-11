@@ -1,6 +1,6 @@
-.Notifications {  
+.Notifications {
   &--empty {
-    background-color: #FFFFFF;
+    background-color: $color-secondary-lightest;
 
     &__body {
       img {
@@ -10,7 +10,7 @@
   }
 
   &__list {
-    background-color: $color-primary-lightest;
+    background-color: $color-secondary;
     padding-right: 15px;
     padding-left: 15px;
   }

@@ -4,8 +4,8 @@
   position: fixed;
   z-index: 10000;
   width: 20rem;
-  background-color: $color-bordered-light;
-  transition: left ease-in .2s;
+  background-color: $color-secondary-lightest;
+  transition: left ease-in 0.2s;
 
   &.closed {
     left: -20rem;
@@ -19,11 +19,11 @@
     padding-top: 1rem;
     padding-left: 1rem;
     padding-bottom: 1rem;
-    border-bottom: .8rem solid $color-primary-lightest;
+    border-bottom: 0.8rem solid $color-secondary;
 
     .fa-user-circle {
       font-size: 2.5rem;
-      margin-top: .2rem;
+      margin-top: 0.2rem;
     }
   }
 }
@@ -36,8 +36,8 @@
   top: 0;
   left: 0;
   z-index: 10000;
-  opacity: .8;
-  transition: opacity .3s;
+  opacity: 0.8;
+  transition: opacity 0.3s;
 
   &.closed {
     visibility: hidden;

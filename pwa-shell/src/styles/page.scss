@@ -3,10 +3,10 @@
   min-height: 100vh;
   margin: 0 auto;
   padding-top: 60px;
-  color: $color-dark;
+  color: $color-secondary-text;
   display: flex;
   flex-direction: column;
-  background-color: $color-primary-lightest;
+  background-color: $color-secondary;
 
   &__content {
     flex-grow: 1;

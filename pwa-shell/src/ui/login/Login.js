@@ -10,6 +10,7 @@ class Login extends Component {
       <>{children}</>
     ) : (
       <Container fluid className="login">
+        <div className="login__bgtop" />
         <LoginFormContainer />
       </Container>
     );
