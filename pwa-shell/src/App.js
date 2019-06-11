@@ -3,18 +3,16 @@ import { Provider as StateProvider } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import { Route } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
+import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
-import Keycloak from 'keycloak-js';
-import { KeycloakProvider } from 'react-keycloak';
 
 import store from 'state/store';
-import { persistStore } from 'redux-persist';
 import itLocaleData from 'react-intl/locale-data/it';
 import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import ApiManager from 'ApiManager';
 import IntlProviderContainer from 'IntlProviderContainer';
+import KeycloakProviderContainer from 'KeycloakProviderContainer';
 import HomePageHead from 'HomePageHead';
-import { loginUser } from '@entando/apimanager';
 
 import NetworkStatusProviderContainer from 'ui/network/NetworkStatusProviderContainer';
 import ContentListContainer from 'ui/content-list/ContentListContainer';
@@ -101,32 +99,9 @@ const routes = routesData.map(route => (
 
 const persistor = persistStore(store);
 
-let AuthProvider;
-let authProps;
-
-if (process.env.REACT_APP_USE_KEYCLOAK === 'true') {
-  const keycloak = new Keycloak({
-    url: process.env.REACT_APP_KEYCLOAK_URL,
-    realm: process.env.REACT_APP_KEYCLOAK_REALM,
-    clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
-  });
-  const onEvent = (event, error) => {
-    if (event === 'onAuthSuccess') {
-      store.dispatch(
-        loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
-      );
-    }
-  };
-  AuthProvider = KeycloakProvider;
-  authProps = { keycloak, onEvent };
-} else {
-  AuthProvider = React.Fragment;
-  authProps = {};
-}
-
 const App = () => (
-  <AuthProvider {...authProps}>
-    <StateProvider store={store}>
+  <StateProvider store={store}>
+    <KeycloakProviderContainer>
       <PersistGate persistor={persistor}>
         <IntlProviderContainer>
           <NetworkStatusProviderContainer>
@@ -141,8 +116,8 @@ const App = () => (
           </NetworkStatusProviderContainer>
         </IntlProviderContainer>
       </PersistGate>
-    </StateProvider>
-  </AuthProvider>
+    </KeycloakProviderContainer>
+  </StateProvider>
 );
 
 export default App;
