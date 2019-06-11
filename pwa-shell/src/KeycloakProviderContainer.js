@@ -21,6 +21,10 @@ export const mapDispatchToProps = dispatch => ({
         //TODO set user profile
         //TODO set keycloak object
       );
+    } else if (event === 'onAuthRefreshSuccess') {
+      dispatch(
+        loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
+      );
     }
   },
 });
