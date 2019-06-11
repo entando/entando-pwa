@@ -11,7 +11,7 @@ import itLocaleData from 'react-intl/locale-data/it';
 import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import ApiManager from 'ApiManager';
 import IntlProviderContainer from 'IntlProviderContainer';
-import AuthProviderContainer from 'AuthProviderContainer';
+import KeycloakProviderContainer from 'KeycloakProviderContainer';
 import HomePageHead from 'HomePageHead';
 
 import NetworkStatusProviderContainer from 'ui/network/NetworkStatusProviderContainer';
@@ -101,7 +101,7 @@ const persistor = persistStore(store);
 
 const App = () => (
   <StateProvider store={store}>
-    <AuthProviderContainer>
+    <KeycloakProviderContainer>
       <PersistGate persistor={persistor}>
         <IntlProviderContainer>
           <NetworkStatusProviderContainer>
@@ -116,7 +116,7 @@ const App = () => (
           </NetworkStatusProviderContainer>
         </IntlProviderContainer>
       </PersistGate>
-    </AuthProviderContainer>
+    </KeycloakProviderContainer>
   </StateProvider>
 );
 
