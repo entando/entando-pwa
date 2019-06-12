@@ -13,9 +13,6 @@
  */
 package org.entando.entando.plugins.jacms.aps.system.services.content;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.agiletec.aps.system.common.IManager;
 import com.agiletec.aps.system.common.entity.IEntityManager;
 import com.agiletec.aps.system.common.entity.model.EntitySearchFilter;
@@ -39,14 +36,10 @@ import com.agiletec.plugins.jacms.aps.system.services.content.model.Content;
 import com.agiletec.plugins.jacms.aps.system.services.content.model.ContentDto;
 import com.agiletec.plugins.jacms.aps.system.services.contentmodel.ContentModel;
 import com.agiletec.plugins.jacms.aps.system.services.contentmodel.IContentModelManager;
+import com.agiletec.plugins.jacms.aps.system.services.dispenser.BaseContentDispenser;
 import com.agiletec.plugins.jacms.aps.system.services.dispenser.ContentRenderizationInfo;
 import com.agiletec.plugins.jacms.aps.system.services.dispenser.IContentDispenser;
 import com.agiletec.plugins.jacms.aps.system.services.searchengine.ICmsSearchEngineManager;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.entando.entando.aps.system.exception.ResourceNotFoundException;
 import org.entando.entando.aps.system.exception.RestServerError;
@@ -71,6 +64,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ContentService extends AbstractEntityService<Content, ContentDto>
         implements IContentService,
@@ -252,7 +248,7 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
             List<ContentDto> masterList = new ArrayList<>();
             for (String contentId : sublist) {
                 ContentDto dto = this.buildContentDto(contentId, online,
-                        requestList.getModel(), requestList.getLang(), requestList.isResolveLink(), bindingResult);
+                        requestList.getModel(), requestList.getLang(), requestList.isResolveLink(), bindingResult, user);
                 if (null != user) {
                     dto.setRequiresAuth(false);
                 }
@@ -292,7 +288,7 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
         BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(code, "content");
         boolean online = (IContentService.STATUS_ONLINE.equalsIgnoreCase(status));
         this.checkContentAuthorization(user, code, online, false, bindingResult);
-        ContentDto dto = this.buildContentDto(code, online, modelId, langCode, resolveLink, bindingResult);
+        ContentDto dto = this.buildContentDto(code, online, modelId, langCode, resolveLink, bindingResult, user);
         if (null != user) {
             dto.setRequiresAuth(false);
         }
@@ -301,7 +297,7 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
     }
 
     protected ContentDto buildContentDto(String code, boolean onLine,
-            String modelId, String langCode, boolean resolveLink, BindingResult bindingResult) {
+                                         String modelId, String langCode, boolean resolveLink, BindingResult bindingResult, UserDetails user) {
         ContentDto dto = null;
         try {
             Content content = this.getContentManager().loadContent(code, onLine);
@@ -315,13 +311,13 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
             logger.error("Error extracting content", e);
             throw new RestServerError("error extracting content", e);
         }
-        dto.setHtml(this.extractRenderedContent(dto, modelId, langCode, resolveLink, bindingResult));
+        dto.setHtml(this.extractRenderedContent(dto, modelId, langCode, resolveLink, bindingResult, user));
         dto.setReferences(this.getReferencesInfo(dto.getId()));
         return dto;
     }
 
     protected String extractRenderedContent(ContentDto dto, String modelId,
-            String langCode, boolean resolveLink, BindingResult bindingResult) {
+                                            String langCode, boolean resolveLink, BindingResult bindingResult, UserDetails user) {
         String render = null;
         if (null == modelId || modelId.trim().length() == 0) {
             return null;
@@ -341,7 +337,12 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
                     .filter(attr -> !model.getContentShape().contains("$content." + attr.getCode())).findAny();
             boolean noComplete = optional.isPresent();
             dto.setRequiresAuth(noComplete);
-            ContentRenderizationInfo renderizationInfo = this.getContentDispenser().getRenderizationInfo(dto.getId(), model.getId(), lang.getCode(), null, true);
+            PublicContentAuthorizationInfo authInfo = this.getContentAuthorizationHelper().getAuthorizationInfo(dto.getId(), true);
+
+
+
+            BaseContentDispenser baseDisp = (BaseContentDispenser)contentDispenser;
+            ContentRenderizationInfo renderizationInfo = baseDisp.getBaseRenderizationInfo(authInfo, dto.getId(), model.getId(), lang.getCode(), user, null, true);
             if (null != renderizationInfo) {
                 if (resolveLink) {
                     this.getContentDispenser().resolveLinks(renderizationInfo, null);
