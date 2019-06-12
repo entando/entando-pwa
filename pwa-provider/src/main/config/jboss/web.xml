@@ -17,7 +17,8 @@
             classpath*:spring/plugins/**/apsadmin/**/**.xml
             classpath*:spring/pwa/aps/**/**.xml
             classpath*:spring/pwa/apsadmin/**/**.xml
-            classpath:spring/web/servlet-context-keycloak.xml
+            classpath:spring/web/servlet-context-keycloak.xml 
+            classpath*:spring/pwa/infinispanManagersConfig.xml
         </param-value>
     </context-param>
     <context-param>
