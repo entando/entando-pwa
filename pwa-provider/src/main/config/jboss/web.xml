@@ -230,7 +230,7 @@
     <env-entry>
         <env-entry-name>resourceRootURL</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>/resources/</env-entry-value>
+        <env-entry-value>/${profile.application.name}/resources/</env-entry-value>
     </env-entry>
     <env-entry>
         <env-entry-name>cmsResourceRootURL</env-entry-name>
@@ -240,7 +240,7 @@
     <env-entry>
         <env-entry-name>protectedResourceRootURL</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>/protected/</env-entry-value>
+        <env-entry-value>/${profile.application.name}/protected/</env-entry-value>
     </env-entry>
     <env-entry>
         <env-entry-name>resourceDiskRootFolder</env-entry-name>
