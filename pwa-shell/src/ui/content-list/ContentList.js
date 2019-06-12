@@ -57,7 +57,6 @@ class ContentList extends PureComponent {
     const {
       intl,
       contentList,
-      contentType,
       hasMoreItems,
       selectedCategoryCodes,
       isSearchResult,
@@ -65,12 +64,11 @@ class ContentList extends PureComponent {
       searchTerms,
     } = this.props;
 
-    const categoryList =
-      contentType && !isSearchResult ? (
-        <SelectedCategoryListContainer contentType={contentType} />
-      ) : (
-        ''
-      );
+    const categoryList = isSearchResult ? (
+      ''
+    ) : (
+      <SelectedCategoryListContainer />
+    );
 
     const contentListItems = contentList.map((item, index) => (
       <ContentListItem data={item} key={index} />
