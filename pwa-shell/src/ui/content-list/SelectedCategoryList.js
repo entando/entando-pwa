@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl.macro';
 import { ReactComponent as FilterIcon } from 'images/icons/ic_filter.svg';
 import Badge from 'ui/common/Badge';
 
-class CategoryList extends PureComponent {
+class SelectedCategoryList extends PureComponent {
   componentDidMount() {
     this.props.fetchCategoryListAndFilters();
   }
@@ -39,7 +39,7 @@ class CategoryList extends PureComponent {
   }
 }
 
-CategoryList.propTypes = {
+SelectedCategoryList.propTypes = {
   categories: PropTypes.arrayOf(
     PropTypes.shape({
       code: PropTypes.string,
@@ -51,9 +51,9 @@ CategoryList.propTypes = {
   fetchCategoryListAndFilters: PropTypes.func.isRequired,
 };
 
-CategoryList.defaultProps = {
+SelectedCategoryList.defaultProps = {
   categories: [],
   selectedCategoryCodes: [],
 };
 
-export default CategoryList;
+export default SelectedCategoryList;
