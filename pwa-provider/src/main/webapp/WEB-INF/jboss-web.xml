@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+    <!--
+    Contesto root dell'applicazione.
+    Se è presente solo lo slash (/) il contesto applicativo viene omesso.
+    Se si vuole il contesto applicatico aggiungere /pwa-provider
+    -->
+    <context-root>/</context-root>
+</jboss-web>
