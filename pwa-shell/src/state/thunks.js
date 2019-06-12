@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import { convertToQueryString } from '@entando/utils';
+import { getToken } from '@entando/apimanager';
 import {
   addErrors,
   clearErrors,
@@ -111,10 +112,14 @@ export const fetchContentListByContentType = (
   dispatch(fetchContentList(params, pagination));
 };
 
-const fetchContentList = (params, pagination) => async dispatch => {
+const fetchContentList = (params, pagination) => async (dispatch, getState) => {
   try {
     dispatch(setIsLoading());
-    const response = await getContents(params, pagination);
+    const token = getToken(getState());
+    const paramsWithToken = token
+      ? `${params}&token=${getToken(getState())}`
+      : params;
+    const response = await getContents(paramsWithToken, pagination);
     const json = await response.json();
     if (response.ok) {
       dispatch(setContentListMeta(json.metaData));
