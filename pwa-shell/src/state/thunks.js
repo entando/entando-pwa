@@ -116,9 +116,7 @@ const fetchContentList = (params, pagination) => async (dispatch, getState) => {
   try {
     dispatch(setIsLoading());
     const token = getToken(getState());
-    const paramsWithToken = token
-      ? `${params}&token=${getToken(getState())}`
-      : params;
+    const paramsWithToken = token ? `${params}&token=${token}` : params;
     const response = await getContents(paramsWithToken, pagination);
     const json = await response.json();
     if (response.ok) {
