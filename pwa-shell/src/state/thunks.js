@@ -10,7 +10,12 @@ import {
 import { loginUser } from '@entando/apimanager';
 
 import { getCategoryTree } from 'api/category';
-import { getContents, getContent, getProtectedContent } from 'api/content';
+import {
+  getContents,
+  getContent,
+  getProtectedContent,
+  getProtectedContents,
+} from 'api/content';
 import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
 import { getNotifications, postClearNotifications } from 'api/notification';
@@ -116,8 +121,9 @@ const fetchContentList = (params, pagination) => async (dispatch, getState) => {
   try {
     dispatch(setIsLoading());
     const token = getToken(getState());
-    const paramsWithToken = token ? `${params}&token=${token}` : params;
-    const response = await getContents(paramsWithToken, pagination);
+    const response = token
+      ? await getProtectedContents(params, pagination)
+      : await getContents(params, pagination);
     const json = await response.json();
     if (response.ok) {
       dispatch(setContentListMeta(json.metaData));
