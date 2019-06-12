@@ -17,6 +17,7 @@
             classpath*:spring/plugins/**/apsadmin/**/**.xml
             classpath*:spring/pwa/aps/**/**.xml
             classpath*:spring/pwa/apsadmin/**/**.xml
+            classpath:spring/web/servlet-context-keycloak.xml
         </param-value>
     </context-param>
     <context-param>
@@ -31,6 +32,10 @@
         <param-name>contextClass</param-name>
         <param-value>org.entando.entando.aps.system.XmlWebApplicationContext</param-value>
     </context-param>
+    <filter>
+        <filter-name>keycloakFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
     <filter>
         <filter-name>struts2</filter-name>
         <filter-class>com.agiletec.apsadmin.system.dispatcher.StrutsPrepareAndExecuteFilter</filter-class>
@@ -51,6 +56,12 @@
             <param-value>true</param-value>
         </init-param>
     </filter>
+    <filter-mapping>
+        <filter-name>keycloakFilter</filter-name>
+        <url-pattern>/do/login</url-pattern>
+        <url-pattern>/do/login.action</url-pattern>
+        <url-pattern>/do/logout.action</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>struts2</filter-name>
         <url-pattern>/do/*</url-pattern>
@@ -116,7 +127,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring/web/servlet-context.xml</param-value>
+            <param-value>classpath:spring/web/servlet-context-keycloak.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

@@ -3,14 +3,15 @@ import { Provider as StateProvider } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import { Route } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
+import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import store from 'state/store';
-import { persistStore } from 'redux-persist';
 import itLocaleData from 'react-intl/locale-data/it';
 import DefaultRedirectContainer from 'DefaultRedirectContainer';
 import ApiManager from 'ApiManager';
 import IntlProviderContainer from 'IntlProviderContainer';
+import KeycloakProviderContainer from 'KeycloakProviderContainer';
 import HomePageHead from 'HomePageHead';
 
 import NetworkStatusProviderContainer from 'ui/network/NetworkStatusProviderContainer';
@@ -100,20 +101,22 @@ const persistor = persistStore(store);
 
 const App = () => (
   <StateProvider store={store}>
-    <PersistGate persistor={persistor}>
-      <IntlProviderContainer>
-        <NetworkStatusProviderContainer>
-          <ApiManager store={store}>
-            <NetworkOfflineWarningContainer />
-            <HomePageHead />
-            <div className="App__transitions-wrapper">
-              <Route exact path="/" component={DefaultRedirectContainer} />
-              {routes}
-            </div>
-          </ApiManager>
-        </NetworkStatusProviderContainer>
-      </IntlProviderContainer>
-    </PersistGate>
+    <KeycloakProviderContainer>
+      <PersistGate persistor={persistor}>
+        <IntlProviderContainer>
+          <NetworkStatusProviderContainer>
+            <ApiManager store={store}>
+              <NetworkOfflineWarningContainer />
+              <HomePageHead />
+              <div className="App__transitions-wrapper">
+                <Route exact path="/" component={DefaultRedirectContainer} />
+                {routes}
+              </div>
+            </ApiManager>
+          </NetworkStatusProviderContainer>
+        </IntlProviderContainer>
+      </PersistGate>
+    </KeycloakProviderContainer>
   </StateProvider>
 );
 

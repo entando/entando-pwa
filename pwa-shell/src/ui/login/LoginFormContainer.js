@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import Login from 'ui/login/LoginForm';
 import { login as performLogin } from 'state/thunks';
+import LoginForm from 'ui/login/LoginForm';
 
-export const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   onSubmit: data => dispatch(performLogin(data)),
 });
 
 export default connect(
   null,
   mapDispatchToProps,
-)(Login);
+)(LoginForm);

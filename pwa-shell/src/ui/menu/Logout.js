@@ -26,15 +26,13 @@ class Logout extends Component {
       : intl.formatMessage(messages.noname);
     return isUserLogged ? (
       <div className="logout-box">
-        <div className="d-flex">
+        <div className="d-flex user-profile">
           <FontAwesomeIcon icon="user-circle" />
           <div className="ml-2">
-            <p>
-              <strong>{fullNameDisplay}</strong>
-            </p>
+            <span>{fullNameDisplay}</span>
           </div>
         </div>
-        <div className="cursor-pointer" onClick={() => logoutUser()}>
+        <div className="mt-3 cursor-pointer" onClick={logoutUser}>
           <LogoutIcon />
           <span className="ml-2 align-bottom">
             <FormattedMessage id="drawer.labelLogout" defaultMessage="Logout" />

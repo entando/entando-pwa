@@ -1,21 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
+import KeycloakRedirect from './KeycloakRedirect';
 
-class Login extends Component {
-  render() {
-    const { hasAccess, children } = this.props;
-    return hasAccess ? (
-      <>{children}</>
-    ) : (
-      <Container fluid className="login">
-        <div className="login__bgtop" />
-        <LoginFormContainer />
-      </Container>
-    );
-  }
-}
+const Login = ({ hasAccess, children, useKeycloak }) =>
+  hasAccess ? (
+    <>{children}</>
+  ) : useKeycloak ? (
+    <KeycloakRedirect />
+  ) : (
+    <Container fluid className="login">
+      <div className="login__bgtop" />
+      <LoginFormContainer />
+    </Container>
+  );
 
 Login.propTypes = {
   children: PropTypes.oneOfType([

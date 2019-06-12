@@ -21,6 +21,10 @@
     padding-bottom: 1rem;
     border-bottom: 0.8rem solid $color-secondary;
 
+    .user-profile {
+      font-weight: bold;
+    }
+
     .fa-user-circle {
       font-size: 2.5rem;
       margin-top: 0.2rem;

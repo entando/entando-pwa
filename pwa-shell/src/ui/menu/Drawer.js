@@ -1,9 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Gesture } from 'react-with-gesture';
 
 import { ReactComponent as Close } from 'images/icons/ic_close.svg';
 import LogoutContainer from 'ui/menu/LogoutContainer';
+import KeycloakLogoutContainer from 'ui/menu/KeycloakLogoutContainer';
 
 class Drawer extends Component {
   constructor(props) {
@@ -52,8 +53,14 @@ class Drawer extends Component {
     const { isOpen } = this.props;
     const drawerState = isOpen ? 'open' : 'closed';
     const config = { event: { passive: false } };
+    const logoutContainer =
+      process.env.REACT_APP_AUTH_TYPE === 'keycloak' ? (
+        <KeycloakLogoutContainer />
+      ) : (
+        <LogoutContainer />
+      );
     return (
-      <Fragment>
+      <>
         <div className={`grey-overlay ${drawerState}`} />
         <Gesture {...config} onUp={this.handleTouchEnd}>
           {event => {
@@ -74,13 +81,13 @@ class Drawer extends Component {
                     className="cursor-pointer color-primary-lightest float-right"
                   />
                 </div>
-                <LogoutContainer />
+                {logoutContainer}
                 {this.props.children}
               </div>
             );
           }}
         </Gesture>
-      </Fragment>
+      </>
     );
   }
 }
