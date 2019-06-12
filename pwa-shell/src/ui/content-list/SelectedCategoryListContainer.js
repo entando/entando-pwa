@@ -3,7 +3,7 @@ import { getCategoryList } from 'state/category/selectors';
 import { getSelectedCategoryFilters } from 'state/content/selectors';
 import { getLanguageCode } from 'state/language/selectors';
 import { fetchCategoryListAndFilters } from 'state/thunks';
-import CategoryList from 'ui/content-list/CategoryList';
+import SelectedCategoryList from 'ui/content-list/SelectedCategoryList';
 
 export const mapStateToProps = state => ({
   categories: getCategoryList(state),
@@ -18,4 +18,4 @@ export const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CategoryList);
+)(SelectedCategoryList);

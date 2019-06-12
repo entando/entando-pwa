@@ -13,11 +13,11 @@ class CategoryList extends PureComponent {
     const { categories, lang, selectedCategoryCodes } = this.props;
 
     return categories.length ? (
-      <div className="CategoryList">
+      <div className="SelectedCategoryList">
         {selectedCategoryCodes.length ? (
-          <div className="CategoryList__header">
+          <div className="SelectedCategoryList__header">
             <FilterIcon />
-            <span className="CategoryList__title">
+            <span className="SelectedCategoryList__title">
               <FormattedMessage
                 id="categorylist.topicsViewing"
                 defaultMessage="Topics you are viewing"
@@ -28,7 +28,7 @@ class CategoryList extends PureComponent {
         {categories
           .filter(category => selectedCategoryCodes.includes(category.code))
           .map(category => (
-            <span className="CategoryList__item" key={category.code}>
+            <span className="SelectedCategoryList__item" key={category.code}>
               <Badge>{category.titles[lang]}</Badge>
             </span>
           ))}
