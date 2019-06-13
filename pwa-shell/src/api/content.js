@@ -3,7 +3,7 @@ import {
   GET_CONTENTS_RESPONSE_OK,
   PUBLIC_CONTENT,
   PROTECTED_CONTENT,
-} from '__tests__/mocks/content';
+} from 'mocks/content';
 
 const defaultPageObject = { page: 1, pageSize: 10 };
 

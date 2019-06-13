@@ -12,16 +12,14 @@ const NOTIFICATION_HTML_1 = `
 export const GET_NOTIFICATIONS_RESPONSE_OK = [
   {
     id: 1,
-    type: "cms-content",
-    objectId: "NWS118",
-    date: "2019-04-24 13:06:49",
-    title: "Sample notification 1",
+    type: 'cms-content',
+    objectId: 'NWS118',
+    date: '2019-04-24 13:06:49',
+    title: 'Sample notification 1',
     body: NOTIFICATION_HTML_1,
     properties: {
-      contentType: 'NWS'
+      contentType: 'NWS',
     },
-    categories: [
-      'varie'
-    ],
+    categories: ['varie'],
   },
 ];

@@ -1,5 +1,5 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { USER_PROFILE } from '__tests__/mocks/userProfile';
+import { USER_PROFILE } from 'mocks/userProfile';
 
 export const getUserProfile = username =>
   makeRequest({

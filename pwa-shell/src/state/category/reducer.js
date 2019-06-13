@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
     case SET_CATEGORY_LIST:
       return {
         ...state,
-        list: action.payload
+        list: action.payload,
       };
     default:
       return state;
