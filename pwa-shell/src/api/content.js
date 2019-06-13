@@ -19,6 +19,19 @@ export const getContents = (params = '', page = defaultPageObject) =>
     page,
   );
 
+export const getProtectedContents = (params = '', page = defaultPageObject) =>
+  makeRequest(
+    {
+      uri: `/api/plugins/cms/contents${params}`,
+      method: METHODS.GET,
+      mockResponse: GET_CONTENTS_RESPONSE_OK,
+      contentType: 'application/json',
+      errors: () => [],
+      useAuthentication: true,
+    },
+    page,
+  );
+
 export const getContent = (code, params = '?status=published') =>
   makeRequest({
     uri: `/api/plugins/cms/contents/${code}/model/default${params}`,

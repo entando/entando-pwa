@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { withKeycloak } from 'react-keycloak';
+import { logoutUser } from '@entando/apimanager';
 import { closeDrawer } from 'state/drawer/actions';
 import Logout from 'ui/menu/Logout';
 
@@ -18,6 +19,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   logoutUser: () => {
     const logout = get(ownProps, 'keycloak.logout');
     logout();
+    dispatch(logoutUser());
     dispatch(closeDrawer());
   },
 });
