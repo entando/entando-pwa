@@ -1,7 +1,7 @@
 import Keycloak from 'keycloak-js';
 import { KeycloakProvider } from 'react-keycloak';
 import { connect } from 'react-redux';
-import { loginUser } from '@entando/apimanager';
+import { loginUser, logoutUser } from '@entando/apimanager';
 
 const keycloak = new Keycloak({
   url: process.env.REACT_APP_KEYCLOAK_URL,
@@ -15,16 +15,24 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onEvent: (event, error) => {
-    if (event === 'onAuthSuccess') {
-      dispatch(
-        loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
-        //TODO set user profile
-        //TODO set keycloak object
-      );
-    } else if (event === 'onAuthRefreshSuccess') {
-      dispatch(
-        loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
-      );
+    switch (event) {
+      case 'onAuthSuccess':
+        dispatch(
+          loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
+          //TODO set user profile
+          //TODO set keycloak object
+        );
+        break;
+      case 'onAuthRefreshSuccess':
+        dispatch(
+          loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
+        );
+        break;
+      case 'onTokenExpired':
+        dispatch(logoutUser());
+        break;
+      default:
+        break;
     }
   },
 });

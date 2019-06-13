@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import { convertToQueryString } from '@entando/utils';
+import { getToken } from '@entando/apimanager';
 import {
   addErrors,
   clearErrors,
@@ -9,7 +10,12 @@ import {
 import { loginUser } from '@entando/apimanager';
 
 import { getCategoryTree } from 'api/category';
-import { getContents, getContent, getProtectedContent } from 'api/content';
+import {
+  getContents,
+  getContent,
+  getProtectedContent,
+  getProtectedContents,
+} from 'api/content';
 import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
 import { getNotifications, postClearNotifications } from 'api/notification';
@@ -111,10 +117,13 @@ export const fetchContentListByContentType = (
   dispatch(fetchContentList(params, pagination));
 };
 
-const fetchContentList = (params, pagination) => async dispatch => {
+const fetchContentList = (params, pagination) => async (dispatch, getState) => {
   try {
     dispatch(setIsLoading());
-    const response = await getContents(params, pagination);
+    const token = getToken(getState());
+    const response = token
+      ? await getProtectedContents(params, pagination)
+      : await getContents(params, pagination);
     const json = await response.json();
     if (response.ok) {
       dispatch(setContentListMeta(json.metaData));
