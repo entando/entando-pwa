@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import { getCategoryList } from 'state/category/selectors';
 import { getSelectedCategoryFilters } from 'state/content/selectors';
 import { getLanguageCode } from 'state/language/selectors';
-import { fetchCategoryListAndFilters } from 'state/thunks';
-import CategoryList from 'ui/content-list/CategoryList';
+import SelectedCategoryList from 'ui/content-list/SelectedCategoryList';
+import { withRouter } from 'react-router-dom';
 
 export const mapStateToProps = state => ({
   categories: getCategoryList(state),
@@ -11,11 +11,11 @@ export const mapStateToProps = state => ({
   selectedCategoryCodes: getSelectedCategoryFilters(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
-  fetchCategoryListAndFilters: () => dispatch(fetchCategoryListAndFilters()),
-});
+export const mapDispatchToProps = null;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CategoryList);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SelectedCategoryList),
+);

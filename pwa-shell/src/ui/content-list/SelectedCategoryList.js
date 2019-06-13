@@ -4,20 +4,16 @@ import { FormattedMessage } from 'react-intl.macro';
 import { ReactComponent as FilterIcon } from 'images/icons/ic_filter.svg';
 import Badge from 'ui/common/Badge';
 
-class CategoryList extends PureComponent {
-  componentDidMount() {
-    this.props.fetchCategoryListAndFilters();
-  }
-
+class SelectedCategoryList extends PureComponent {
   render() {
     const { categories, lang, selectedCategoryCodes } = this.props;
 
     return categories.length ? (
-      <div className="CategoryList">
+      <div className="SelectedCategoryList">
         {selectedCategoryCodes.length ? (
-          <div className="CategoryList__header">
+          <div className="SelectedCategoryList__header">
             <FilterIcon />
-            <span className="CategoryList__title">
+            <span className="SelectedCategoryList__title">
               <FormattedMessage
                 id="categorylist.topicsViewing"
                 defaultMessage="Topics you are viewing"
@@ -28,7 +24,7 @@ class CategoryList extends PureComponent {
         {categories
           .filter(category => selectedCategoryCodes.includes(category.code))
           .map(category => (
-            <span className="CategoryList__item" key={category.code}>
+            <span className="SelectedCategoryList__item" key={category.code}>
               <Badge>{category.titles[lang]}</Badge>
             </span>
           ))}
@@ -39,7 +35,7 @@ class CategoryList extends PureComponent {
   }
 }
 
-CategoryList.propTypes = {
+SelectedCategoryList.propTypes = {
   categories: PropTypes.arrayOf(
     PropTypes.shape({
       code: PropTypes.string,
@@ -48,12 +44,11 @@ CategoryList.propTypes = {
   ),
   lang: PropTypes.string.isRequired,
   selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
-  fetchCategoryListAndFilters: PropTypes.func.isRequired,
 };
 
-CategoryList.defaultProps = {
+SelectedCategoryList.defaultProps = {
   categories: [],
   selectedCategoryCodes: [],
 };
 
-export default CategoryList;
+export default SelectedCategoryList;

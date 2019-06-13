@@ -5,7 +5,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import { FormattedMessage, defineMessages } from 'react-intl.macro';
 import InfiniteScroll from 'react-infinite-scroller';
 import ContentListItem from 'ui/content-list/ContentListItem';
-import CategoryListContainer from 'ui/content-list/CategoryListContainer';
+import SelectedCategoryListContainer from 'ui/content-list/SelectedCategoryListContainer';
 import PageContainer from 'ui/common/PageContainer';
 
 const messages = defineMessages({
@@ -26,6 +26,7 @@ class ContentList extends PureComponent {
   }
 
   componentDidMount() {
+    this.props.fetchCategoryListAndFilters();
     this.fetchContentListWithFilter();
   }
 
@@ -58,7 +59,6 @@ class ContentList extends PureComponent {
       intl,
       contentList,
       requiresAuthMap,
-      contentType,
       hasMoreItems,
       selectedCategoryCodes,
       isSearchResult,
@@ -66,12 +66,11 @@ class ContentList extends PureComponent {
       searchTerms,
     } = this.props;
 
-    const categoryList =
-      contentType && !isSearchResult ? (
-        <CategoryListContainer contentType={contentType} />
-      ) : (
-        ''
-      );
+    const categoryList = isSearchResult ? (
+      ''
+    ) : (
+      <SelectedCategoryListContainer />
+    );
 
     const contentListItems = contentList.map((item, index) => (
       <ContentListItem
