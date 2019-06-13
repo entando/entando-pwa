@@ -38,7 +38,6 @@ export const getContent = (code, params = '?status=published') =>
     method: METHODS.GET,
     mockResponse: PUBLIC_CONTENT,
     contentType: 'application/json',
-    useAuthentication: true, //SME DEMO WORKAROUND
     errors: () => [],
   });
 

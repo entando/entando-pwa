@@ -21,22 +21,22 @@ export const mapStateToProps = state => ({
   prevContent: getPreviousFromSelectedContent(state),
 });
 
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = dispatch => ({
   fetchContentDetail: (location, params) => {
-    const requiresAuth = new URLSearchParams(location.search).get('requiresAuth') === 'true';
+    const requiresAuth =
+      new URLSearchParams(location.search).get('requiresAuth') === 'true';
     const { id, contentType } = params;
     dispatch(setSelectedContentType(contentType));
     dispatch(setRequiresAuth(id, requiresAuth));
     if (requiresAuth) {
       dispatch(fetchProtectedContentDetail(id));
-    }
-    else {
+    } else {
       dispatch(fetchContentDetail(id));
-    };
-  }
+    }
+  },
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ContentDetail);

@@ -12,6 +12,7 @@ import {
   SET_IS_LOADING,
   UNSET_IS_LOADING,
   SET_REQUIRES_AUTH,
+  SET_REQUIRES_AUTH_MAP,
 } from 'state/content/types';
 
 export const setIsSearchResult = () => ({
@@ -82,6 +83,11 @@ export const setRequiresAuth = (id, requiresAuth) => ({
   type: SET_REQUIRES_AUTH,
   payload: {
     id,
-    requiresAuth
-  }
+    requiresAuth,
+  },
+});
+
+export const setRequiresAuthMap = payload => ({
+  type: SET_REQUIRES_AUTH_MAP,
+  payload,
 });

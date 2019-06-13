@@ -89,10 +89,13 @@ class ContentDetail extends PureComponent {
     );
 
     const messageComponents = <NetworkOfflineWarningContainer />;
+    const useKeycloak = process.env.REACT_APP_AUTH_TYPE === 'keycloak';
 
     return (
       <PageContainer
-        className={`ContentDetail${isUserLogged ? '' : '--guest-user'}`}
+        className={`ContentDetail${
+          isUserLogged || useKeycloak ? '' : '--guest-user' //WORKAROUND: without keycloak, we have the login form inside ContentDetail and we need a slightly different style
+        }`}
         messageComponents={messageComponents}
       >
         <ProtectedContentLoginContainer>

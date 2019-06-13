@@ -39,6 +39,7 @@ import {
   setIsLoading,
   unsetIsLoading,
   unsetSelectedContent,
+  setRequiresAuthMap,
 } from 'state/content/actions';
 import { setSearch } from 'state/search/actions';
 import {
@@ -131,6 +132,7 @@ const fetchContentList = (params, pagination) => async (dispatch, getState) => {
         dispatch(pushContentList(json.payload));
       } else {
         dispatch(setContentList(json.payload));
+        dispatch(setRequiresAuthMap(json.payload));
       }
       dispatch(unsetSelectedContent());
     } else {
@@ -179,6 +181,7 @@ export const fetchProtectedContentDetail = id => async (dispatch, getState) => {
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
       }
+    } else {
     }
   } catch (err) {
   } finally {
@@ -281,11 +284,13 @@ export const clearAllNotifications = () => async (dispatch, getState) => {
 
 export const clearNotification = id => async dispatch => {
   const response = await postClearNotifications([id]);
-  const json = await response.json();
-  if (response.ok) {
-    dispatch(removeNotification(id));
-  } else {
-    dispatch(addErrors(json.errors.map(e => e.message)));
+  if (response.status !== 401) {
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(removeNotification(id));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
   }
 };
 
