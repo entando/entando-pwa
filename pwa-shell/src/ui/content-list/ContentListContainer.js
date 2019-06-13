@@ -9,11 +9,13 @@ import {
   getSelectedCategoryFilters,
   isSearchResult,
   isLoading,
+  getRequiresAuthMap,
 } from 'state/content/selectors';
 import { getSearchTerms } from 'state/search/selectors';
 
 export const mapStateToProps = state => ({
   contentList: getContentList(state),
+  requiresAuthMap: getRequiresAuthMap(state),
   contentListMeta: getContentListMeta(state),
   hasMoreItems: getListHasMorePages(state),
   selectedCategoryCodes: getSelectedCategoryFilters(state),

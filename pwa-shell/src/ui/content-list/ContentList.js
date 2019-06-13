@@ -57,6 +57,7 @@ class ContentList extends PureComponent {
     const {
       intl,
       contentList,
+      requiresAuthMap,
       hasMoreItems,
       selectedCategoryCodes,
       isSearchResult,
@@ -71,7 +72,11 @@ class ContentList extends PureComponent {
     );
 
     const contentListItems = contentList.map((item, index) => (
-      <ContentListItem data={item} key={index} />
+      <ContentListItem
+        data={item}
+        requiresAuth={requiresAuthMap[item.id]}
+        key={index}
+      />
     ));
 
     const loadingMessage = !isLoading
@@ -143,6 +148,7 @@ class ContentList extends PureComponent {
 ContentList.propTypes = {
   intl: intlShape.isRequired,
   contentList: PropTypes.arrayOf(PropTypes.object),
+  requiresAuthMap: PropTypes.object,
   contentListMeta: PropTypes.object,
   hasMoreItems: PropTypes.bool,
   contentType: PropTypes.string,
@@ -155,6 +161,7 @@ ContentList.propTypes = {
 
 ContentList.defaultProps = {
   contentList: [],
+  requiresAuthMap: {},
   contentListMeta: {},
   hasMoreItems: false,
   contentType: null,

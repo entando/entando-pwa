@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import { convertToQueryString } from '@entando/utils';
+import { getToken } from '@entando/apimanager';
 import {
   addErrors,
   clearErrors,
@@ -9,7 +10,12 @@ import {
 import { loginUser } from '@entando/apimanager';
 
 import { getCategoryTree } from 'api/category';
-import { getContents, getContent, getProtectedContent } from 'api/content';
+import {
+  getContents,
+  getContent,
+  getProtectedContent,
+  getProtectedContents,
+} from 'api/content';
 import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
 import { getNotifications, postClearNotifications } from 'api/notification';
@@ -33,6 +39,7 @@ import {
   setIsLoading,
   unsetIsLoading,
   unsetSelectedContent,
+  setRequiresAuthMap,
 } from 'state/content/actions';
 import { setSearch } from 'state/search/actions';
 import {
@@ -111,10 +118,13 @@ export const fetchContentListByContentType = (
   dispatch(fetchContentList(params, pagination));
 };
 
-const fetchContentList = (params, pagination) => async dispatch => {
+const fetchContentList = (params, pagination) => async (dispatch, getState) => {
   try {
     dispatch(setIsLoading());
-    const response = await getContents(params, pagination);
+    const token = getToken(getState());
+    const response = token
+      ? await getProtectedContents(params, pagination)
+      : await getContents(params, pagination);
     const json = await response.json();
     if (response.ok) {
       dispatch(setContentListMeta(json.metaData));
@@ -122,6 +132,7 @@ const fetchContentList = (params, pagination) => async dispatch => {
         dispatch(pushContentList(json.payload));
       } else {
         dispatch(setContentList(json.payload));
+        dispatch(setRequiresAuthMap(json.payload));
       }
       dispatch(unsetSelectedContent());
     } else {
@@ -170,6 +181,7 @@ export const fetchProtectedContentDetail = id => async (dispatch, getState) => {
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
       }
+    } else {
     }
   } catch (err) {
   } finally {
@@ -272,11 +284,13 @@ export const clearAllNotifications = () => async (dispatch, getState) => {
 
 export const clearNotification = id => async dispatch => {
   const response = await postClearNotifications([id]);
-  const json = await response.json();
-  if (response.ok) {
-    dispatch(removeNotification(id));
-  } else {
-    dispatch(addErrors(json.errors.map(e => e.message)));
+  if (response.status !== 401) {
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(removeNotification(id));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
   }
 };
 

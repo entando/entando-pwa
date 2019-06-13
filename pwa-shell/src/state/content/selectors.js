@@ -97,14 +97,3 @@ export const isUserLogged = createSelector(
   [getUsername, getToken],
   (username, token) => !!username && !!token,
 );
-
-export const doesSelectedContentRequireAuth = createSelector(
-  [getSelectedContentId, getRequiresAuthMap],
-  (selectedContentId, requiresAuthMap) =>
-    requiresAuthMap[selectedContentId] !== false,
-);
-
-export const isSelectedContentAvailable = createSelector(
-  [doesSelectedContentRequireAuth, isUserLogged],
-  (requiresAuth, userLogged) => !requiresAuth || userLogged,
-);
