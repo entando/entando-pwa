@@ -231,6 +231,10 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
             List<EntitySearchFilter> filters = requestList.buildEntitySearchFilters();
             EntitySearchFilter[] filtersArr = new EntitySearchFilter[filters.size()];
             filtersArr = filters.toArray(filtersArr);
+
+            //This override and hard coded special group allows for the creation of content where the abstract
+            //of the content is viewable publicly while the body of the content is protected by normal authorizations.
+            //Specific to customer implementation
             List<String> userGroupCodes = this.getAllowedGroups(user, online);
             userGroupCodes.add("ViewAbstract");
 
