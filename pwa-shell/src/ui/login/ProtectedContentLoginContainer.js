@@ -8,14 +8,16 @@ import Login from 'ui/login/Login';
 let mapStateToProps;
 let ProtectedContentLoginContainer;
 
-if (process.env.REACT_APP_AUTH_TYPE === 'keycloak') {
+const useKeycloak = process.env.REACT_APP_AUTH_TYPE === 'keycloak';
+
+if (useKeycloak) {
   mapStateToProps = (state, ownProps) => {
     const contentId = get(ownProps, 'match.params.id');
     return {
       hasAccess:
         !getRequiresAuthMap(state)[contentId] ||
         get(ownProps, 'keycloak.authenticated'),
-      useKeycloak: true,
+      useKeycloak,
     };
   };
   ProtectedContentLoginContainer = withKeycloak(
@@ -31,7 +33,7 @@ if (process.env.REACT_APP_AUTH_TYPE === 'keycloak') {
     const contentId = get(ownProps, 'match.params.id');
     return {
       hasAccess: !getRequiresAuthMap(state)[contentId] || isUserLogged(state),
-      useKeycloak: true,
+      useKeycloak,
     };
   };
   ProtectedContentLoginContainer = withRouter(
