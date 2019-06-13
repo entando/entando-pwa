@@ -1,6 +1,9 @@
 import { get } from 'lodash';
 import { connect } from 'react-redux';
-import { fetchContentListByContentType } from 'state/thunks';
+import {
+  fetchContentListByContentType,
+  fetchCategoryListAndFilters,
+} from 'state/thunks';
 import ContentList from 'ui/content-list/ContentList';
 import {
   getContentList,
@@ -13,6 +16,7 @@ import {
 } from 'state/content/selectors';
 import { getSearchTerms } from 'state/search/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
+import { setSelectedContentType } from 'state/contentType/actions';
 
 export const mapStateToProps = (state, ownProps) => ({
   contentList: getContentList(state),
@@ -35,6 +39,11 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchContentList: ({ pageObj, search }) => {
     const contentType = get(ownProps, 'match.params.contentType');
     dispatch(fetchContentListByContentType(contentType, pageObj, search));
+  },
+  fetchCategoryListAndFilters: () => {
+    const contentType = get(ownProps, 'match.params.contentType');
+    dispatch(setSelectedContentType(contentType));
+    dispatch(fetchCategoryListAndFilters());
   },
 });
 

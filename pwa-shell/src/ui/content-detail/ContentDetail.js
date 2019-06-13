@@ -30,6 +30,7 @@ class ContentDetail extends PureComponent {
   }
 
   componentDidMount() {
+    this.props.fetchCategoryListAndFilters();
     if (this.props.keycloakInitialized) {
       this.fetchDetail();
     }

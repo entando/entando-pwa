@@ -26,6 +26,7 @@ class ContentList extends PureComponent {
   }
 
   componentDidMount() {
+    this.props.fetchCategoryListAndFilters();
     this.fetchContentListWithFilter();
   }
 

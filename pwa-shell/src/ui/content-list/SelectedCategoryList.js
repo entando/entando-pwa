@@ -5,10 +5,6 @@ import { ReactComponent as FilterIcon } from 'images/icons/ic_filter.svg';
 import Badge from 'ui/common/Badge';
 
 class SelectedCategoryList extends PureComponent {
-  componentDidMount() {
-    this.props.fetchCategoryListAndFilters();
-  }
-
   render() {
     const { categories, lang, selectedCategoryCodes } = this.props;
 
@@ -48,7 +44,6 @@ SelectedCategoryList.propTypes = {
   ),
   lang: PropTypes.string.isRequired,
   selectedCategoryCodes: PropTypes.arrayOf(PropTypes.string),
-  fetchCategoryListAndFilters: PropTypes.func.isRequired,
 };
 
 SelectedCategoryList.defaultProps = {
