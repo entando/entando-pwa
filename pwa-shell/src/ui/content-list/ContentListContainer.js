@@ -12,12 +12,19 @@ import {
   getRequiresAuthMap,
 } from 'state/content/selectors';
 import { getSearchTerms } from 'state/search/selectors';
+import { getSelectedContentType } from 'state/contentType/selectors';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, ownProps) => ({
   contentList: getContentList(state),
   requiresAuthMap: getRequiresAuthMap(state),
   contentListMeta: getContentListMeta(state),
   hasMoreItems: getListHasMorePages(state),
+  contentType: get(
+    ownProps,
+    'match.params.contentType',
+    getSelectedContentType(state),
+  ),
+
   selectedCategoryCodes: getSelectedCategoryFilters(state),
   isSearchResult: isSearchResult(state),
   isLoading: isLoading(state),
