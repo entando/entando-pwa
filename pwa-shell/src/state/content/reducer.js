@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { FILTER_OPERATORS } from '@entando/utils';
 import {
   SET_CONTENT_FILTER,
@@ -13,17 +14,21 @@ import {
   SET_IS_LOADING,
   UNSET_IS_LOADING,
   SET_REQUIRES_AUTH,
+  SET_REQUIRES_AUTH_MAP,
 } from 'state/content/types';
 import { contentTypeCodeList, sortingFilters } from 'state/appConfig';
 import { htmlSanitizer } from 'helpers';
 
-const filters = contentTypeCodeList.reduce((acc, curr) => ({
-  ...acc,
-  [curr]: {
-    formValues: { typeCode: [curr] },
-    operators: { typeCode: FILTER_OPERATORS.EQUAL },
-  }
-}), {});
+const filters = contentTypeCodeList.reduce(
+  (acc, curr) => ({
+    ...acc,
+    [curr]: {
+      formValues: { typeCode: [curr] },
+      operators: { typeCode: FILTER_OPERATORS.EQUAL },
+    },
+  }),
+  {},
+);
 
 const initialState = {
   list: [],
@@ -88,29 +93,29 @@ export default (state = initialState, action) => {
         selected: {
           html: '',
         },
-      };      
+      };
     case SET_CONTENT_FILTER:
       return {
         ...state,
         filters: {
-         ...state.filters,
-         [action.payload.contentType]: action.payload.filter,
+          ...state.filters,
+          [action.payload.contentType]: action.payload.filter,
         },
       };
     case SET_CATEGORY_FILTER:
       return {
         ...state,
         categoryFilters: {
-         ...state.categoryFilters,
-         [action.payload.contentType]: action.payload.filter,
+          ...state.categoryFilters,
+          [action.payload.contentType]: action.payload.filter,
         },
       };
     case SET_SORTING_FILTER:
       return {
         ...state,
         sortingFilters: {
-         ...state.sortingFilters,
-         [action.payload.contentType]: action.payload.filter,
+          ...state.sortingFilters,
+          [action.payload.contentType]: action.payload.filter,
         },
       };
     case SET_REQUIRES_AUTH:
@@ -120,6 +125,19 @@ export default (state = initialState, action) => {
           ...state.requiresAuthMap,
           [action.payload.id]: action.payload.requiresAuth,
         },
+      };
+    case SET_REQUIRES_AUTH_MAP:
+      return {
+        ...state,
+        requiresAuthMap: action.payload.reduce(
+          (acc, curr) => ({
+            ...acc,
+            [curr.id]:
+              get(curr, 'groups.length', 0) !== 1 ||
+              get(curr, 'groups[0]', '').toLowerCase() !== 'free',
+          }),
+          {},
+        ),
       };
     default:
       return state;
