@@ -18,6 +18,7 @@ import com.agiletec.aps.system.common.entity.IEntityManager;
 import com.agiletec.aps.system.common.entity.model.EntitySearchFilter;
 import com.agiletec.aps.system.common.model.dao.SearcherDaoPaginatedResult;
 import com.agiletec.aps.system.exception.ApsSystemException;
+import com.agiletec.aps.system.services.authorization.Authorization;
 import com.agiletec.aps.system.services.authorization.IAuthorizationManager;
 import com.agiletec.aps.system.services.category.CategoryUtilizer;
 import com.agiletec.aps.system.services.group.Group;
@@ -231,6 +232,14 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
             EntitySearchFilter[] filtersArr = new EntitySearchFilter[filters.size()];
             filtersArr = filters.toArray(filtersArr);
             List<String> userGroupCodes = this.getAllowedGroups(user, online);
+            userGroupCodes.add("ViewAbstract");
+
+            Group viewAbstractGroup = new Group();
+            viewAbstractGroup.setName("ViewAbstract");
+
+            Authorization viewAbstractAuth = new Authorization(viewAbstractGroup, null);
+            user.addAuthorization(viewAbstractAuth);
+
             List<String> result = (online)
                     ? this.getContentManager().loadPublicContentsId(requestList.getCategories(), requestList.isOrClauseCategoryFilter(), filtersArr, userGroupCodes)
                     : this.getContentManager().loadWorkContentsId(requestList.getCategories(), requestList.isOrClauseCategoryFilter(), filtersArr, userGroupCodes);
@@ -338,8 +347,6 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
             boolean noComplete = optional.isPresent();
             dto.setRequiresAuth(noComplete);
             PublicContentAuthorizationInfo authInfo = this.getContentAuthorizationHelper().getAuthorizationInfo(dto.getId(), true);
-
-
 
             BaseContentDispenser baseDisp = (BaseContentDispenser)contentDispenser;
             ContentRenderizationInfo renderizationInfo = baseDisp.getBaseRenderizationInfo(authInfo, dto.getId(), model.getId(), lang.getCode(), user, null, true);
