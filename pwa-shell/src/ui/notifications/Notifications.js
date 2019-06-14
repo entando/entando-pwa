@@ -14,11 +14,15 @@ class Notifications extends PureComponent {
   }
 
   render() {
-    const { notificationList } = this.props;
+    const { notificationList, requiresAuthMap } = this.props;
     const notificationAmount = notificationList.length;
 
     const items = notificationList.map((item, index) => (
-      <NotificationListItem data={item} key={index} />
+      <NotificationListItem
+        data={item}
+        requiresAuth={requiresAuthMap[item.objectId]}
+        key={index}
+      />
     ));
 
     const emptyNotificationList = (
