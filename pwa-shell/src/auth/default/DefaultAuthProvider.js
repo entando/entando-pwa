@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import DefaultAuthContext from './DefaultAuthContext';
 
 class DefaultAuthProvider extends Component {
   render() {
-    return <>{this.props.children}</>;
+    const authInitialized = true; //there is no external auth to load
+    const auth = {
+      login: () => this.props.history.push('/login'),
+    };
+    return (
+      <DefaultAuthContext.Provider value={{ auth, authInitialized }}>
+        {this.props.children}
+      </DefaultAuthContext.Provider>
+    );
   }
 }
 
 DefaultAuthProvider.propTypes = {
-  auth: PropTypes.object.isRequired,
-  authInitialized: PropTypes.bool.isRequired,
   children: PropTypes.element.isRequired,
 };
 
-export default DefaultAuthProvider;
+export default withRouter(DefaultAuthProvider);

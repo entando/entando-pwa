@@ -13,13 +13,7 @@ class ApiManager extends Component {
 
   initApiManager(props) {
     const { store, auth } = props;
-    config(
-      store,
-      () => {
-        auth.login();
-      },
-      () => {},
-    );
+    config(store, () => auth.login(), () => {});
     store.dispatch(
       setApi({
         domain: process.env.REACT_APP_DOMAIN,

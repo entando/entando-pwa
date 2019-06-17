@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 import { compose } from 'redux';
 import { withKeycloak } from 'react-keycloak';
@@ -15,8 +16,9 @@ const withKeycloakAdapter = WrappedComponent => {
     );
   };
 };
+const useKeycloak =
+  get(process.env, 'REACT_APP_AUTH_TYPE', '').toUpperCase() === 'KEYCLOAK';
 
-const useKeycloak = process.env.REACT_APP_AUTH_TYPE === 'keycloak';
 const withAuth = useKeycloak
   ? compose(
       withKeycloak,

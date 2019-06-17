@@ -19,8 +19,6 @@ export const mapDispatchToProps = dispatch => ({
       case 'onAuthSuccess':
         dispatch(
           loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
-          //TODO set user profile
-          //TODO set keycloak object
         );
         break;
       case 'onAuthRefreshSuccess':
