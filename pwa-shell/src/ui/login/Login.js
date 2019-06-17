@@ -2,13 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
-import KeycloakRedirect from './KeycloakRedirect';
 
-const Login = ({ hasAccess, children, useKeycloak }) =>
+const Login = ({ hasAccess, children }) =>
   hasAccess ? (
     <>{children}</>
-  ) : useKeycloak ? (
-    <KeycloakRedirect />
   ) : (
     <Container fluid className="login">
       <LoginFormContainer />

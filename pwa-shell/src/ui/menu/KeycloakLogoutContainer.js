@@ -1,7 +1,6 @@
 import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { withKeycloak } from 'react-keycloak';
-import { logoutUser } from '@entando/apimanager';
 import { closeDrawer } from 'state/drawer/actions';
 import Logout from 'ui/menu/Logout';
 
@@ -14,12 +13,33 @@ export const mapStateToProps = (state, ownProps) => ({
   )}`,
 });
 
+// TODO: remove unsetUser and add logoutUserWithoutRedirect to apiManager actions
+const unsetUser = () => ({
+  type: 'current-user/unset-user',
+  payload: {
+    user: {
+      username: null,
+      token: null,
+      tokenRefresh: null,
+    },
+  },
+});
+
+const logoutUserWithoutRedirect = () => dispatch => {
+  dispatch(unsetUser());
+
+  localStorage.removeItem('username');
+  localStorage.removeItem('token');
+  localStorage.removeItem('tokenRefresh');
+};
+//
+
 export const mapDispatchToProps = (dispatch, ownProps) => ({
   loadUserProfile: () => {},
   logoutUser: () => {
     const logout = get(ownProps, 'keycloak.logout');
     logout();
-    dispatch(logoutUser());
+    dispatch(logoutUserWithoutRedirect());
     dispatch(closeDrawer());
   },
 });

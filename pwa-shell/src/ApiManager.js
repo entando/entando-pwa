@@ -1,8 +1,13 @@
-import React, { Component, Fragment } from 'react';
+import { get } from 'lodash';
+import React, { Component } from 'react';
+import { withKeycloak } from 'react-keycloak';
 import PropTypes from 'prop-types';
 import { config, setApi, useMocks } from '@entando/apimanager';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import 'i18n/api-manager/init';
+
+const useKeycloak =
+  get(process.env, 'REACT_APP_AUTH_TYPE', '').toUpperCase() === 'KEYCLOAK';
 
 class ApiManager extends Component {
   constructor(props) {
@@ -12,7 +17,17 @@ class ApiManager extends Component {
 
   initApiManager(props) {
     const { store } = props;
-    config(store, () => {}, () => {});
+    config(
+      store,
+      () => {
+        if (useKeycloak) {
+          this.props.keycloak.login();
+        } else {
+          console.log('should load login page');
+        }
+      },
+      () => {},
+    );
     store.dispatch(
       setApi({
         domain: process.env.REACT_APP_DOMAIN,
@@ -28,7 +43,7 @@ class ApiManager extends Component {
   }
 
   render() {
-    return <Fragment>{this.props.children}</Fragment>;
+    return <>{this.props.children}</>;
   }
 }
 
@@ -40,4 +55,4 @@ ApiManager.propTypes = {
   ]).isRequired,
 };
 
-export default ApiManager;
+export default (useKeycloak ? withKeycloak(ApiManager) : ApiManager);

@@ -28,7 +28,7 @@ export const mapDispatchToProps = dispatch => ({
           loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
         );
         break;
-      case 'onTokenExpired':
+      case 'onAuthRefreshError':
         dispatch(logoutUser());
         break;
       default:

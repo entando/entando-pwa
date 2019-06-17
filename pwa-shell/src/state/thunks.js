@@ -47,6 +47,7 @@ import {
   getSelectedCategoryFilters,
   getSelectedSortingFilters,
   getCategoryFilters,
+  isUserLogged,
 } from 'state/content/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
@@ -155,7 +156,9 @@ export const fetchContentDetail = id => async (dispatch, getState) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(setSelectedContent(json.payload));
-      dispatch(clearNotification(id));
+      if (isUserLogged(state)) {
+        dispatch(clearNotification(id));
+      }
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
@@ -181,7 +184,6 @@ export const fetchProtectedContentDetail = id => async (dispatch, getState) => {
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
       }
-    } else {
     }
   } catch (err) {
   } finally {
