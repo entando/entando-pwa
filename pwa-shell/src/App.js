@@ -9,9 +9,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import store from 'state/store';
 import itLocaleData from 'react-intl/locale-data/it';
 import DefaultRedirectContainer from 'DefaultRedirectContainer';
+import AuthProvider from 'auth/AuthProvider';
 import ApiManager from 'ApiManager';
 import IntlProviderContainer from 'IntlProviderContainer';
-import KeycloakProviderContainer from 'KeycloakProviderContainer';
 import HomePageHead from 'HomePageHead';
 
 import NetworkStatusProviderContainer from 'ui/network/NetworkStatusProviderContainer';
@@ -22,10 +22,20 @@ import ContentListTopBarContainer from 'ui/content-list/ContentListTopBarContain
 import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarContainer';
 import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarContainer';
 import NetworkOfflineWarningContainer from 'ui/network/NetworkOfflineWarningContainer';
+import LoginContainer from 'ui/login/LoginContainer';
 
 addLocaleData(itLocaleData);
 
 const routesData = [
+  {
+    path: '/login',
+    cssTransitions: [
+      {
+        timeout: 0,
+        Component: LoginContainer,
+      },
+    ],
+  },
   {
     path: '/notifications',
     cssTransitions: [
@@ -101,7 +111,7 @@ const persistor = persistStore(store);
 
 const App = () => (
   <StateProvider store={store}>
-    <KeycloakProviderContainer>
+    <AuthProvider>
       <PersistGate persistor={persistor}>
         <IntlProviderContainer>
           <NetworkStatusProviderContainer>
@@ -116,7 +126,7 @@ const App = () => (
           </NetworkStatusProviderContainer>
         </IntlProviderContainer>
       </PersistGate>
-    </KeycloakProviderContainer>
+    </AuthProvider>
   </StateProvider>
 );
 

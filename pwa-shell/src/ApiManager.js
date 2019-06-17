@@ -1,13 +1,9 @@
-import { get } from 'lodash';
 import React, { Component } from 'react';
-import { withKeycloak } from 'react-keycloak';
 import PropTypes from 'prop-types';
 import { config, setApi, useMocks } from '@entando/apimanager';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import 'i18n/api-manager/init';
-
-const useKeycloak =
-  get(process.env, 'REACT_APP_AUTH_TYPE', '').toUpperCase() === 'KEYCLOAK';
+import withAuth from 'auth/withAuth';
 
 class ApiManager extends Component {
   constructor(props) {
@@ -16,15 +12,11 @@ class ApiManager extends Component {
   }
 
   initApiManager(props) {
-    const { store } = props;
+    const { store, auth } = props;
     config(
       store,
       () => {
-        if (useKeycloak) {
-          this.props.keycloak.login();
-        } else {
-          console.log('should load login page');
-        }
+        auth.login();
       },
       () => {},
     );
@@ -55,4 +47,4 @@ ApiManager.propTypes = {
   ]).isRequired,
 };
 
-export default (useKeycloak ? withKeycloak(ApiManager) : ApiManager);
+export default withAuth(ApiManager);

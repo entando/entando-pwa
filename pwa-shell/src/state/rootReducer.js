@@ -14,13 +14,11 @@ import search from 'state/search/reducer';
 import network from 'state/network/reducer';
 import language from 'state/language/reducer';
 import userProfile from 'state/user-profile/reducer';
-import auth from 'state/auth/reducer';
 
 const storage = localForage;
 
 const rootReducer = combineReducers({
   api,
-  auth,
   currentUser,
   messages,
   notification,
