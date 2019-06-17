@@ -36,11 +36,9 @@ class ContentDetail extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.keycloakInitialized && this.props.keycloakInitialized) {
-      this.fetchDetail();
-    }
     const newParams = get(this.props, 'match.params');
     if (
+      (!prevProps.keycloakInitialized && this.props.keycloakInitialized) ||
       this.props.isUserLogged !== prevProps.isUserLogged ||
       (newParams && newParams !== prevProps.match.params)
     ) {
