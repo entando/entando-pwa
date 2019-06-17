@@ -1,6 +1,12 @@
 .topbar {
   background-color: $color-primary;
 
+  &.fixed-top {
+    left: initial;
+    right: initial;
+    width: 100vw;
+  }
+
   .nav {
     width: 100%;
   }

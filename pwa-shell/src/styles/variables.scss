@@ -1,5 +1,6 @@
 $color-primary: #203752;
-$color-primary-light: #dfd9c4;
+$color-primary-light: #455b71;
+$color-primary-lightest: #cfcfd4;
 $color-primary-text: #fff;
 $color-secondary: #f6f6f7;
 $color-secondary-light: #d1d6db;
@@ -8,5 +9,21 @@ $color-secondary-text: #7b7f82;
 $color-accent: #19bcff;
 
 $color-red: #ff7e7d;
-$color-dark: #545243;
-$color-darkest: #0c0c0d;
+$color-dark: #7b7f82;
+$color-darkest: #1c2024;
+
+:root {
+  --entando-color-primary: #{$color-primary};
+  --entando-color-primary-light: #{$color-primary-light};
+  --entando-color-primary-lightest: #{$color-primary-lightest};
+  --entando-color-primary-text: #{$color-primary-text};
+  --entando-color-secondary: #{$color-secondary};
+  --entando-color-secondary-light: #{$color-secondary-light};
+  --entando-color-secondary-lightest: #{$color-secondary-lightest};
+  --entando-color-secondary-text: #{$color-secondary-text};
+  --entando-color-accent: #{$color-accent};
+
+  --entando-color-red: #{$color-red};
+  --entando-color-dark: #{$color-dark};
+  --entando-color-darkest: #{$color-darkest};
+}
