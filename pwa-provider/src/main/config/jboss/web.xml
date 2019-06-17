@@ -17,7 +17,8 @@
             classpath*:spring/plugins/**/apsadmin/**/**.xml
             classpath*:spring/pwa/aps/**/**.xml
             classpath*:spring/pwa/apsadmin/**/**.xml
-            classpath:spring/web/servlet-context-keycloak.xml
+            classpath:spring/web/servlet-context-keycloak.xml 
+            classpath*:spring/pwa/infinispanManagersConfig.xml
         </param-value>
     </context-param>
     <context-param>
@@ -165,7 +166,7 @@
     </servlet-mapping>
     
     <session-config>
-        <session-timeout>30</session-timeout>
+        <session-timeout>43800</session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -232,11 +233,15 @@
         <env-entry-value>/${profile.application.name}/resources/</env-entry-value>
     </env-entry>
     <env-entry>
+        <env-entry-name>cmsResourceRootURL</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>/cmsresources/</env-entry-value>
+    </env-entry>
+    <env-entry>
         <env-entry-name>protectedResourceRootURL</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
         <env-entry-value>/${profile.application.name}/protected/</env-entry-value>
     </env-entry>
-
     <env-entry>
         <env-entry-name>resourceDiskRootFolder</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
@@ -264,4 +269,116 @@
         <env-entry-value>${profile.servDataSourceClassName}</env-entry-value>
     </env-entry>
     <!-- envs used by jBoss : end -->
+    <!-- cache configuration for clustering on EAP/Wildfly -->
+
+    <resource-env-ref>
+        <resource-env-ref-name>defaultCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_Cache</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>pageCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_PageManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>pageModelCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_PageModelManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>categoryCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_CategoryManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>widgetTypeCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_WidgetTypeManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>configCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_ConfigManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>roleCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_RoleManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>groupCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_GroupManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>langCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_LangManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>cacheInfoCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_CacheInfoManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>i18lnCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_I18nManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>userProfileCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_UserProfileManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>initializerCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_InitializerManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>apiCatalogCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_ApiCatalogManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>keyGeneratorCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_KeyGeneratorManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>dataObjectCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_DataObjectManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>dataObjectModelCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_DataObjectModelManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>dataObjectMapperCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_DataObjectPageMapperManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>jacmsContentManagerCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_jacmsContentManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>contentModelCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_ContentModelManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>contentPageMapperCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_ContentPageMapperManager</lookup-name>
+    </resource-env-ref>
+    <resource-env-ref>
+        <resource-env-ref-name>resourceManagerCache</resource-env-ref-name>
+        <resource-env-ref-type>org.infinispan.Cache</resource-env-ref-type>
+        <lookup-name>java:jboss/infinispan/cache/entando/Entando_ResourceManager</lookup-name>
+    </resource-env-ref>
 </web-app>
