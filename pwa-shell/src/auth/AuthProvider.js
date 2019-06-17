@@ -1,11 +1,8 @@
-import { get } from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import KeycloakProviderContainer from './keycloak/KeycloakProviderContainer';
-import DefaultAuthProvider from './default/DefaultAuthProvider';
-
-const useKeycloak =
-  get(process.env, 'REACT_APP_AUTH_TYPE', '').toUpperCase() === 'KEYCLOAK';
+import DefaultAuthProvider from 'auth/default/DefaultAuthProvider';
+import useKeycloak from 'auth/useKeycloak';
 
 const Provider = useKeycloak ? KeycloakProviderContainer : DefaultAuthProvider;
 

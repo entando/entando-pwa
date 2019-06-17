@@ -3,6 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { withKeycloak } from 'react-keycloak';
 import withDefaultAuth from 'auth/default/withDefaultAuth';
+import useKeycloak from 'auth/useKeycloak';
 
 const withKeycloakAdapter = WrappedComponent => {
   return props => {
@@ -16,8 +17,6 @@ const withKeycloakAdapter = WrappedComponent => {
     );
   };
 };
-const useKeycloak =
-  get(process.env, 'REACT_APP_AUTH_TYPE', '').toUpperCase() === 'KEYCLOAK';
 
 const withAuth = useKeycloak
   ? compose(
