@@ -4,17 +4,15 @@ import { withKeycloak } from 'react-keycloak';
 import withDefaultAuth from 'auth/default/withDefaultAuth';
 import useKeycloak from 'auth/useKeycloak';
 
-const withKeycloakAdapter = WrappedComponent => {
-  return props => {
-    const { keycloakInitialized, keycloak, ...otherProps } = props;
-    return (
-      <WrappedComponent
-        {...otherProps}
-        authInitialized={keycloakInitialized}
-        auth={keycloak}
-      />
-    );
-  };
+const withKeycloakAdapter = WrappedComponent => props => {
+  const { keycloakInitialized, keycloak, ...otherProps } = props;
+  return (
+    <WrappedComponent
+      {...otherProps}
+      authInitialized={keycloakInitialized}
+      auth={keycloak}
+    />
+  );
 };
 
 const withAuth = useKeycloak
