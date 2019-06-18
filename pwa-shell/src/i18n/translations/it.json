@@ -20,7 +20,7 @@
   "notification.readMore": "Continua",
   "notification.badgeNewLabel": "nuovo",
   "notification.headerNotif": "Notifiche",
-  "notification.headerNotifMessage": "{count,plural,one{Hai {amount} nuova notifica}other{Hai {amount} nuove notifiche}}",
+  "notification.headerNotifMessage": "{count,plural,=0{Non ci sono nuove notifiche}one{Hai {amount} nuova notifica}other{Hai {amount} nuove notifiche}}",
   "search.cancelLabel": "Annulla",
   "profile.noname": "Utente Registrato"
 }

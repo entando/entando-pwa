@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl.macro';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import Badge from 'ui/common/Badge';
 
-const NotificationListItem = ({ data }) => (
+const NotificationListItem = ({ data, requiresAuth }) => (
   <Card className="shadow  NotificationListItem ">
     <CardHeader className="NotificationListItem__header">
       <Badge className="NotificationListItem__status--unread">
@@ -20,7 +20,7 @@ const NotificationListItem = ({ data }) => (
       <Link
         className="NotificationListItem__link-to-detail"
         to={`/content/${data.properties.contentType}/${data.objectId}${
-          data.requiresAuth ? '?requiresAuth=true' : ''
+          requiresAuth ? '?requiresAuth=true' : ''
         }`}
       >
         <article className="notification">
