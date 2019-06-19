@@ -2,15 +2,31 @@ import {
   getCategoryRootCodes,
   getCategoryList,
   getCategoryMap,
+  getCategoryRootCode,
 } from 'state/category/selectors';
+import { contentTypeCodeList as codeList } from 'state/appConfig';
+import { GET_CONTENT_TYPE_RESPONSE_OK } from 'mocks/contentType';
 import { GET_CATEGORY_RESPONSE_OK } from 'mocks/category';
+
+const contentTypeMap = [GET_CONTENT_TYPE_RESPONSE_OK].reduce(
+  (acc, curr) => ({
+    ...acc,
+    [curr.code]: curr,
+  }),
+  {},
+);
 
 const STATE = {
   category: {
     rootCodes: {
-      child1: 'home',
+      NWS: 'home',
     },
     list: GET_CATEGORY_RESPONSE_OK,
+  },
+  contentType: {
+    codeList,
+    selected: 'NWS',
+    map: contentTypeMap,
   },
 };
 
@@ -22,6 +38,11 @@ describe('state/category/selectors', () => {
     expect(getCategoryList(STATE)).toEqual(STATE.category.list);
   });
   it('getCategoryMap returns the requested category info', () => {
-    expect(getCategoryMap(STATE)).toEqual(STATE.category.list[0]);
+    const catItem = STATE.category.list[0];
+    const ncode = catItem.code;
+    expect(getCategoryMap(STATE)[ncode]).toEqual(catItem);
+  });
+  it('getCategoryRootCode returns the requested category info', () => {
+    expect(getCategoryRootCode(STATE)).toEqual(STATE.category.rootCodes.NWS);
   });
 });

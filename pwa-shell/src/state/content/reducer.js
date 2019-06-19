@@ -42,7 +42,7 @@ const initialState = {
   isLoading: false,
 };
 
-export default (state = initialState, action) => {
+export default (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_IS_LOADING:
       return {

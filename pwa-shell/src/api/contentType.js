@@ -1,16 +1,11 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
+import { GET_CONTENT_TYPE_RESPONSE_OK } from 'mocks/contentType';
 
-export const getContentType = code => makeRequest({
-  uri: `/api/plugins/cms/contentTypes/${code}?status=published`,
-  method: METHODS.GET,
-  mockResponse: {
-    "code": "MCT",
-    "name": "My Content Type",
-    "status": "0",
-    "attributes": [],
-    "defaultContentModel": "Full",
-    "defaultContentModelList": "Full"
-  },
-  contentType: 'application/json',
-  errors: () => [],
-});
+export const getContentType = code =>
+  makeRequest({
+    uri: `/api/plugins/cms/contentTypes/${code}?status=published`,
+    method: METHODS.GET,
+    mockResponse: GET_CONTENT_TYPE_RESPONSE_OK,
+    contentType: 'application/json',
+    errors: () => [],
+  });

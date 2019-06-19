@@ -1,7 +1,7 @@
 export const GET_CATEGORY_RESPONSE_OK = [
   {
     code: 'child1',
-    parentCode: 'sample',
+    parentCode: 'home',
     titles: {
       en: 'Child 1',
       it: 'Figlio 1',
@@ -10,7 +10,7 @@ export const GET_CATEGORY_RESPONSE_OK = [
   },
   {
     code: 'child2',
-    parentCode: 'sample',
+    parentCode: 'home',
     titles: {
       en: 'Child 2',
       it: 'Figlio 2',
