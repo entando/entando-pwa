@@ -5,17 +5,21 @@
  */
 package org.entando.pwa.system.services.notification;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Timestamp;
 import java.util.Date;
 import com.agiletec.aps.system.common.AbstractSearcherDAO;
 import com.agiletec.aps.system.common.FieldSearchFilter;
-import java.sql.Statement;
+
+import java.util.OptionalInt;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import com.agiletec.aps.system.common.QueryLimitResolver;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -338,12 +342,30 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         try {
             stat = this.buildStatement(filters, false, false, conn);
             result = stat.executeQuery();
+            int offset = getOffset(filters);
+            int limit = getLimit(filters);
+            int resultNumber = 0;
+            int resultIndex = -1;
             while (result.next()) {
+                resultIndex++;
+                if (resultNumber >= limit) {
+                    break;
+                }
+                if (resultIndex < offset)  {
+                    continue;
+                }
                 int id = result.getInt(this.getMasterTableIdFieldName());
                 if (!idList.contains(id)) {
                     idList.add(id);
                 }
+                resultNumber++;
             }
+//            while (result.next()) {
+//                int id = result.getInt(this.getMasterTableIdFieldName());
+//                if (!idList.contains(id)) {
+//                    idList.add(id);
+//                }
+//            }
         } catch (Throwable t) {
             logger.error("Error while loading the list of IDs", t);
             throw new RuntimeException("Error while loading the list of IDs", t);
@@ -381,8 +403,21 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
             conn = this.getConnection();
             stat = this.buildStatement(filters, false, true, username, conn);
             result = stat.executeQuery();
+//            consumeResultSet(filters,result, (resultSet) -> notes.add(this.buildNotificationFromRes(resultSet)));
+            int offset = getOffset(filters);
+            int limit = getLimit(filters);
+            int resultNumber = 0;
+            int resultIndex = -1;
             while (result.next()) {
+                resultIndex++;
+                if (resultNumber >= limit) {
+                    break;
+                }
+                if (resultIndex < offset)  {
+                    continue;
+                }
                 notes.add(this.buildNotificationFromRes(result));
+                resultNumber++;
             }
         } catch (Throwable t) {
             logger.error("Error while loading the list of IDs", t);
@@ -420,9 +455,56 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         }
         if (!isCount) {
             boolean ordered = appendOrderQueryBlocks(filters, query, false);
-            this.appendLimitQueryBlock(filters, query, hasAppendWhereClause);
+//            this.appendLimitQueryBlock(filters, query, hasAppendWhereClause);
         }
         return query.toString();
     }
+
+    private int getOffset(FieldSearchFilter[] filters) {
+        int offset = 0;
+        if (null == filters || filters.length == 0) {
+            logger.warn("no filters");
+            return offset;
+        }
+
+        OptionalInt minOffset = Stream.of(filters)
+                .filter(filter -> filter.getOffset() != null)
+                .mapToInt(FieldSearchFilter::getOffset).findFirst();
+
+        return minOffset.orElse(offset);
+    }
+
+    private int getLimit(FieldSearchFilter[] filters) {
+        int limit = Integer.MAX_VALUE;
+        if (null == filters || filters.length == 0) {
+            logger.warn("no filters");
+            return limit;
+        }
+
+        OptionalInt minLimit = Stream.of(filters)
+                .filter(filter -> filter.getLimit() != null)
+                .mapToInt(FieldSearchFilter::getLimit).findFirst();
+
+        return minLimit.orElse(limit);
+    }
+
+//    private void consumeResultSet(FieldSearchFilter[] filters, ResultSet resultSet, Consumer<ResultSet> consumer) throws Exception {
+//        int offset = getOffset(filters);
+//        int limit = getLimit(filters);
+//        int resultNumber = 0;
+//        int resultIndex = -1;
+//        while (resultSet.next()) {
+//            resultIndex++;
+//            if (resultNumber >= limit) {
+//                break;
+//            }
+//            if (resultIndex < offset)  {
+//                continue;
+//            }
+//            consumer.accept(resultSet);
+//            resultNumber++;
+//        }
+//
+//    }
 
 }
