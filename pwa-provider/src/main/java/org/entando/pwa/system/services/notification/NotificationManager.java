@@ -160,7 +160,7 @@ public class NotificationManager extends AbstractService implements INotificatio
             String username = (null != userDetails && !userDetails.getUsername().equals(SystemConstants.GUEST_USER_NAME)) ? userDetails.getUsername() : null;
             int count = this.getNotificationDAO().countNotifications(filters);
             List<Notification> notifications = this.getNotificationDAO().searchNotificationsByUser(filters, username);
-            notifications = subList(notifications, filters);
+//            notifications = subList(notifications, filters);
             pagedResult = new SearcherDaoPaginatedResult<>(count, notifications);
         } catch (Throwable t) {
             logger.error("Error searching notifications", t);
