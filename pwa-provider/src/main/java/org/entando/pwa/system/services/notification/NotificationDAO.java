@@ -23,6 +23,9 @@ import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.entando.pwa.system.services.EntandoListUtils.getLimit;
+import static org.entando.pwa.system.services.EntandoListUtils.getOffset;
+
 public class NotificationDAO extends AbstractSearcherDAO implements INotificationDAO {
 
     private static final Logger logger = LoggerFactory.getLogger(NotificationDAO.class);
@@ -342,30 +345,12 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         try {
             stat = this.buildStatement(filters, false, false, conn);
             result = stat.executeQuery();
-            int offset = getOffset(filters);
-            int limit = getLimit(filters);
-            int resultNumber = 0;
-            int resultIndex = -1;
             while (result.next()) {
-                resultIndex++;
-                if (resultNumber >= limit) {
-                    break;
-                }
-                if (resultIndex < offset)  {
-                    continue;
-                }
                 int id = result.getInt(this.getMasterTableIdFieldName());
                 if (!idList.contains(id)) {
                     idList.add(id);
                 }
-                resultNumber++;
             }
-//            while (result.next()) {
-//                int id = result.getInt(this.getMasterTableIdFieldName());
-//                if (!idList.contains(id)) {
-//                    idList.add(id);
-//                }
-//            }
         } catch (Throwable t) {
             logger.error("Error while loading the list of IDs", t);
             throw new RuntimeException("Error while loading the list of IDs", t);
@@ -404,20 +389,8 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
             stat = this.buildStatement(filters, false, true, username, conn);
             result = stat.executeQuery();
 //            consumeResultSet(filters,result, (resultSet) -> notes.add(this.buildNotificationFromRes(resultSet)));
-            int offset = getOffset(filters);
-            int limit = getLimit(filters);
-            int resultNumber = 0;
-            int resultIndex = -1;
             while (result.next()) {
-                resultIndex++;
-                if (resultNumber >= limit) {
-                    break;
-                }
-                if (resultIndex < offset)  {
-                    continue;
-                }
                 notes.add(this.buildNotificationFromRes(result));
-                resultNumber++;
             }
         } catch (Throwable t) {
             logger.error("Error while loading the list of IDs", t);
@@ -460,51 +433,51 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         return query.toString();
     }
 
-    private int getOffset(FieldSearchFilter[] filters) {
-        int offset = 0;
-        if (null == filters || filters.length == 0) {
-            logger.warn("no filters");
-            return offset;
-        }
-
-        OptionalInt minOffset = Stream.of(filters)
-                .filter(filter -> filter.getOffset() != null)
-                .mapToInt(FieldSearchFilter::getOffset).findFirst();
-
-        return minOffset.orElse(offset);
-    }
-
-    private int getLimit(FieldSearchFilter[] filters) {
-        int limit = Integer.MAX_VALUE;
-        if (null == filters || filters.length == 0) {
-            logger.warn("no filters");
-            return limit;
-        }
-
-        OptionalInt minLimit = Stream.of(filters)
-                .filter(filter -> filter.getLimit() != null)
-                .mapToInt(FieldSearchFilter::getLimit).findFirst();
-
-        return minLimit.orElse(limit);
-    }
-
-//    private void consumeResultSet(FieldSearchFilter[] filters, ResultSet resultSet, Consumer<ResultSet> consumer) throws Exception {
-//        int offset = getOffset(filters);
-//        int limit = getLimit(filters);
-//        int resultNumber = 0;
-//        int resultIndex = -1;
-//        while (resultSet.next()) {
-//            resultIndex++;
-//            if (resultNumber >= limit) {
-//                break;
-//            }
-//            if (resultIndex < offset)  {
-//                continue;
-//            }
-//            consumer.accept(resultSet);
-//            resultNumber++;
+//    private int getOffset(FieldSearchFilter[] filters) {
+//        int offset = 0;
+//        if (null == filters || filters.length == 0) {
+//            logger.warn("no filters");
+//            return offset;
 //        }
 //
+//        OptionalInt minOffset = Stream.of(filters)
+//                .filter(filter -> filter.getOffset() != null)
+//                .mapToInt(FieldSearchFilter::getOffset).findFirst();
+//
+//        return minOffset.orElse(offset);
 //    }
+//
+//    private int getLimit(FieldSearchFilter[] filters) {
+//        int limit = Integer.MAX_VALUE;
+//        if (null == filters || filters.length == 0) {
+//            logger.warn("no filters");
+//            return limit;
+//        }
+//
+//        OptionalInt minLimit = Stream.of(filters)
+//                .filter(filter -> filter.getLimit() != null)
+//                .mapToInt(FieldSearchFilter::getLimit).findFirst();
+//
+//        return minLimit.orElse(limit);
+//    }
+
+    private void consumeResultSet(FieldSearchFilter[] filters, ResultSet resultSet, Consumer<ResultSet> consumer) throws Exception {
+        int offset = getOffset(filters);
+        int limit = getLimit(filters);
+        int resultNumber = 0;
+        int resultIndex = -1;
+        while (resultSet.next()) {
+            resultIndex++;
+            if (resultNumber >= limit) {
+                break;
+            }
+            if (resultIndex < offset)  {
+                continue;
+            }
+            consumer.accept(resultSet);
+            resultNumber++;
+        }
+
+    }
 
 }

@@ -13,12 +13,14 @@ import com.agiletec.aps.system.exception.ApsSystemException;
 import com.agiletec.aps.system.services.user.UserDetails;
 import com.agiletec.plugins.jacms.aps.system.services.content.event.PublicContentChangedEvent;
 import com.agiletec.plugins.jacms.aps.system.services.content.event.PublicContentChangedObserver;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
+import java.util.*;
+
 import org.entando.pwa.system.services.notification.event.NotificationChangedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.entando.pwa.system.services.EntandoListUtils.subList;
 
 public class NotificationManager extends AbstractService implements INotificationManager, PublicContentChangedObserver {
 
@@ -158,6 +160,7 @@ public class NotificationManager extends AbstractService implements INotificatio
             String username = (null != userDetails && !userDetails.getUsername().equals(SystemConstants.GUEST_USER_NAME)) ? userDetails.getUsername() : null;
             int count = this.getNotificationDAO().countNotifications(filters);
             List<Notification> notifications = this.getNotificationDAO().searchNotificationsByUser(filters, username);
+            notifications = subList(notifications, filters);
             pagedResult = new SearcherDaoPaginatedResult<>(count, notifications);
         } catch (Throwable t) {
             logger.error("Error searching notifications", t);
@@ -179,6 +182,7 @@ public class NotificationManager extends AbstractService implements INotificatio
         }
         return this.getNotifications(array, userDetails);
     }
+
 
     public void setNotificationDAO(INotificationDAO notificationDAO) {
         this.notificationDAO = notificationDAO;
