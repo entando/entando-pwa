@@ -111,6 +111,34 @@
                 <jboss>jboss</jboss>
             </properties>
         </profile>
+        <!-- OWASP -->
+        <profile>
+            <id>sonarCheck</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <!-- owasp plugin -->
+                        <plugin>
+                            <groupId>org.owasp</groupId>
+                            <artifactId>dependency-check-maven</artifactId>
+                            <version>5.0.0</version>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>aggregate</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            <configuration>
+                                <autoUpdate>true</autoUpdate>
+                                <formats>XML</formats>
+                            </configuration>
+                        </plugin>
+                        <!-- owasp plugin end -->
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
 
     </profiles>
     <properties>
