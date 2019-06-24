@@ -40,7 +40,6 @@ const logoutUserWithoutRedirect = () => dispatch => {
 export const mapDispatchToProps = (dispatch, { useKeycloak, auth }) => ({
   loadUserProfile: username => {
     if (!useKeycloak) {
-      console.log(auth);
       dispatch(fetchUserProfile(username));
     }
   },
