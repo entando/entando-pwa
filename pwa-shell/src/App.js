@@ -111,7 +111,7 @@ const persistor = persistStore(store);
 
 const App = () => (
   <StateProvider store={store}>
-    <AuthProvider>
+    <AuthProvider store={store}>
       <PersistGate persistor={persistor}>
         <IntlProviderContainer>
           <NetworkStatusProviderContainer>

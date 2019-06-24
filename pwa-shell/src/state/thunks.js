@@ -47,8 +47,8 @@ import {
   getSelectedCategoryFilters,
   getSelectedSortingFilters,
   getCategoryFilters,
-  isUserLogged,
 } from 'state/content/selectors';
+import { isUserLogged } from 'state/user-profile/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 import { getLanguageCode } from 'state/language/selectors';

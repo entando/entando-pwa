@@ -8,6 +8,7 @@ const withDefaultAuth = WrappedComponent => {
       <WrappedComponent
         {...this.props}
         authInitialized={authInitialized}
+        useKeycloak
         auth={auth}
       />
     );

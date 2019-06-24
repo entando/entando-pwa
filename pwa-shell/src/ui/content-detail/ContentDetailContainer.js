@@ -2,11 +2,11 @@ import { get } from 'lodash';
 import { connect } from 'react-redux';
 import {
   getSelectedContent,
-  isUserLogged,
   isLoading,
   getNextToSelectedContent,
   getPreviousFromSelectedContent,
 } from 'state/content/selectors';
+import { isUserLogged } from 'state/user-profile/selectors';
 import { setRequiresAuth } from 'state/content/actions';
 import {
   fetchContentDetail,

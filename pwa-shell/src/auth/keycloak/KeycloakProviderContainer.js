@@ -1,6 +1,7 @@
 import Keycloak from 'keycloak-js';
 import { KeycloakProvider } from 'react-keycloak';
 import { connect } from 'react-redux';
+import { setUserProfile } from 'state/user-profile/actions';
 import { loginUser, logoutUser } from '@entando/apimanager';
 
 const keycloak = new Keycloak({
@@ -13,6 +14,12 @@ export const mapStateToProps = state => ({
   keycloak,
 });
 
+const parseUserInfo = ({ name, given_name, family_name }) => ({
+  fullname: name,
+  givenName: given_name,
+  familyName: family_name,
+});
+
 export const mapDispatchToProps = dispatch => ({
   onEvent: (event, error) => {
     switch (event) {
@@ -20,6 +27,7 @@ export const mapDispatchToProps = dispatch => ({
         dispatch(
           loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
         );
+        dispatch(setUserProfile(parseUserInfo(keycloak.idTokenParsed)));
         break;
       case 'onAuthRefreshSuccess':
         dispatch(
