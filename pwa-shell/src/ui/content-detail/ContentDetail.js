@@ -25,7 +25,8 @@ class ContentDetail extends PureComponent {
 
   fetchDetail() {
     const { location, match } = this.props;
-    this.props.fetchContentDetail(location, match.params);
+    const params = match ? match.params : null;
+    this.props.fetchContentDetail(location, params);
   }
 
   componentDidMount() {

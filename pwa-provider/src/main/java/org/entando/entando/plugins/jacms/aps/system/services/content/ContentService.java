@@ -238,11 +238,13 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
             List<String> userGroupCodes = this.getAllowedGroups(user, online);
             userGroupCodes.add("ViewAbstract");
 
-            Group viewAbstractGroup = new Group();
-            viewAbstractGroup.setName("ViewAbstract");
+            if (null != user) {
+                Group viewAbstractGroup = new Group();
+                viewAbstractGroup.setName("ViewAbstract");
 
-            Authorization viewAbstractAuth = new Authorization(viewAbstractGroup, null);
-            user.addAuthorization(viewAbstractAuth);
+                Authorization viewAbstractAuth = new Authorization(viewAbstractGroup, null);
+                user.addAuthorization(viewAbstractAuth);
+            }
 
             List<String> result = (online)
                     ? this.getContentManager().loadPublicContentsId(requestList.getCategories(), requestList.isOrClauseCategoryFilter(), filtersArr, userGroupCodes)
