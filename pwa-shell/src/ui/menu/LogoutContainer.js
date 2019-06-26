@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { get } from 'lodash';
-import { getUsername, logoutUser } from '@entando/apimanager';
+import { getUsername } from '@entando/apimanager';
 
 import withAuth from 'auth/withAuth';
 
@@ -18,19 +18,15 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch, { useKeycloak, auth }) => ({
-  loadUserProfile: username => {
-    if (!useKeycloak) {
-      dispatch(fetchUserProfile(username));
-    }
-  },
+  loadUserProfile: useKeycloak
+    ? () => {}
+    : username => dispatch(fetchUserProfile(username)),
   logoutUser: () => {
     if (useKeycloak) {
       const logout = get(auth, 'logout');
       logout();
-      dispatch(logoutUserWithoutRedirect());
-    } else {
-      dispatch(logoutUser());
     }
+    dispatch(logoutUserWithoutRedirect());
     dispatch(closeDrawer());
   },
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import DefaultAuthContext from 'auth/default/DefaultAuthContext';
+import useKeycloak from 'auth/useKeycloak';
 
 const withDefaultAuth = WrappedComponent => {
   const Context = DefaultAuthContext;
@@ -8,7 +9,7 @@ const withDefaultAuth = WrappedComponent => {
       <WrappedComponent
         {...this.props}
         authInitialized={authInitialized}
-        useKeycloak
+        useKeycloak={useKeycloak}
         auth={auth}
       />
     );
