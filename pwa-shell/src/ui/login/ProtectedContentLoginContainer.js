@@ -1,4 +1,5 @@
 import { get } from 'lodash';
+import { getToken } from '@entando/apimanager';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withKeycloak } from 'react-keycloak';
@@ -14,9 +15,7 @@ if (useKeycloak) {
   mapStateToProps = (state, ownProps) => {
     const contentId = get(ownProps, 'match.params.id');
     return {
-      hasAccess:
-        !getRequiresAuthMap(state)[contentId] ||
-        get(ownProps, 'keycloak.authenticated'),
+      hasAccess: !getRequiresAuthMap(state)[contentId] || !!getToken(state),
       useKeycloak,
     };
   };
