@@ -2,9 +2,9 @@ import React from 'react';
 import { Container } from 'reactstrap';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
 
-const Login = () => (
+const Login = props => (
   <Container fluid className="login">
-    <LoginFormContainer />
+    <LoginFormContainer {...props} />
   </Container>
 );
 

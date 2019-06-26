@@ -16,7 +16,7 @@ export const getUserFullname = createSelector(
   [getUserProfile, getUserProfileAttributes],
   (profile, attributes) => {
     if (useKeycloak) {
-      return profile.name;
+      return profile.fullname;
     } else {
       const fullnameobj = attributes.find(attr => attr.code === 'fullname');
       return fullnameobj && fullnameobj.value ? fullnameobj.value : '';

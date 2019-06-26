@@ -7,7 +7,10 @@ class DefaultAuthProvider extends Component {
   render() {
     const authInitialized = true; //there is no external auth to load
     const auth = {
-      login: () => this.props.history.push('/login'),
+      login: () =>
+        this.props.history.replace(
+          `/login?redirect_uri=${window.location.pathname}`,
+        ),
     };
     return (
       <DefaultAuthContext.Provider value={{ auth, authInitialized }}>
