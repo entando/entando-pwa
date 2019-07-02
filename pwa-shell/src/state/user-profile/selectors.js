@@ -1,7 +1,6 @@
 import { get } from 'lodash';
 import { createSelector } from 'reselect';
 import { getUsername, getToken } from '@entando/apimanager';
-import useKeycloak from 'auth/useKeycloak';
 
 export const getUserProfile = state => state.userProfile;
 export const getUserAuthType = createSelector(
@@ -13,14 +12,10 @@ export const getUserProfileAttributes = createSelector(
   profile => get(profile, 'attributes', {}),
 );
 export const getUserFullname = createSelector(
-  [getUserProfile, getUserProfileAttributes],
-  (profile, attributes) => {
-    if (useKeycloak) {
-      return profile.fullname;
-    } else {
-      const fullnameobj = attributes.find(attr => attr.code === 'fullname');
-      return fullnameobj && fullnameobj.value ? fullnameobj.value : '';
-    }
+  [getUserProfileAttributes],
+  attributes => {
+    const fullnameobj = attributes.find(attr => attr.code === 'fullname');
+    return fullnameobj && fullnameobj.value ? fullnameobj.value : '';
   },
 );
 

@@ -14,10 +14,13 @@ export const mapStateToProps = state => ({
   keycloak,
 });
 
-const parseUserInfo = ({ name, given_name, family_name }) => ({
-  fullname: name,
-  givenName: given_name,
-  familyName: family_name,
+const parseUserInfo = ({ name }) => ({
+  attributes: [
+    {
+      code: 'fullname',
+      value: name,
+    },
+  ],
 });
 
 export const mapDispatchToProps = dispatch => ({

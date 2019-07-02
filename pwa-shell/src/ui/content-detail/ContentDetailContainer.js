@@ -18,7 +18,6 @@ import { getSelectedContentType } from 'state/contentType/selectors';
 import { setSelectedContentType } from 'state/contentType/actions';
 
 export const mapStateToProps = state => ({
-  //authInitialized:
   contentDetail: getSelectedContent(state),
   contentType: getSelectedContentType(state),
   isUserLogged: isUserLogged(state),

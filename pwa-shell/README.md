@@ -22,7 +22,7 @@ the client secret used for oauth2 authentication.
 
 ### REACT_APP_AUTH_TYPE
 
-the user authentication type to use in the system. defaults to `keycloak`. You can change it to `default` to use the Entando default authentication.
+the user authentication type to use in the system. This has been preconfigured to `keycloak`. You can remove this variable to use the Entando default authentication.
 
 ## Keycloak-related Environmental Variables
 

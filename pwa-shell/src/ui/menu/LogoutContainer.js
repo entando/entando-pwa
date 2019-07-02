@@ -17,19 +17,20 @@ export const mapStateToProps = state => ({
   userFullname: getUserFullname(state),
 });
 
-export const mapDispatchToProps = (dispatch, { useKeycloak, auth }) => ({
-  loadUserProfile: useKeycloak
+export const mapDispatchToProps = (dispatch, { auth }) => {
+  const logout = get(auth, 'logout');
+  const loadUserProfile = logout
     ? () => {}
-    : username => dispatch(fetchUserProfile(username)),
-  logoutUser: () => {
-    if (useKeycloak) {
-      const logout = get(auth, 'logout');
-      logout();
-    }
-    dispatch(logoutUserWithoutRedirect());
-    dispatch(closeDrawer());
-  },
-});
+    : username => dispatch(fetchUserProfile(username));
+  return {
+    loadUserProfile,
+    logoutUser: () => {
+      if (logout) logout();
+      dispatch(logoutUserWithoutRedirect());
+      dispatch(closeDrawer());
+    },
+  };
+};
 
 export default withAuth(
   connect(

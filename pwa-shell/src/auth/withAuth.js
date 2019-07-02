@@ -10,7 +10,6 @@ const withKeycloakAdapter = WrappedComponent => props => {
     <WrappedComponent
       {...otherProps}
       authInitialized={keycloakInitialized}
-      useKeycloak={useKeycloak}
       auth={keycloak}
     />
   );
