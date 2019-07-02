@@ -11,6 +11,7 @@ class DefaultAuthProvider extends Component {
         this.props.history.replace(
           `/login?redirect_uri=${window.location.pathname}`,
         ),
+      logout: () => {},
     };
     return (
       <DefaultAuthContext.Provider value={{ auth, authInitialized }}>

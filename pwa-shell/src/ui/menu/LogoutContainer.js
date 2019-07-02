@@ -18,7 +18,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch, { auth }) => {
-  const logout = get(auth, 'logout', () => {});
+  const logout = get(auth, 'logout');
   const loadUserProfile = get(auth, 'realm', '')
     ? username => dispatch(fetchUserProfile(username))
     : () => {};
