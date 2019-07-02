@@ -18,14 +18,15 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch, { auth }) => {
-  const logout = get(auth, 'logout');
-  const loadUserProfile = logout
-    ? () => {}
-    : username => dispatch(fetchUserProfile(username));
+  const logout = get(auth, 'logout', () => {});
+  const loadUserProfile = get(auth, 'realm', '')
+    ? username => dispatch(fetchUserProfile(username))
+    : () => {};
+
   return {
     loadUserProfile,
     logoutUser: () => {
-      if (logout) logout();
+      logout();
       dispatch(logoutUserWithoutRedirect());
       dispatch(closeDrawer());
     },
