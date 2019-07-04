@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import KeycloakProviderContainer from './keycloak/KeycloakProviderContainer';
-import DefaultAuthProvider from 'auth/default/DefaultAuthProvider';
+import DefaultAuthProviderContainer from 'auth/default/DefaultAuthProviderContainer';
 import useKeycloak from 'auth/useKeycloak';
 
-const Provider = useKeycloak ? KeycloakProviderContainer : DefaultAuthProvider;
+const Provider = useKeycloak
+  ? KeycloakProviderContainer
+  : DefaultAuthProviderContainer;
 
 const AuthProvider = ({ children }) => <Provider>{children}</Provider>;
 

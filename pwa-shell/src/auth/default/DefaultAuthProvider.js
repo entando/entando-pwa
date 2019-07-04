@@ -4,6 +4,11 @@ import { withRouter } from 'react-router-dom';
 import DefaultAuthContext from './DefaultAuthContext';
 
 class DefaultAuthProvider extends Component {
+  componentDidMount() {
+    const { isUserLogged, loadUserProfile, username } = this.props;
+    if (isUserLogged) loadUserProfile(username);
+  }
+
   render() {
     const authInitialized = true; //there is no external auth to load
     const auth = {
@@ -23,6 +28,8 @@ class DefaultAuthProvider extends Component {
 
 DefaultAuthProvider.propTypes = {
   children: PropTypes.element.isRequired,
+  isUserLogged: PropTypes.bool.isRequired,
+  loadUserProfile: PropTypes.func.isRequired,
 };
 
 export default withRouter(DefaultAuthProvider);
