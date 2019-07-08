@@ -15,6 +15,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch, { auth }) => ({
+  loadUserProfile: () => auth.loadLoggedEntandoUser(),
   logoutUser: () => {
     const logout = get(auth, 'logout');
     logout();

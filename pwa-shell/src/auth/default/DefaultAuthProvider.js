@@ -4,18 +4,17 @@ import { withRouter } from 'react-router-dom';
 import DefaultAuthContext from './DefaultAuthContext';
 
 class DefaultAuthProvider extends Component {
-  componentDidMount() {
-    const { isUserLogged, loadUserProfile, username } = this.props;
-    if (isUserLogged) loadUserProfile(username);
-  }
-
   render() {
     const authInitialized = true; //there is no external auth to load
+    const { loadUserProfile, username } = this.props;
     const auth = {
       login: () =>
         this.props.history.replace(
           `/login?redirect_uri=${window.location.pathname}`,
         ),
+      loadLoggedEntandoUser: () => {
+        loadUserProfile(username);
+      },
       logout: () => {},
     };
     return (

@@ -10,6 +10,9 @@ const keycloak = new Keycloak({
   clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
 });
 
+// no need to load profile in Keycloak auth since it is already set from onAuthSuccess event
+keycloak.loadLoggedEntandoUser = () => {};
+
 export const mapStateToProps = state => ({
   keycloak,
 });

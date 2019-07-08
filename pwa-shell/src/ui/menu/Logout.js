@@ -15,6 +15,10 @@ const messages = defineMessages({
 });
 
 class Logout extends Component {
+  componentDidMount() {
+    const { isUserLogged, loadUserProfile } = this.props;
+    if (isUserLogged) loadUserProfile();
+  }
   render() {
     const { intl, isUserLogged, userFullname, logoutUser } = this.props;
     const fullNameDisplay = userFullname
