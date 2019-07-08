@@ -5,16 +5,13 @@
  */
 package org.entando.pwa.system.services.notification;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Timestamp;
 import java.util.Date;
 import com.agiletec.aps.system.common.AbstractSearcherDAO;
 import com.agiletec.aps.system.common.FieldSearchFilter;
-import java.sql.Statement;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -338,12 +335,18 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         try {
             stat = this.buildStatement(filters, false, false, conn);
             result = stat.executeQuery();
-            while (result.next()) {
-                int id = result.getInt(this.getMasterTableIdFieldName());
+            limitAndConsumeResultSet(filters, result, (resultSet) -> {
+                int id = resultSet.getInt(this.getMasterTableIdFieldName());
                 if (!idList.contains(id)) {
                     idList.add(id);
                 }
-            }
+            });
+//            while (result.next()) {
+//                int id = result.getInt(this.getMasterTableIdFieldName());
+//                if (!idList.contains(id)) {
+//                    idList.add(id);
+//                }
+//            }
         } catch (Throwable t) {
             logger.error("Error while loading the list of IDs", t);
             throw new RuntimeException("Error while loading the list of IDs", t);
@@ -381,9 +384,10 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
             conn = this.getConnection();
             stat = this.buildStatement(filters, false, true, username, conn);
             result = stat.executeQuery();
-            while (result.next()) {
-                notes.add(this.buildNotificationFromRes(result));
-            }
+            limitAndConsumeResultSet(filters,result, (resultSet) -> notes.add(this.buildNotificationFromRes(resultSet)));
+//            while (result.next()) {
+//                notes.add(this.buildNotificationFromRes(result));
+//            }
         } catch (Throwable t) {
             logger.error("Error while loading the list of IDs", t);
             throw new RuntimeException("Error while loading the list of IDs", t);
@@ -420,9 +424,10 @@ public class NotificationDAO extends AbstractSearcherDAO implements INotificatio
         }
         if (!isCount) {
             boolean ordered = appendOrderQueryBlocks(filters, query, false);
-            this.appendLimitQueryBlock(filters, query, hasAppendWhereClause);
+//            this.appendLimitQueryBlock(filters, query, hasAppendWhereClause);
         }
         return query.toString();
     }
+
 
 }

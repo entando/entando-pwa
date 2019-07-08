@@ -119,9 +119,10 @@ export const fetchContentListByContentType = (
 };
 
 const fetchContentList = (params, pagination) => async (dispatch, getState) => {
+  let token;
   try {
     dispatch(setIsLoading());
-    const token = getToken(getState());
+    token = getToken(getState());
     const response = token
       ? await getProtectedContents(params, pagination)
       : await getContents(params, pagination);
@@ -139,6 +140,11 @@ const fetchContentList = (params, pagination) => async (dispatch, getState) => {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (err) {
+    //WORKAROUND to fix expired session when navigating back from content detail
+    const isTokenObsolete = err.message === 'permissionDenied' && token;
+    if (isTokenObsolete) {
+      dispatch(fetchContentList(params, pagination));
+    }
   } finally {
     dispatch(unsetIsLoading());
   }

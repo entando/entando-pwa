@@ -30,13 +30,15 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchContentDetail: (location, params) => {
     const requiresAuth =
       new URLSearchParams(location.search).get('requiresAuth') === 'true';
-    const { id, contentType } = params;
-    dispatch(setSelectedContentType(contentType));
-    dispatch(setRequiresAuth(id, requiresAuth));
-    if (requiresAuth) {
-      dispatch(fetchProtectedContentDetail(id));
-    } else {
-      dispatch(fetchContentDetail(id));
+    if (params) {
+      const { id, contentType } = params;
+      dispatch(setSelectedContentType(contentType));
+      dispatch(setRequiresAuth(id, requiresAuth));
+      if (requiresAuth) {
+        dispatch(fetchProtectedContentDetail(id));
+      } else {
+        dispatch(fetchContentDetail(id));
+      }
     }
   },
   fetchCategoryListAndFilters: () => {
