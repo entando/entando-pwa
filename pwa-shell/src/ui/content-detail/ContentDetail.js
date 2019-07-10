@@ -2,14 +2,13 @@ import { get } from 'lodash';
 import React, { PureComponent } from 'react';
 import { injectIntl, intlShape } from 'react-intl';
 import { defineMessages } from 'react-intl.macro';
-import { withKeycloak } from 'react-keycloak';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
-import ProtectedContentLoginContainer from 'ui/login/ProtectedContentLoginContainer';
 import PageContainer from 'ui/common/PageContainer';
 import SwipeContentNavigator from 'ui/common/SwipeContentNavigator';
 import ItemCategoryListContainer from 'ui/common/ItemCategoryListContainer';
 import NetworkOfflineWarningContainer from 'ui/network/NetworkOfflineWarningContainer';
+import withAuth from 'auth/withAuth';
 
 const messages = defineMessages({
   loadingProgress: {
@@ -32,17 +31,15 @@ class ContentDetail extends PureComponent {
 
   componentDidMount() {
     this.props.fetchCategoryListAndFilters();
-    if (this.props.keycloakInitialized) {
+    if (this.props.authInitialized) {
       this.fetchDetail();
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.keycloakInitialized && this.props.keycloakInitialized) {
-      this.fetchDetail();
-    }
     const newParams = get(this.props, 'match.params');
     if (
+      (!prevProps.authInitialized && this.props.authInitialized) ||
       this.props.isUserLogged !== prevProps.isUserLogged ||
       (newParams && newParams !== prevProps.match.params)
     ) {
@@ -75,7 +72,7 @@ class ContentDetail extends PureComponent {
   }
 
   render() {
-    const { intl, contentDetail, isLoading, isUserLogged } = this.props;
+    const { intl, contentDetail, isLoading } = this.props;
     const loadingMessage = intl.formatMessage(messages.loadingProgress);
     const associatedCategoryIdList = get(contentDetail, 'categories', []);
 
@@ -91,23 +88,18 @@ class ContentDetail extends PureComponent {
     );
 
     const messageComponents = <NetworkOfflineWarningContainer />;
-    const useKeycloak = process.env.REACT_APP_AUTH_TYPE === 'keycloak';
 
     return (
       <PageContainer
-        className={`ContentDetail${
-          isUserLogged || useKeycloak ? '' : '--guest-user' //WORKAROUND: without keycloak, we have the login form inside ContentDetail and we need a slightly different style
-        }`}
+        className="ContentDetail"
         messageComponents={messageComponents}
       >
-        <ProtectedContentLoginContainer>
-          <SwipeContentNavigator
-            nextURL={this.state.nextURL}
-            previousURL={this.state.previousURL}
-          >
-            <div className="ContentDetail__body">{contentDetailBody}</div>
-          </SwipeContentNavigator>
-        </ProtectedContentLoginContainer>
+        <SwipeContentNavigator
+          nextURL={this.state.nextURL}
+          previousURL={this.state.previousURL}
+        >
+          <div className="ContentDetail__body">{contentDetailBody}</div>
+        </SwipeContentNavigator>
       </PageContainer>
     );
   }
@@ -130,4 +122,4 @@ ContentDetail.defaultProps = {
   nextContent: {},
 };
 
-export default injectIntl(withKeycloak(ContentDetail));
+export default injectIntl(withAuth(ContentDetail));

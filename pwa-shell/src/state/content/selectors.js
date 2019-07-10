@@ -1,6 +1,5 @@
 import { get } from 'lodash';
 import { createSelector } from 'reselect';
-import { getUsername, getToken } from '@entando/apimanager';
 import { getSelectedContentType } from 'state/contentType/selectors';
 
 export const getContent = state => state.content;
@@ -91,9 +90,4 @@ export const getSelectedSortingFilters = createSelector(
   [getSelectedContentType, getSortingFilters],
   (selectedContentType, sortingFilters) =>
     sortingFilters[selectedContentType] || [],
-);
-
-export const isUserLogged = createSelector(
-  [getUsername, getToken],
-  (username, token) => !!username && !!token,
 );

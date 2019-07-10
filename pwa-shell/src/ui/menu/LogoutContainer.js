@@ -1,27 +1,32 @@
 import { connect } from 'react-redux';
-import { getUsername, logoutUser } from '@entando/apimanager';
+import { get } from 'lodash';
 
-import { isUserLogged } from 'state/content/selectors';
-import { fetchUserProfile } from 'state/thunks';
+import withAuth from 'auth/withAuth';
+
+import { logoutUserWithoutRedirect } from 'state/user-profile/actions';
+import { isUserLogged } from 'state/user-profile/selectors';
 import { getUserFullname } from 'state/user-profile/selectors';
 import { closeDrawer } from 'state/drawer/actions';
 import Logout from 'ui/menu/Logout';
 
 export const mapStateToProps = state => ({
   isUserLogged: isUserLogged(state),
-  username: getUsername(state),
   userFullname: getUserFullname(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
-  loadUserProfile: username => dispatch(fetchUserProfile(username)),
+export const mapDispatchToProps = (dispatch, { auth }) => ({
+  loadUserProfile: () => auth.loadLoggedEntandoUser(),
   logoutUser: () => {
-    dispatch(logoutUser());
+    const logout = get(auth, 'logout');
+    logout();
+    dispatch(logoutUserWithoutRedirect());
     dispatch(closeDrawer());
   },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Logout);
+export default withAuth(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Logout),
+);
