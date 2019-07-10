@@ -41,7 +41,7 @@ describe('Page', () => {
     expect(container.firstChild.className).toEqual('Page yoyo');
     expect(contel.childNodes.length).toEqual(2);
     expect(footel).toBeInTheDocument();
-    expect(footel.innerHTML).toEqual(props.footer);
+    expect(footel).toHaveTextContent(props.footer);
 
     // expect(container.firstChild.className).toEqual('Page ');
     // expect(container.firstChild.childNodes.length).toEqual(2);
