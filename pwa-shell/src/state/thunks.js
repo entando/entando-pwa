@@ -48,6 +48,7 @@ import {
   getSelectedSortingFilters,
   getCategoryFilters,
 } from 'state/content/selectors';
+import { isUserLogged } from 'state/user-profile/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 import { getLanguageCode } from 'state/language/selectors';
@@ -161,7 +162,9 @@ export const fetchContentDetail = id => async (dispatch, getState) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(setSelectedContent(json.payload));
-      dispatch(clearNotification(id));
+      if (isUserLogged(state)) {
+        dispatch(clearNotification(id));
+      }
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
@@ -187,7 +190,6 @@ export const fetchProtectedContentDetail = id => async (dispatch, getState) => {
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
       }
-    } else {
     }
   } catch (err) {
   } finally {
@@ -324,6 +326,7 @@ export const login = data => async dispatch => {
     const json = await response.json();
     dispatch(loginUser(data.username, json.access_token));
     dispatch(fetchUserProfile(data.username));
+    return json;
   } catch (err) {
     const msg = get(err, 'message', err);
     dispatch(addErrors([msg]));
