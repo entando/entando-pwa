@@ -16,8 +16,8 @@ const messages = defineMessages({
 
 class Logout extends Component {
   componentDidMount() {
-    const { isUserLogged, loadUserProfile, username } = this.props;
-    if (isUserLogged) loadUserProfile(username);
+    const { isUserLogged, loadUserProfile } = this.props;
+    if (isUserLogged) loadUserProfile();
   }
   render() {
     const { intl, isUserLogged, userFullname, logoutUser } = this.props;
@@ -48,7 +48,6 @@ class Logout extends Component {
 Logout.propTypes = {
   intl: intlShape.isRequired,
   isUserLogged: PropTypes.bool.isRequired,
-  loadUserProfile: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
   userFullname: PropTypes.string,
 };

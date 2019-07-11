@@ -7,6 +7,12 @@
     width: 100vw;
   }
 
+  &.fixed-top {
+    left: initial;
+    right: initial;
+    width: 100vw;
+  }
+
   .nav {
     width: 100%;
   }

@@ -3,9 +3,13 @@ import { fetchContentTypeMap, fetchNotifications } from 'state/thunks';
 import { setSelectedContentType } from 'state/contentType/actions';
 import { openDrawer } from 'state/drawer/actions';
 import { openSearch } from 'state/search/actions';
-import { getContentTypeCodeList, getSelectedContentType, getContentTypeMap } from 'state/contentType/selectors';
+import {
+  getContentTypeCodeList,
+  getSelectedContentType,
+  getContentTypeMap,
+} from 'state/contentType/selectors';
 import { getNotificationAmount } from 'state/notification/selectors';
-import { isUserLogged } from 'state/content/selectors';
+import { isUserLogged } from 'state/user-profile/selectors';
 import { isOpen } from 'state/search/selectors';
 import ContentListTopBar from 'ui/content-list/ContentListTopBar';
 
@@ -25,7 +29,7 @@ export const mapDispatchToProps = dispatch => ({
   fetchNotifications: () => {
     dispatch(fetchNotifications());
   },
-  onSelectContentType: (contentType) => {
+  onSelectContentType: contentType => {
     dispatch(setSelectedContentType(contentType));
   },
   openDrawer: () => dispatch(openDrawer()),
@@ -34,5 +38,5 @@ export const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ContentListTopBar);

@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { config, setApi, useMocks } from '@entando/apimanager';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import 'i18n/api-manager/init';
+import withAuth from 'auth/withAuth';
 
 class ApiManager extends Component {
   constructor(props) {
@@ -11,8 +12,8 @@ class ApiManager extends Component {
   }
 
   initApiManager(props) {
-    const { store } = props;
-    config(store, () => {}, () => {});
+    const { store, auth } = props;
+    config(store, () => auth.login(), () => {});
     store.dispatch(
       setApi({
         domain: process.env.REACT_APP_DOMAIN,
@@ -28,7 +29,7 @@ class ApiManager extends Component {
   }
 
   render() {
-    return <Fragment>{this.props.children}</Fragment>;
+    return <>{this.props.children}</>;
   }
 }
 
@@ -40,4 +41,4 @@ ApiManager.propTypes = {
   ]).isRequired,
 };
 
-export default ApiManager;
+export default withAuth(ApiManager);
