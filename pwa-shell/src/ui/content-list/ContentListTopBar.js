@@ -2,12 +2,7 @@ import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
-import {
-  Navbar,
-  Nav,
-  NavItem,
-  NavLink,
-} from 'reactstrap';
+import { Navbar, Nav, NavItem, NavLink } from 'reactstrap';
 
 import DrawerContainer from 'ui/menu/DrawerContainer';
 import SearchBarContainer from 'ui/menu/SearchBarContainer';
@@ -20,7 +15,9 @@ const notificationsRoute = '/notifications';
 class ContentListTopBar extends PureComponent {
   componentDidMount() {
     this.props.fetchContentTypes();
-    this.props.fetchNotifications();
+    if (this.props.isUserLogged) {
+      this.props.fetchNotifications();
+    }
   }
 
   render() {
@@ -33,20 +30,30 @@ class ContentListTopBar extends PureComponent {
       openDrawer,
       openSearch,
       isSearchOpen,
-      isUserLogged
+      isUserLogged,
     } = this.props;
 
-    const contentTypeLinks = contentTypeList.length > 1 ? contentTypeList.map(contentType => (
-      <NavItem
-        key={contentType}
-        className={`${contentType === selectedContentType ? 'contentType--selected' : ''}`}
-      >
-          <NavLink tag={Link} to={`/content/${contentType}`} onClick={() => onSelectContentType(contentType)}>
-            { get(contentTypeMap, `${contentType}.name`, contentType) }
-          </NavLink>
-      </NavItem>
-    ))       
-    : '';
+    const contentTypeLinks =
+      contentTypeList.length > 1
+        ? contentTypeList.map(contentType => (
+            <NavItem
+              key={contentType}
+              className={`${
+                contentType === selectedContentType
+                  ? 'contentType--selected'
+                  : ''
+              }`}
+            >
+              <NavLink
+                tag={Link}
+                to={`/content/${contentType}`}
+                onClick={() => onSelectContentType(contentType)}
+              >
+                {get(contentTypeMap, `${contentType}.name`, contentType)}
+              </NavLink>
+            </NavItem>
+          ))
+        : '';
 
     if (isSearchOpen) {
       return <SearchBarContainer />;
@@ -54,17 +61,21 @@ class ContentListTopBar extends PureComponent {
 
     const notificationsButton = isUserLogged ? (
       <Link to={notificationsRoute}>
-        <NavButton icon="bell" className="mr-4" badgeText={notificationAmount} />
+        <NavButton
+          icon="bell"
+          className="mr-4"
+          badgeText={notificationAmount}
+        />
       </Link>
-    ) : '';
-
-    const leftItems = (
-      <NavButton icon="bars" onClick={openDrawer} />      
+    ) : (
+      ''
     );
+
+    const leftItems = <NavButton icon="bars" onClick={openDrawer} />;
 
     const rightItems = [
       notificationsButton,
-      (<NavButton icon="search" onClick={openSearch} />),
+      <NavButton icon="search" onClick={openSearch} />,
     ];
 
     return (
@@ -77,9 +88,9 @@ class ContentListTopBar extends PureComponent {
         <DrawerContainer>
           <Navbar light>
             <Nav className="ml-auto" navbar>
-              { contentTypeLinks }
+              {contentTypeLinks}
             </Nav>
-          </Navbar>          
+          </Navbar>
           <CategoryFilterContainer contentType={selectedContentType} />
         </DrawerContainer>
       </Fragment>

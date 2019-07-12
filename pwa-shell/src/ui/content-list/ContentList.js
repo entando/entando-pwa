@@ -91,7 +91,7 @@ class ContentList extends PureComponent {
         <span className="ContentList__search-results__size">
           <FormattedMessage
             id="contentlist.searchResultCount"
-            defaultMessage="{count} risultat{count,plural,=0{i}one{o}other{i}}"
+            defaultMessage="{count} result{count,plural,=0{s}one{}other{s}}"
             values={{ count: contentList.length }}
           />
         </span>
