@@ -7,7 +7,7 @@ article.content-model time {
   display: inline-block;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
-  color: #000000;
+  color: var(--entando-color-primary-light);
 }
 
 article.content-model .attachments,
@@ -19,7 +19,7 @@ article.content-model h1,
 article.content-model h2 {
   font-weight: bold;
   opacity: 1;
-  color: #000000;
+  color: var(--entando-color-primary);
 }
 
 article.content-model-full h1,
@@ -48,6 +48,7 @@ article.content-model-list .more-link {
   margin: 2rem 0 1rem 0;
   float: left;
   padding: 0;
+  color: var(--entando-color-accent);
 }
 
 article.content-model-list .more-link::after {

@@ -1,11 +1,11 @@
 {
-  "short_name": "E Info",
-  "name": "Info Esercito Italiano",
+  "short_name": "Entando",
+  "name": "Entando PWA",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
     },
     {
       "src": "app-icons/icon-192.png",

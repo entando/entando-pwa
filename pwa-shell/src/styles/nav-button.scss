@@ -1,9 +1,9 @@
 .NavButton {
   display: inline-block;
-  color: $color-dark;
+  color: $color-primary-text;
 
   &__Badge {
-    color: #FFFFFF;	
+    color: $color-primary-text;
     background-color: $color-red;
     position: absolute;
     left: -0.6rem;
@@ -12,8 +12,8 @@
     line-height: 1;
     text-align: center;
     white-space: nowrap;
-    vertical-align: baseline;  
-    border-radius: .9rem;
+    vertical-align: baseline;
+    border-radius: 0.9rem;
     font-weight: 600;
   }
 }

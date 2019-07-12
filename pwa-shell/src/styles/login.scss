@@ -1,8 +1,15 @@
 .login {
-  background-image: url(../images/Logo_vertical@2x.png),
-    url(../images/Vegetato@2x.png);
-  background-repeat: no-repeat, repeat-x;
-  background-position: center 7rem, center -13rem;
-  background-size: 10rem, 28rem;
+  background-image: url(../images/Logo_vertical@2x.png);
+  background-repeat: no-repeat;
+  background-position: center 8.5rem;
+  background-size: 10rem;
   padding: 0;
+
+  &__bgtop {
+    background-image: url(../images/Vegetato@2x.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 5rem;
+  }
 }

@@ -1,5 +1,11 @@
 .topbar {
-  background-color: $color-primary-lightest;
+  background-color: $color-primary;
+
+  &.fixed-top {
+    left: initial;
+    right: initial;
+    width: 100vw;
+  }
 
   &.fixed-top {
     left: initial;
@@ -31,6 +37,8 @@
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14),
       0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
     flex-wrap: nowrap;
+    padding-top: 11px;
+    padding-bottom: 11px;
   }
 
   .nav-right {
@@ -51,12 +59,13 @@
       text-align: left;
       display: inline-block;
       height: 100%;
+      color: $color-primary-text;
       padding-top: 0.4rem;
     }
 
     .input-group:focus-within {
       .input-group-text {
-        border-color: #80bdff;
+        border-color: $color-accent;
       }
 
       .form-control {
@@ -65,8 +74,9 @@
     }
 
     .input-group-text {
-      background-color: $color-bordered-light;
+      background-color: $color-secondary-lightest;
       border-right: none;
+      color: $color-secondary-text;
       border-top-left-radius: 1.5rem;
       border-bottom-left-radius: 1.5rem;
     }

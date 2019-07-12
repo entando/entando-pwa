@@ -1,4 +1,19 @@
-@import url("https://fonts.googleapis.com/css?family=Titillium+Web");
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+
+:root {
+  --entando-color-primary: #{$color-primary};
+  --entando-color-primary-light: #{$color-primary-light};
+  --entando-color-primary-lightest: #{$color-primary-lightest};
+  --entando-color-primary-text: #{$color-primary-text};
+  --entando-color-secondary: #{$color-secondary};
+  --entando-color-secondary-light: #{$color-secondary-light};
+  --entando-color-secondary-lightest: #{$color-secondary-lightest};
+  --entando-color-secondary-text: #{$color-secondary-text};
+  --entando-color-accent: #{$color-accent};
+  --entando-color-red: #{$color-red};
+  --entando-color-dark: #{$color-dark};
+  --entando-color-darkest: #{$color-darkest};
+}
 
 html {
   height: 100%;
@@ -12,7 +27,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: "Titillium Web", sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-user-select: none;
@@ -21,7 +36,7 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 

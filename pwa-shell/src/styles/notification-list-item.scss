@@ -5,9 +5,9 @@
   &__link-to-detail {
     word-break: normal;
   }
-    
+
   &__status--unread {
-    color: #FFF;
+    color: $color-primary-text;
     background-color: $color-red;
     text-transform: uppercase;
     font-weight: bolder;
@@ -15,18 +15,18 @@
 
   time {
     display: inline-block;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
     text-transform: uppercase;
     color: #000000;
   }
 
   h2 {
     margin-bottom: 1rem;
-    font-size: 1.5rem;    
-    font-weight: bold;  
+    font-size: 1.5rem;
+    font-weight: bold;
     opacity: 1;
     color: #000000;
-  }  
+  }
 
   .card-header {
     background-color: inherit;
@@ -35,7 +35,7 @@
     padding-bottom: 0;
     display: flex;
     justify-content: space-between;
-  }  
+  }
 
   .more-link {
     text-transform: uppercase;
@@ -45,7 +45,7 @@
     padding: 0;
 
     &::after {
-      content: "\0020\0020\2192";
-    }  
+      content: '\0020\0020\2192';
+    }
   }
 }

@@ -16,8 +16,8 @@ import launch1536x2048 from 'images/apple/launch-1536x2048.png';
 import launch1242x2688 from 'images/apple/launch-1242x2688.png';
 import launch828x1792 from 'images/apple/launch-828x1792.png';
 
-const name = 'Info Esercito Italiano';
-const shortName = 'E Info';
+const name = 'Entando PWA';
+const shortName = 'Entando';
 
 const icons = [
   {
