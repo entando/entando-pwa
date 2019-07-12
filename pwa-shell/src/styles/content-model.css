@@ -54,14 +54,25 @@ article.content-model-list .more-link::after {
   content: '\0020\0020\2192';
 }
 
-article.content-model .attachments ul {
+article.content-model .attachments ul,
+article.content-model .videos ul {
   list-style: none;
   padding-left: 1rem;
   margin-top: 1rem;
 }
 
-article.content-model .attachments ul li {
+article.content-model .videos ul {
+  padding-left: 0;
+}
+
+article.content-model .attachments ul li,
+article.content-model .videos ul li {
   margin-bottom: 0.625rem;
+}
+
+article.content-model .videos ul li video {
+  width: 100%;
+  height: 240px;
 }
 
 article.content-model .attachments li a:before {
