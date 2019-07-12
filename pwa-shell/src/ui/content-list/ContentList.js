@@ -5,7 +5,6 @@ import { injectIntl, intlShape } from 'react-intl';
 import { FormattedMessage, defineMessages } from 'react-intl.macro';
 import InfiniteScroll from 'react-infinite-scroller';
 import ContentListItem from 'ui/content-list/ContentListItem';
-import SelectedCategoryListContainer from 'ui/content-list/SelectedCategoryListContainer';
 import PageContainer from 'ui/common/PageContainer';
 
 const messages = defineMessages({
@@ -66,12 +65,6 @@ class ContentList extends PureComponent {
       searchTerms,
     } = this.props;
 
-    const categoryList = isSearchResult ? (
-      ''
-    ) : (
-      <SelectedCategoryListContainer />
-    );
-
     const contentListItems = contentList.map((item, index) => (
       <ContentListItem
         data={item}
@@ -106,7 +99,6 @@ class ContentList extends PureComponent {
 
     return (
       <PageContainer className="ContentList">
-        {categoryList}
         {searchResults}
         <Container fluid className="content">
           {selectedCategoryCodes && selectedCategoryCodes.length ? (
