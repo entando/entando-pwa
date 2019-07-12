@@ -16,6 +16,11 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = (dispatch, { auth }) => ({
   loadUserProfile: () => auth.loadLoggedEntandoUser(),
+  loginUser: () => {
+    const login = get(auth, 'login');
+    login();
+    dispatch(closeDrawer());
+  },
   logoutUser: () => {
     const logout = get(auth, 'logout');
     logout();

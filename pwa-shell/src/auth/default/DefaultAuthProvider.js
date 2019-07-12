@@ -27,7 +27,6 @@ class DefaultAuthProvider extends Component {
 
 DefaultAuthProvider.propTypes = {
   children: PropTypes.element.isRequired,
-  isUserLogged: PropTypes.bool.isRequired,
   loadUserProfile: PropTypes.func.isRequired,
 };
 

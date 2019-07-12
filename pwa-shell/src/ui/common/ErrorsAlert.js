@@ -2,7 +2,7 @@ import { isString } from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'reactstrap';
-import { FormattedMessage } from 'react-intl.macro';
+import { FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const toMessageDescriptor = message =>
