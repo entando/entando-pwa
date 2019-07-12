@@ -1,7 +1,0 @@
-.Page__footer {
-  height: 20vh;
-  max-height: 250px;
-  background-size: cover;
-  background-image: url(../images/Vegetato@2x.png);
-  clip-path: polygon(0 60%, 100% 30%, 100% 100%, 0% 100%);
-}
