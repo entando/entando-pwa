@@ -1,0 +1,29 @@
+.Toasts {
+  position: fixed;
+  top: 1em;
+  right: 0.9rem;
+  z-index: 1040;
+}
+
+.Toast {
+  button {
+    color: #fff;
+  }
+
+  .toast-header {
+    border-bottom: 0;
+  }
+
+  .toast-header,
+  .toast-body {
+    background-color: $color-dark;
+    color: #fff;
+  }
+
+  &--error {
+    .toast-header,
+    .toast-body {
+      background-color: $color-red;
+    }
+  }
+}
