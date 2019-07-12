@@ -54,3 +54,33 @@ article.content-model-list .more-link {
 article.content-model-list .more-link::after {
   content: '\0020\0020\2192';
 }
+
+article.content-model .attachments ul {
+  list-style: none;
+  padding-left: 1rem;
+  margin-top: 1rem;
+}
+
+article.content-model .attachments ul li {
+  margin-bottom: 0.625rem;
+}
+
+article.content-model .attachments li a:before {
+  content: '';
+  background-color: #333;
+  -webkit-mask-image: url(../images/icons/ic_file_download.svg);
+  mask-image: url(../images/icons/ic_file_download.svg);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  width: 1.125rem;
+  height: 1.125rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.625rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+article.content-model .attachments li a:visited:before {
+  background-color: #333;
+}

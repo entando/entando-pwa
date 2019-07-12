@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
-import { defineMessages } from 'react-intl.macro';
+import { defineMessages, FormattedMessage } from 'react-intl.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormattedMessage } from 'react-intl.macro';
 
 import { ReactComponent as LogoutIcon } from 'images/icons/ic_exit.svg';
 
@@ -20,7 +19,13 @@ class Logout extends Component {
     if (isUserLogged) loadUserProfile();
   }
   render() {
-    const { intl, isUserLogged, userFullname, logoutUser } = this.props;
+    const {
+      intl,
+      isUserLogged,
+      userFullname,
+      loginUser,
+      logoutUser,
+    } = this.props;
     const fullNameDisplay = userFullname
       ? userFullname
       : intl.formatMessage(messages.noname);
@@ -40,7 +45,14 @@ class Logout extends Component {
         </div>
       </div>
     ) : (
-      ''
+      <div className="logout-box">
+        <div className="mt-3 cursor-pointer" onClick={loginUser}>
+          <FontAwesomeIcon icon="sign-in-alt" />
+          <span className="ml-2 align-bottom">
+            <FormattedMessage id="drawer.labelLogin" defaultMessage="Login" />
+          </span>
+        </div>
+      </div>
     );
   }
 }
@@ -49,6 +61,7 @@ Logout.propTypes = {
   intl: intlShape.isRequired,
   isUserLogged: PropTypes.bool.isRequired,
   logoutUser: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired,
   userFullname: PropTypes.string,
 };
 
