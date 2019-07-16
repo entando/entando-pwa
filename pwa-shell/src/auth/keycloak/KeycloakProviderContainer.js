@@ -1,6 +1,7 @@
 import Keycloak from 'keycloak-js';
 import { KeycloakProvider } from 'react-keycloak';
 import { connect } from 'react-redux';
+import { setUserProfile } from 'state/user-profile/actions';
 import { loginUser, logoutUser } from '@entando/apimanager';
 
 const keycloak = new Keycloak({
@@ -9,8 +10,20 @@ const keycloak = new Keycloak({
   clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
 });
 
+// no need to load profile in Keycloak auth since it is already set from onAuthSuccess event
+keycloak.loadLoggedEntandoUser = () => {};
+
 export const mapStateToProps = state => ({
   keycloak,
+});
+
+const parseUserInfo = ({ name }) => ({
+  attributes: [
+    {
+      code: 'fullname',
+      value: name,
+    },
+  ],
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -19,16 +32,15 @@ export const mapDispatchToProps = dispatch => ({
       case 'onAuthSuccess':
         dispatch(
           loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
-          //TODO set user profile
-          //TODO set keycloak object
         );
+        dispatch(setUserProfile(parseUserInfo(keycloak.idTokenParsed)));
         break;
       case 'onAuthRefreshSuccess':
         dispatch(
           loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token),
         );
         break;
-      case 'onTokenExpired':
+      case 'onAuthRefreshError':
         dispatch(logoutUser());
         break;
       default:

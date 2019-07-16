@@ -6,3 +6,24 @@ export const setUserProfile = profile => ({
     profile,
   },
 });
+
+// TODO: remove unsetUser and add logoutUserWithoutRedirect to apiManager actions
+const unsetUser = () => ({
+  type: 'current-user/unset-user',
+  payload: {
+    user: {
+      username: null,
+      token: null,
+      tokenRefresh: null,
+    },
+  },
+});
+
+export const logoutUserWithoutRedirect = () => dispatch => {
+  dispatch(unsetUser());
+
+  localStorage.removeItem('username');
+  localStorage.removeItem('token');
+  localStorage.removeItem('tokenRefresh');
+};
+//
