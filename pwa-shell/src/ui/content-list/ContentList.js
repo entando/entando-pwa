@@ -5,7 +5,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import { FormattedMessage, defineMessages } from 'react-intl.macro';
 import InfiniteScroll from 'react-infinite-scroller';
 import ContentListItem from 'ui/content-list/ContentListItem';
-import CategoryListContainer from 'ui/content-list/CategoryListContainer';
+import SelectedCategoryListContainer from 'ui/content-list/SelectedCategoryListContainer';
 import PageContainer from 'ui/common/PageContainer';
 
 const messages = defineMessages({
@@ -26,6 +26,7 @@ class ContentList extends PureComponent {
   }
 
   componentDidMount() {
+    this.props.fetchCategoryListAndFilters();
     this.fetchContentListWithFilter();
   }
 
@@ -57,7 +58,7 @@ class ContentList extends PureComponent {
     const {
       intl,
       contentList,
-      contentType,
+      requiresAuthMap,
       hasMoreItems,
       selectedCategoryCodes,
       isSearchResult,
@@ -65,15 +66,18 @@ class ContentList extends PureComponent {
       searchTerms,
     } = this.props;
 
-    const categoryList =
-      contentType && !isSearchResult ? (
-        <CategoryListContainer contentType={contentType} />
-      ) : (
-        ''
-      );
+    const categoryList = isSearchResult ? (
+      ''
+    ) : (
+      <SelectedCategoryListContainer />
+    );
 
     const contentListItems = contentList.map((item, index) => (
-      <ContentListItem data={item} key={index} />
+      <ContentListItem
+        data={item}
+        requiresAuth={requiresAuthMap[item.id]}
+        key={index}
+      />
     ));
 
     const loadingMessage = !isLoading
@@ -87,7 +91,7 @@ class ContentList extends PureComponent {
         <span className="ContentList__search-results__size">
           <FormattedMessage
             id="contentlist.searchResultCount"
-            defaultMessage="{count} risultat{count,plural,=0{i}one{o}other{i}}"
+            defaultMessage="{count} result{count,plural,=0{s}one{}other{s}}"
             values={{ count: contentList.length }}
           />
         </span>
@@ -145,6 +149,7 @@ class ContentList extends PureComponent {
 ContentList.propTypes = {
   intl: intlShape.isRequired,
   contentList: PropTypes.arrayOf(PropTypes.object),
+  requiresAuthMap: PropTypes.object,
   contentListMeta: PropTypes.object,
   hasMoreItems: PropTypes.bool,
   contentType: PropTypes.string,
@@ -157,6 +162,7 @@ ContentList.propTypes = {
 
 ContentList.defaultProps = {
   contentList: [],
+  requiresAuthMap: {},
   contentListMeta: {},
   hasMoreItems: false,
   contentType: null,

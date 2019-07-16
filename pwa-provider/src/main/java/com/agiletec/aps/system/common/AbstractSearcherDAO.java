@@ -27,6 +27,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.entando.pwa.system.services.EntandoListUtils.getLimit;
+import static org.entando.pwa.system.services.EntandoListUtils.getOffset;
+
 /**
  * Utility Class for searching operation on db. This class presents utility
  * method for searching on db table throw Field search filter.
@@ -52,12 +55,18 @@ public abstract class AbstractSearcherDAO extends AbstractDAO {
             conn = this.getConnection();
             stat = this.buildStatement(filters, false, false, conn);
             result = stat.executeQuery();
-            while (result.next()) {
-                String id = result.getString(this.getMasterTableIdFieldName());
+            limitAndConsumeResultSet(filters, result, (resultSet) -> {
+                String id = resultSet.getString(this.getMasterTableIdFieldName());
                 if (!idList.contains(id)) {
                     idList.add(id);
                 }
-            }
+            });
+//            while (result.next()) {
+//                String id = result.getString(this.getMasterTableIdFieldName());
+//                if (!idList.contains(id)) {
+//                    idList.add(id);
+//                }
+//            }
         } catch (Throwable t) {
             logger.error("Error while loading the list of IDs", t);
             throw new RuntimeException("Error while loading the list of IDs", t);
@@ -237,7 +246,6 @@ public abstract class AbstractSearcherDAO extends AbstractDAO {
         boolean hasAppendWhereClause = this.appendMetadataFieldFilterQueryBlocks(filters, query, false);
         if (!isCount) {
             boolean ordered = appendOrderQueryBlocks(filters, query, false);
-            this.appendLimitQueryBlock(filters, query, hasAppendWhereClause);
         }
 
         return query.toString();
@@ -468,4 +476,21 @@ public abstract class AbstractSearcherDAO extends AbstractDAO {
         this.dataSourceClassName = dataSourceClassName;
     }
      */
+    protected void limitAndConsumeResultSet(FieldSearchFilter[] filters, ResultSet resultSet, ThrowingConsumer<ResultSet, SQLException> consumer) throws Exception {
+        int offset = getOffset(filters);
+        int limit = getLimit(filters);
+        int resultNumber = 0;
+        int resultIndex = -1;
+        while (resultSet.next()) {
+            resultIndex++;
+            if (resultNumber >= limit) {
+                break;
+            }
+            if (resultIndex < offset)  {
+                continue;
+            }
+            consumer.accept(resultSet);
+            resultNumber++;
+        }
+    }
 }

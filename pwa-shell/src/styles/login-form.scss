@@ -1,17 +1,23 @@
 .LoginForm {
   position: relative;
-  top: 16rem;
-  background-color: $color-bordered-light;
+  top: 9rem;
+  background-color: $color-secondary-lightest;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
   box-shadow: 0 -0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 
   legend {
     font-weight: 700;
+    font-size: 1.25rem;
+    color: $color-primary;
   }
 
   .form-group {
     margin-top: 3rem;
+  }
+
+  label {
+    color: $color-primary;
   }
 
   .form-group:last-of-type {
@@ -23,7 +29,7 @@
     border-top: 0;
     border-left: 0;
     border-right: 0;
-    border-color: $color-primary-light;
+    border-color: $color-primary;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 
@@ -33,7 +39,9 @@
   }
 
   &__button {
-    background-color: $color-dark;
+    background-color: $color-accent;
+    color: $color-primary;
+    border-color: $color-accent;
     font-weight: 600;
   }
 }

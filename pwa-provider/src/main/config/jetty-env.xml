@@ -117,6 +117,13 @@
         </Arg>
     </New>
 
+    <New class="org.eclipse.jetty.plus.jndi.EnvEntry">
+        <Arg></Arg>
+        <Arg>cmsResourceRootURL</Arg>
+        <Arg type="java.lang.String">/cmsresources/</Arg>
+        <Arg type="boolean">false</Arg>
+    </New>
+
     <New id="servDataSource" class="org.eclipse.jetty.plus.jndi.Resource">
         <Arg>java:comp/env/jdbc/servDataSource</Arg>
         <Arg>

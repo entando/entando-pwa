@@ -2,7 +2,6 @@ import { isEmpty } from 'lodash';
 import { connect } from 'react-redux';
 import { getCategoryMap } from 'state/category/selectors';
 import { getLanguageCode } from 'state/language/selectors';
-import { fetchCategoryListAndFilters } from 'state/thunks';
 import ItemCategoryList from 'ui/common/ItemCategoryList';
 
 export const mapStateToProps = (state, ownProps) => {
@@ -15,11 +14,7 @@ export const mapStateToProps = (state, ownProps) => {
   return { itemCategoryList, lang };
 };
 
-export const mapDispatchToProps = dispatch => {
-  return {
-    fetchCategoryList: () => dispatch(fetchCategoryListAndFilters()),
-  };
-};
+export const mapDispatchToProps = null;
 
 export default connect(
   mapStateToProps,

@@ -5,12 +5,13 @@ const initialState = {
   typeCode: null,
   typeDescription: null,
   attributes: [],
+  authType: 'default',
 };
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_USER_PROFILE: {
-      return { ...action.payload.profile };
+      return { ...state, ...action.payload.profile };
     }
     default:
       return state;

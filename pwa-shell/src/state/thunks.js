@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import { convertToQueryString } from '@entando/utils';
+import { getToken } from '@entando/apimanager';
 import {
   addErrors,
   clearErrors,
@@ -9,7 +10,12 @@ import {
 import { loginUser } from '@entando/apimanager';
 
 import { getCategoryTree } from 'api/category';
-import { getContents, getContent, getProtectedContent } from 'api/content';
+import {
+  getContents,
+  getContent,
+  getProtectedContent,
+  getProtectedContents,
+} from 'api/content';
 import { getContentType } from 'api/contentType';
 import { login as performLogin } from 'api/login';
 import { getNotifications, postClearNotifications } from 'api/notification';
@@ -33,6 +39,7 @@ import {
   setIsLoading,
   unsetIsLoading,
   unsetSelectedContent,
+  setRequiresAuthMap,
 } from 'state/content/actions';
 import { setSearch } from 'state/search/actions';
 import {
@@ -41,6 +48,7 @@ import {
   getSelectedSortingFilters,
   getCategoryFilters,
 } from 'state/content/selectors';
+import { isUserLogged } from 'state/user-profile/selectors';
 import { getCategoryRootCode } from 'state/category/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
 import { getLanguageCode } from 'state/language/selectors';
@@ -111,10 +119,14 @@ export const fetchContentListByContentType = (
   dispatch(fetchContentList(params, pagination));
 };
 
-const fetchContentList = (params, pagination) => async dispatch => {
+const fetchContentList = (params, pagination) => async (dispatch, getState) => {
+  let token;
   try {
     dispatch(setIsLoading());
-    const response = await getContents(params, pagination);
+    token = getToken(getState());
+    const response = token
+      ? await getProtectedContents(params, pagination)
+      : await getContents(params, pagination);
     const json = await response.json();
     if (response.ok) {
       dispatch(setContentListMeta(json.metaData));
@@ -122,12 +134,18 @@ const fetchContentList = (params, pagination) => async dispatch => {
         dispatch(pushContentList(json.payload));
       } else {
         dispatch(setContentList(json.payload));
+        dispatch(setRequiresAuthMap(json.payload));
       }
       dispatch(unsetSelectedContent());
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (err) {
+    //WORKAROUND to fix expired session when navigating back from content detail
+    const isTokenObsolete = err.message === 'permissionDenied' && token;
+    if (isTokenObsolete) {
+      dispatch(fetchContentList(params, pagination));
+    }
   } finally {
     dispatch(unsetIsLoading());
   }
@@ -144,7 +162,9 @@ export const fetchContentDetail = id => async (dispatch, getState) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(setSelectedContent(json.payload));
-      dispatch(clearNotification(id));
+      if (isUserLogged(state)) {
+        dispatch(clearNotification(id));
+      }
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
@@ -278,11 +298,13 @@ export const clearAllNotifications = () => async (dispatch, getState) => {
 export const clearNotification = id => async dispatch => {
   try {
     const response = await postClearNotifications([id]);
-    const json = await response.json();
-    if (response.ok) {
-      dispatch(removeNotification(id));
-    } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
+    if (response.status !== 401) {
+      const json = await response.json();
+      if (response.ok) {
+        dispatch(removeNotification(id));
+      } else {
+        dispatch(addErrors(json.errors.map(e => e.message)));
+      }
     }
   } catch (err) {}
 };
@@ -313,6 +335,7 @@ export const login = data => async dispatch => {
     const json = await response.json();
     dispatch(loginUser(data.username, json.access_token));
     dispatch(fetchUserProfile(data.username));
+    return json;
   } catch (err) {
     const msg = get(err, 'message', err);
     dispatch(addErrors([msg]));

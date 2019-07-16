@@ -8,6 +8,7 @@ import {
   faUserCircle,
   faTimes,
   faExclamationCircle,
+  faSignInAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 const icons = [
@@ -19,6 +20,7 @@ const icons = [
   faUserCircle,
   faTimes,
   faExclamationCircle,
+  faSignInAlt,
 ];
 
 library.add(...icons);

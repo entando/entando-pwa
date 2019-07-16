@@ -5,9 +5,9 @@ article.content-model {
 
 article.content-model time {
   display: inline-block;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
-  color: #000000;
+  color: var(--entando-color-primary-light);
 }
 
 article.content-model .attachments,
@@ -17,9 +17,9 @@ article.content-model .links {
 
 article.content-model h1,
 article.content-model h2 {
-  font-weight: bold;  
+  font-weight: bold;
   opacity: 1;
-  color: #000000;
+  color: var(--entando-color-primary);
 }
 
 article.content-model-full h1,
@@ -37,9 +37,9 @@ article.content-model-list figure {
 }
 
 article.content-model-list figure img {
-  width: 100vw!important;
-  height: 200px!important;
-  object-fit: cover!important;
+  width: 100vw !important;
+  height: 200px !important;
+  object-fit: cover !important;
 }
 
 article.content-model-list .more-link {
@@ -48,8 +48,49 @@ article.content-model-list .more-link {
   margin: 2rem 0 1rem 0;
   float: left;
   padding: 0;
+  color: var(--entando-color-accent);
 }
 
 article.content-model-list .more-link::after {
-  content: "\0020\0020\2192";
+  content: '\0020\0020\2192';
+}
+article.content-model .attachments ul,
+article.content-model .videos ul {
+  list-style: none;
+  padding-left: 1rem;
+  margin-top: 1rem;
+}
+
+article.content-model .videos ul {
+  padding-left: 0;
+}
+
+article.content-model .attachments ul li,
+article.content-model .videos ul li {
+  margin-bottom: 0.625rem;
+}
+
+article.content-model .videos ul li video {
+  width: 100%;
+  height: 240px;
+}
+
+article.content-model .attachments li a:before {
+  content: '';
+  background-color: #333;
+  -webkit-mask-image: url(../images/icons/ic_file_download.svg);
+  mask-image: url(../images/icons/ic_file_download.svg);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  width: 1.125rem;
+  height: 1.125rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.625rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+article.content-model .attachments li a:visited:before {
+  background-color: #333;
 }

@@ -1,5 +1,9 @@
+import { get } from 'lodash';
 import { connect } from 'react-redux';
-import { fetchContentListByContentType } from 'state/thunks';
+import {
+  fetchContentListByContentType,
+  fetchCategoryListAndFilters,
+} from 'state/thunks';
 import ContentList from 'ui/content-list/ContentList';
 import {
   getContentList,
@@ -8,15 +12,23 @@ import {
   getSelectedCategoryFilters,
   isSearchResult,
   isLoading,
+  getRequiresAuthMap,
 } from 'state/content/selectors';
 import { getSearchTerms } from 'state/search/selectors';
 import { getSelectedContentType } from 'state/contentType/selectors';
+import { setSelectedContentType } from 'state/contentType/actions';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, ownProps) => ({
   contentList: getContentList(state),
+  requiresAuthMap: getRequiresAuthMap(state),
   contentListMeta: getContentListMeta(state),
   hasMoreItems: getListHasMorePages(state),
-  contentType: getSelectedContentType(state),
+  contentType: get(
+    ownProps,
+    'match.params.contentType',
+    getSelectedContentType(state),
+  ),
+
   selectedCategoryCodes: getSelectedCategoryFilters(state),
   isSearchResult: isSearchResult(state),
   isLoading: isLoading(state),
@@ -25,8 +37,13 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchContentList: ({ pageObj, search }) => {
-    const { contentType } = ownProps.match.params;
+    const contentType = get(ownProps, 'match.params.contentType');
     dispatch(fetchContentListByContentType(contentType, pageObj, search));
+  },
+  fetchCategoryListAndFilters: () => {
+    const contentType = get(ownProps, 'match.params.contentType');
+    dispatch(setSelectedContentType(contentType));
+    dispatch(fetchCategoryListAndFilters());
   },
 });
 

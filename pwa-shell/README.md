@@ -20,6 +20,26 @@ the client id used for oauth2 authentication.
 
 the client secret used for oauth2 authentication.
 
+### REACT_APP_AUTH_TYPE
+
+the user authentication type to use in the system. This has been preconfigured to `keycloak`. You can remove this variable to use the Entando default authentication.
+
+## Keycloak-related Environmental Variables
+
+The system now has a new authentication option powered by [Keycloak](https://www.keycloak.org/) and should you use the feature, you must configure the following env variables below with configurations which are found in your Keycloak administration console:
+
+### REACT_APP_KEYCLOAK_URL
+
+the URL (domain) of your Keycloak system (e.g. http://localhost:8081/auth - usually ends with "/auth")
+
+### REACT_APP_KEYCLOAK_REALM
+
+name of the realm configured in your Keycloak system
+
+### REACT_APP_KEYCLOAK_CLIENT_ID
+
+client ID to be used that is found on your given Keycloak realm
+
 ## Development Notes
 
 ### Using absolute imports

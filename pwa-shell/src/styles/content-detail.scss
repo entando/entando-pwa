@@ -1,13 +1,7 @@
 .ContentDetail {
-  background-color: #FFFFFF;
+  background-color: $color-secondary-lightest;
 
   &__body {
     padding: 20px;
-  }
-
-  &--guest-user {
-    .Page__footer {
-      background-image: none;
-    }
   }
 }
