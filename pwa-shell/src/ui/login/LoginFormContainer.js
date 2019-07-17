@@ -4,8 +4,8 @@ import LoginForm from 'ui/login/LoginForm';
 
 const mapDispatchToProps = (dispatch, { history, location }) => ({
   onSubmit: data =>
-    dispatch(performLogin(data)).then(res => {
-      if (res) {
+    dispatch(performLogin(data)).then(response => {
+      if (response && response.ok) {
         const redirectURI = new URLSearchParams(location.search).get(
           'redirect_uri',
         );
