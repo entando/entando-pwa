@@ -4,11 +4,13 @@ import LoginForm from 'ui/login/LoginForm';
 
 const mapDispatchToProps = (dispatch, { history, location }) => ({
   onSubmit: data =>
-    dispatch(performLogin(data)).then(() => {
-      const redirectURI = new URLSearchParams(location.search).get(
-        'redirect_uri',
-      );
-      history.replace(redirectURI ? redirectURI : '/');
+    dispatch(performLogin(data)).then(res => {
+      if (res) {
+        const redirectURI = new URLSearchParams(location.search).get(
+          'redirect_uri',
+        );
+        history.replace(redirectURI ? redirectURI : '/');
+      }
     }),
 });
 
