@@ -326,7 +326,7 @@ export const login = data => async dispatch => {
     const json = await response.json();
     dispatch(loginUser(data.username, json.access_token));
     dispatch(fetchUserProfile(data.username));
-    return json;
+    return response;
   } catch (err) {
     const msg = get(err, 'message', err);
     dispatch(addErrors([msg]));
