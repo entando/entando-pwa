@@ -25,6 +25,11 @@ const defaultAppConfig = {
         entityAttr: 'Date',
         order: 'DESC',
       },
+      {
+        type: 'date',
+        entityAttr: 'Timestamp',
+        order: 'DESC',
+      },
     ],
   },
 };
