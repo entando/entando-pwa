@@ -8,10 +8,13 @@ class DefaultAuthProvider extends Component {
     const authInitialized = true; //there is no external auth to load
     const { loadUserProfile, username } = this.props;
     const auth = {
-      login: () =>
-        this.props.history.replace(
-          `/login?redirect_uri=${window.location.pathname}`,
-        ),
+      login: () => {
+        if (window.location.pathname !== '/login') {
+          this.props.history.replace(
+            `/login?redirect_uri=${window.location.pathname}`,
+          );
+        }
+      },
       loadLoggedEntandoUser: () => {
         loadUserProfile(username);
       },
