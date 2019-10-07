@@ -269,6 +269,9 @@ public class ContentService extends AbstractEntityService<Content, ContentDto>
                 }
                 masterList.add(dto);
             }
+
+            Collections.sort(masterList, new ContentTimestampComparator());
+
             pagedMetadata.setBody(masterList);
             return pagedMetadata;
         } catch (ResourceNotFoundException | ValidationGenericException e) {
