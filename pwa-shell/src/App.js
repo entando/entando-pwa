@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Provider as StateProvider } from 'react-redux';
 import { addLocaleData } from 'react-intl';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -23,6 +23,8 @@ import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarC
 import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarContainer';
 import NetworkOfflineWarningContainer from 'ui/network/NetworkOfflineWarningContainer';
 import LoginContainer from 'ui/login/LoginContainer';
+import useScript from 'useScript';
+import { initializeGtm, GTAG_JS_URL, sendPageView } from 'googleTagManager';
 
 addLocaleData(itLocaleData);
 
@@ -109,25 +111,53 @@ const routes = routesData.map(route => (
 
 const persistor = persistStore(store);
 
-const App = () => (
-  <StateProvider store={store}>
-    <AuthProvider store={store}>
-      <PersistGate persistor={persistor}>
-        <IntlProviderContainer>
-          <NetworkStatusProviderContainer>
-            <ApiManager store={store}>
-              <NetworkOfflineWarningContainer />
-              <HomePageHead />
-              <div className="App__transitions-wrapper">
-                <Route exact path="/" component={DefaultRedirectContainer} />
-                {routes}
-              </div>
-            </ApiManager>
-          </NetworkStatusProviderContainer>
-        </IntlProviderContainer>
-      </PersistGate>
-    </AuthProvider>
-  </StateProvider>
-);
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
-export default App;
+const App = ({ location, history }) => {
+  const [scriptLoaded, scriptError] = useScript(GTAG_JS_URL);
+
+  const previousPathname = usePrevious(location.pathname);
+
+  const isGtmProperlyLoaded = scriptLoaded && !scriptError;
+
+  useEffect(() => {
+    if (isGtmProperlyLoaded) {
+      initializeGtm();
+    }
+  }, [isGtmProperlyLoaded]);
+
+  useEffect(() => {
+    if (isGtmProperlyLoaded) {
+      sendPageView(previousPathname, location.pathname, history.action);
+    }
+  }, [isGtmProperlyLoaded, history, location, previousPathname]);
+
+  return (
+    <StateProvider store={store}>
+      <AuthProvider store={store}>
+        <PersistGate persistor={persistor}>
+          <IntlProviderContainer>
+            <NetworkStatusProviderContainer>
+              <ApiManager store={store}>
+                <NetworkOfflineWarningContainer />
+                <HomePageHead />
+                <div className="App__transitions-wrapper">
+                  <Route exact path="/" component={DefaultRedirectContainer} />
+                  {routes}
+                </div>
+              </ApiManager>
+            </NetworkStatusProviderContainer>
+          </IntlProviderContainer>
+        </PersistGate>
+      </AuthProvider>
+    </StateProvider>
+  );
+};
+
+export default withRouter(App);
