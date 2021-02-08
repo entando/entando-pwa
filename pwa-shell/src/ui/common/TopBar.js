@@ -6,7 +6,7 @@ import { Navbar, NavbarBrand, Nav, NavItem } from 'reactstrap';
 
 import Player from '../radio/Player';
 import logo from 'images/Logo_horizontal@2x.png';
-import RadioEsercitoPlay from 'images/radio-esercito.png';
+import RadioEsercitoPlay from 'images/ascolta.png';
 import RadioEsercitoStop from 'images/radio-stop.png';
 
 const radioEsercitoURL = process.env.REACT_APP_RADIO_ESERCITO_URL;
