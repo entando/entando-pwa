@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Provider as StateProvider } from 'react-redux';
 import { addLocaleData } from 'react-intl';
-import { Route, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -23,8 +23,6 @@ import ContentDetailTopBarContainer from 'ui/content-detail/ContentDetailTopBarC
 import NotificationsTopBarContainer from 'ui/notifications/NotificationsTopBarContainer';
 import NetworkOfflineWarningContainer from 'ui/network/NetworkOfflineWarningContainer';
 import LoginContainer from 'ui/login/LoginContainer';
-import useScript from 'useScript';
-import { initializeGtm, GTAG_JS_URL, sendPageView } from 'googleTagManager';
 
 addLocaleData(itLocaleData);
 
@@ -111,34 +109,7 @@ const routes = routesData.map(route => (
 
 const persistor = persistStore(store);
 
-function usePrevious(value) {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
-
-const App = ({ location, history }) => {
-  const [scriptLoaded, scriptError] = useScript(GTAG_JS_URL);
-
-  const previousPathname = usePrevious(location.pathname);
-
-  const isGtmProperlyLoaded = scriptLoaded && !scriptError;
-
-  useEffect(() => {
-    if (isGtmProperlyLoaded) {
-      initializeGtm();
-    }
-  }, [isGtmProperlyLoaded]);
-
-  useEffect(() => {
-    if (isGtmProperlyLoaded) {
-      sendPageView(previousPathname, location.pathname, history.action);
-    }
-  }, [isGtmProperlyLoaded, history, location, previousPathname]);
-
-  return (
+const App = () => (
     <StateProvider store={store}>
       <AuthProvider store={store}>
         <PersistGate persistor={persistor}>
@@ -158,6 +129,5 @@ const App = ({ location, history }) => {
       </AuthProvider>
     </StateProvider>
   );
-};
 
-export default withRouter(App);
+export default App;
