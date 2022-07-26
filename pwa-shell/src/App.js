@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider as StateProvider } from 'react-redux';
 import { addLocaleData } from 'react-intl';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -109,8 +109,8 @@ const routes = routesData.map(route => (
 
 const persistor = persistStore(store);
 
-const App = () => (
-    <StateProvider store={store}>
+const App = () => {
+  return ( <StateProvider store={store}>
       <AuthProvider store={store}>
         <PersistGate persistor={persistor}>
           <IntlProviderContainer>
@@ -129,5 +129,6 @@ const App = () => (
       </AuthProvider>
     </StateProvider>
   );
+};
 
-export default App;
+export default withRouter(App);
